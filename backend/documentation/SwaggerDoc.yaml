@@ -26,7 +26,7 @@ paths:
               type: object
               properties:
                 zid:
-                  $ref: "#/components/schemas/User/properties/zid"
+                  type: string
       responses:
         '200':
           description: OK
@@ -75,7 +75,7 @@ paths:
               type: object
               properties:
                 is_admin:
-                  $ref: '#/components/schemas/User/properties/is_admin'
+                  type: boolean
       responses:
         '200':
           description: OK
@@ -153,7 +153,20 @@ paths:
         content: 
           application/json:
             schema:
-              $ref: '#/components/schemas/Review'
+              type: object
+              properties:
+                author_id: 
+                  $ref: "#/components/schemas/User/properties/zid"
+                author_name:
+                  type: string
+                description:
+                  type: string
+                course_code:
+                  $ref: "#/components/schemas/Course/properties/course_code"
+                rating:
+                  $ref: "#/components/schemas/Rating/properties/overall"
+                termTaken:
+                  type: string
       responses:
         '200':
           description: OK
@@ -189,7 +202,20 @@ paths:
         content: 
           application/json:
             schema:
-              $ref: '#/components/schemas/Review'
+              type: object
+              properties:
+                author_id: 
+                  $ref: "#/components/schemas/User/properties/zid"
+                author_name:
+                  type: string
+                description:
+                  type: string
+                course_code:
+                  $ref: "#/components/schemas/Course/properties/course_code"
+                rating:
+                  $ref: "#/components/schemas/Rating/properties/overall"
+                termTaken:
+                  type: string
       responses:
         '200':
           description: OK
@@ -297,6 +323,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Report'
+  /${course_code}/reviews:
+    get:
+      summary: Gets a list of reviews associated with course code
+      parameters:
+        - in: path
+          name: course_code   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: string
+            minimum: 1
+          description: The course code
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
 
 components:
   schemas:
