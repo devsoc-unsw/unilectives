@@ -3,6 +3,7 @@ import { getLogger } from "../utils/Logger";
 import { IDatabaseConfig } from "IConfig";
 import config from "config";
 import { Name } from "../entity/Name";
+import { CourseEntity } from "../entity/Course";
 
 export default class Database {
   private logger = getLogger();
@@ -13,7 +14,7 @@ export default class Database {
     // add entities below
     await createConnection({
       name: this.connectionName,
-      entities: [Name],
+      entities: [Name, CourseEntity],
       ...databaseConfig,
       username: "postgres",
       password: "mysecretpassword",
