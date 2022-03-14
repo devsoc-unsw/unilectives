@@ -17,7 +17,7 @@ export class CourseService {
       throw new HTTPError(internalServerError);
     }
     return {
-      courses: courses.map((course) => convertCourseEntityToInterface(course)),
+      courses: courses.map(convertCourseEntityToInterface),
     };
   }
 }
