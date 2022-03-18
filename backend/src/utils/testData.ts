@@ -21,6 +21,7 @@ export const getMockCourses = (): ICourse[] => {
       terms: [1, 2, 3],
       title: "good course imo",
       uoc: 6,
+      rating: 4,
     },
     {
       courseCode: "COMP1531",
@@ -41,6 +42,7 @@ export const getMockCourses = (): ICourse[] => {
       terms: [1, 2, 3],
       title: "good course imo",
       uoc: 6,
+      rating: 4,
     },
   ];
 };

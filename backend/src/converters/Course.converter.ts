@@ -23,5 +23,6 @@ export const convertCourseEntityToInterface = (
     terms: entity.terms,
     title: entity.title,
     uoc: entity.uoc,
+    rating: entity.rating,
   };
 };

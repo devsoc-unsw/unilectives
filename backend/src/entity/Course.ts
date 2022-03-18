@@ -55,4 +55,7 @@ export class CourseEntity {
 
   @Column("integer", { name: "uoc", nullable: false })
   uoc: number;
+
+  @Column("float", { name: "rating", nullable: false })
+  rating: number;
 }

@@ -19,6 +19,7 @@ export class CourseRouter implements IRouter {
         this.logger.debug(`Received request in /courses`);
         try {
           const result = await this.courseService.getCourses();
+          this.logger.info(`Responding to client in /courses`);
           return res.status(200).json(result);
         } catch (err: any) {
           this.logger.warn(

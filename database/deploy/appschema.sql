@@ -30,6 +30,7 @@ CREATE TABLE cselectives.courses (
     terms              integer[] NOT NULL,
     title              text NOT NULL,
     uoc                integer NOT NULL,
+    rating             float NOT NULL,
     CONSTRAINT pk_course_code PRIMARY KEY ( course_code )
 );
 

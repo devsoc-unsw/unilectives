@@ -17,4 +17,5 @@ export interface ICourse {
   terms: number[];
   title: string;
   uoc: number;
+  rating: number;
 }
