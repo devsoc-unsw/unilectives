@@ -1,16 +1,28 @@
-# Build with
-# docker build -t cselectives-api .
+# Grab the latest Node base image
+FROM node:17.7.1-alpine as builder
 
-FROM node:12.18.2-alpine3.11
+# Set the current working directory inside the container
+WORKDIR /app
 
-COPY config/ $HOME/config/
-COPY dist/ $HOME/dist/
-COPY node_modules/ $HOME/node_modules/
+COPY package.json package-lock.json tsconfig.json ./
+RUN npm install
 
-ENV GIT_COMMIT local
+COPY . .
 
-USER 1001
+RUN npm run build:container
 
-EXPOSE 3001
+# Grab the latest Node base image
+FROM node:17.7.1-alpine as runner
 
-CMD ["node", "dist/index.js"]
+# Set the current working directory inside the container
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm install --production
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/config ./config
+
+EXPOSE 3030
+
+CMD ["npm", "start"]
