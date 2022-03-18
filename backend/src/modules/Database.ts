@@ -2,7 +2,6 @@ import { createConnection, getConnection } from "typeorm";
 import { getLogger } from "../utils/Logger";
 import { IDatabaseConfig } from "IConfig";
 import config from "config";
-import { Name } from "../entity/Name";
 import { CourseEntity } from "../entity/Course";
 
 export default class Database {
@@ -14,7 +13,7 @@ export default class Database {
     // add entities below
     await createConnection({
       name: this.connectionName,
-      entities: [Name, CourseEntity],
+      entities: [CourseEntity],
       ...databaseConfig,
       username: "postgres",
       password: "mysecretpassword",

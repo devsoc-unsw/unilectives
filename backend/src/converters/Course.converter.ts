@@ -26,3 +26,29 @@ export const convertCourseEntityToInterface = (
     rating: entity.rating,
   };
 };
+
+export const convertCourseInterfaceToEntity = (
+  course: ICourse
+): CourseEntity => {
+  return {
+    courseCode: course.courseCode,
+    archived: course.archived,
+    attributes: course.attributes,
+    calendar: course.calendar,
+    campus: course.campus,
+    description: course.description,
+    enrolmentRules: course.enrolmentRules,
+    equivalents: course.equivalents,
+    exclusions: course.exclusions,
+    faculty: course.faculty,
+    fieldOfEducation: course.fieldOfEducation,
+    genEd: course.genEd,
+    level: course.level,
+    school: course.school,
+    studyLevel: course.studyLevel,
+    terms: course.terms,
+    title: course.title,
+    uoc: course.uoc,
+    rating: course.rating,
+  };
+};

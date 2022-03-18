@@ -1,8 +1,8 @@
 import { HTTPError } from "../../utils/Errors";
-import { internalServerError } from "../../utils/Constants";
+import { badRequest, internalServerError } from "../../utils/Constants";
 import { CourseRepository } from "../../repositories/Course.repository";
 import { CourseService } from "./Course.service";
-import { getMockCourses } from "../../utils/testData";
+import { getCourseEntity, getMockCourses } from "../../utils/testData";
 
 describe("CourseService", () => {
   let repository: CourseRepository;
@@ -29,6 +29,29 @@ describe("CourseService", () => {
 
       expect(service.getCourses()).resolves.toEqual({
         courses,
+      });
+    });
+  });
+
+  describe("updateCourse", () => {
+    it("should throw HTTP 400 error if no courses in database", () => {
+      const service = courseService();
+      const course = getMockCourses()[0];
+      repository.getCourse = jest.fn().mockReturnValue(undefined);
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.updateCourse(course)).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return new updated course", () => {
+      const service = courseService();
+      const entity = getCourseEntity();
+      const course = getMockCourses()[0];
+      repository.getCourse = jest.fn().mockReturnValue(entity);
+      repository.save = jest.fn().mockReturnValue(entity);
+
+      expect(service.updateCourse(course)).resolves.toEqual({
+        course: course,
       });
     });
   });

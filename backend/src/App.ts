@@ -2,8 +2,6 @@ import { getLogger } from "./utils/Logger";
 import { ExpressWrapper } from "./modules/ExpressWrapper";
 import Database from "./modules/Database";
 import config from "config";
-import { NameService } from "./api/services/Name.service";
-import { NameRouter } from "./api/routes/Name.router";
 import { CourseService } from "./api/services/Course.service";
 import { CourseRouter } from "./api/routes/Course.router";
 import { CourseRepository } from "./repositories/Course.repository";
@@ -18,17 +16,14 @@ export default class App {
   private readonly courseRepository = new CourseRepository();
 
   // add services here
-  private readonly nameService = new NameService();
   private readonly courseService = new CourseService(this.courseRepository);
 
   constructor() {
     // add routers here .. e.g.
-    const nameRouter = new NameRouter(this.nameService);
     const courseRouter = new CourseRouter(this.courseService);
 
     this.ex.addRouters(
       // ... add routers here
-      nameRouter,
       courseRouter
     );
   }

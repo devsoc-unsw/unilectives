@@ -17,3 +17,9 @@ export interface IPostNameSuccessResponse {
 export interface IGetCoursesSuccessResponse {
   courses: ICourse[];
 }
+
+export interface IPutCoursesRequestBody {
+  course: ICourse;
+}
+
+export type IPutCoursesSuccessResponse = IPutCoursesRequestBody;
