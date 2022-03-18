@@ -1,3 +1,4 @@
+name: Docker
 on:
   push:
     branches:
@@ -5,7 +6,7 @@ on:
 
 jobs:
   build-backend:
-    name: "Docker Build (Backend)"
+    name: "Build (Backend)"
     runs-on: ubuntu-latest
     permissions:
       contents: read
