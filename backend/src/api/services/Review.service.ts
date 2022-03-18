@@ -17,7 +17,7 @@ export class ReviewService {
       throw new HTTPError(internalServerError);
     }
     return {
-      reviews: reviews.map((review) => convertReviewEntityToInterface(review)),
+      reviews: reviews.map(convertReviewEntityToInterface),
     };
   }
 }
