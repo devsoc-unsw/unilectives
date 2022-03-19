@@ -5,15 +5,6 @@ export interface IHttpError {
   errorMessage: string;
 }
 
-export interface IPostNameRequestBody {
-  name: string;
-}
-
-export interface IPostNameSuccessResponse {
-  nameId: string;
-  fullName: string;
-}
-
 export interface IGetCoursesSuccessResponse {
   courses: ICourse[];
 }
@@ -23,3 +14,17 @@ export interface IPutCoursesRequestBody {
 }
 
 export type IPutCoursesSuccessResponse = IPutCoursesRequestBody;
+
+export interface IPostCoursesBookmarkRequestBody {
+  courseCode: string;
+  zid: string;
+  bookmark: boolean;
+}
+
+export interface IPostCoursesBookmarkRequestBody {
+  courseCode: string;
+  zid: string;
+  bookmark: boolean;
+}
+
+export type IPostCoursesBookmarkSuccessResponse = IPutCoursesSuccessResponse;

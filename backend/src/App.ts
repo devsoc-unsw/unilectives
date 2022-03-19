@@ -5,6 +5,7 @@ import config from "config";
 import { CourseService } from "./api/services/Course.service";
 import { CourseRouter } from "./api/routes/Course.router";
 import { CourseRepository } from "./repositories/Course.repository";
+import { UserRepository } from "./repositories/User.repository";
 
 export default class App {
   readonly logger = getLogger();
@@ -13,10 +14,14 @@ export default class App {
   private db = new Database("default");
 
   // add repositories
+  private readonly userRepository = new UserRepository();
   private readonly courseRepository = new CourseRepository();
 
   // add services here
-  private readonly courseService = new CourseService(this.courseRepository);
+  private readonly courseService = new CourseService(
+    this.courseRepository,
+    this.userRepository
+  );
 
   constructor() {
     // add routers here .. e.g.

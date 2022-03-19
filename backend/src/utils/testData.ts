@@ -1,4 +1,5 @@
 import { ICourse } from "ICourse";
+import { UserEntity } from "../entity/User";
 import { CourseEntity } from "../entity/Course";
 
 export const getCourseEntity = (): CourseEntity => {
@@ -70,4 +71,13 @@ export const getMockCourses = (): ICourse[] => {
       rating: 4,
     },
   ];
+};
+
+export const getUserEntity = (): UserEntity => {
+  return {
+    zid: "5311111",
+    bookmarkedCourses: [],
+    bookmarkedReviews: [],
+    isAdmin: false,
+  };
 };

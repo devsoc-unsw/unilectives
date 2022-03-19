@@ -23,3 +23,9 @@ export const UpdateCourseSchema = Joi.object({
     rating: Joi.number().required(),
   }).required(),
 });
+
+export const BookmarkCourseSchema = Joi.object({
+  courseCode: Joi.string().required(),
+  zid: Joi.string().required(),
+  bookmark: Joi.boolean().required(),
+});
