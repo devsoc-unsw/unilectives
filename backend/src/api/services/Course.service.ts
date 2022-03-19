@@ -64,7 +64,7 @@ export class CourseService {
   async bookmarkCourse(
     bookmarkDetails: IPostCoursesBookmarkRequestBody
   ): Promise<IPutCoursesSuccessResponse | undefined> {
-    let course = await this.courseRepository.getCourse(
+    const course = await this.courseRepository.getCourse(
       bookmarkDetails.courseCode
     );
 
