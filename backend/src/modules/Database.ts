@@ -1,32 +1,35 @@
-import { createConnection, getConnection } from "typeorm";
+import { DataSource } from "typeorm";
 import { getLogger } from "../utils/Logger";
-import { IDatabaseConfig } from "IConfig";
-import config from "config";
 import { Name } from "../entity/Name";
 import { CourseEntity } from "../entity/Course";
 
 export default class Database {
   private logger = getLogger();
+  private dbConnection = new DataSource({
+    applicationName: this.connectionName,
+    type: "postgres",
+    host: "localhost",
+    port: 5432,
+    username: "postgres",
+    password: "mysecretpassword",
+    database: "mydb",
+    entities: [Name, CourseEntity],
+  });
   constructor(readonly connectionName: string) {}
 
+  get() {
+    return this.dbConnection;
+  }
+
   async start(): Promise<void> {
-    const databaseConfig: IDatabaseConfig = config.get("database");
-    // add entities below
-    await createConnection({
-      name: this.connectionName,
-      entities: [Name, CourseEntity],
-      ...databaseConfig,
-      username: "postgres",
-      password: "mysecretpassword",
-      database: "mydb",
-    });
+    await this.dbConnection.initialize();
     this.logger.info(
       `Started connection with connection name ${this.connectionName}`
     );
   }
 
   async stop(): Promise<void> {
-    await getConnection(this.connectionName).close();
+    await this.dbConnection.destroy();
     this.logger.info(
       `Stopped connection with connection name ${this.connectionName}`
     );

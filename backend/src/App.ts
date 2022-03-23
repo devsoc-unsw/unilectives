@@ -6,7 +6,6 @@ import { NameService } from "./api/services/Name.service";
 import { NameRouter } from "./api/routes/Name.router";
 import { CourseService } from "./api/services/Course.service";
 import { CourseRouter } from "./api/routes/Course.router";
-import { CourseRepository } from "./repositories/Course.repository";
 
 export default class App {
   readonly logger = getLogger();
@@ -14,12 +13,12 @@ export default class App {
   // if using db, uncomment relevant lines
   private db = new Database("default");
 
-  // add repositories
-  private readonly courseRepository = new CourseRepository();
+  // db manager
+  private readonly manager = this.db.get().manager;
 
   // add services here
   private readonly nameService = new NameService();
-  private readonly courseService = new CourseService(this.courseRepository);
+  private readonly courseService = new CourseService(this.manager);
 
   constructor() {
     // add routers here .. e.g.
