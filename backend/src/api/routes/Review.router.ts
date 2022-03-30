@@ -14,11 +14,34 @@ export class ReviewRouter implements IRouter {
 
   setupRoutes(): Router {
     return Router().get(
+      "/reviews/:courseCode",
+      async (req: Request, res: Response, next: NextFunction) => {
+        this.logger.debug(`Received request in /reviews`);
+
+        const { courseCode } = req.params;
+
+        try {
+          const result = await this.reviewService.getCourseReviews(
+            courseCode
+          );
+          return res.status(200).json(result);
+        } catch (err: any) {
+          this.logger.warn(
+            `An error occurred when trying to GET /reviews ${formatError(err)}`
+          );
+          return next(err);
+        }
+      }
+    )
+    .get(
       "/reviews",
       async (req: Request, res: Response, next: NextFunction) => {
         this.logger.debug(`Received request in /reviews`);
+
+        const { courseCode } = req.params;
+
         try {
-          const result = await this.reviewService.getReviews();
+          const result = await this.reviewService.getAllReviews();
           return res.status(200).json(result);
         } catch (err: any) {
           this.logger.warn(

@@ -3,11 +3,7 @@ import { getLogger } from "../utils/Logger";
 import { IDatabaseConfig } from "IConfig";
 import config from "config";
 import { Name } from "../entity/Name";
-<<<<<<< HEAD
 import { ReviewEntity } from "../entity/Review";
-=======
-import { CourseEntity } from "../entity/Course";
->>>>>>> origin/release/v2
 
 export default class Database {
   private logger = getLogger();

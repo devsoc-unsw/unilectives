@@ -10,8 +10,22 @@ export class ReviewService {
   private logger = getLogger();
   constructor(private readonly reviewRepository: ReviewRepository) {}
 
-  async getReviews(): Promise<IGetReviewsSuccessResponse | undefined> {
+  async getAllReviews(): Promise<IGetReviewsSuccessResponse | undefined> {
     const reviews: ReviewEntity[] = await this.reviewRepository.getAllReviews();
+    if (reviews.length === 0) {
+      this.logger.error("Database returned with no reviews.");
+      throw new HTTPError(internalServerError);
+    }
+    return {
+      reviews: reviews.map(convertReviewEntityToInterface),
+    };
+  }
+  async getCourseReviews(
+    courseCode: string
+  ): Promise<IGetReviewsSuccessResponse | undefined> {
+    const reviews: ReviewEntity[] = await this.reviewRepository.getCourseReviews(
+      courseCode
+    );
     if (reviews.length === 0) {
       this.logger.error("Database returned with no reviews.");
       throw new HTTPError(internalServerError);
