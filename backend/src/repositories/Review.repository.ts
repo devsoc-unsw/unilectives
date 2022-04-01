@@ -9,15 +9,29 @@ export class ReviewRepository {
   async getCourseReviews(
     courseCode: string
   ): Promise<ReviewEntity[]> {
-    const reviews = await getRepository(ReviewEntity)
-      .createQueryBuilder("reviews")
-      .where(
-        "review.course_code = :courseCode",
-        { courseCode }
-      )
-      .getMany();
-
-    return reviews;
+      return await getRepository(ReviewEntity).find({
+        relations: ["reviews"],
+        where: {
+          courseCode 
+        },
+      });
   }
+  // async getCourseReviews(
+  //   courseCode: string
+  // ): Promise<ReviewEntity[]> {
+  //   const reviews = await getRepository(ReviewEntity)
+  //     .createQueryBuilder("reviews")
+  //     .where(
+  //       "reviews.course_code::text = :code",
+  //       { code: courseCode }
+  //     )
+  //     .getMany();
+  //   return reviews;
+  // }
 
+  async postReview(
+    review: ReviewEntity
+  ): Promise<ReviewEntity> {
+    return await getRepository(ReviewEntity).save(review);
+  }
 }

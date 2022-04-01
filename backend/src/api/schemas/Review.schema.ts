@@ -17,3 +17,12 @@ export const CommonReviewSchema = Joi.object({
     )
     .required(),
 }).options({ allowUnknown: true });
+
+export const PostReviewSchema = Joi.object({
+  authorId: Joi.string().required(),
+  authorName: Joi.string().required(),
+  description: Joi.string().required(),
+  courseCode: Joi.string().required(),
+  rating: Joi.number().required(),
+  termTaken: Joi.string().required(),
+})

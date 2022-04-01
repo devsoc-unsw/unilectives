@@ -17,3 +17,19 @@ export interface IPostNameSuccessResponse {
 export interface IGetReviewsSuccessResponse {
   reviews: IReview[];
 }
+
+/*
+  ! Timestamps, upvotes or reviewId
+*/ 
+export interface IPostReviewRequestBody {
+  zid: string;
+  courseCode: string;
+  authorName: string;
+  description: string;
+  grade: number;
+  termTaken: string;
+}
+
+export interface IPostReviewSuccessResponse {
+  review: IReview;
+}

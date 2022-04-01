@@ -2,7 +2,7 @@ import { IReview } from "IReview";
 import { ReviewEntity } from "../entity/Review";
 
 export const convertReviewEntityToInterface = (
-  entity: ReviewEntity
+  entity: ReviewEntity 
 ): IReview => {
   return {
     reviewId: entity.reviewId,
