@@ -22,7 +22,7 @@
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.4",
     "uuid": "^8.3.2",
-    "winston": "^3.3.3"
+    "winston": "^3.6.0"
   },
   "devDependencies": {
     "@types/config": "^0.0.40",
