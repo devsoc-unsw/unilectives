@@ -16,11 +16,11 @@
     "@hapi/joi": "^17.1.1",
     "config": "^3.3.6",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jest": "^27.5.1",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.2",
+    "typeorm": "^0.3.4",
     "uuid": "^8.3.2",
     "winston": "^3.3.3"
   },
