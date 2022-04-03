@@ -5,20 +5,16 @@ import { HTTPError } from "../../utils/Errors";
 import { internalServerError } from "../../utils/Constants";
 import { convertUserEntityToInterface } from "../../converters/User.converter";
 import { EntityManager } from "typeorm";
+import { UserRepository } from "../../repositories/User.repository";
 
 export class UserService {
   private logger = getLogger();
   constructor(private readonly manager: EntityManager) {}
+  private repo = new UserRepository(this.manager);
 
-  private async getUser(zid: string): Promise<UserEntity | null> {
-    return await this.manager.findOne(UserEntity, {
-      relations: ["reports", "reviews"],
-      where: { zid },
-    });
-  }
   // TODO: Add the csesoc login stuff
   async createUser(zid: string): Promise<IPostUserSuccessResponse | undefined> {
-    const userExists = await this.getUser(zid);
+    const userExists = await this.repo.getUser(zid);
 
     // existing user
     if (userExists) {
@@ -35,7 +31,7 @@ export class UserService {
     newUser.reviews = [];
     newUser.reports = [];
 
-    const saveUser = await this.manager.save(UserEntity, newUser);
+    const saveUser = await this.repo.saveUser(newUser);
 
     if (!saveUser) {
       this.logger.error(`Database could not save user with zid ${zid}`);
