@@ -1,5 +1,6 @@
 import { ReviewEntity } from "../entity/Review";
 import { IReview } from "../interfaces/IReview";
+import { convertReportInterfaceToEntity } from "./Report.converter";
 
 // TODO: UPDATE PLACEHOLDERS
 export const convertReviewEntityToInterface = (
@@ -18,6 +19,6 @@ export const convertReviewInterfaceToEntity = (
   return {
     reviewId: review.reviewId,
     zid: review.zid,
-    reports: review.reports,
+    reports: review.reports.map(convertReportInterfaceToEntity),
   };
 };

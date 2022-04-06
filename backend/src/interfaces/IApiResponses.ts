@@ -1,4 +1,5 @@
 import { ICourse } from "ICourse";
+import { IReport } from "IReport";
 import { IUser } from "IUser";
 
 export interface IHttpError {
@@ -25,4 +26,18 @@ export interface IPostUserSuccessResponse {
 
 export interface IPostUserRequestBody {
   zid: string;
+}
+
+export interface IPostReportRequestBody {
+  reviewId: string;
+  zid: string;
+  reason: string;
+}
+
+export interface IGetAllReportsSuccessResponse {
+  reports: IReport[];
+}
+
+export interface IPostReportSuccessResponse {
+  report: IReport;
 }

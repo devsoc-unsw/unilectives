@@ -18,9 +18,9 @@ export class ReviewEntity {
   @JoinColumn({ name: "zid" })
   zid: string;
 
-  @OneToMany(() => ReportEntity, (report) => report.zid, {
+  @OneToMany(() => ReportEntity, (report) => report.reviewId, {
     eager: true,
     cascade: true,
   })
-  public reports: ReportEntity[];
+  reports: ReportEntity[];
 }
