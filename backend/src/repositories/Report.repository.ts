@@ -5,11 +5,7 @@ export class ReportRepository {
   constructor(private readonly manager: EntityManager) {}
 
   async getAllReports(): Promise<ReportEntity[]> {
-    return await this.manager
-      .createQueryBuilder(ReportEntity, "report")
-      .loadRelationIdAndMap("zid", "report.zid")
-      .loadRelationIdAndMap("reviewId", "report.reviewId")
-      .getMany();
+    return await this.manager.find(ReportEntity);
   }
 
   async getReportByUserAndReview(

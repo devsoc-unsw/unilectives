@@ -1,8 +1,14 @@
 import { HTTPError } from "../../utils/Errors";
 import { badRequest } from "../../utils/Constants";
 import { ReportService } from "./Report.service";
-import { getReportEntity, getMockReports } from "../../utils/testData";
+import {
+  getReportEntity,
+  getMockReports,
+  getReviewEntity,
+  getMockReview,
+} from "../../utils/testData";
 import { EntityManager, DataSource } from "typeorm";
+import { IPostReportRequestBody } from "IApiResponses";
 
 describe("ReportService", () => {
   let manager: EntityManager;
@@ -24,15 +30,7 @@ describe("ReportService", () => {
     it("should resolve and return report", () => {
       const service = reportService();
       const reports = getMockReports();
-
-      const createQueryBuilder: any = {
-        loadRelationIdAndMap: () => createQueryBuilder,
-        getMany: () => reports,
-      };
-      jest
-        .spyOn(manager, "createQueryBuilder")
-        .mockImplementation(() => createQueryBuilder);
-
+      manager.find = jest.fn().mockReturnValue(reports);
       expect(service.getAllReports()).resolves.toEqual({
         reports,
       });
@@ -44,6 +42,11 @@ describe("ReportService", () => {
       const service = reportService();
       const entity = getReportEntity();
       const report = getMockReports()[0];
+      const reportRequest: IPostReportRequestBody = {
+        reviewId: report.review.reviewId,
+        reason: report.reason,
+        zid: report.zid,
+      };
 
       const createQueryBuilder: any = {
         where: () => createQueryBuilder,
@@ -55,13 +58,20 @@ describe("ReportService", () => {
         .mockImplementation(() => createQueryBuilder);
 
       const errorResult = new HTTPError(badRequest);
-      expect(service.createReport(report)).rejects.toThrow(errorResult);
+      expect(service.createReport(reportRequest)).rejects.toThrow(errorResult);
     });
 
-    it("should resolve and return new created report", () => {
+    it("should resolve and return new created report", async () => {
       const service = reportService();
-      const entity = getReportEntity();
+      const reportEntity = getReportEntity();
       const report = getMockReports()[0];
+      const reviewEntity = getReviewEntity();
+      const review = getMockReview();
+      const reportRequest: IPostReportRequestBody = {
+        reviewId: report.review.reviewId,
+        reason: report.reason,
+        zid: report.zid,
+      };
 
       const createQueryBuilder: any = {
         where: () => createQueryBuilder,
@@ -72,8 +82,14 @@ describe("ReportService", () => {
         .spyOn(manager, "createQueryBuilder")
         .mockImplementation(() => createQueryBuilder);
 
-      manager.save = jest.fn().mockReturnValue(entity);
-      expect(service.createReport(report)).resolves.toEqual({ report });
+      manager.findOneBy = jest.fn().mockReturnValue(reviewEntity);
+      manager.save = jest.fn().mockReturnValue(reportEntity);
+
+      const reportResult = await service.createReport(reportRequest);
+      expect(reportResult.report.status).toEqual("UNSEEN");
+      expect(reportResult.report.zid).toEqual(report.zid);
+      expect(reportResult.report.reason).toEqual(report.reason);
+      expect(reportResult.report.review).toEqual(review);
     });
   });
 });

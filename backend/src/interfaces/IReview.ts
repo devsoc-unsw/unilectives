@@ -4,5 +4,6 @@ import { IReport } from "IReport";
 export interface IReview {
   reviewId: string;
   zid: string;
-  reports: IReport[];
+  authorName: string;
+  description: string;
 }

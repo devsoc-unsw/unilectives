@@ -1,4 +1,5 @@
 import {
+  Column,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -18,9 +19,9 @@ export class ReviewEntity {
   @JoinColumn({ name: "zid" })
   zid: string;
 
-  @OneToMany(() => ReportEntity, (report) => report.reviewId, {
-    eager: true,
-    cascade: true,
-  })
-  reports: ReportEntity[];
+  @Column("text", { name: "author_name", nullable: false })
+  authorName: string;
+
+  @Column("text", { name: "description", nullable: false })
+  description: string;
 }

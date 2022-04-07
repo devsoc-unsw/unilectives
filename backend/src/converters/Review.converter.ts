@@ -1,6 +1,5 @@
 import { ReviewEntity } from "../entity/Review";
 import { IReview } from "../interfaces/IReview";
-import { convertReportInterfaceToEntity } from "./Report.converter";
 
 // TODO: UPDATE PLACEHOLDERS
 export const convertReviewEntityToInterface = (
@@ -9,7 +8,8 @@ export const convertReviewEntityToInterface = (
   return {
     reviewId: entity.reviewId,
     zid: entity.zid,
-    reports: entity.reports,
+    description: entity.description,
+    authorName: entity.authorName,
   };
 };
 
@@ -19,6 +19,7 @@ export const convertReviewInterfaceToEntity = (
   return {
     reviewId: review.reviewId,
     zid: review.zid,
-    reports: review.reports.map(convertReportInterfaceToEntity),
+    description: review.description,
+    authorName: review.authorName,
   };
 };

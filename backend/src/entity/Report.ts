@@ -14,9 +14,9 @@ export class ReportEntity {
   @PrimaryGeneratedColumn("uuid", { name: "report_id" })
   reportId: string;
 
-  @ManyToOne(() => ReviewEntity, (review) => review.reviewId)
+  @ManyToOne(() => ReviewEntity, (review) => review.reviewId, { eager: true })
   @JoinColumn({ name: "review_id" })
-  reviewId: string;
+  review: ReviewEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.zid)
   @JoinColumn({ name: "zid" })

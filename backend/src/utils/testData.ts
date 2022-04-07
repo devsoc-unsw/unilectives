@@ -136,7 +136,7 @@ export const getUserEntity = (): UserEntity => {
 export const getReportEntity = (): ReportEntity => {
   return {
     reportId: "REPORT1",
-    reviewId: "REVIEW1",
+    review: getReviewEntity(),
     zid: "z5555555",
     reason: "Nothing makes sense",
     status: "UNSEEN",
@@ -147,14 +147,14 @@ export const getMockReports = (): IReport[] => {
   return [
     {
       reportId: "REPORT1",
-      reviewId: "REVIEW1",
+      review: getMockReview(),
       zid: "z5555555",
       reason: "Nothing makes sense",
       status: "UNSEEN",
     },
     {
       reportId: "REPORT2",
-      reviewId: "REVIEW1",
+      review: getMockReview(),
       zid: "z5000000",
       reason: "There were rude words in the review!",
       status: "UNSEEN",
@@ -166,10 +166,16 @@ export const getMockReview = (): IReview => {
   return {
     reviewId: "REVIEW1",
     zid: "z5555555",
-    reports: [getMockReports()[0]],
+    authorName: "test",
+    description: "amazing",
   };
 };
 
 export const getReviewEntity = (): ReviewEntity => {
-  return { reviewId: "REVIEW1", zid: "z5555555", reports: [getReportEntity()] };
+  return {
+    reviewId: "REVIEW1",
+    zid: "z5555555",
+    authorName: "test",
+    description: "amazing",
+  };
 };
