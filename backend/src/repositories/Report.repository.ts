@@ -5,18 +5,19 @@ export class ReportRepository {
   constructor(private readonly manager: EntityManager) {}
 
   async getAllReports(): Promise<ReportEntity[]> {
-    return await this.manager.find(ReportEntity);
+    return await this.manager.find(ReportEntity, {
+      loadRelationIds: { relations: ["zid"] },
+    });
   }
 
   async getReportByUserAndReview(
     zid: string,
     reviewId: string
   ): Promise<ReportEntity | null> {
-    return await this.manager
-      .createQueryBuilder(ReportEntity, "report")
-      .where("report.reviewId = :reviewId", { reviewId })
-      .andWhere("report.zid = :zid", { zid })
-      .getOne();
+    return await this.manager.findOneBy(ReportEntity, {
+      review: { reviewId },
+      zid,
+    });
   }
 
   async getReportsById(ids: string[]): Promise<ReportEntity[]> {

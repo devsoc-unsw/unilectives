@@ -48,14 +48,25 @@ describe("ReportService", () => {
         zid: report.zid,
       };
 
-      const createQueryBuilder: any = {
-        where: () => createQueryBuilder,
-        andWhere: () => createQueryBuilder,
-        getOne: () => entity,
+      manager.findOneBy = jest.fn().mockReturnValue(entity);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.createReport(reportRequest)).rejects.toThrow(errorResult);
+    });
+
+    it("should throw HTTP 400 error if review is not in database", () => {
+      const service = reportService();
+      const entity = getReportEntity();
+      const report = getMockReports()[0];
+      const reportRequest: IPostReportRequestBody = {
+        reviewId: report.review.reviewId,
+        reason: report.reason,
+        zid: report.zid,
       };
-      jest
-        .spyOn(manager, "createQueryBuilder")
-        .mockImplementation(() => createQueryBuilder);
+
+      manager.findOneBy = jest
+        .fn()
+        .mockReturnValueOnce(null)
+        .mockReturnValueOnce(null);
 
       const errorResult = new HTTPError(badRequest);
       expect(service.createReport(reportRequest)).rejects.toThrow(errorResult);
@@ -73,16 +84,10 @@ describe("ReportService", () => {
         zid: report.zid,
       };
 
-      const createQueryBuilder: any = {
-        where: () => createQueryBuilder,
-        andWhere: () => createQueryBuilder,
-        getOne: () => null,
-      };
-      jest
-        .spyOn(manager, "createQueryBuilder")
-        .mockImplementation(() => createQueryBuilder);
-
-      manager.findOneBy = jest.fn().mockReturnValue(reviewEntity);
+      manager.findOneBy = jest
+        .fn()
+        .mockReturnValueOnce(null)
+        .mockReturnValueOnce(reviewEntity);
       manager.save = jest.fn().mockReturnValue(reportEntity);
 
       const reportResult = await service.createReport(reportRequest);
