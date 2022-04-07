@@ -6,9 +6,13 @@ import {
   getMockReports,
   getReviewEntity,
   getMockReview,
+  getUserEntity,
 } from "../../utils/testData";
 import { EntityManager, DataSource } from "typeorm";
-import { IPostReportRequestBody } from "IApiResponses";
+import {
+  IPostReportRequestBody,
+  IUpdateReportRequestBody,
+} from "IApiResponses";
 
 describe("ReportService", () => {
   let manager: EntityManager;
@@ -91,6 +95,82 @@ describe("ReportService", () => {
       manager.save = jest.fn().mockReturnValue(reportEntity);
 
       const reportResult = await service.createReport(reportRequest);
+      expect(reportResult.report.status).toEqual("UNSEEN");
+      expect(reportResult.report.zid).toEqual(report.zid);
+      expect(reportResult.report.reason).toEqual(report.reason);
+      expect(reportResult.report.review).toEqual(review);
+    });
+  });
+
+  describe("updateReport", () => {
+    it("should throw HTTP 400 error if report is not in database", () => {
+      const service = reportService();
+      const entity = getReportEntity();
+      const report = getMockReports()[0];
+      const reportRequest: IUpdateReportRequestBody = {
+        reportId: report.reportId,
+        zid: report.zid,
+        status: report.status,
+      };
+
+      manager.findOne = jest.fn().mockReturnValue(null);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.updateReport(reportRequest)).rejects.toThrow(errorResult);
+    });
+
+    it("should throw HTTP 400 error if user is not in database", () => {
+      const service = reportService();
+      const reportEntity = getReportEntity();
+      const report = getMockReports()[0];
+      const reportRequest: IUpdateReportRequestBody = {
+        reportId: report.reportId,
+        zid: report.zid,
+        status: report.status,
+      };
+
+      manager.findOne = jest.fn().mockReturnValueOnce(reportEntity);
+      manager.findOneBy = jest.fn().mockReturnValueOnce(null);
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.updateReport(reportRequest)).rejects.toThrow(errorResult);
+    });
+
+    it("should throw HTTP 400 error if user is not an admin", () => {
+      const service = reportService();
+      const reportEntity = getReportEntity();
+      const report = getMockReports()[0];
+      const userEntity = getUserEntity();
+      const reportRequest: IUpdateReportRequestBody = {
+        reportId: report.reportId,
+        zid: report.zid,
+        status: report.status,
+      };
+
+      manager.findOne = jest.fn().mockReturnValueOnce(reportEntity);
+      manager.findOneBy = jest.fn().mockReturnValueOnce(userEntity);
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.updateReport(reportRequest)).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return updated report", async () => {
+      const service = reportService();
+      const reportEntity = getReportEntity();
+      const report = getMockReports()[0];
+      const review = getMockReview();
+      const userEntity = getUserEntity();
+      userEntity.isAdmin = true;
+      const reportRequest: IUpdateReportRequestBody = {
+        reportId: report.reportId,
+        zid: report.zid,
+        status: report.status,
+      };
+
+      manager.findOne = jest.fn().mockReturnValueOnce(reportEntity);
+      manager.findOneBy = jest.fn().mockReturnValueOnce(userEntity);
+      manager.save = jest.fn().mockReturnValue(reportEntity);
+
+      const reportResult = await service.updateReport(reportRequest);
       expect(reportResult.report.status).toEqual("UNSEEN");
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);

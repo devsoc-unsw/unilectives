@@ -3,8 +3,14 @@ import { formatError, getLogger } from "../../utils/Logger";
 import { IRouter } from "../../interfaces/IRouter";
 import { ReportService } from "../services/Report.service";
 import validationMiddleware from "../middlewares/validation";
-import { CreateReportSchema } from "../schemas/Report.schema";
-import { IPostReportRequestBody } from "IApiResponses";
+import {
+  CreateReportSchema,
+  UpdateReportStatusSchema,
+} from "../schemas/Report.schema";
+import {
+  IPostReportRequestBody,
+  IUpdateReportRequestBody,
+} from "IApiResponses";
 
 export class ReportRouter implements IRouter {
   private readonly logger = getLogger();
@@ -48,6 +54,26 @@ export class ReportRouter implements IRouter {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to POST /reports ${formatError(
+                err
+              )}`
+            );
+            return next(err);
+          }
+        }
+      )
+      .put(
+        "/reports",
+        validationMiddleware(UpdateReportStatusSchema, "body"),
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(`Received PUT request in /reports`, req.body);
+          try {
+            const request = req.body as IUpdateReportRequestBody;
+            const result = await this.reportService.updateReport(request);
+            this.logger.info(`Responding to client in /reports`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to PUT /reports ${formatError(
                 err
               )}`
             );
