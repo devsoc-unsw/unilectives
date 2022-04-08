@@ -33,3 +33,7 @@ export interface IPostReviewRequestBody {
 export interface IPostReviewSuccessResponse {
   review: IReview;
 }
+
+export type IPutReviewRequestBody = IPostReviewRequestBody;
+
+export type IPutReviewSuccessResponse = IPostReviewSuccessResponse;

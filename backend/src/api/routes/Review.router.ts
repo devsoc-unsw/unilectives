@@ -10,6 +10,7 @@ import { HTTPError } from "../../utils/Errors";
 import { badRequest } from "../../utils/Constants";
 import {
   IPostReviewRequestBody,
+  IPutReviewRequestBody,
 } from "IApiResponses";
 export class ReviewRouter implements IRouter {
   private readonly logger = getLogger();
@@ -76,6 +77,53 @@ export class ReviewRouter implements IRouter {
             return next(err);
           }
         }
+      )
+      .put(
+        "/reviews/:reviewId",
+        validationMiddleware(PostReviewSchema, "body"),
+        async (req: Request, res: Response, next: NextFunction) => {
+          const { reviewId } = req.params;
+          this.logger.debug(`Received request in PUT /reviews/${reviewId}`);
+          try {
+            const updatedReviewDetails = req.body as IPutReviewRequestBody;
+            if (!updatedReviewDetails) throw new HTTPError(badRequest);
+            const result = await this.reviewService.updateReview(
+              updatedReviewDetails,
+              reviewId
+            );
+            this.logger.info(`Responding to client in PUT /reviews/${reviewId}`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to POST /reviews ${formatError(
+                err
+              )}`
+            );
+            return next(err);
+          }
+        }
+        )
+        .delete(
+          "/reviews/:reviewId",
+          async (req: Request, res: Response, next: NextFunction) => {
+            const { reviewId } = req.params;
+            this.logger.debug(`Received request in DELETE /reviews/${reviewId}`);
+            try {
+              const reviewId: string = req.params.reviewId;
+              const result = await this.reviewService.deleteReview(
+                reviewId
+              );
+              this.logger.info(`Responding to client in DELETE /reviews/${reviewId}`);
+              return res.status(200).json(result);
+            } catch (err: any) {
+              this.logger.warn(
+                `An error occurred when trying to DELETE /reviews ${formatError(
+                  err
+                )}`
+              );
+              return next(err);
+            }
+          }
       );
   }
 

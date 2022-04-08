@@ -16,9 +16,22 @@ export class ReviewRepository {
       });
   }
 
-  async postReview(
+  async save(
     review: ReviewEntity
   ): Promise<ReviewEntity> {
     return await getRepository(ReviewEntity).save(review);
   }
+
+  async getReviewById(
+    reviewId: string
+  ): Promise<ReviewEntity | undefined> {
+    return await getRepository(ReviewEntity).findOne({ reviewId });
+  }
+
+  async deleteReview(
+    reviewId: string
+  ) {
+    return await getRepository(ReviewEntity).delete({ reviewId });
+  }
+
 }

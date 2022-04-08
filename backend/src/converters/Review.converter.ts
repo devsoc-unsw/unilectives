@@ -17,3 +17,20 @@ export const convertReviewEntityToInterface = (
     upvotes: entity.upvotes,
   };
 };
+
+export const convertReviewInterfaceToEntity = (
+  review: IReview
+): ReviewEntity => {
+  return {
+    reviewId: review.reviewId,
+    zid: review.zid,
+    courseCode: review.courseCode,
+    authorName: review.authorName,
+    description: review.description,
+    grade: review.grade,
+    termTaken: review.termTaken,
+    createdTimestamp: review.createdTimestamp,
+    updatedTimestamp: review.updatedTimestamp,
+    upvotes: review.upvotes,
+  }
+}

@@ -3,14 +3,16 @@ import {v4 as uuidv4} from 'uuid';
 import { 
   IGetReviewsSuccessResponse,
   IPostReviewRequestBody,
-  IPostReviewSuccessResponse 
+  IPutReviewRequestBody,
+  IPostReviewSuccessResponse,
+  IPutReviewSuccessResponse 
 } from "IApiResponses";
 import { ReviewRepository } from "../../repositories/Review.repository";
 import { getLogger } from "../../utils/Logger";
 import { ReviewEntity } from "../../entity/Review";
 import { convertReviewEntityToInterface } from "../../converters/Review.converter";
 import { HTTPError } from "../../utils/Errors";
-import { internalServerError } from "../../utils/Constants";
+import { internalServerError, badRequest } from "../../utils/Constants";
 
 export class ReviewService {
   private logger = getLogger();
@@ -52,7 +54,7 @@ export class ReviewService {
     reviewDetails: IPostReviewRequestBody
   ): Promise<IPostReviewSuccessResponse | undefined> {
     
-    // TODO: Convert reviewDetails to a reviewEntity
+    // Convert reviewDetails to a reviewEntity
     const reviewEntity = new ReviewEntity();
     reviewEntity.zid = reviewDetails.zid;
     reviewEntity.courseCode = reviewDetails.courseCode;
@@ -67,10 +69,66 @@ export class ReviewService {
     reviewEntity.updatedTimestamp = new Date();
     reviewEntity.reviewId = uuidv4();
 
-    const review = await this.reviewRepository.postReview(reviewEntity);
+    const review = await this.reviewRepository.save(reviewEntity);
     
     return {
       review: convertReviewEntityToInterface(review)
     }
   }
+  
+  async updateReview(
+    updatedReviewDetails: IPutReviewRequestBody,
+    reviewId: string,
+  ): Promise<IPutReviewSuccessResponse | undefined> {
+    // Get review entity by review id
+    let review = await this.reviewRepository.getReviewById(
+      reviewId
+    );
+
+    if (!review) {
+      this.logger.error(
+        `There is no review with reviewId ${reviewId}.`
+      );
+      throw new HTTPError(badRequest);
+    }
+
+    // Convert reviewDetails to a reviewEntity
+    const reviewEntity = new ReviewEntity();
+    reviewEntity.zid = updatedReviewDetails.zid;
+    reviewEntity.courseCode = updatedReviewDetails.courseCode;
+    reviewEntity.authorName = updatedReviewDetails.authorName;
+    reviewEntity.description = updatedReviewDetails.description;
+    reviewEntity.grade = updatedReviewDetails.grade;
+    reviewEntity.termTaken = updatedReviewDetails.termTaken;
+
+    // Review Entity fields not part of req body but are updated
+    reviewEntity.updatedTimestamp = new Date();
+
+    review = await this.reviewRepository.save(reviewEntity);
+    
+    return {
+      review: convertReviewEntityToInterface(review)
+    }
+  }
+
+  async deleteReview(
+    reviewId: string,
+  ) {
+    // Get review entity by review id
+    let review = await this.reviewRepository.getReviewById(
+      reviewId
+    );
+
+    if (!review) {
+      this.logger.error(
+        `There is no review with reviewId ${reviewId}.`
+      );
+      throw new HTTPError(badRequest);
+    }
+    
+    return await this.reviewRepository.deleteReview(review.reviewId)
+  }
+
+  // Helper function
+
 }
