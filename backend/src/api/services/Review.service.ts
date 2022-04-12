@@ -5,7 +5,8 @@ import {
   IPostReviewRequestBody,
   IPutReviewRequestBody,
   IPostReviewSuccessResponse,
-  IPutReviewSuccessResponse 
+  IPutReviewSuccessResponse,
+  IPostReviewsBookmarkRequestBody,
 } from "IApiResponses";
 import { ReviewRepository } from "../../repositories/Review.repository";
 import { getLogger } from "../../utils/Logger";
@@ -13,10 +14,14 @@ import { ReviewEntity } from "../../entity/Review";
 import { convertReviewEntityToInterface } from "../../converters/Review.converter";
 import { HTTPError } from "../../utils/Errors";
 import { internalServerError, badRequest } from "../../utils/Constants";
+import { UserRepository } from "../../repositories/User.repository";
 
 export class ReviewService {
   private logger = getLogger();
-  constructor(private readonly reviewRepository: ReviewRepository) {}
+  constructor(
+    private readonly reviewRepository: ReviewRepository,
+    private readonly userRepository: UserRepository
+  ) {}
 
   async getAllReviews(): Promise<IGetReviewsSuccessResponse | undefined> {
     const reviews: ReviewEntity[] = await this.reviewRepository.getAllReviews();
@@ -128,7 +133,49 @@ export class ReviewService {
     
     return await this.reviewRepository.deleteReview(review.reviewId)
   }
+  
+  async bookmarkReview(
+    reviewDetails: IPostReviewsBookmarkRequestBody,
+  ): Promise<IPutReviewSuccessResponse | undefined> {
+    const review = await this.reviewRepository.getReviewById(reviewDetails.reviewId);
 
-  // Helper function
+    if (!review) {
+      this.logger.error(
+        `There is no course with courseCode ${reviewDetails.reviewId}.`
+      );
+      throw new HTTPError(badRequest);
+    }
+
+    let user = await this.userRepository.getUser(reviewDetails.zid);
+
+    if (!user) {
+      this.logger.error(`There is no user with zid ${reviewDetails.zid}.`);
+      throw new HTTPError(badRequest);
+    }
+
+    if (reviewDetails.bookmark) {
+      user.bookmarkedReviews = [
+        ...user.bookmarkedReviews,
+        reviewDetails.reviewId,
+      ];
+    } else {
+      user.bookmarkedReviews.filter(
+        (review) => review !== reviewDetails.reviewId
+      );
+    }
+
+    user = await this.userRepository.save(user);
+
+    this.logger.info(
+      `Successfully ${
+        reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
+      } review with reviewId ${
+        reviewDetails.reviewId
+      } for user with zID ${reviewDetails.zid}.`
+    );
+    return {
+      review: convertReviewEntityToInterface(review),
+    };
+  }
 
 }

@@ -7,6 +7,7 @@ import { NameRouter } from "./api/routes/Name.router";
 import { ReviewService } from "./api/services/Review.service";
 import { ReviewRouter } from "./api/routes/Review.router";
 import { ReviewRepository } from "./repositories/Review.repository";
+import { UserRepository } from "./repositories/User.repository";
 
 export default class App {
   readonly logger = getLogger();
@@ -16,10 +17,14 @@ export default class App {
 
   // add repositories
   private readonly reviewRepository = new ReviewRepository();
+  private readonly userRepository = new UserRepository();
 
   // add services here
   private readonly nameService = new NameService();
-  private readonly reviewService = new ReviewService(this.reviewRepository);
+  private readonly reviewService = new ReviewService(
+    this.reviewRepository,
+    this.userRepository
+  );
 
   constructor() {
     // add routers here .. e.g.

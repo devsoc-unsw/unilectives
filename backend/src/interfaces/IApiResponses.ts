@@ -37,3 +37,9 @@ export interface IPostReviewSuccessResponse {
 export type IPutReviewRequestBody = IPostReviewRequestBody;
 
 export type IPutReviewSuccessResponse = IPostReviewSuccessResponse;
+
+export interface IPostReviewsBookmarkRequestBody {
+  reviewId: string;
+  zid: string;
+  bookmark: boolean;
+}
