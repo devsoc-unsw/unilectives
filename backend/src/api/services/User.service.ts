@@ -1,4 +1,7 @@
-import { IPostUserSuccessResponse } from "IApiResponses";
+import {
+  IGetUserSuccessResponse,
+  IPostUserSuccessResponse,
+} from "IApiResponses";
 import { getLogger } from "../../utils/Logger";
 import { UserEntity } from "../../entity/User";
 import { HTTPError } from "../../utils/Errors";
@@ -10,6 +13,8 @@ import { ReviewRepository } from "../../repositories/Review.repository";
 import { CourseRepository } from "../../repositories/Course.repository";
 import { CourseEntity } from "../../entity/Course";
 import { ReviewEntity } from "../../entity/Review";
+import { ITokenData } from "IToken";
+import * as jwt from "jsonwebtoken";
 
 export class UserService {
   private logger = getLogger();
@@ -18,15 +23,25 @@ export class UserService {
   private courseRepository = new CourseRepository(this.manager);
   private reviewRepository = new ReviewRepository(this.manager);
 
-  // TODO: Add the csesoc login stuff
+  private createToken(zid: string): ITokenData {
+    const expiresIn = "1hr";
+    // TODO: make proper env file
+    const secret = process.env.JWT_SECRET ?? "randomsecret";
+    const tokenData = {
+      zid,
+    };
+    return {
+      expiresIn,
+      token: "Bearer " + jwt.sign(tokenData, secret, { expiresIn }),
+    };
+  }
   async createUser(zid: string): Promise<IPostUserSuccessResponse> {
     const userExists = await this.userRepository.getUser(zid);
 
     // existing user
     if (userExists) {
       this.logger.debug(`User with zid ${zid} already exists in the database.`);
-      const user = await this.getUser(zid);
-      return user;
+      throw new HTTPError(badRequest);
     }
 
     // first time user
@@ -39,11 +54,12 @@ export class UserService {
     newUser.reports = [];
 
     const saveUser = await this.userRepository.saveUser(newUser);
+    const token = this.createToken(zid);
 
-    return { user: convertUserEntityToInterface(saveUser) };
+    return { user: convertUserEntityToInterface(saveUser), token };
   }
 
-  async getUser(zid: string): Promise<IPostUserSuccessResponse> {
+  async getUser(zid: string): Promise<IGetUserSuccessResponse> {
     // get user info
     const userInfo: UserEntity | null = await this.userRepository.getUser(zid);
     if (!userInfo) {
@@ -72,5 +88,11 @@ export class UserService {
         filteredBookmarkedReviews
       ),
     };
+  }
+
+  async loginUser(zid: string): Promise<IPostUserSuccessResponse> {
+    const token = this.createToken(zid);
+    const { user } = await this.getUser(zid);
+    return { user, token };
   }
 }

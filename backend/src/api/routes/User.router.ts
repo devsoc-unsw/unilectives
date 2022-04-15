@@ -4,6 +4,7 @@ import { IRouter } from "../../interfaces/IRouter";
 import { UserService } from "../services/User.service";
 import validationMiddleware from "../middlewares/validation";
 import { CreateUserSchema } from "../schemas/User.schema";
+import verifyToken from "../middlewares/auth";
 
 export class UserRouter implements IRouter {
   private readonly logger = getLogger();
@@ -17,18 +18,43 @@ export class UserRouter implements IRouter {
   setupRoutes(): Router {
     return Router()
       .post(
-        "/user",
+        "/user/register",
         validationMiddleware(CreateUserSchema, "body"),
         async (req: Request, res: Response, next: NextFunction) => {
           const { zid } = req.body;
-          this.logger.debug(`Received POST request in /user`, req.body);
+          this.logger.debug(
+            `Received POST request in /user/register`,
+            req.body
+          );
           try {
             const result = await this.userService.createUser(zid);
-            this.logger.info(`Responding to client in /user`);
+            this.logger.info(`Responding to client in /user/register`);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to POST /user ${formatError(err)}`
+              `An error occurred when trying to POST /user/register ${formatError(
+                err
+              )}`
+            );
+            return next(err);
+          }
+        }
+      )
+      .post(
+        "/user/login",
+        validationMiddleware(CreateUserSchema, "body"),
+        async (req: Request, res: Response, next: NextFunction) => {
+          const { zid } = req.body;
+          this.logger.debug(`Received POST request in /user/login`, req.body);
+          try {
+            const result = await this.userService.loginUser(zid);
+            this.logger.info(`Responding to client in /user/login`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to POST /user/login ${formatError(
+                err
+              )}`
             );
             return next(err);
           }
@@ -36,6 +62,7 @@ export class UserRouter implements IRouter {
       )
       .get(
         "/user/:zid",
+        [verifyToken],
         async (req: Request, res: Response, next: NextFunction) => {
           const { zid } = req.params;
           this.logger.debug(`Received GET request in /user`, req.params);
