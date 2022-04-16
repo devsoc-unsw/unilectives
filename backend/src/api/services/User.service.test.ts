@@ -33,7 +33,7 @@ describe("UserService", () => {
       const user = getMockUser();
       manager.findOneBy = jest.fn().mockReturnValue(entity);
       const errorResult = new HTTPError(badRequest);
-      expect(service.getUser(user.zid)).rejects.toThrow(errorResult);
+      expect(service.createUser(user.zid)).rejects.toThrow(errorResult);
     });
 
     it("should resolve and return new created user", async () => {
