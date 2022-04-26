@@ -3,10 +3,8 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { ReportEntity } from "./Report";
 import { UserEntity } from "./User";
 
 // TODO: UPDATE PLACEHOLDER

@@ -1,5 +1,5 @@
 import { HTTPError } from "../../utils/Errors";
-import { badRequest, internalServerError } from "../../utils/Constants";
+import { badRequest } from "../../utils/Constants";
 import { UserService } from "./User.service";
 import {
   getUserEntity,
@@ -9,9 +9,11 @@ import {
 } from "../../utils/testData";
 import { EntityManager } from "typeorm/entity-manager/EntityManager";
 import { DataSource } from "typeorm";
+import { AuthService } from "../../modules/Auth";
 
 describe("UserService", () => {
   let manager: EntityManager;
+  let auth: AuthService;
   let connection: DataSource;
 
   beforeEach(() => {
@@ -24,7 +26,7 @@ describe("UserService", () => {
     jest.resetAllMocks();
   });
 
-  const userService = () => new UserService(manager);
+  const userService = () => new UserService(manager, auth);
 
   describe("createUser", () => {
     it("should throw HTTP 400 error if could user exists in database", () => {

@@ -3,14 +3,8 @@ import { CourseEntity } from "../entity/Course";
 import { ReviewEntity } from "../entity/Review";
 import { UserEntity } from "../entity/User";
 import { convertCourseEntityToInterface } from "./Course.converter";
-import {
-  convertReportEntityToInterface,
-  convertReportInterfaceToEntity,
-} from "./Report.converter";
-import {
-  convertReviewEntityToInterface,
-  convertReviewInterfaceToEntity,
-} from "./Review.converter";
+import { convertReportEntityToInterface } from "./Report.converter";
+import { convertReviewEntityToInterface } from "./Review.converter";
 
 export const convertUserEntityToInterface = (
   userEntity: UserEntity,

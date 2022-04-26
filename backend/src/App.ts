@@ -10,6 +10,7 @@ import { UserService } from "./api/services/User.service";
 import { UserRouter } from "./api/routes/User.router";
 import { ReportRouter } from "./api/routes/Report.router";
 import { ReportService } from "./api/services/Report.service";
+import { AuthService } from "./modules/Auth";
 
 export default class App {
   readonly logger = getLogger();
@@ -20,10 +21,13 @@ export default class App {
   // db manager
   private readonly manager = this.db.get().manager;
 
+  // auth
+  private readonly auth = new AuthService();
+
   // add services here
   private readonly nameService = new NameService();
   private readonly courseService = new CourseService(this.manager);
-  private readonly userService = new UserService(this.manager);
+  private readonly userService = new UserService(this.manager, this.auth);
   private readonly reportService = new ReportService(this.manager);
 
   constructor() {

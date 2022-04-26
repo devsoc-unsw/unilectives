@@ -8,8 +8,7 @@ export const verifyToken = async (
   res: Response,
   next: NextFunction
 ) => {
-  // TODO: make proper env file
-  const secret = process.env.JWT_SECRET ?? "randomsecret";
+  const secret = process.env.JWT_SECRET as string;
   const tokenArray = req.headers["authorization"]?.split(" ");
 
   if (!tokenArray || tokenArray[0] !== "Bearer" || tokenArray.length !== 2) {
@@ -19,16 +18,7 @@ export const verifyToken = async (
   }
 
   try {
-    const decoded = jwt.verify(tokenArray[1], secret) as IToken;
-    res.locals.jwtPayload = decoded;
-
-    // Token is valid for 1 hour
-    // New token on every request
-    const { zid } = decoded;
-    const newToken = jwt.sign({ zid }, secret, {
-      expiresIn: "1h",
-    });
-    res.setHeader("Authorization", "Bearer " + newToken);
+    jwt.verify(tokenArray[1], secret) as IToken;
   } catch (err: any) {
     if (err.name === "TokenExpiredError") {
       return res

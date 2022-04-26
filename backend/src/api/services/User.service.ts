@@ -14,27 +14,18 @@ import { CourseRepository } from "../../repositories/Course.repository";
 import { CourseEntity } from "../../entity/Course";
 import { ReviewEntity } from "../../entity/Review";
 import { ITokenData } from "IToken";
-import * as jwt from "jsonwebtoken";
+import { AuthService } from "../../modules/Auth";
 
 export class UserService {
   private logger = getLogger();
-  constructor(private readonly manager: EntityManager) {}
+  constructor(
+    private readonly manager: EntityManager,
+    private readonly authService: AuthService
+  ) {}
   private userRepository = new UserRepository(this.manager);
   private courseRepository = new CourseRepository(this.manager);
   private reviewRepository = new ReviewRepository(this.manager);
 
-  private createToken(zid: string): ITokenData {
-    const expiresIn = "1hr";
-    // TODO: make proper env file
-    const secret = process.env.JWT_SECRET ?? "randomsecret";
-    const tokenData = {
-      zid,
-    };
-    return {
-      expiresIn,
-      token: "Bearer " + jwt.sign(tokenData, secret, { expiresIn }),
-    };
-  }
   async createUser(zid: string): Promise<IPostUserSuccessResponse> {
     const userExists = await this.userRepository.getUser(zid);
 
@@ -54,7 +45,7 @@ export class UserService {
     newUser.reports = [];
 
     const saveUser = await this.userRepository.saveUser(newUser);
-    const token = this.createToken(zid);
+    const token = this.authService.createToken(zid);
 
     return { user: convertUserEntityToInterface(saveUser), token };
   }
@@ -91,7 +82,7 @@ export class UserService {
   }
 
   async loginUser(zid: string): Promise<IPostUserSuccessResponse> {
-    const token = this.createToken(zid);
+    const token = this.authService.createToken(zid);
     const { user } = await this.getUser(zid);
     return { user, token };
   }
