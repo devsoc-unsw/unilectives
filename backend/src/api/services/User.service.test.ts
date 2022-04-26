@@ -40,6 +40,15 @@ describe("UserService", () => {
       expect(service.createUser(user.zid)).resolves.toEqual({ user });
     });
 
+    it("should throw HTTP 500 error if could not save user in database", () => {
+      const service = userService();
+      const user = getMockNewUser();
+      manager.findOne = jest.fn().mockReturnValue(null);
+      manager.save = jest.fn().mockReturnValue(null);
+      const errorResult = new HTTPError(internalServerError);
+      expect(service.createUser(user.zid)).rejects.toThrow(errorResult);
+    });
+
     it("should resolve and return new created user", () => {
       const service = userService();
       const entity = getUserEntity();
