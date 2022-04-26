@@ -1,4 +1,7 @@
-import { IPostUserSuccessResponse } from "IApiResponses";
+import {
+  IGetUserSuccessResponse,
+  IPostUserSuccessResponse,
+} from "IApiResponses";
 import { getLogger } from "../../utils/Logger";
 import { UserEntity } from "../../entity/User";
 import { HTTPError } from "../../utils/Errors";
@@ -10,23 +13,26 @@ import { ReviewRepository } from "../../repositories/Review.repository";
 import { CourseRepository } from "../../repositories/Course.repository";
 import { CourseEntity } from "../../entity/Course";
 import { ReviewEntity } from "../../entity/Review";
+import { ITokenData } from "IToken";
+import { AuthService } from "../../modules/Auth";
 
 export class UserService {
   private logger = getLogger();
-  constructor(private readonly manager: EntityManager) {}
+  constructor(
+    private readonly manager: EntityManager,
+    private readonly authService: AuthService
+  ) {}
   private userRepository = new UserRepository(this.manager);
   private courseRepository = new CourseRepository(this.manager);
   private reviewRepository = new ReviewRepository(this.manager);
 
-  // TODO: Add the csesoc login stuff
   async createUser(zid: string): Promise<IPostUserSuccessResponse> {
     const userExists = await this.userRepository.getUser(zid);
 
     // existing user
     if (userExists) {
       this.logger.debug(`User with zid ${zid} already exists in the database.`);
-      const user = await this.getUser(zid);
-      return user;
+      throw new HTTPError(badRequest);
     }
 
     // first time user
@@ -39,11 +45,12 @@ export class UserService {
     newUser.reports = [];
 
     const saveUser = await this.userRepository.saveUser(newUser);
+    const token = this.authService.createToken(zid);
 
-    return { user: convertUserEntityToInterface(saveUser) };
+    return { user: convertUserEntityToInterface(saveUser), token };
   }
 
-  async getUser(zid: string): Promise<IPostUserSuccessResponse> {
+  async getUser(zid: string): Promise<IGetUserSuccessResponse> {
     // get user info
     const userInfo: UserEntity | null = await this.userRepository.getUser(zid);
     if (!userInfo) {
@@ -72,5 +79,11 @@ export class UserService {
         filteredBookmarkedReviews
       ),
     };
+  }
+
+  async loginUser(zid: string): Promise<IPostUserSuccessResponse> {
+    const token = this.authService.createToken(zid);
+    const { user } = await this.getUser(zid);
+    return { user, token };
   }
 }

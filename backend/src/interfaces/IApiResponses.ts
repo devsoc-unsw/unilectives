@@ -1,6 +1,7 @@
 import { ICourse } from "ICourse";
 import { IReport, ReportStatus } from "IReport";
 import { IUser } from "IUser";
+import { ITokenData } from "IToken";
 
 export interface IHttpError {
   errorCode: number;
@@ -20,8 +21,13 @@ export interface IGetCoursesSuccessResponse {
   courses: ICourse[];
 }
 
+export interface IGetUserSuccessResponse {
+  user: IUser;
+}
+
 export interface IPostUserSuccessResponse {
   user: IUser;
+  token: ITokenData;
 }
 
 export interface IPostUserRequestBody {
