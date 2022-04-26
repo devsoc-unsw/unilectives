@@ -14,24 +14,42 @@ export class UserRouter implements IRouter {
   }
 
   setupRoutes(): Router {
-    return Router().post(
-      "/user",
-      validationMiddleware(CreateUserSchema, "body"),
-      async (req: Request, res: Response, next: NextFunction) => {
-        const { zid } = req.body;
-        this.logger.debug(`Received POST request in /user`, req.body);
-        try {
-          const result = await this.userService.createUser(zid);
-          this.logger.info(`Responding to client in /user/${zid}`);
-          return res.status(200).json(result);
-        } catch (err: any) {
-          this.logger.warn(
-            `An error occurred when trying to POST /user ${formatError(err)}`
-          );
-          return next(err);
+    return Router()
+      .post(
+        "/user",
+        validationMiddleware(CreateUserSchema, "body"),
+        async (req: Request, res: Response, next: NextFunction) => {
+          const { zid } = req.body;
+          this.logger.debug(`Received POST request in /user`, req.body);
+          try {
+            const result = await this.userService.createUser(zid);
+            this.logger.info(`Responding to client in /user`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to POST /user ${formatError(err)}`
+            );
+            return next(err);
+          }
         }
-      }
-    );
+      )
+      .get(
+        "/user/:zid",
+        async (req: Request, res: Response, next: NextFunction) => {
+          const { zid } = req.params;
+          this.logger.debug(`Received GET request in /user`, req.params);
+          try {
+            const result = await this.userService.getUser(zid);
+            this.logger.info(`Responding to client in /user/${zid}`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /user ${formatError(err)}`
+            );
+            return next(err);
+          }
+        }
+      );
   }
 
   getPrefix(): string {

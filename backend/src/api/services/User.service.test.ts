@@ -1,18 +1,27 @@
 import { HTTPError } from "../../utils/Errors";
-import { internalServerError } from "../../utils/Constants";
+import { badRequest, internalServerError } from "../../utils/Constants";
 import { UserService } from "./User.service";
-import { getUserEntity, getMockNewUser } from "../../utils/testData";
+import {
+  getUserEntity,
+  getMockNewUser,
+  getMockUser,
+  getMockCourses,
+} from "../../utils/testData";
 import { EntityManager } from "typeorm/entity-manager/EntityManager";
 import { DataSource } from "typeorm";
 
 describe("UserService", () => {
   let manager: EntityManager;
   let connection: DataSource;
+
   beforeEach(() => {
-    jest.clearAllMocks();
-    jest.resetAllMocks();
     connection = new DataSource({ type: "postgres" });
     manager = new EntityManager(connection);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   const userService = () => new UserService(manager);
@@ -21,16 +30,21 @@ describe("UserService", () => {
     it("should return existing user info if user in database", () => {
       const service = userService();
       const entity = getUserEntity();
-      const user = getMockNewUser();
+      const user = getMockUser();
+      const course = getMockCourses()[0];
       manager.findOne = jest.fn().mockReturnValue(entity);
+      manager.findBy = jest
+        .fn()
+        .mockReturnValueOnce([])
+        .mockReturnValueOnce([course]);
       expect(service.createUser(user.zid)).resolves.toEqual({ user });
     });
 
     it("should throw HTTP 500 error if could not save user in database", () => {
       const service = userService();
       const user = getMockNewUser();
-      manager.findOne = jest.fn().mockReturnValue(undefined);
-      manager.save = jest.fn().mockReturnValue(undefined);
+      manager.findOne = jest.fn().mockReturnValue(null);
+      manager.save = jest.fn().mockReturnValue(null);
       const errorResult = new HTTPError(internalServerError);
       expect(service.createUser(user.zid)).rejects.toThrow(errorResult);
     });
@@ -39,9 +53,32 @@ describe("UserService", () => {
       const service = userService();
       const entity = getUserEntity();
       const user = getMockNewUser();
-      manager.findOne = jest.fn().mockReturnValue(undefined);
+      manager.findOne = jest.fn().mockReturnValue(null);
       manager.save = jest.fn().mockReturnValue(entity);
       expect(service.createUser(user.zid)).resolves.toEqual({ user });
+    });
+  });
+
+  describe("getUser", () => {
+    it("should throw HTTP 404 error if could user not in database", () => {
+      const service = userService();
+      const user = getMockNewUser();
+      manager.findOne = jest.fn().mockReturnValue(null);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getUser(user.zid)).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return existing user", () => {
+      const service = userService();
+      const entity = getUserEntity();
+      const user = getMockUser();
+      const course = getMockCourses()[0];
+      manager.findOne = jest.fn().mockReturnValue(entity);
+      manager.findBy = jest
+        .fn()
+        .mockReturnValueOnce([])
+        .mockReturnValueOnce([course]);
+      expect(service.getUser(user.zid)).resolves.toEqual({ user });
     });
   });
 });
