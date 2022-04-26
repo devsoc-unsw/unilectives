@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { ReportStatus } from "../interfaces/IReport";
 import { ReviewEntity } from "./Review";
@@ -32,4 +34,19 @@ export class ReportEntity {
 
   @Column("text", { name: "reason", nullable: false })
   reason: string;
+
+  @CreateDateColumn({
+    name: "created_timestamp",
+    type: "timestamp without time zone",
+    default: () => "CURRENT_TIMESTAMP(6)",
+  })
+  createdTimestamp: Date;
+
+  @UpdateDateColumn({
+    name: "updated_timestamp",
+    type: "timestamp without time zone",
+    onUpdate: "CURRENT_TIMESTAMP(6)",
+    default: () => "CURRENT_TIMESTAMP(6)",
+  })
+  updatedTimestamp: Date;
 }

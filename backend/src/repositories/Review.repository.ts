@@ -8,6 +8,18 @@ export class ReviewRepository {
     return await this.manager.find(ReviewEntity);
   }
 
+  async getCourseReviews(courseCode: string): Promise<ReviewEntity[]> {
+    return await this.manager.find(ReviewEntity, {
+      where: {
+        courseCode,
+      },
+    });
+  }
+
+  async save(review: ReviewEntity): Promise<ReviewEntity> {
+    return await this.manager.save(ReviewEntity, review);
+  }
+
   async getReviewsByUser(zid: string): Promise<ReviewEntity[]> {
     return await this.manager.find(ReviewEntity, { where: { zid } });
   }
@@ -22,5 +34,9 @@ export class ReviewRepository {
     return await this.manager.findOneBy(ReviewEntity, {
       reviewId,
     });
+  }
+
+  async deleteReview(reviewId: string) {
+    return await this.manager.delete(ReviewEntity, { reviewId });
   }
 }

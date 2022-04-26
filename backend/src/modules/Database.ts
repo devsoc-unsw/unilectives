@@ -1,6 +1,5 @@
 import { DataSource } from "typeorm";
 import { getLogger } from "../utils/Logger";
-import { Name } from "../entity/Name";
 import { CourseEntity } from "../entity/Course";
 import { ReviewEntity } from "../entity/Review";
 import { UserEntity } from "../entity/User";
@@ -16,7 +15,7 @@ export default class Database {
     username: "postgres",
     password: "mysecretpassword",
     database: "mydb",
-    entities: [Name, CourseEntity, UserEntity, ReportEntity, ReviewEntity],
+    entities: [CourseEntity, UserEntity, ReportEntity, ReviewEntity],
   });
   constructor(readonly connectionName: string) {}
 

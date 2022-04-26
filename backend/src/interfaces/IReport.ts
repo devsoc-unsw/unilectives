@@ -8,4 +8,6 @@ export interface IReport {
   zid: string;
   status: ReportStatus;
   reason: string;
+  createdTimestamp: Date;
+  updatedTimestamp: Date;
 }

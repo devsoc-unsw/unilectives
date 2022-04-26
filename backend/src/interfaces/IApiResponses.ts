@@ -1,3 +1,4 @@
+import { IReview } from "IReview";
 import { ICourse } from "ICourse";
 import { IReport, ReportStatus } from "IReport";
 import { IUser } from "IUser";
@@ -8,15 +9,35 @@ export interface IHttpError {
   errorMessage: string;
 }
 
-export interface IPostNameRequestBody {
-  name: string;
+export interface IPostReviewRequestBody {
+  zid: string;
+  courseCode: string;
+  authorName: string;
+  description: string;
+  grade: number;
+  termTaken: string;
 }
 
-export interface IPostNameSuccessResponse {
-  nameId: string;
-  fullName: string;
+export interface IPostReviewSuccessResponse {
+  review: IReview;
 }
 
+export interface IGetReviewsSuccessResponse {
+  reviews: IReview[];
+}
+
+export interface IPutReviewRequestBody {
+  authorName: string;
+  grade: number;
+}
+
+export type IPutReviewSuccessResponse = IPostReviewSuccessResponse;
+
+export interface IPostReviewsBookmarkRequestBody {
+  reviewId: string;
+  zid: string;
+  bookmark: boolean;
+}
 export interface IGetCoursesSuccessResponse {
   courses: ICourse[];
 }

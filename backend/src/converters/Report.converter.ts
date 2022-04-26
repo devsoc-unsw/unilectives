@@ -14,6 +14,8 @@ export const convertReportEntityToInterface = (
     zid: entity.zid,
     reason: entity.reason,
     status: entity.status,
+    createdTimestamp: entity.createdTimestamp,
+    updatedTimestamp: entity.updatedTimestamp,
   };
 };
 
@@ -26,5 +28,7 @@ export const convertReportInterfaceToEntity = (
     zid: report.zid,
     reason: report.reason,
     status: report.status,
+    createdTimestamp: report.createdTimestamp,
+    updatedTimestamp: report.updatedTimestamp,
   };
 };

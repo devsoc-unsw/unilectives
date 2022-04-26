@@ -19,6 +19,7 @@ describe("UserService", () => {
   beforeEach(() => {
     connection = new DataSource({ type: "postgres" });
     manager = new EntityManager(connection);
+    auth = new AuthService();
   });
 
   afterEach(() => {
