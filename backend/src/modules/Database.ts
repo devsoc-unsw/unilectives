@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import { getLogger } from "../utils/Logger";
 import { Name } from "../entity/Name";
+import { CourseEntity } from "../entity/Course";
 
 export default class Database {
   private logger = getLogger();
@@ -12,9 +13,13 @@ export default class Database {
     username: "postgres",
     password: "mysecretpassword",
     database: "mydb",
-    entities: [Name],
+    entities: [Name, CourseEntity],
   });
   constructor(readonly connectionName: string) {}
+
+  get() {
+    return this.dbConnection;
+  }
 
   async start(): Promise<void> {
     await this.dbConnection.initialize();
