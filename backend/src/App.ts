@@ -1,13 +1,16 @@
+import config from "config";
+import Database from "./modules/Database";
 import { getLogger } from "./utils/Logger";
 import { ExpressWrapper } from "./modules/ExpressWrapper";
-import Database from "./modules/Database";
-import config from "config";
-import { NameService } from "./api/services/Name.service";
-import { NameRouter } from "./api/routes/Name.router";
 import { ReviewService } from "./api/services/Review.service";
 import { ReviewRouter } from "./api/routes/Review.router";
-import { ReviewRepository } from "./repositories/Review.repository";
-import { UserRepository } from "./repositories/User.repository";
+import { CourseService } from "./api/services/Course.service";
+import { CourseRouter } from "./api/routes/Course.router";
+import { UserService } from "./api/services/User.service";
+import { UserRouter } from "./api/routes/User.router";
+import { ReportRouter } from "./api/routes/Report.router";
+import { ReportService } from "./api/services/Report.service";
+import { AuthService } from "./modules/Auth";
 
 export default class App {
   readonly logger = getLogger();
@@ -15,26 +18,31 @@ export default class App {
   // if using db, uncomment relevant lines
   private db = new Database("default");
 
-  // add repositories
-  private readonly reviewRepository = new ReviewRepository();
-  private readonly userRepository = new UserRepository();
+  // db manager
+  private readonly manager = this.db.get().manager;
+
+  // auth
+  private readonly auth = new AuthService();
 
   // add services here
-  private readonly nameService = new NameService();
-  private readonly reviewService = new ReviewService(
-    this.reviewRepository,
-    this.userRepository
-  );
+  private readonly courseService = new CourseService(this.manager);
+  private readonly userService = new UserService(this.manager, this.auth);
+  private readonly reportService = new ReportService(this.manager);
+  private readonly reviewService = new ReviewService(this.manager);
 
   constructor() {
     // add routers here .. e.g.
-    const nameRouter = new NameRouter(this.nameService);
     const reviewRouter = new ReviewRouter(this.reviewService);
+    const courseRouter = new CourseRouter(this.courseService);
+    const userRouter = new UserRouter(this.userService);
+    const reportRouter = new ReportRouter(this.reportService);
 
     this.ex.addRouters(
       // ... add routers here
-      nameRouter,
       reviewRouter,
+      courseRouter,
+      userRouter,
+      reportRouter
     );
   }
 

@@ -1,12 +1,13 @@
 import { UserEntity } from "../entity/User";
-import { getRepository } from "typeorm";
+import { EntityManager } from "typeorm";
 
 export class UserRepository {
-  async getUser(zid: string): Promise<UserEntity | undefined> {
-    return await getRepository(UserEntity).findOne({ zid });
+  constructor(private readonly manager: EntityManager) {}
+  async getUser(zid: string): Promise<UserEntity | null> {
+    return await this.manager.findOneBy(UserEntity, { zid });
   }
 
-  async save(user: UserEntity): Promise<UserEntity> {
-    return await getRepository(UserEntity).save(user);
+  async saveUser(user: UserEntity): Promise<UserEntity> {
+    return await this.manager.save(UserEntity, user);
   }
 }
