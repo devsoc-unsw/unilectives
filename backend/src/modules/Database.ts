@@ -10,11 +10,11 @@ export default class Database {
   private dbConnection = new DataSource({
     applicationName: this.connectionName,
     type: "postgres",
-    host: "localhost",
+    host: process.env.POSTGRESQL_HOST,
     port: 5432,
-    username: "postgres",
-    password: "mysecretpassword",
-    database: "mydb",
+    username: process.env.POSTGRESQL_USER,
+    password: process.env.POSTGRESQL_PASSWORD,
+    database: process.env.POSTGRESQL_DATABASE,
     entities: [CourseEntity, UserEntity, ReportEntity, ReviewEntity],
   });
   constructor(readonly connectionName: string) {}
