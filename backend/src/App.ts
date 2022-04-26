@@ -6,6 +6,8 @@ import { NameService } from "./api/services/Name.service";
 import { NameRouter } from "./api/routes/Name.router";
 import { CourseService } from "./api/services/Course.service";
 import { CourseRouter } from "./api/routes/Course.router";
+import { UserService } from "./api/services/User.service";
+import { UserRouter } from "./api/routes/User.router";
 
 export default class App {
   readonly logger = getLogger();
@@ -19,16 +21,19 @@ export default class App {
   // add services here
   private readonly nameService = new NameService();
   private readonly courseService = new CourseService(this.manager);
+  private readonly userService = new UserService(this.manager);
 
   constructor() {
     // add routers here .. e.g.
     const nameRouter = new NameRouter(this.nameService);
     const courseRouter = new CourseRouter(this.courseService);
+    const userRouter = new UserRouter(this.userService);
 
     this.ex.addRouters(
       // ... add routers here
       nameRouter,
-      courseRouter
+      courseRouter,
+      userRouter
     );
   }
 

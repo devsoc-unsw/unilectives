@@ -1,4 +1,5 @@
 import { ICourse } from "ICourse";
+import { IUser } from "IUser";
 
 export interface IHttpError {
   errorCode: number;
@@ -16,4 +17,12 @@ export interface IPostNameSuccessResponse {
 
 export interface IGetCoursesSuccessResponse {
   courses: ICourse[];
+}
+
+export interface IPostUserSuccessResponse {
+  user: IUser;
+}
+
+export interface IPostUserRequestBody {
+  zid: string;
 }
