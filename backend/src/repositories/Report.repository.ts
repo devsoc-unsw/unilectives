@@ -20,15 +20,12 @@ export class ReportRepository {
     });
   }
 
-  async getReportsById(ids: string[]): Promise<ReportEntity[]> {
-    return await this.manager.findBy(ReportEntity, {
-      reportId: In(ids),
-    });
-  }
-
   async getReport(reportId: string): Promise<ReportEntity | null> {
-    return await this.manager.findOneBy(ReportEntity, {
-      reportId,
+    return await this.manager.findOne(ReportEntity, {
+      where: {
+        reportId,
+      },
+      loadRelationIds: { relations: ["zid"] },
     });
   }
 

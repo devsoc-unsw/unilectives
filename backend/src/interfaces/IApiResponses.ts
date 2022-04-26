@@ -1,5 +1,5 @@
 import { ICourse } from "ICourse";
-import { IReport } from "IReport";
+import { IReport, ReportStatus } from "IReport";
 import { IUser } from "IUser";
 
 export interface IHttpError {
@@ -40,4 +40,10 @@ export interface IGetAllReportsSuccessResponse {
 
 export interface IPostReportSuccessResponse {
   report: IReport;
+}
+
+export interface IUpdateReportRequestBody {
+  reportId: string;
+  zid: string;
+  status: ReportStatus;
 }
