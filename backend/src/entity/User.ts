@@ -11,13 +11,13 @@ export class UserEntity {
     eager: true,
     cascade: true,
   })
-  public reports: ReportEntity[];
+  reports: ReportEntity[];
 
   @OneToMany(() => ReviewEntity, (review) => review.zid, {
     eager: true,
     cascade: true,
   })
-  public reviews: ReviewEntity[];
+  reviews: ReviewEntity[];
 
   @Column("uuid", {
     array: true,

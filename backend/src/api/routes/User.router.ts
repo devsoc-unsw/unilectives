@@ -4,6 +4,7 @@ import { IRouter } from "../../interfaces/IRouter";
 import { UserService } from "../services/User.service";
 import validationMiddleware from "../middlewares/validation";
 import { CreateUserSchema } from "../schemas/User.schema";
+
 export class UserRouter implements IRouter {
   private readonly logger = getLogger();
   private readonly router: Router;

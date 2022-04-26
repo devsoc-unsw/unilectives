@@ -1,12 +1,16 @@
 import { ReportEntity } from "../entity/Report";
 import { IReport } from "../interfaces/IReport";
+import {
+  convertReviewEntityToInterface,
+  convertReviewInterfaceToEntity,
+} from "./Review.converter";
 
 export const convertReportEntityToInterface = (
   entity: ReportEntity
 ): IReport => {
   return {
     reportId: entity.reportId,
-    reviewId: entity.reviewId,
+    review: convertReviewEntityToInterface(entity.review),
     zid: entity.zid,
     reason: entity.reason,
     status: entity.status,
@@ -18,7 +22,7 @@ export const convertReportInterfaceToEntity = (
 ): ReportEntity => {
   return {
     reportId: report.reportId,
-    reviewId: report.reviewId,
+    review: convertReviewInterfaceToEntity(report.review),
     zid: report.zid,
     reason: report.reason,
     status: report.status,

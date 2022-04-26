@@ -8,7 +8,8 @@ export const convertReviewEntityToInterface = (
   return {
     reviewId: entity.reviewId,
     zid: entity.zid,
-    reports: entity.reports,
+    description: entity.description,
+    authorName: entity.authorName,
   };
 };
 
@@ -18,6 +19,7 @@ export const convertReviewInterfaceToEntity = (
   return {
     reviewId: review.reviewId,
     zid: review.zid,
-    reports: review.reports,
+    description: review.description,
+    authorName: review.authorName,
   };
 };

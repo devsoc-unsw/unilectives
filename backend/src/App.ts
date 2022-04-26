@@ -8,6 +8,8 @@ import { CourseService } from "./api/services/Course.service";
 import { CourseRouter } from "./api/routes/Course.router";
 import { UserService } from "./api/services/User.service";
 import { UserRouter } from "./api/routes/User.router";
+import { ReportRouter } from "./api/routes/Report.router";
+import { ReportService } from "./api/services/Report.service";
 
 export default class App {
   readonly logger = getLogger();
@@ -22,18 +24,21 @@ export default class App {
   private readonly nameService = new NameService();
   private readonly courseService = new CourseService(this.manager);
   private readonly userService = new UserService(this.manager);
+  private readonly reportService = new ReportService(this.manager);
 
   constructor() {
     // add routers here .. e.g.
     const nameRouter = new NameRouter(this.nameService);
     const courseRouter = new CourseRouter(this.courseService);
     const userRouter = new UserRouter(this.userService);
+    const reportRouter = new ReportRouter(this.reportService);
 
     this.ex.addRouters(
       // ... add routers here
       nameRouter,
       courseRouter,
-      userRouter
+      userRouter,
+      reportRouter
     );
   }
 

@@ -2,6 +2,10 @@ import { ICourse } from "ICourse";
 import { UserEntity } from "../entity/User";
 import { IUser } from "IUser";
 import { CourseEntity } from "../entity/Course";
+import { IReport } from "IReport";
+import { ReportEntity } from "../entity/Report";
+import { ReviewEntity } from "../entity/Review";
+import { IReview } from "IReview";
 
 export const getCourseEntity = (): CourseEntity => {
   return {
@@ -76,7 +80,7 @@ export const getMockCourses = (): ICourse[] => {
 
 export const getMockNewUser = (): IUser => {
   return {
-    zid: "5555555",
+    zid: "z5555555",
     bookmarkedCourses: [],
     bookmarkedReviews: [],
     isAdmin: false,
@@ -87,7 +91,7 @@ export const getMockNewUser = (): IUser => {
 
 export const getMockUser = (): IUser => {
   return {
-    zid: "5555555",
+    zid: "z5555555",
     bookmarkedCourses: [
       {
         courseCode: "COMP1511",
@@ -120,11 +124,58 @@ export const getMockUser = (): IUser => {
 
 export const getUserEntity = (): UserEntity => {
   return {
-    zid: "5555555",
+    zid: "z5555555",
     bookmarkedCourses: ["COMP1511"],
     bookmarkedReviews: [],
     isAdmin: false,
     reports: [],
     reviews: [],
+  };
+};
+
+export const getReportEntity = (): ReportEntity => {
+  return {
+    reportId: "REPORT1",
+    review: getReviewEntity(),
+    zid: "z5555555",
+    reason: "Nothing makes sense",
+    status: "UNSEEN",
+  };
+};
+
+export const getMockReports = (): IReport[] => {
+  return [
+    {
+      reportId: "REPORT1",
+      review: getMockReview(),
+      zid: "z5555555",
+      reason: "Nothing makes sense",
+      status: "UNSEEN",
+    },
+    {
+      reportId: "REPORT2",
+      review: getMockReview(),
+      zid: "z5000000",
+      reason: "There were rude words in the review!",
+      status: "UNSEEN",
+    },
+  ];
+};
+
+export const getMockReview = (): IReview => {
+  return {
+    reviewId: "REVIEW1",
+    zid: "z5555555",
+    authorName: "test",
+    description: "amazing",
+  };
+};
+
+export const getReviewEntity = (): ReviewEntity => {
+  return {
+    reviewId: "REVIEW1",
+    zid: "z5555555",
+    authorName: "test",
+    description: "amazing",
   };
 };

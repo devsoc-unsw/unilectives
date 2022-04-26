@@ -32,7 +32,7 @@ describe("UserService", () => {
       const entity = getUserEntity();
       const user = getMockUser();
       const course = getMockCourses()[0];
-      manager.findOne = jest.fn().mockReturnValue(entity);
+      manager.findOneBy = jest.fn().mockReturnValue(entity);
       manager.findBy = jest
         .fn()
         .mockReturnValueOnce([])
@@ -53,7 +53,7 @@ describe("UserService", () => {
       const service = userService();
       const entity = getUserEntity();
       const user = getMockNewUser();
-      manager.findOne = jest.fn().mockReturnValue(null);
+      manager.findOneBy = jest.fn().mockReturnValue(null);
       manager.save = jest.fn().mockReturnValue(entity);
       expect(service.createUser(user.zid)).resolves.toEqual({ user });
     });
@@ -63,7 +63,7 @@ describe("UserService", () => {
     it("should throw HTTP 404 error if could user not in database", () => {
       const service = userService();
       const user = getMockNewUser();
-      manager.findOne = jest.fn().mockReturnValue(null);
+      manager.findOneBy = jest.fn().mockReturnValue(null);
       const errorResult = new HTTPError(badRequest);
       expect(service.getUser(user.zid)).rejects.toThrow(errorResult);
     });
@@ -73,7 +73,7 @@ describe("UserService", () => {
       const entity = getUserEntity();
       const user = getMockUser();
       const course = getMockCourses()[0];
-      manager.findOne = jest.fn().mockReturnValue(entity);
+      manager.findOneBy = jest.fn().mockReturnValue(entity);
       manager.findBy = jest
         .fn()
         .mockReturnValueOnce([])

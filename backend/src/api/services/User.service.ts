@@ -40,10 +40,6 @@ export class UserService {
 
     const saveUser = await this.userRepository.saveUser(newUser);
 
-    if (!saveUser) {
-      this.logger.error(`Database could not save user with zid ${zid}`);
-      throw new HTTPError(internalServerError);
-    }
     return { user: convertUserEntityToInterface(saveUser) };
   }
 
