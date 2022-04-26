@@ -30,3 +30,16 @@ export const convertUserEntityToInterface = (
     reports: userEntity.reports.map(convertReportEntityToInterface),
   };
 };
+
+export const convertUserInterfaceToEntity = (user: IUser): UserEntity => {
+  return {
+    zid: user.zid,
+    bookmarkedReviews: user.bookmarkedReviews.map((review) => review.reviewId),
+    bookmarkedCourses: user.bookmarkedCourses.map(
+      (course) => course.courseCode
+    ),
+    isAdmin: user.isAdmin,
+    reviews: user.reviews.map(convertReviewInterfaceToEntity),
+    reports: user.reports.map(convertReportInterfaceToEntity),
+  };
+};

@@ -59,7 +59,6 @@ describe("ReportService", () => {
 
     it("should throw HTTP 400 error if review is not in database", () => {
       const service = reportService();
-      const entity = getReportEntity();
       const report = getMockReports()[0];
       const reportRequest: IPostReportRequestBody = {
         reviewId: report.review.reviewId,
@@ -105,7 +104,6 @@ describe("ReportService", () => {
   describe("updateReport", () => {
     it("should throw HTTP 400 error if report is not in database", () => {
       const service = reportService();
-      const entity = getReportEntity();
       const report = getMockReports()[0];
       const reportRequest: IUpdateReportRequestBody = {
         reportId: report.reportId,
