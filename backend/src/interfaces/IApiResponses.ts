@@ -84,3 +84,17 @@ export interface IPutCoursesRequestBody {
 }
 
 export type IPutCoursesSuccessResponse = IPutCoursesRequestBody;
+
+export interface IPostCoursesBookmarkRequestBody {
+  courseCode: string;
+  zid: string;
+  bookmark: boolean;
+}
+
+export interface IPostCoursesBookmarkRequestBody {
+  courseCode: string;
+  zid: string;
+  bookmark: boolean;
+}
+
+export type IPostCoursesBookmarkSuccessResponse = IPutCoursesSuccessResponse;

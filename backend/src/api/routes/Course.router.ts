@@ -2,11 +2,17 @@ import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../../utils/Logger";
 import { IRouter } from "../../interfaces/IRouter";
 import { CourseService } from "../services/Course.service";
-import { UpdateCourseSchema } from "../schemas/Course.schema";
+import {
+  BookmarkCourseSchema,
+  UpdateCourseSchema,
+} from "../schemas/Course.schema";
 import validationMiddleware from "../middlewares/validation";
 import { HTTPError } from "../../utils/Errors";
 import { badRequest } from "../../utils/Constants";
-import { IPutCoursesRequestBody } from "IApiResponses";
+import {
+  IPostCoursesBookmarkRequestBody,
+  IPutCoursesRequestBody,
+} from "IApiResponses";
 
 export class CourseRouter implements IRouter {
   private readonly logger = getLogger();
@@ -55,6 +61,29 @@ export class CourseRouter implements IRouter {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to PUT /courses/${courseCode} ${formatError(
+                err
+              )}`
+            );
+            return next(err);
+          }
+        }
+      )
+      .post(
+        "/courses/bookmark",
+        validationMiddleware(BookmarkCourseSchema, "body"),
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(`Received request in POST /courses/bookmark`);
+          try {
+            const bookmarkDetails = req.body as IPostCoursesBookmarkRequestBody;
+            if (!bookmarkDetails) throw new HTTPError(badRequest);
+            const result = await this.courseService.bookmarkCourse(
+              bookmarkDetails
+            );
+            this.logger.info(`Responding to client in POST /courses/bookmark`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to POST /courses/bookmark ${formatError(
                 err
               )}`
             );

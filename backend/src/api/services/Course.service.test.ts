@@ -1,8 +1,13 @@
 import { HTTPError } from "../../utils/Errors";
 import { badRequest, internalServerError } from "../../utils/Constants";
 import { CourseService } from "./Course.service";
-import { getCourseEntity, getMockCourses } from "../../utils/testData";
+import {
+  getCourseEntity,
+  getMockCourses,
+  getUserEntity,
+} from "../../utils/testData";
 import { DataSource, EntityManager } from "typeorm";
+import { IPostCoursesBookmarkRequestBody } from "IApiResponses";
 
 describe("CourseService", () => {
   let manager: EntityManager;
@@ -54,6 +59,78 @@ describe("CourseService", () => {
 
       expect(service.updateCourse(course)).resolves.toEqual({
         course: course,
+      });
+    });
+  });
+
+  describe("bookmarkCourse", () => {
+    it("should throw HTTP 400 error if no courses in database", () => {
+      const service = courseService();
+      const course = getMockCourses()[0];
+      manager.findOneBy = jest.fn().mockReturnValue(undefined);
+      const request: IPostCoursesBookmarkRequestBody = {
+        courseCode: course.courseCode,
+        zid: "5311111",
+        bookmark: true,
+      };
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.bookmarkCourse(request)).rejects.toThrow(errorResult);
+    });
+
+    it("should throw HTTP 400 error if no user in database", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      manager.findOneBy = jest
+        .fn()
+        .mockReturnValue(courses[0])
+        .mockReturnValue(undefined);
+      const request: IPostCoursesBookmarkRequestBody = {
+        courseCode: courses[0].courseCode,
+        zid: "5311111",
+        bookmark: true,
+      };
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.bookmarkCourse(request)).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return bookmarked course", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      const user = getUserEntity();
+      manager.findOneBy = jest
+        .fn()
+        .mockReturnValueOnce(courses[0])
+        .mockReturnValueOnce(user);
+      manager.save = jest.fn().mockReturnValue(user);
+      const request: IPostCoursesBookmarkRequestBody = {
+        courseCode: courses[0].courseCode,
+        zid: "5311111",
+        bookmark: true,
+      };
+
+      expect(service.bookmarkCourse(request)).resolves.toEqual({
+        course: courses[0],
+      });
+    });
+
+    it("should resolve and remove bookmarked course", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      const user = getUserEntity();
+      manager.findOneBy = jest
+        .fn()
+        .mockReturnValueOnce(courses[0])
+        .mockReturnValueOnce(user);
+      manager.save = jest.fn().mockReturnValueOnce(user);
+      const request: IPostCoursesBookmarkRequestBody = {
+        courseCode: courses[0].courseCode,
+        zid: "5311111",
+        bookmark: false,
+      };
+      expect(service.bookmarkCourse(request)).resolves.toEqual({
+        course: courses[0],
       });
     });
   });
