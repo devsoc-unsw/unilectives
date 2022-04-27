@@ -42,24 +42,30 @@ CREATE TABLE cselectives.reviews (
     description        text NULL,
     grade              integer NULL,
     term_taken         text NOT NULL,
-    created_timestamp  timestamp NOT NULL,
-    updated_timestamp  timestamp NOT NULL,
+    created_timestamp  timestamp NOT NULL DEFAULT current_timestamp,
+    updated_timestamp  timestamp NOT NULL DEFAULT current_timestamp,
     upvotes            text[] NOT NULL,
-    CONSTRAINT pk_review_id PRIMARY KEY ( review_id ),
-    CONSTRAINT fk_course_code FOREIGN KEY ( course_code ) REFERENCES cselectives.courses(course_code),
-    CONSTRAINT fk_zid FOREIGN KEY ( zid ) REFERENCES cselectives.users(zid)
+    manageability      float NOT NULL,
+    usefulness         float NOT NULL,
+    enjoyability       float NOT NULL,
+    overall_rating     float NOT NULL,
+    CONSTRAINT pk_review_id     PRIMARY KEY ( review_id ),
+    CONSTRAINT fk_course_code   FOREIGN KEY ( course_code ) REFERENCES cselectives.courses(course_code),
+    CONSTRAINT fk_zid           FOREIGN KEY ( zid )         REFERENCES cselectives.users(zid)
 );
 
 CREATE TYPE report_status AS ENUM ('REMOVED', 'UNSEEN', 'SEEN', 'SETTLED');
 CREATE TABLE cselectives.reports (
-    report_id uuid           NOT NULL DEFAULT gen_random_uuid(),
-    review_id uuid           NOT NULL,
-    zid       text           NOT NULL,
-    status    report_status  NOT NULL,
-    reason    text           NOT NULL,
+    report_id                uuid NOT NULL DEFAULT gen_random_uuid(),
+    review_id                uuid NOT NULL,
+    zid                      text NOT NULL,
+    status                   report_status NOT NULL,
+    reason                   text NOT NULL,
+    created_timestamp        timestamp NOT NULL DEFAULT current_timestamp,
+    updated_timestamp        timestamp NOT NULL DEFAULT current_timestamp,
     CONSTRAINT pk_report_id  PRIMARY KEY ( report_id ),
     CONSTRAINT fk_review_id  FOREIGN KEY ( review_id ) REFERENCES cselectives.reviews( review_id ),
-    CONSTRAINT fk_zid        FOREIGN KEY ( zid ) REFERENCES cselectives.users(zid)
+    CONSTRAINT fk_zid        FOREIGN KEY ( zid )       REFERENCES cselectives.users(zid)
 );
 
 COMMIT;

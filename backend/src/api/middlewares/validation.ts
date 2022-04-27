@@ -11,9 +11,13 @@ const validationMiddleware =
     const { error } = result;
     const valid = error == null;
     if (!valid) {
-      logger.info(`Invalid request was made ${JSON.stringify(req[property])}`);
+      logger.info(
+        `Invalid request was made - Error: ${
+          error.message
+        } - Data: ${JSON.stringify(req[property])}`
+      );
       res.status(400).json({
-        message: "Invalid request",
+        message: `Invalid request was made - Error: ${error.message}`,
         data: req.body,
       });
       return;
