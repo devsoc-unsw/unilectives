@@ -19,4 +19,8 @@ export class CourseRepository {
       courseCode,
     });
   }
+
+  async save(course: CourseEntity): Promise<CourseEntity> {
+    return await this.manager.save(CourseEntity, course);
+  }
 }

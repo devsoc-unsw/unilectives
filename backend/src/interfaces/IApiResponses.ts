@@ -74,3 +74,13 @@ export interface IUpdateReportRequestBody {
   zid: string;
   status: ReportStatus;
 }
+
+export interface IGetCoursesSuccessResponse {
+  courses: ICourse[];
+}
+
+export interface IPutCoursesRequestBody {
+  course: ICourse;
+}
+
+export type IPutCoursesSuccessResponse = IPutCoursesRequestBody;

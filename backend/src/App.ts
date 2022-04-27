@@ -15,7 +15,6 @@ import { AuthService } from "./modules/Auth";
 export default class App {
   readonly logger = getLogger();
   private ex = new ExpressWrapper();
-  // if using db, uncomment relevant lines
   private db = new Database("default");
 
   // db manager
