@@ -8,7 +8,7 @@
     "lint:fix": "eslint -c .eslintrc.js \"{config,src}*/**/*.{js,ts,tsx}\" --quiet --fix",
     "build": "tsc",
     "build:container": "tsc && tsc config/* && rm config/*.ts",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "test": "jest --coverage --verbose"
   },
