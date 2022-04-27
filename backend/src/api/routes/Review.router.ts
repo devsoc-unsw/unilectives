@@ -34,7 +34,9 @@ export class ReviewRouter implements IRouter {
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /reviews ${formatError(err)}`
+              `An error occurred when trying to GET /reviews ${formatError(
+                err
+              )}`
             );
             return next(err);
           }
@@ -46,12 +48,18 @@ export class ReviewRouter implements IRouter {
           this.logger.debug(`Received request in /reviews/specific_course`);
           try {
             const courseCode: string = req.params.courseCode;
-            const result = await this.reviewService.getCourseReviews(courseCode);
-            this.logger.info(`Responding to client in GET /reviews/specific_course`);
+            const result = await this.reviewService.getCourseReviews(
+              courseCode
+            );
+            this.logger.info(
+              `Responding to client in GET /reviews/specific_course`
+            );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /reviews ${formatError(err)}`
+              `An error occurred when trying to GET /reviews ${formatError(
+                err
+              )}`
             );
             return next(err);
           }
@@ -65,9 +73,7 @@ export class ReviewRouter implements IRouter {
           try {
             const reviewDetails = req.body as IPostReviewRequestBody;
             if (!reviewDetails) throw new HTTPError(badRequest);
-            const result = await this.reviewService.postReview(
-              reviewDetails
-            );
+            const result = await this.reviewService.postReview(reviewDetails);
             this.logger.info(`Responding to client in POST /reviews`);
             return res.status(200).json(result);
           } catch (err: any) {
@@ -93,7 +99,9 @@ export class ReviewRouter implements IRouter {
               updatedReviewDetails,
               reviewId
             );
-            this.logger.info(`Responding to client in PUT /reviews/${reviewId}`);
+            this.logger.info(
+              `Responding to client in PUT /reviews/${reviewId}`
+            );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
@@ -112,10 +120,10 @@ export class ReviewRouter implements IRouter {
           this.logger.debug(`Received request in DELETE /reviews/${reviewId}`);
           try {
             const reviewId: string = req.params.reviewId;
-            const result = await this.reviewService.deleteReview(
-              reviewId
+            const result = await this.reviewService.deleteReview(reviewId);
+            this.logger.info(
+              `Responding to client in DELETE /reviews/${reviewId}`
             );
-            this.logger.info(`Responding to client in DELETE /reviews/${reviewId}`);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
@@ -149,7 +157,7 @@ export class ReviewRouter implements IRouter {
             return next(err);
           }
         }
-      )
+      );
   }
 
   getPrefix(): string {

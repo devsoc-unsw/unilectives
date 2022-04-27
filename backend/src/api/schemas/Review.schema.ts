@@ -25,7 +25,7 @@ export const PostReviewSchema = Joi.object({
   courseCode: Joi.string().required(),
   rating: Joi.number().required(),
   termTaken: Joi.string().required(),
-})
+});
 
 export const BookmarkReviewSchema = Joi.object({
   reviewId: Joi.string().required(),
