@@ -1,22 +1,24 @@
 import { HTTPError } from "../../utils/Errors";
 import { badRequest, internalServerError } from "../../utils/Constants";
-import { CourseRepository } from "../../repositories/Course.repository";
 import { CourseService } from "./Course.service";
 import { getCourseEntity, getMockCourses } from "../../utils/testData";
+import { DataSource, EntityManager } from "typeorm";
 
 describe("CourseService", () => {
-  let repository: CourseRepository;
+  let manager: EntityManager;
+  let connection: DataSource;
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
-    repository = new CourseRepository();
+    connection = new DataSource({ type: "postgres" });
+    manager = new EntityManager(connection);
   });
-  const courseService = () => new CourseService(repository);
+  const courseService = () => new CourseService(manager);
 
   describe("getCourses", () => {
     it("should throw HTTP 500 error if no courses in database", () => {
       const service = courseService();
-      repository.getAllCourses = jest.fn().mockReturnValue([]);
+      manager.find = jest.fn().mockReturnValue([]);
 
       const errorResult = new HTTPError(internalServerError);
       expect(service.getCourses()).rejects.toThrow(errorResult);
@@ -25,7 +27,7 @@ describe("CourseService", () => {
     it("should resolve and return courses", () => {
       const service = courseService();
       const courses = getMockCourses();
-      repository.getAllCourses = jest.fn().mockReturnValue(courses);
+      manager.find = jest.fn().mockReturnValue(courses);
 
       expect(service.getCourses()).resolves.toEqual({
         courses,
@@ -37,7 +39,7 @@ describe("CourseService", () => {
     it("should throw HTTP 400 error if no courses in database", () => {
       const service = courseService();
       const course = getMockCourses()[0];
-      repository.getCourse = jest.fn().mockReturnValue(undefined);
+      manager.findOneBy = jest.fn().mockReturnValue(undefined);
 
       const errorResult = new HTTPError(badRequest);
       expect(service.updateCourse(course)).rejects.toThrow(errorResult);
@@ -47,8 +49,8 @@ describe("CourseService", () => {
       const service = courseService();
       const entity = getCourseEntity();
       const course = getMockCourses()[0];
-      repository.getCourse = jest.fn().mockReturnValue(entity);
-      repository.save = jest.fn().mockReturnValue(entity);
+      manager.findOneBy = jest.fn().mockReturnValue(entity);
+      manager.save = jest.fn().mockReturnValue(entity);
 
       expect(service.updateCourse(course)).resolves.toEqual({
         course: course,

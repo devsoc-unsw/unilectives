@@ -2,7 +2,6 @@ import {
   IGetCoursesSuccessResponse,
   IPutCoursesSuccessResponse,
 } from "IApiResponses";
-import { CourseRepository } from "../../repositories/Course.repository";
 import { getLogger } from "../../utils/Logger";
 import { CourseEntity } from "../../entity/Course";
 import {
@@ -11,11 +10,14 @@ import {
 } from "../../converters/Course.converter";
 import { HTTPError } from "../../utils/Errors";
 import { badRequest, internalServerError } from "../../utils/Constants";
+import { EntityManager } from "typeorm";
+import { CourseRepository } from "../../repositories/Course.repository";
 import { ICourse } from "ICourse";
 
 export class CourseService {
   private logger = getLogger();
-  constructor(private readonly courseRepository: CourseRepository) {}
+  constructor(private readonly manager: EntityManager) {}
+  private courseRepository = new CourseRepository(this.manager);
 
   async getCourses(): Promise<IGetCoursesSuccessResponse | undefined> {
     const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
@@ -24,7 +26,7 @@ export class CourseService {
       throw new HTTPError(internalServerError);
     }
 
-    this.logger.info(`Found ${courses.length} courses in database.`);
+    this.logger.info(`Found ${courses.length} courses.`);
     return {
       courses: courses.map(convertCourseEntityToInterface),
     };

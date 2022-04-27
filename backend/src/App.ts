@@ -1,30 +1,47 @@
+import config from "config";
+import Database from "./modules/Database";
 import { getLogger } from "./utils/Logger";
 import { ExpressWrapper } from "./modules/ExpressWrapper";
-import Database from "./modules/Database";
-import config from "config";
+import { ReviewService } from "./api/services/Review.service";
+import { ReviewRouter } from "./api/routes/Review.router";
 import { CourseService } from "./api/services/Course.service";
 import { CourseRouter } from "./api/routes/Course.router";
-import { CourseRepository } from "./repositories/Course.repository";
+import { UserService } from "./api/services/User.service";
+import { UserRouter } from "./api/routes/User.router";
+import { ReportRouter } from "./api/routes/Report.router";
+import { ReportService } from "./api/services/Report.service";
+import { AuthService } from "./modules/Auth";
 
 export default class App {
   readonly logger = getLogger();
   private ex = new ExpressWrapper();
-  // if using db, uncomment relevant lines
   private db = new Database("default");
 
-  // add repositories
-  private readonly courseRepository = new CourseRepository();
+  // db manager
+  private readonly manager = this.db.get().manager;
+
+  // auth
+  private readonly auth = new AuthService();
 
   // add services here
-  private readonly courseService = new CourseService(this.courseRepository);
+  private readonly courseService = new CourseService(this.manager);
+  private readonly userService = new UserService(this.manager, this.auth);
+  private readonly reportService = new ReportService(this.manager);
+  private readonly reviewService = new ReviewService(this.manager);
 
   constructor() {
     // add routers here .. e.g.
+    const reviewRouter = new ReviewRouter(this.reviewService);
     const courseRouter = new CourseRouter(this.courseService);
+    const userRouter = new UserRouter(this.userService);
+    const reportRouter = new ReportRouter(this.reportService);
 
     this.ex.addRouters(
       // ... add routers here
-      courseRouter
+      reviewRouter,
+      courseRouter,
+      userRouter,
+      reportRouter
     );
   }
 
