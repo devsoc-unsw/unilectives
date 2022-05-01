@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { getLogger } from "../../utils/Logger";
-import Joi from "@hapi/joi";
+import Joi from "joi";
 
 const logger = getLogger();
 
