@@ -167,7 +167,6 @@ export class ReviewRouter implements IRouter {
           this.logger.debug(`Received request in POST /reviews/upvote`);
           try {
             const reviewDetails = req.body as IPostReviewUpvoteRequestBody;
-            if (!reviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.upvoteReview(reviewDetails);
             this.logger.info(`Responding to client in POST /reviews/upvote`);
             return res.status(200).json(result);
