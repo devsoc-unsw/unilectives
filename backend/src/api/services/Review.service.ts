@@ -5,6 +5,8 @@ import {
   IPostReviewSuccessResponse,
   IPutReviewSuccessResponse,
   IPostReviewsBookmarkRequestBody,
+  IPostReviewUpvoteSuccessResponse,
+  IPostReviewUpvoteRequestBody,
 } from "IApiResponses";
 import { ReviewRepository } from "../../repositories/Review.repository";
 import { getLogger } from "../../utils/Logger";
@@ -146,6 +148,39 @@ export class ReviewService {
         reviewDetails.zid
       }.`
     );
+    return {
+      review: convertReviewEntityToInterface(review),
+    };
+  }
+
+  async upvoteReview(
+    upvoteDetails: IPostReviewUpvoteRequestBody
+  ): Promise<IPostReviewUpvoteSuccessResponse | undefined> {
+    let review = await this.reviewRepository.getReview(upvoteDetails.reviewId);
+
+    if (!review) {
+      this.logger.error(
+        `There is no review with reviewId ${upvoteDetails.reviewId}.`
+      );
+      throw new HTTPError(badRequest);
+    }
+
+    if (upvoteDetails.upvote) {
+      review.upvotes = [...review.upvotes, upvoteDetails.zid];
+    } else {
+      review.upvotes.filter((zid) => zid !== upvoteDetails.zid);
+    }
+
+    review = await this.reviewRepository.save(review);
+
+    this.logger.info(
+      `Successfully ${
+        upvoteDetails.upvote ? "upvoted" : "removed upvote from"
+      } review with reviewId ${upvoteDetails.reviewId} for user with zID ${
+        upvoteDetails.zid
+      }.`
+    );
+
     return {
       review: convertReviewEntityToInterface(review),
     };

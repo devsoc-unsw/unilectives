@@ -32,3 +32,9 @@ export const BookmarkReviewSchema = Joi.object({
   zid: Joi.string().required(),
   bookmark: Joi.boolean().required(),
 });
+
+export const UpvoteReviewSchema = Joi.object({
+  reviewId: Joi.string().required(),
+  zid: Joi.string().required(),
+  upvote: Joi.boolean().required(),
+});

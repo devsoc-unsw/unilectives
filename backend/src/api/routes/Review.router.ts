@@ -6,6 +6,7 @@ import validationMiddleware from "../middlewares/validation";
 import {
   PostReviewSchema,
   BookmarkReviewSchema,
+  UpvoteReviewSchema,
 } from "../schemas/Review.schema";
 import { HTTPError } from "../../utils/Errors";
 import { badRequest } from "../../utils/Constants";
@@ -13,6 +14,7 @@ import {
   IPostReviewRequestBody,
   IPutReviewRequestBody,
   IPostReviewsBookmarkRequestBody,
+  IPostReviewUpvoteRequestBody,
 } from "IApiResponses";
 export class ReviewRouter implements IRouter {
   private readonly logger = getLogger();
@@ -151,6 +153,26 @@ export class ReviewRouter implements IRouter {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to POST /reviews/bookmark ${formatError(
+                err
+              )}`
+            );
+            return next(err);
+          }
+        }
+      )
+      .post(
+        "/reviews/upvote",
+        validationMiddleware(UpvoteReviewSchema, "body"),
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(`Received request in POST /reviews/upvote`);
+          try {
+            const reviewDetails = req.body as IPostReviewUpvoteRequestBody;
+            const result = await this.reviewService.upvoteReview(reviewDetails);
+            this.logger.info(`Responding to client in POST /reviews/upvote`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to POST /reviews/upvote ${formatError(
                 err
               )}`
             );
