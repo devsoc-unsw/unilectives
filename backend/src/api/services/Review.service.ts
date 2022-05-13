@@ -36,8 +36,7 @@ export class ReviewService {
     courseCode: string
   ): Promise<IGetReviewsSuccessResponse | undefined> {
     try {
-      const reviews: ReviewEntity[] =
-        await this.reviewRepository.getCourseReviews(courseCode);
+      const reviews: ReviewEntity[] = await this.reviewRepository.getCourseReviews(courseCode);
       if (reviews.length === 0) {
         this.logger.error("Database returned with no reviews.");
         throw new HTTPError(internalServerError);
