@@ -9,7 +9,7 @@
     "build": "tsc",
     "build:container": "tsc && tsc config/* && rm config/*.ts",
     "start": "node dist/src/index.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev": "NODE_ENV=dev ts-node --transpile-only src/index.ts",
     "test": "jest --coverage --verbose"
   },
   "dependencies": {
