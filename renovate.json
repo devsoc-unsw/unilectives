@@ -1,13 +1,13 @@
 {
   "extends": ["config:base"],
-  "lockFileMaintenance": { "enabled": true, "automerge": true },
+  "lockFileMaintenance": { "enabled": true, "automerge": false },
   "prHourlyLimit": 5,
   "labels": ["dependencies"],
   "baseBranches": ["develop"],
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": true,
+      "automerge": false,
       "automergeType": "branch"
     },
     {
