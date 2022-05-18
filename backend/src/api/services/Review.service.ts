@@ -5,6 +5,8 @@ import {
   IPostReviewSuccessResponse,
   IPutReviewSuccessResponse,
   IPostReviewsBookmarkRequestBody,
+  IDeleteReviewSuccessResponse,
+  IDeleteReviewRequestBody,
 } from "IApiResponses";
 import { ReviewRepository } from "../../repositories/Review.repository";
 import { getLogger } from "../../utils/Logger";
@@ -92,12 +94,14 @@ export class ReviewService {
     };
   }
 
-  async deleteReview(reviewId: string) {
+  async deleteReview(
+    reviewDetails: IDeleteReviewRequestBody
+  ): Promise<IDeleteReviewSuccessResponse | undefined> {
     // Get review entity by review id
-    const review = await this.reviewRepository.getReview(reviewId);
+    const review = await this.reviewRepository.getReview(reviewDetails.reviewId);
 
     if (!review) {
-      this.logger.error(`There is no review with reviewId ${reviewId}.`);
+      this.logger.error(`There is no review with reviewId ${reviewDetails.reviewId}.`);
       throw new HTTPError(badRequest);
     }
 

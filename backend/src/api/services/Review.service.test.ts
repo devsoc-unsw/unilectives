@@ -2,6 +2,7 @@ import { HTTPError } from "../../utils/Errors";
 import { badRequest, internalServerError } from "../../utils/Constants";
 import { ReviewService } from "./Review.service";
 import {
+  getUserEntity,
   getReviewEntity,
   getMockReviews,
   getMockCOMP2521Reviews
@@ -9,6 +10,9 @@ import {
 import { EntityManager, DataSource } from "typeorm";
 import {
   IPostReviewRequestBody,
+  IPutReviewRequestBody,
+  IDeleteReviewRequestBody,
+  IPostReviewsBookmarkRequestBody,
 } from "IApiResponses";
 
 describe("ReviewService", () => {
@@ -81,6 +85,125 @@ describe("ReviewService", () => {
         review: review,
       });
     });
+  });
+  
+  describe("updateReview", () => {
+    it("should throw HTTP 400 error if no review in database", () => {
+      const service = reviewService();
+      const review = getMockReviews()[0];
+      manager.findOneBy = jest.fn().mockReturnValue(undefined);
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.updateReview(review, review.reviewId)).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and update an existing review", () => {
+      const service = reviewService();
+      const reviewEntity = getReviewEntity();
+      const review = getMockReviews()[0];
+
+      const reviewRequest: IPutReviewRequestBody = {
+        authorName: reviewEntity.authorName,
+        grade: reviewEntity.grade,
+      };
+
+      manager.findOneBy = jest.fn().mockReturnValue(reviewEntity);
+      manager.save = jest.fn().mockReturnValue(reviewEntity);
+
+      expect(service.updateReview(reviewRequest, reviewEntity.reviewId)).resolves.toEqual({
+        review: review,
+      });
+    });
+  });
+  
+  describe("deleteReview", () => {
+    it("should resolve and delete an existing review", () => {
+      const service = reviewService();
+      const reviewEntity = getReviewEntity();
+
+      const reviewRequest: IDeleteReviewRequestBody = {
+        reviewId: reviewEntity.reviewId,
+      };
+
+      manager.findOneBy = jest.fn().mockReturnValue(reviewEntity);
+      manager.delete = jest.fn().mockReturnValue(reviewEntity);
+      
+      // Should this have an empty toEqual()?
+      expect(service.deleteReview(reviewRequest)).resolves.toEqual(reviewEntity);
+    });
+  });
+  
+  describe("bookmarkReview", () => {
+    it("should throw HTTP 400 error if no reviews in database", () => {
+      const service = reviewService();
+      const reviews = getMockReviews()[0];
+      manager.findOneBy = jest.fn().mockReturnValue(undefined);
+      const request: IPostReviewsBookmarkRequestBody = {
+        reviewId: reviews.reviewId,
+        zid: reviews.zid,
+        bookmark: true,
+      };
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.bookmarkReview(request)).rejects.toThrow(errorResult);
+    });
+
+    it("should throw HTTP 400 error if no user in database", () => {
+      const service = reviewService();
+      const reviews = getMockReviews();
+      manager.findOneBy = jest
+        .fn()
+        .mockReturnValue(reviews[0])
+        .mockReturnValue(undefined);
+      const request: IPostReviewsBookmarkRequestBody = {
+        reviewId: reviews[0].reviewId,
+        zid: reviews[0].zid,
+        bookmark: true,
+      };
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.bookmarkReview(request)).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return bookmarked review", () => {
+      const service = reviewService();
+      const reviews = getMockReviews();
+      const user = getUserEntity();
+      manager.findOneBy = jest
+        .fn()
+        .mockReturnValueOnce(reviews[0])
+        .mockReturnValueOnce(user);
+      manager.save = jest.fn().mockReturnValue(user);
+      const request: IPostReviewsBookmarkRequestBody = {
+        reviewId: reviews[0].reviewId,
+        zid: reviews[0].zid,
+        bookmark: true,
+      };
+
+      expect(service.bookmarkReview(request)).resolves.toEqual({
+        review: reviews[0],
+      });
+    });
+
+    it("should resolve and remove bookmarked review", () => {
+      const service = reviewService();
+      const reviews = getMockReviews();
+      const user = getUserEntity();
+      manager.findOneBy = jest
+        .fn()
+        .mockReturnValueOnce(reviews[0])
+        .mockReturnValueOnce(user);
+      manager.save = jest.fn().mockReturnValueOnce(user);
+      const request: IPostReviewsBookmarkRequestBody = {
+        reviewId: reviews[0].reviewId,
+        zid: reviews[0].zid,
+        bookmark: false,
+      };
+      expect(service.bookmarkReview(request)).resolves.toEqual({
+        review: reviews[0],
+      });
+    });
+
   });
 
 });
