@@ -1,14 +1,14 @@
 import {
-  defaultSlice,
+  userSlice,
   initialState,
-} from "src/logic/redux/reducers/defaultSlice/defaultSlice";
+} from "src/logic/redux/reducers/userSlice/userSlice";
 import { render as rtlRender } from "@testing-library/react";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { ReactNode } from "react";
 
 const preloadedInitialState = {
-  app: initialState,
+  user: initialState,
 };
 
 const render = (
@@ -17,7 +17,7 @@ const render = (
   {
     store = configureStore({
       reducer: {
-        app: defaultSlice.reducer,
+        user: userSlice.reducer,
       },
       preloadedState: state || preloadedInitialState,
     }),
