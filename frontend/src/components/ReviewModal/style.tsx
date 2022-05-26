@@ -17,17 +17,11 @@ export const Dim = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  // max-height: 90vh;
-  // z-index: 101;
   background: #EFEFEF;
   padding: 2rem;
   border-radius: 0.6rem;
   flex-wrap: wrap;
   flex-direction: row;
-  // justify-content: space-around;
-  // align-items: start;
-  // // position: fixed;
-  // min-width: 400px;
 `;
 
 export const CloseLockup = styled.div`
@@ -55,7 +49,7 @@ export const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: .5rem;
-  background-color: lightblue;
+  // background-color: lightblue;
   width: 30%;
 `;
 
@@ -63,8 +57,7 @@ export const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: .5rem;
-  background: grey;
-  background-color: lightblue;
+  // background-color: lightblue;
   margin-right: 1rem;
   width: 70%;
 `;
@@ -102,23 +95,25 @@ export const WholeContainer = styled.div`
   display: flex;
   flex-direction: row;
   padding: .5rem;
-  // background: grey;
-  background-color: pink;
   margin-top: 1rem;
-  // space contents out evenly
   justify-content: space-evenly;
 `;
 
-export const CourseField = styled.div`
+export const CourseField = styled.textarea`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
   margin-bottom: 1rem;
   background-color: white;
   border-radius: 0.6rem;
-  height: 2rem;
+  height: 1.2rem;
+  resize: none;
+  outline: none;
+  border: none;
+  font-family: "Inter", sans-serif;
+  padding: 0.5rem;
+  font-size: 1rem;
 `;
 
 export const TermAndGradeContainer = styled.div`
@@ -127,7 +122,6 @@ export const TermAndGradeContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
   margin-top: 1rem;
-  margin-bottom: 1rem;
   background-color: pink;
 `;
 
@@ -147,13 +141,70 @@ export const TermField = styled.div`
 export const LeftFooter = styled.div`
   display: flex;
   flex-direction: row;
-  // justify-content: center;
-  // align-items: center;
+  align-items: center;
+  background-color: pink;
+  justify-content: space-evenly;
 `;
 
+export const SubmitButton = styled.button`
+  background-color: #41434A;
+  color: white;
+  border-radius: 0.6rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 15%;
+  height: 2.2rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  // margin-left: 10rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+`;
 
+export const ReviewTitleInput = styled.textarea`
+  border: none;
+  border-width: 0.1rem;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  margin-top: 1.2rem;
+  width: 100%;
+  height: 2.4rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  placeholder: "Enter your review here";
+  font-family: "Inter", sans-serif;
+  border-radius: 0.7rem;
+  resize: none;
+  outline: none;
+  padding : 0.7rem;
+`;
 
-  
+export const ReviewBodyInput = styled.textarea`
+  border: none;
+  border-width: 0.1rem;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: 20rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  placeholder: "Title";
+  placeholder-color: #CED9DD;
+  font-family: "Inter", sans-serif;
+  border-radius: 0.7rem;
+  resize: none;
+  outline: none;
+  padding : 1rem;
+`;
 
-
-
+export const RatingsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+  background-color: pink;
+  padding: 0.5rem;
+`;
