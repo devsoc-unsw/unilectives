@@ -21,13 +21,13 @@ export const ModalContent = styled.div`
   // z-index: 101;
   background: #EFEFEF;
   padding: 2rem;
-  // justify-content: space-around;
-  // align-items: start;
   border-radius: 0.6rem;
-  // // position: fixed;
-  // min-width: 400px;
   flex-wrap: wrap;
   flex-direction: row;
+  // justify-content: space-around;
+  // align-items: start;
+  // // position: fixed;
+  // min-width: 400px;
 `;
 
 export const CloseLockup = styled.div`
@@ -48,14 +48,14 @@ export const FormField = styled.title`
 	color: #c4c4c4;
 	border-radius: 0.7rem;
 	height: 2rem;
-	background-color: #dbdbdb;
+	background-color: white;
 `;
 
 export const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: .5rem;
-  background-color: #FDFDFD;
+  background-color: lightblue;
   width: 30%;
 `;
 
@@ -64,7 +64,7 @@ export const LeftContainer = styled.div`
   flex-direction: column;
   padding: .5rem;
   background: grey;
-  background-color: #FDFDFD;
+  background-color: lightblue;
   margin-right: 1rem;
   width: 70%;
 `;
@@ -77,7 +77,7 @@ export const ReviewBodyField = styled.div`
 	color: #c4c4c4;
 	border-radius: 0.7rem;
 	height: 20rem;
-	background-color: #dbdbdb;
+	background-color: white;
 `;
 
 export const Input = styled.input`
@@ -114,9 +114,43 @@ export const CourseField = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 1rem;
   margin-bottom: 1rem;
-  background-color: yellow;
+  background-color: white;
+  border-radius: 0.6rem;
+  height: 2rem;
 `;
+
+export const TermAndGradeContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: pink;
+`;
+
+export const TermField = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: white;
+  width: 45%;
+  height: 1.5rem;
+  border-radius: 0.6rem;
+`;
+
+export const LeftFooter = styled.div`
+  display: flex;
+  flex-direction: row;
+  // justify-content: center;
+  // align-items: center;
+`;
+
 
 
   

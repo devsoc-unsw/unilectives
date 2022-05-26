@@ -3,7 +3,8 @@ import { ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { CloseIcon } from "../icon/iconIndex";
 import Text from "../text/Text";
-import { CloseLockup, Dim, ModalContent, FormField, ReviewBodyField, Input, RightContainer, CourseField, LeftContainer, WholeContainer } from "./style";
+import { CloseLockup, Dim, ModalContent, FormField, ReviewBodyField, LeftFooter,
+  Input, RightContainer, CourseField, LeftContainer, WholeContainer, TermAndGradeContainer, TermField } from "./style";
 // import grid from material ui grid
 // import { Grid } from "@material-ui/core";
 
@@ -26,7 +27,6 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
 					</Text>
           <WholeContainer>
             <LeftContainer>
-              left side
               <FormField>
                 Inside FormField
               </FormField>
@@ -36,13 +36,31 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
                   placeholder="Enter your zID"
                 /> */}
               </ReviewBodyField>
+              <LeftFooter>
+                <Text fontSize="0.95rem" style={{ marginLeft: "0.7rem" }}>
+                  Display as anonymous
+                </Text>
+              </LeftFooter>
             </LeftContainer>
             <RightContainer>
-              right container
-              <p>Which course?</p>
+              Which course?
               <CourseField>
                 Hey
               </CourseField>
+              Term Taken
+              <TermAndGradeContainer>
+                
+                <TermField>
+                  Term
+                </TermField>
+                <TermField>
+                  Grade
+                </TermField>
+              </TermAndGradeContainer>
+              Overall Rating
+              <span>Enjoyability</span>
+              <span>Usefulness</span>
+              <span>Manageability</span>
 
             </RightContainer>
           </WholeContainer>
