@@ -7,11 +7,11 @@ import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 // import StarIcon from '@mui/icons-material/Star';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
-import { CloseLockup, Dim, ModalContent, ReviewTitleInput, LeftFooter, SubmitButton, ReviewBodyInput, RatingsContainer,
+import { CloseLockup, Dim, ModalContent, ReviewTitleInput, LeftFooter, MiddleVerticalLine, SubmitButton, ReviewBodyInput, RatingsContainer,
   Input, RightContainer, CourseField, LeftContainer, WholeContainer, TermAndGradeContainer, TermField } from "./style";
 // import grid from material ui grid
-// import { Grid } from "@material-ui/core";
-// import { Star } from '@mui/icons-material';
+import { Checkbox, Typography, Rating } from "@mui/material";
+// import { Checkbox } from '@mui/icons-material';
 
 const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
     return (
@@ -39,10 +39,18 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
                 <Text fontSize="0.95rem" style={{ marginLeft: "0rem" }}>
                   Display as anonymous
                 </Text>
-                <CheckBoxOutlinedIcon style={{ marginLeft: "0.7rem" }}/>
+                <Checkbox defaultChecked 
+                  sx={{
+                    color: "#2f302f",
+                    '&.Mui-checked': {
+                      color: "#2f302f",
+                    },
+                  }}
+                />
                 <SubmitButton>Submit</SubmitButton>
               </LeftFooter>
             </LeftContainer>
+            <MiddleVerticalLine />
             <RightContainer>
               <Text noMargin fontSize="1rem" style={{ padding: "0.3rem" }}>
                 Course Code
@@ -50,54 +58,57 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
               <CourseField placeholder="COMP1511"/>
               Term Taken
               <TermAndGradeContainer>
-                <TermField>
-                  Term
-                </TermField>
-                <TermField>
-                  Grade
-                </TermField>
+                {/* <TermField placeholder="Term"/> */}
+                <CourseField placeholder="Term" style={{width: "50%", margin: "0.2rem", height: "1.2rem"}}/>
+                <CourseField placeholder="Grade" style={{width: "50%", margin: "0.2rem", height: "1.2rem"}}/>
               </TermAndGradeContainer>
+
               <RatingsContainer>
                 <Text noMargin fontSize="1rem" style={{ padding: "0.3rem" }}>
                   Overall Rating
                 </Text>
                 <div>
-                  <StarRoundedIcon />
-                  <StarRoundedIcon />
-                  <StarRoundedIcon />
-                  <StarRoundedIcon />
-                  <StarRoundedIcon />
+                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
+                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
+                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
+                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
+                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
+                  {/* <Rating
+                    name="text-feedback"
+                    value={1}
+                    emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit" />}
+                  /> */}
                 </div>
                 <Text noMargin fontSize="1rem" style={{ padding: "0.3rem" }}>
                   Enjoyability
                 </Text>
                 <div style= {{padding: "0.3rem"}}>
                   {/* make icon with margin right of 1rem */}
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/>
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/>
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/>
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/> 
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/> 
                 </div>
                 <Text noMargin fontSize="1rem" style={{ padding: "0.3rem" }}>
                   Usefulness
                 </Text>
                 <div style= {{padding: "0.3rem"}}>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/>
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/>
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/>
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/> 
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/> 
                 </div>
                 <Text noMargin fontSize="1rem" style={{ padding: "0.3rem" }}>
                   Manageability
                 </Text>
                 <div style= {{padding: "0.3rem"}}>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
-                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/>
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/>
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/>
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/> 
+                  <CircleRoundedIcon fontSize="small" style={{ marginRight: "0.5rem", color: "#CED9DD" }}/> 
                 </div>
               </RatingsContainer>
             </RightContainer>

@@ -22,6 +22,7 @@ export const ModalContent = styled.div`
   border-radius: 0.6rem;
   flex-wrap: wrap;
   flex-direction: row;
+  // max-height: 80vh;
 `;
 
 export const CloseLockup = styled.div`
@@ -31,6 +32,7 @@ export const CloseLockup = styled.div`
   height: 0;
   margin-right: 0.3rem;
   margin-top: 0.3rem;
+  cursor: pointer;
 `;
 
 export const RightContainer = styled.div`
@@ -38,7 +40,19 @@ export const RightContainer = styled.div`
   flex-direction: column;
   padding: .5rem;
   // background-color: lightblue;
-  width: 30%;
+  width: 29%;
+`;
+
+export const MiddleVerticalLine = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: .5rem;
+  // background-color: lightblue;
+  width: 1%;
+  margin: 0.2rem;
+  padding: 0.5rem 0.5rem 0.5rem 0rem;
+  border-left: 1px solid #CED9DD;
+  flex-wrap: wrap;
 `;
 
 export const LeftContainer = styled.div`
@@ -46,8 +60,9 @@ export const LeftContainer = styled.div`
   flex-direction: column;
   padding: .5rem;
   // background-color: lightblue;
-  margin-right: 1rem;
+  margin-right: 0.9rem;
   width: 70%;
+  flex-wrap: wrap;
 `;
 
 export const Input = styled.input`
@@ -72,7 +87,6 @@ export const WholeContainer = styled.div`
   display: flex;
   flex-direction: row;
   padding: .5rem;
-  margin-top: 1rem;
   justify-content: space-evenly;
 `;
 
@@ -84,7 +98,7 @@ export const CourseField = styled.textarea`
   margin-bottom: 1rem;
   background-color: white;
   border-radius: 0.6rem;
-  height: 1.2rem;
+  height: 2rem;
   resize: none;
   outline: none;
   border: none;
@@ -99,10 +113,10 @@ export const TermAndGradeContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
   margin-top: 1rem;
-  background-color: pink;
+  // background-color: pink;
 `;
 
-export const TermField = styled.div`
+export const TermField = styled.textarea`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,7 +125,7 @@ export const TermField = styled.div`
   margin-bottom: 1rem;
   background-color: white;
   width: 45%;
-  height: 1.5rem;
+  height: 1.8rem;
   border-radius: 0.6rem;
 `;
 
@@ -119,8 +133,13 @@ export const LeftFooter = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: pink;
-  justify-content: space-evenly;
+  padding: 0.5rem;
+  // align items horizontally to the left
+  justify-content: flex-start;
+  // background-color: pink;
+  height: 2rem;
+  // justify-content: space-evenly;
+
 `;
 
 export const SubmitButton = styled.button`
@@ -129,7 +148,7 @@ export const SubmitButton = styled.button`
   border-radius: 0.6rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  width: 15%;
+  width: 20%;
   height: 2.2rem;
   font-size: 1rem;
   border: none;
@@ -137,6 +156,7 @@ export const SubmitButton = styled.button`
   // margin-left: 10rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  margin-left: auto;
 `;
 
 export const ReviewTitleInput = styled.textarea`
@@ -185,8 +205,8 @@ export const RatingsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  margin-top: 1rem;
-  background-color: pink;
-  padding: 0.5rem;
+  margin-top: 0.1rem;
+  // background-color: pink;
+  padding: 0rem 0.5rem 0.5rem 0.5rem;
   height: 100%;
 `;
