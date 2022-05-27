@@ -33,18 +33,6 @@ export const CloseLockup = styled.div`
   margin-top: 0.3rem;
 `;
 
-export const FormField = styled.title`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 1rem;
-	color: #c4c4c4;
-	border-radius: 0.7rem;
-	height: 2rem;
-	background-color: white;
-`;
-
 export const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -60,17 +48,6 @@ export const LeftContainer = styled.div`
   // background-color: lightblue;
   margin-right: 1rem;
   width: 70%;
-`;
-
-export const ReviewBodyField = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-bottom: 1rem;
-	color: #c4c4c4;
-	border-radius: 0.7rem;
-	height: 20rem;
-	background-color: white;
 `;
 
 export const Input = styled.input`
@@ -198,6 +175,10 @@ export const ReviewBodyInput = styled.textarea`
   resize: none;
   outline: none;
   padding : 1rem;
+  // make the scroll bar width smaller
+  ::-webkit-scrollbar {
+    width: 1rem;
+  }
 `;
 
 export const RatingsContainer = styled.div`
@@ -207,4 +188,5 @@ export const RatingsContainer = styled.div`
   margin-top: 1rem;
   background-color: pink;
   padding: 0.5rem;
+  height: 100%;
 `;

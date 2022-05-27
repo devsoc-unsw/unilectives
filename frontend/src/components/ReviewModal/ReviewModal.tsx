@@ -7,8 +7,7 @@ import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 // import StarIcon from '@mui/icons-material/Star';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
-import { CloseLockup, Dim, ModalContent, FormField, ReviewTitleInput, 
-  ReviewBodyField, LeftFooter, SubmitButton, ReviewBodyInput, RatingsContainer,
+import { CloseLockup, Dim, ModalContent, ReviewTitleInput, LeftFooter, SubmitButton, ReviewBodyInput, RatingsContainer,
   Input, RightContainer, CourseField, LeftContainer, WholeContainer, TermAndGradeContainer, TermField } from "./style";
 // import grid from material ui grid
 // import { Grid } from "@material-ui/core";
@@ -18,7 +17,7 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
     return (
       <Dim>
         Hello
-        <ModalContent style={{ width: modalSize ? `${modalSize}%` : "60%" }}>
+        <ModalContent style={{ width: modalSize ? `${modalSize}%` : "50%" }}>
           <CloseLockup>
             <Icon src={CloseIcon} size={2} onClick={close} />
           </CloseLockup>
@@ -28,7 +27,7 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
             </Text>
           )}
           {children}
-          <Text noMargin fontSize="1.7rem" style={{ padding: "0.3rem 0.3rem 0rem 0.3rem" }}>
+          <Text noMargin fontSize="1.7rem" style={{ margin: "0.8rem 0.8rem 0rem 1rem" }}>
           	Submit a Review.
 					</Text>
           <WholeContainer>
@@ -37,7 +36,7 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
               </ReviewTitleInput>
               <ReviewBodyInput placeholder="Enter review here"/>
               <LeftFooter>
-                <Text fontSize="0.95rem" style={{ marginLeft: "0.7rem" }}>
+                <Text fontSize="0.95rem" style={{ marginLeft: "0rem" }}>
                   Display as anonymous
                 </Text>
                 <CheckBoxOutlinedIcon style={{ marginLeft: "0.7rem" }}/>
@@ -73,31 +72,32 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
                   Enjoyability
                 </Text>
                 <div style= {{padding: "0.3rem"}}>
-                  <CircleRoundedIcon fontSize="extra small"/>
-                  <CircleRoundedIcon fontSize="extra small"/>
-                  <CircleRoundedIcon fontSize="extra small"/>
-                  <CircleRoundedIcon fontSize="extra small"/> 
-                  <CircleRoundedIcon fontSize="extra small"/> 
+                  {/* make icon with margin right of 1rem */}
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
                 </div>
                 <Text noMargin fontSize="1rem" style={{ padding: "0.3rem" }}>
                   Usefulness
                 </Text>
                 <div style= {{padding: "0.3rem"}}>
-                  <CircleRoundedIcon fontSize="extra small"/>
-                  <CircleRoundedIcon fontSize="extra small"/>
-                  <CircleRoundedIcon fontSize="extra small"/>
-                  <CircleRoundedIcon fontSize="extra small"/> 
-                  <CircleRoundedIcon fontSize="extra small"/> 
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
                 </div>
                 <Text noMargin fontSize="1rem" style={{ padding: "0.3rem" }}>
                   Manageability
                 </Text>
                 <div style= {{padding: "0.3rem"}}>
-                  <CircleRoundedIcon fontSize="extra small"/>
-                  <CircleRoundedIcon fontSize="extra small"/>
-                  <CircleRoundedIcon fontSize="extra small"/>
-                  <CircleRoundedIcon fontSize="extra small"/> 
-                  <CircleRoundedIcon fontSize="extra small"/> 
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/>
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
+                  <CircleRoundedIcon fontSize="extra small" style={{ marginRight: "0.5rem" }}/> 
                 </div>
               </RatingsContainer>
             </RightContainer>
