@@ -31,7 +31,7 @@ export default class Database {
   }
 
   async stop(): Promise<void> {
-    await this.dbConnection.destroy();
+    if (this.dbConnection.isInitialized) await this.dbConnection.destroy();
     this.logger.info(
       `Stopped connection with connection name ${this.connectionName}`
     );

@@ -1,4 +1,4 @@
-import Joi from "@hapi/joi";
+import Joi from "joi";
 
 export const CommonReviewSchema = Joi.object({
   userId: Joi.string()
@@ -31,4 +31,10 @@ export const BookmarkReviewSchema = Joi.object({
   reviewId: Joi.string().required(),
   zid: Joi.string().required(),
   bookmark: Joi.boolean().required(),
+});
+
+export const UpvoteReviewSchema = Joi.object({
+  reviewId: Joi.string().required(),
+  zid: Joi.string().required(),
+  upvote: Joi.boolean().required(),
 });

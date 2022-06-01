@@ -104,3 +104,13 @@ export interface IPostCoursesBookmarkRequestBody {
 }
 
 export type IPostCoursesBookmarkSuccessResponse = IPutCoursesSuccessResponse;
+
+export interface IPostReviewUpvoteRequestBody {
+  reviewId: string;
+  zid: string;
+  upvote: boolean;
+}
+
+export interface IPostReviewUpvoteSuccessResponse {
+  review: IReview;
+}
