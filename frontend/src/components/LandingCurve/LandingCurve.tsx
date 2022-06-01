@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 const LandingCurve = () => {
   return (
     <svg width="1148" height="614" viewBox="0 0 1148 614" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,7 +19,12 @@ const LandingCurve = () => {
     </radialGradient>
     </defs>
     </svg>
+
   );
 };
 
 export default LandingCurve;
+
+// import LandingCurve from "src/assets/curves/curve.svg";
+
+// export default { LandingCurve };
