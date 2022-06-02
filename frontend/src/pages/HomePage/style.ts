@@ -2,13 +2,18 @@ import styled from "styled-components";
 import landingCurve from "src/assets/curves/curve.svg";
 import laptop from "src/assets/graphics/laptop.svg";
 
+export const Content = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background-image: url(${landingCurve});
+  background-size: cover;
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url(${laptop});
-  background-size: 100%;
 `;
 
 export const Button = styled.button``;

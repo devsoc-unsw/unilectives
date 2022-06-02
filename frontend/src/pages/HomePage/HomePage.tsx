@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
 import Text from "../../components/text/Text";
-import { Button, Container, Background } from "./style";
+import { Button, Container, Background, Content } from "./style";
 import { useAppSelector } from "src/logic/redux/hooks";
 import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
 import LandingCurve from "src/components/LandingCurve/LandingCurve";
@@ -14,7 +14,7 @@ const HomePage = () => {
   const { user } = useAppSelector(selectUser) || {};
 
   return (
-    <>
+    <Content>
       <Container>
         {/* <Background /> */}
         Hello1
@@ -23,7 +23,7 @@ const HomePage = () => {
         <Text>User response:</Text>
         <Text>{JSON.stringify(user)}</Text>
       </Container>
-    </>
+    </Content>
   );
 };
 
