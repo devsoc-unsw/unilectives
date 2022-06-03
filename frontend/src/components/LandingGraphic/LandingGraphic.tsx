@@ -1,12 +1,14 @@
 import { ReactNode } from "react";
-import { Graphic } from "./style";
+import Laptop from 'src/assets/graphics/laptop.svg';
+import Review from 'src/assets/graphics/review.svg';
 
-const LandingCurve = () => {
+
+const LandingGraphic = () => {
   return (
     <>
-      Landing Curve
+      Landing Graphic
     </>
   );
 };
 
-export default LandingCurve;
+export default LandingGraphic;
