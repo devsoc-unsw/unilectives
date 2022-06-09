@@ -1,5 +1,3 @@
-import StarRoundedIcon from '@mui/icons-material/StarRounded';
-import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import { CircleIcon, StarIcon } from './style';
 
 // create new ratings component which will be used to display the ratings
