@@ -3,9 +3,6 @@ import { ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { CloseIcon } from "../icon/iconIndex";
 import Text from "../text/Text";
-import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
-import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
-import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import { CloseLockup, Dim, ModalContent, ReviewTitleInput, LeftFooter, MiddleVerticalLine, SubmitButton, ReviewBodyInput, RatingsContainer,
   Input, RightContainer, CourseField, LeftContainer, WholeContainer, TermAndGradeContainer, TermField } from "./style";
 import { Checkbox, Typography, Rating } from "@mui/material";
@@ -66,11 +63,7 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
                   Overall Rating
                 </Text>
                 <div>
-                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
-                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
-                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
-                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
-                  <StarRoundedIcon fontSize="large" style={{ color: "#CED9DD"}} />
+                  <ReviewRating icon="star"/>
                 </div>
                 <Text noMargin fontSize="1rem" style={{ padding: "0.3rem" }}>
                   Enjoyability
@@ -82,13 +75,13 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
                   Usefulness
                 </Text>
                 <div style= {{padding: "0.3rem"}}>
-                  <ReviewRating/>
+                  <ReviewRating icon= "circle"/>
                 </div>
                 <Text noMargin fontSize="1rem" style={{ padding: "0.3rem" }}>
                   Manageability
                 </Text>
                 <div style= {{padding: "0.3rem"}}>
-                  <ReviewRating/>
+                  <ReviewRating icon= "circle"/>
                 </div>
               </RatingsContainer>
             </RightContainer>
