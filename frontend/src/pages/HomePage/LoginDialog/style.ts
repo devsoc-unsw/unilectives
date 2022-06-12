@@ -28,6 +28,9 @@ export const Input = styled.input`
   border-width: 0.1rem;
   box-sizing: border-box;
   margin-bottom: 1rem;
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const Center = styled.div`
