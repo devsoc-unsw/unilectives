@@ -7,7 +7,7 @@ const ReviewRating: React.FunctionComponent<ReviewRatingProps> = (props) => {
     return (
         <div>
             <div>
-                {Array(maxRating).fill(0).map((_, i) => { // eslint-disable-line
+                {Array(maxRating).fill(0).map((_, i) => { // eslint-disable-line, will fix later
                     return (
                         icon === "star" ? (
                             <StarIcon fontSize="large"/>
