@@ -1,4 +1,4 @@
-/* eslint-disable */ 
+
 import { CircleIcon, StarIcon } from './style';
 
 // create new ratings component which will be used to display the ratings
@@ -8,7 +8,7 @@ const ReviewRating: React.FunctionComponent<ReviewRatingProps> = (props) => {
     return (
         <div>
             <div>
-                {Array(maxRating).fill(0).map((_, i) => { // eslint-disable-line, will fix later
+                {Array(maxRating).fill(0).map(() => {
                     return (
                         icon === "star" ? (
                             <StarIcon fontSize="large"/>
