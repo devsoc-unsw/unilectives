@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { CloseIcon } from "../icon/iconIndex";
 import Text from "../text/Text";

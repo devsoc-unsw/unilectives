@@ -7,12 +7,11 @@ const ReviewRating: React.FunctionComponent<ReviewRatingProps> = (props) => {
     return (
         <div>
             <div>
-                {Array(maxRating).fill(0).map((_, i) => {
+                {Array(maxRating).fill(0).map((_, i) => { // eslint-disable-line
                     return (
                         icon === "star" ? (
                             <StarIcon fontSize="large"/>
                         ) : (
-                            // else the icon is a circle, then display a circle icon
                             <CircleIcon fontSize="small"/>
                         )
                     )
