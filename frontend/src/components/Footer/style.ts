@@ -5,6 +5,7 @@ export const FooterWrapper = styled.div`
   background-image: url(${FooterWave});
   background-size: cover;
   background-repeat: no-repeat;
+  background-position-y: 2rem;
   display: flex;
   padding: 2.3rem 2rem;
   position: absolute;
@@ -14,5 +15,5 @@ export const FooterWrapper = styled.div`
 `;
 
 export const Logo = styled.img`
-  margin-top: 2rem;
+  margin-top: 2.75rem;
 `;

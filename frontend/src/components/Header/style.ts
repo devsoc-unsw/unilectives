@@ -12,4 +12,5 @@ export const Logo = styled.img`
 
 export const Wave = styled.img`
   width: 100%;
+  overflow: hidden;
 `;
