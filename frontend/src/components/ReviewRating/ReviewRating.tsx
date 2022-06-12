@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 import { CircleIcon, StarIcon } from './style';
 
 // create new ratings component which will be used to display the ratings
