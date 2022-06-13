@@ -35,7 +35,7 @@ const CourseHeader = ({ courseCode,
             size="large" 
             sx={{
               color: palette.dayGreen,
-              fontSize: "3.5em",
+              fontSize: "3em",
             }}
             readOnly
           />

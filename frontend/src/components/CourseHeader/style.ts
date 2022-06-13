@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-end;
-  margin: 0 10%;
+  margin-top: 1rem;
 `;
 
 // Styles for course code and name section
