@@ -1,9 +1,11 @@
-
 import { CircleIcon, StarIcon } from './style';
 
+type ReviewRatingProps = {
+    icon: string
+};
+
 // create new ratings component which will be used to display the ratings
-const ReviewRating: React.FunctionComponent<ReviewRatingProps> = (props) => {
-    const { icon } = props;
+const ReviewRating = ({icon}: ReviewRatingProps) => {
     const maxRating = 5;
     return (
         <div>
@@ -21,9 +23,5 @@ const ReviewRating: React.FunctionComponent<ReviewRatingProps> = (props) => {
         </div>
     )
 }
-
-type ReviewRatingProps = {
-    icon: string
-};
 
 export default ReviewRating;
