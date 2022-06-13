@@ -20,7 +20,12 @@ import {
 import { Checkbox } from "@mui/material";
 import ReviewRating from "../ReviewRating/ReviewRating";
 
-const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
+type DialogProps = {
+  close: () => void;
+  modalSize?: number;
+};
+
+const Dialog = ({ close, modalSize }: DialogProps) => {
   return (
     <Dim>
       Hello
@@ -28,12 +33,6 @@ const Dialog = ({ close, title, children, modalSize }: DialogProps) => {
         <CloseLockup>
           <Icon src={CloseIcon} size={2} onClick={close} />
         </CloseLockup>
-        {title && (
-          <Text bold fontSize="1.375rem">
-            {title}
-          </Text>
-        )}
-        {children}
         <Text
           noMargin
           fontSize="1.7rem"
