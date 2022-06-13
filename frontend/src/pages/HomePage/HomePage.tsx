@@ -21,13 +21,10 @@ const HomePage = () => {
       {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
       <Text>User response:</Text>
       <Text>{JSON.stringify(user)}</Text>
-<<<<<<< HEAD
       Incoming review modal hey
       <Button onClick={() => setReviewModal(true)}>Submit a Review</Button>
       {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
-=======
       <Footer />
->>>>>>> develop
     </Container>
   );
 };
