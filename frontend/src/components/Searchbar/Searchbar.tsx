@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import { SxProps } from "@mui/material/styles";
+import { palette } from "../palette/palette";
 
 type SearchbarProps = {
   displayFilters: boolean;
@@ -25,7 +26,7 @@ const selectFilterStyle: SxProps = {
     border: "0 solid transparent",
   },
   "& .MuiFormLabel-filled": {
-    color: "primary.main",
+    color: palette.dayNavy,
   },
 };
 
@@ -34,8 +35,6 @@ const selectFilterStyle: SxProps = {
  * TODO: Add logic to update parent component data for courses
  * TODO: Add the rest of the faculties; fix current ones for proper naming
  *      and confirm sortBy options with leads
- * TODO: Confirm whether we want the search button, if so add logic,
- *       else, change to startAdornment icon
  */
 
 const Searchbar = ({ displayFilters }: SearchbarProps) => {
@@ -57,24 +56,28 @@ const Searchbar = ({ displayFilters }: SearchbarProps) => {
                 borderWidth: "2px",
               },
               "& > fieldset, &.Mui-focused > fieldset": {
-                borderColor: displayFilters ? "primary.main" : "#e0e0e0",
+                borderColor: displayFilters
+                  ? palette.dayNavy
+                  : palette.dayWhite,
               },
               "&:hover > fieldset": {
-                borderColor: displayFilters ? "primary.light" : "#aeaeae",
+                borderColor: displayFilters
+                  ? palette.nightNavy
+                  : palette.nightWhite,
               },
             },
             "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
               paddingX: "15px",
-              color: displayFilters ? "default" : "#e0e0e0",
+              color: displayFilters ? palette.dayNavy : palette.dayWhite,
             },
             "& .MuiInputLabel-root.Mui-focused": {
-              color: displayFilters ? "primary.main" : "#e0e0e0",
+              color: displayFilters ? palette.dayNavy : palette.dayWhite,
             },
             "& .MuiOutlinedInput-input": {
-              color: displayFilters ? "currentColor" : "#e0e0e0",
+              color: displayFilters ? "default" : palette.dayWhite,
             },
             "& .MuiFormLabel-filled": {
-              color: displayFilters ? "primary.light" : "#e0e0e0",
+              color: displayFilters ? palette.dayNavy : palette.dayWhite,
             },
           }}
           placeholder="COMP1511"
@@ -84,7 +87,11 @@ const Searchbar = ({ displayFilters }: SearchbarProps) => {
               <InputAdornment position="start">
                 <IconButton>
                   <SearchIcon
-                    sx={{ color: displayFilters ? "primary.main" : "#e0e0e0" }}
+                    sx={{
+                      color: displayFilters
+                        ? palette.dayNavy
+                        : palette.dayWhite,
+                    }}
                   />
                 </IconButton>
               </InputAdornment>
