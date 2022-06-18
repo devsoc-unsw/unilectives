@@ -29,6 +29,10 @@ const HomePage = () => {
     dispatch(getCoursesDispatch());
   }, []);
 
+  useEffect(() => {
+    setResults(courses?.courses);
+  }, [courses]);
+
   return (
     <Container>
       <Header />
@@ -37,14 +41,13 @@ const HomePage = () => {
       {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
       <Text>User response:</Text>
       <Text>{JSON.stringify(user)}</Text>
-      <Text>{results.length}</Text>
       <Searchbar
-        courses={courses?.courses!}
         displayFilters={true}
-        changer={setResults}
+        courses={courses?.courses!}
+        onSearchChange={setResults}
       />
       {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
-        courses?.courses.map((course) => (
+        results?.map((course) => (
           <Text key={course.courseCode}>{course.courseCode}</Text>
         ))}
       Incoming review modal hey

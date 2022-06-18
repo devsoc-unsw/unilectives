@@ -4,91 +4,51 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-import { SxProps } from "@mui/material/styles";
 import { palette } from "../palette/palette";
+import SelectFilter from "../SelectFilter/SelectFilter";
+import { searchbarStyle } from "./style";
 import { ICourse } from "src/interfaces/ResponseInterface";
 
 type SearchbarProps = {
-  courses: ICourse[] | undefined;
   displayFilters: boolean;
-  changer: React.Dispatch<React.SetStateAction<ICourse[]>>;
+  courses: ICourse[] | undefined;
+  onSearchChange: React.Dispatch<React.SetStateAction<ICourse[]>>;
 };
 
 const sortByOptions = ["Most reviewed", "Alphabetical order", "Highest rating"];
 const faculties = ["Business", "Engineering", "Science", "Medicine"];
 const terms = ["Summer", "1", "2", "3"];
 
-const selectFilterStyle: SxProps = {
-  "& .MuiOutlinedInput-root.Mui-focused": {
-    "& > fieldset": {
-      border: "0 solid transparent",
-    },
-  },
-  "& .MuiOutlinedInput-notchedOutline": {
-    border: "0 solid transparent",
-  },
-  "& .MuiFormLabel-filled": {
-    color: palette.dayNavy,
-  },
-};
-
 /**
- * If displayFilters is false, then searchbar is shown in the header
- * TODO: Add logic to update parent component data for courses
- * TODO: Add the rest of the faculties; fix current ones for proper naming
- *      and confirm sortBy options with leads
+ *
+ * TODO: Add more faculties and/or rewrite the current ones
+ * TODO: The filters currently work one at a time - plz fix and write the sort by logic as well
+ * Feel feel to extract the current logic into a function
+ * TODO: Write tests for the searchbar component
+ * Delete the TODOs when done
+ *
  */
-
-const Searchbar = ({ courses, displayFilters, changer }: SearchbarProps) => {
-  const [sortBy, setSortBy] = React.useState("Most reviewed");
-  const [faculty, setFaculty] = React.useState("");
-  const [term, setTerm] = React.useState("");
+const Searchbar = ({
+  displayFilters,
+  courses,
+  onSearchChange,
+}: SearchbarProps) => {
   const [search, setSearch] = React.useState("");
-
-  React.useEffect(() => {
-    if (courses) {
-      changer(courses.filter((course) => course.courseCode === "COMP1511"));
-    }
-  }, [search]);
 
   return (
     <Stack sx={{ width: { xs: "80%", sm: "70%" } }} spacing={4}>
       <Stack>
         <TextField
           fullWidth={true}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              paddingX: "15px",
-              "& > fieldset": {
-                borderRadius: "30px",
-                borderWidth: "2px",
-              },
-              "& > fieldset, &.Mui-focused > fieldset": {
-                borderColor: displayFilters
-                  ? palette.dayNavy
-                  : palette.dayWhite,
-              },
-              "&:hover > fieldset": {
-                borderColor: displayFilters
-                  ? palette.nightNavy
-                  : palette.nightWhite,
-              },
-            },
-            "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
-              paddingX: "15px",
-              color: displayFilters ? palette.dayNavy : palette.dayWhite,
-            },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: displayFilters ? palette.dayNavy : palette.dayWhite,
-            },
-            "& .MuiOutlinedInput-input": {
-              color: displayFilters ? "default" : palette.dayWhite,
-            },
-            "& .MuiFormLabel-filled": {
-              color: displayFilters ? palette.dayNavy : palette.dayWhite,
-            },
-          }}
+          sx={
+            displayFilters
+              ? searchbarStyle(palette.dayNavy, palette.nightNavy, "default")
+              : searchbarStyle(
+                  palette.dayWhite,
+                  palette.nightWhite,
+                  palette.dayWhite
+                )
+          }
           placeholder="COMP1511"
           label="Search for a course"
           InputProps={{
@@ -108,7 +68,18 @@ const Searchbar = ({ courses, displayFilters, changer }: SearchbarProps) => {
           }}
           variant="outlined"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            if (courses) {
+              onSearchChange(
+                courses.filter((course) =>
+                  course.courseCode
+                    .toLowerCase()
+                    .includes(e.target.value.toLowerCase())
+                )
+              );
+            }
+          }}
         />
       </Stack>
       {displayFilters && (
@@ -118,64 +89,42 @@ const Searchbar = ({ courses, displayFilters, changer }: SearchbarProps) => {
           direction={{ xs: "column", sm: "row" }}
           justifyContent="space-between"
         >
-          <TextField
-            size="small"
-            select
-            value={sortBy}
+          <SelectFilter
             label="Sort by"
-            onChange={(e) => setSortBy(e.target.value)}
-            sx={{
-              width: "fit-content",
-              ...selectFilterStyle,
+            options={sortByOptions}
+            onFilterChange={() => {
+              console.log("some filtering logic");
             }}
-          >
-            {sortByOptions.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
+            defaultOption={sortByOptions[0]}
+          ></SelectFilter>
           <Stack spacing={3} direction="row">
-            <TextField
-              select
-              size="small"
-              sx={{
-                minWidth: 100,
-                ...selectFilterStyle,
-              }}
-              value={faculty}
+            <SelectFilter
               label="Faculty"
-              onChange={(e) => setFaculty(e.target.value)}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {faculties.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              select
-              size="small"
-              sx={{
-                minWidth: 100,
-                ...selectFilterStyle,
+              options={faculties}
+              onFilterChange={(faculty) => {
+                console.log(courses, faculty);
+                if (courses) {
+                  onSearchChange(
+                    courses.filter(
+                      (course) => !faculty || course.faculty == faculty
+                    )
+                  );
+                }
               }}
-              value={term}
+            ></SelectFilter>
+            <SelectFilter
               label="Term"
-              onChange={(e) => setTerm(e.target.value)}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {terms.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
+              options={terms}
+              onFilterChange={(term) => {
+                if (courses) {
+                  onSearchChange(
+                    courses.filter((course) =>
+                      course.terms.includes(terms.indexOf(term))
+                    )
+                  );
+                }
+              }}
+            ></SelectFilter>
           </Stack>
         </Stack>
       )}
