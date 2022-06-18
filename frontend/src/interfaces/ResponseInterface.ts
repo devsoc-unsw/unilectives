@@ -90,6 +90,6 @@ export interface IPostUserResponse {
   token: ITokenData;
 }
 
-export interface IGetCourseResponse {
+export interface IGetCoursesResponse {
   courses: ICourse[];
 }

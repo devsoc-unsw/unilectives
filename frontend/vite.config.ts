@@ -27,5 +27,8 @@ export default ({ mode }) => {
         usePolling: true,
       },
     },
+    esbuild: {
+      logOverride: { "this-is-undefined-in-esm": "silent" },
+    },
   });
 };

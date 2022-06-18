@@ -7,9 +7,12 @@ import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import { SxProps } from "@mui/material/styles";
 import { palette } from "../palette/palette";
+import { ICourse } from "src/interfaces/ResponseInterface";
 
 type SearchbarProps = {
+  courses: ICourse[] | undefined;
   displayFilters: boolean;
+  changer: React.Dispatch<React.SetStateAction<ICourse[]>>;
 };
 
 const sortByOptions = ["Most reviewed", "Alphabetical order", "Highest rating"];
@@ -37,11 +40,17 @@ const selectFilterStyle: SxProps = {
  *      and confirm sortBy options with leads
  */
 
-const Searchbar = ({ displayFilters }: SearchbarProps) => {
+const Searchbar = ({ courses, displayFilters, changer }: SearchbarProps) => {
   const [sortBy, setSortBy] = React.useState("Most reviewed");
   const [faculty, setFaculty] = React.useState("");
   const [term, setTerm] = React.useState("");
   const [search, setSearch] = React.useState("");
+
+  React.useEffect(() => {
+    if (courses) {
+      changer(courses.filter((course) => course.courseCode === "COMP1511"));
+    }
+  }, [search]);
 
   return (
     <Stack sx={{ width: { xs: "80%", sm: "70%" } }} spacing={4}>
