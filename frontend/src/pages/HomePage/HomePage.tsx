@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
 import Text from "../../components/text/Text";
-import { Button, Container, Content, Flexbox, FlexboxComponent, LandingGraphic, Logo } from "./style";
+import { Button, Container, Content, Flexbox, FlexboxComponent, Graphic, LatoText, PoppinsText, TextFlexbox, TextFlexboxComponent } from "./style";
 import { useAppSelector } from "src/logic/redux/hooks";
 import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
 import Header from "src/components/Header/Header";
@@ -13,10 +13,9 @@ const HomePage = () => {
   const { user } = useAppSelector(selectUser) || {};
 
   const [landingGraphic, setLandingGraphic] = useState<string>();
-
   const graphics = [reviewSrc, laptopSrc];
-
   const randomNumber = Math.floor(Math.random() * graphics.length);
+
   useEffect(() => {
     setLandingGraphic(graphics[randomNumber])
   }, [])
@@ -25,10 +24,27 @@ const HomePage = () => {
     <Content>
       <Header />
       <Flexbox>
-        <FlexboxComponent>CSEsoc Presents</FlexboxComponent>
         <FlexboxComponent>
-          {/* <LandingGraphic /> */}
-          <Logo src={landingGraphic}/>
+          <TextFlexbox>
+            <TextFlexboxComponent>
+              <LatoText>
+                CSEsoc Presents
+              </LatoText>
+            </TextFlexboxComponent>
+            <TextFlexboxComponent>
+              <PoppinsText>
+                uni-lectives
+              </PoppinsText>
+            </TextFlexboxComponent>
+            <TextFlexboxComponent>
+              <LatoText>
+                Your one stop shop for UNSW course and electives reviews.
+              </LatoText>
+            </TextFlexboxComponent>
+          </TextFlexbox>
+        </FlexboxComponent>
+        <FlexboxComponent>
+          <Graphic src={landingGraphic}/>
         </FlexboxComponent>
       </Flexbox>
       <Container>
