@@ -30,24 +30,20 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    setResults(courses?.courses);
+    setResults(courses?.courses ?? []);
   }, [courses]);
 
   return (
     <Container>
-      <Header />
+      <Header courses={courses?.courses ?? []} />
       Hello1
       <Button onClick={() => setLoginDialog(true)}>Login</Button>
       {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
       <Text>User response:</Text>
       <Text>{JSON.stringify(user)}</Text>
-      <Searchbar
-        displayFilters={true}
-        courses={courses?.courses!}
-        onSearchChange={setResults}
-      />
+      <Searchbar courses={courses?.courses ?? []} onSearchChange={setResults} />
       {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
-        results?.map((course) => (
+        results.map((course) => (
           <Text key={course.courseCode}>{course.courseCode}</Text>
         ))}
       Incoming review modal hey
