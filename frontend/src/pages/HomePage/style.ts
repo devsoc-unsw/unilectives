@@ -16,8 +16,6 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Button = styled.button``;
-
 export const Graphic = styled.img`
 `;
 
@@ -26,33 +24,61 @@ export const Flexbox = styled.div`
   flex-direction: row;
 `;
 
-export const FlexboxComponent = styled.div`
+interface FlexboxProps {
+  padding ?: string;
+  padding_top ?: string;
+  width ?: string;
+}
+
+export const FlexboxComponent = styled.div<FlexboxProps>`
   justify-content: center;
   align-items: center;
-  padding: 15rem;
-  width: 50%;
+  padding-left: ${props => props.padding};
+  padding-top: ${props => props.padding_top || props.padding};
+  width: ${props => props.width || "50%"};
 `;
 
 /** Landing Page CSS for Text  */
-export const LatoText = styled.text`
-  font-family: 'Lato', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-`;
-
-export const PoppinsText = styled.text`
-  font-family: 'Poppins', sans-serif;
-  font-weight: bold;
-  font-size: 70px;
-  color: #1279F2;
-`;
-
 export const TextFlexbox = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 10px;
 `;
 
-export const TextFlexboxComponent = styled.div`
+export const HomeText = styled.text`
   align-items: center;
   text-align: start;
+  font-family: ${({ fontFamily }) => fontFamily}, sans-serif;
+  font-weight: ${({ fontWeight }) => fontWeight};
+  font-size: ${({ fontSize }) => fontSize};
+  color: ${({ color }) => color};
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `;
+
+/**Button CSS */
+export const ButtonFlexbox = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+interface ButtonProps {
+  bg ?: string;
+}
+
+export const Button = styled.button<ButtonProps>`
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 15px 25px;
+  background-color: ${props => props.bg || '#333'};
+  color: #FFF;
+
+  &:hover {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+`

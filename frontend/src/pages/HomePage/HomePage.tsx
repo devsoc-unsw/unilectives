@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
 import Text from "../../components/text/Text";
-import { Button, Container, Content, Flexbox, FlexboxComponent, Graphic, LatoText, PoppinsText, TextFlexbox, TextFlexboxComponent } from "./style";
+import { Button, Container, Content, Flexbox, FlexboxComponent, Graphic, TextFlexbox, HomeText, ButtonFlexbox } from "./style";
 import { useAppSelector } from "src/logic/redux/hooks";
 import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
 import Header from "src/components/Header/Header";
@@ -24,26 +24,32 @@ const HomePage = () => {
     <Content>
       <Header />
       <Flexbox>
-        <FlexboxComponent>
+        <FlexboxComponent padding="15em">
           <TextFlexbox>
-            <TextFlexboxComponent>
-              <LatoText>
-                CSEsoc Presents
-              </LatoText>
-            </TextFlexboxComponent>
-            <TextFlexboxComponent>
-              <PoppinsText>
-                uni-lectives
-              </PoppinsText>
-            </TextFlexboxComponent>
-            <TextFlexboxComponent>
-              <LatoText>
-                Your one stop shop for UNSW course and electives reviews.
-              </LatoText>
-            </TextFlexboxComponent>
+            <HomeText fontFamily={'Lato'} fontWeight={'bold'} fontSize="15px">
+              CSEsoc Presents
+            </HomeText>
+            <HomeText fontFamily={'Poppins'} fontWeight={'bold'} fontSize="70px" color="#1279F2">
+              uni-lectives
+            </HomeText>
+            <HomeText fontFamily={'Lato'} fontWeight={'bold'} fontSize="15px">
+              Your one stop shop for UNSW course and electives reviews.
+            </HomeText>
+            <ButtonFlexbox>
+              <Button bg="#3B5DD5">
+                <HomeText fontFamily={'Lato'} fontWeight={'bold'}>
+                  Browse
+                </HomeText>
+              </Button>
+              <Button bg="#72C1DA">
+                <HomeText fontFamily={'Lato'} fontWeight={'bold'}>
+                  Add a Review
+                </HomeText>
+              </Button>
+            </ButtonFlexbox>
           </TextFlexbox>
         </FlexboxComponent>
-        <FlexboxComponent>
+        <FlexboxComponent padding="10em">
           <Graphic src={landingGraphic}/>
         </FlexboxComponent>
       </Flexbox>
