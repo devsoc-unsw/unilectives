@@ -94,4 +94,4 @@ export const Button = styled.button<ButtonProps>`
     opacity: 0.9;
     transform: scale(0.98);
   }
-`
+`;
