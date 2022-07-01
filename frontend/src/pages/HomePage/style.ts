@@ -17,6 +17,11 @@ export const Container = styled.div`
 `;
 
 export const Graphic = styled.img`
+  max-width: 90%;
+
+  @media (max-width: 950px) {
+    display: none;
+  }
 `;
 
 export const Flexbox = styled.div`
@@ -34,8 +39,8 @@ export const FlexboxComponent = styled.div<FlexboxProps>`
   justify-content: center;
   align-items: center;
   padding-left: ${props => props.padding};
-  padding-top: ${props => props.padding_top || props.padding};
-  width: ${props => props.width || "50%"};
+  padding-top: ${props => props.padding};
+  width: 50%;
 `;
 
 /** Landing Page CSS for Text  */
@@ -45,13 +50,20 @@ export const TextFlexbox = styled.div`
   gap: 10px;
 `;
 
-export const HomeText = styled.text`
+interface TextProps {
+  fontFamily ?: string;
+  fontWeight ?: string;
+  fontSize ?: string;
+  color ?: string;
+}
+
+export const HomeText = styled.text<TextProps>`
   align-items: center;
   text-align: start;
-  font-family: ${({ fontFamily }) => fontFamily}, sans-serif;
-  font-weight: ${({ fontWeight }) => fontWeight};
-  font-size: ${({ fontSize }) => fontSize};
-  color: ${({ color }) => color};
+  font-family: ${(props) => props.fontFamily}, sans-serif;
+  font-weight: ${(props) => props.fontWeight};
+  font-size: ${(props) => props.fontSize};
+  color: ${(props) => props.color};
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `;
 
@@ -64,6 +76,7 @@ export const ButtonFlexbox = styled.div`
 
 interface ButtonProps {
   bg ?: string;
+  color ?: string;
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -75,7 +88,7 @@ export const Button = styled.button<ButtonProps>`
   font-weight: 700;
   padding: 15px 25px;
   background-color: ${props => props.bg || '#333'};
-  color: #FFF;
+  color:  ${props => props.color || '#FFF'};
 
   &:hover {
     opacity: 0.9;

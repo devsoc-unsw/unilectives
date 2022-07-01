@@ -7,13 +7,14 @@ import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
 import Header from "src/components/Header/Header";
 import reviewSrc from 'src/assets/graphics/review.svg';
 import laptopSrc from 'src/assets/graphics/laptop.svg';
+import alluraSrc from 'src/assets/graphics/allura.svg';
 
 const HomePage = () => {
   const [loginDialog, setLoginDialog] = useState<boolean>(false);
   const { user } = useAppSelector(selectUser) || {};
 
   const [landingGraphic, setLandingGraphic] = useState<string>();
-  const graphics = [reviewSrc, laptopSrc];
+  const graphics = [reviewSrc, laptopSrc, alluraSrc];
   const randomNumber = Math.floor(Math.random() * graphics.length);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const HomePage = () => {
     <Content>
       <Header />
       <Flexbox>
-        <FlexboxComponent padding="15em">
+        <FlexboxComponent padding="10em">
           <TextFlexbox>
             <HomeText fontFamily={'Lato'} fontWeight={'bold'} fontSize="15px">
               CSEsoc Presents
@@ -36,12 +37,12 @@ const HomePage = () => {
               Your one stop shop for UNSW course and electives reviews.
             </HomeText>
             <ButtonFlexbox>
-              <Button bg="#3B5DD5">
+              <Button bg="#3B5DD5" onClick={() => alert('Browse')}>
                 <HomeText fontFamily={'Lato'} fontWeight={'bold'}>
                   Browse
                 </HomeText>
               </Button>
-              <Button bg="#72C1DA">
+              <Button bg="#72C1DA" onClick={() => alert('Add a review')}>
                 <HomeText fontFamily={'Lato'} fontWeight={'bold'}>
                   Add a Review
                 </HomeText>
@@ -49,7 +50,7 @@ const HomePage = () => {
             </ButtonFlexbox>
           </TextFlexbox>
         </FlexboxComponent>
-        <FlexboxComponent padding="10em">
+        <FlexboxComponent>
           <Graphic src={landingGraphic}/>
         </FlexboxComponent>
       </Flexbox>
