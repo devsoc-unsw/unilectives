@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
 import Text from "../../components/text/Text";
-import { Button, Container, Content, Flexbox, FlexboxComponent, Graphic, TextFlexbox, HomeText, ButtonFlexbox } from "./style";
+import { Button,
+         Container,
+         Content,
+         Flexbox,
+         FlexboxComponent,
+         Graphic,
+         TextFlexbox,
+         HomeText,
+         ButtonFlexbox
+} from "./style";
 import reviewSrc from 'src/assets/graphics/review.svg';
 import alluraSrc from 'src/assets/graphics/allura.svg';
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
@@ -44,7 +53,10 @@ const HomePage = () => {
             <HomeText fontFamily={'Lato'} fontWeight={'bold'} fontSize="15px">
               CSEsoc Presents
             </HomeText>
-            <HomeText fontFamily={'Poppins'} fontWeight={'bold'} fontSize="70px" color="#1279F2">
+            <HomeText fontFamily={'Poppins'}
+                      fontWeight={'bold'}
+                      fontSize="70px"
+                      color="#1279F2">
               uni-lectives
             </HomeText>
             <HomeText fontFamily={'Lato'} fontWeight={'bold'} fontSize="15px">
