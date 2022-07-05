@@ -1,6 +1,6 @@
 import { CSESoc } from "../image/imageIndex";
-import { FooterWrapper, Logo } from "./style";
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import { FooterWrapper, Logo, Link } from "./style";
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -10,7 +10,8 @@ const Footer = () => {
 
   return (
     <FooterWrapper>
-      <Logo src={CSESoc} onClick={navigateHome} />
+      <Logo src={CSESoc}  />
+      <Link onClick={navigateHome}> Terms and Conditions </Link>
     </FooterWrapper>
   );
 };

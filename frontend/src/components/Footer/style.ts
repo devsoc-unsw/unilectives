@@ -17,3 +17,10 @@ export const FooterWrapper = styled.div`
 export const Logo = styled.img`
   margin-top: 2.75rem;
 `;
+
+export const Link = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
