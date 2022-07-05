@@ -5,6 +5,6 @@ describe("<HomePage/>", () => {
   it("should render", () => {
     const { getByText } = render(<HomePage />);
 
-    expect(getByText("Hello1")).not.toBeNull();
+    expect(getByText("Login")).not.toBeNull();
   });
 });

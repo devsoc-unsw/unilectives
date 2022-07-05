@@ -55,7 +55,7 @@ const LoginDialog = ({ close }: LoginDialogProps) => {
         <Text noMargin bold style={{ marginBottom: "1rem" }}>
           zPass
         </Text>
-        <Input placeholder="Enter your zPass" />
+        <Input placeholder="Enter your zPass" type="password" />
         <Center>
           <Button onClick={login}>Log In</Button>
         </Center>

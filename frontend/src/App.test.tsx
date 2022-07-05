@@ -3,5 +3,5 @@ import App from "./App";
 
 it("should render Home", () => {
   const { queryByText } = render(<App />);
-  expect(queryByText("Hello1")).not.toBeNull();
+  expect(queryByText("Login")).not.toBeNull();
 });

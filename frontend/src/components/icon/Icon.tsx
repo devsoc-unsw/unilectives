@@ -22,7 +22,7 @@ export const IconWrapper = styled.div`
   height: 2.125rem;
   width: 2.125rem;
   border-radius: 50%;
-  background-color: ${palette.backgroundGray};
+  background-color: ${palette.dayWhite};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,7 +39,7 @@ export const RoundedIconWrapper = styled.div<IconWrapperProps>`
   height: ${(props: IconWrapperProps) => props.size || 1.5}rem;
   width: ${(props: IconWrapperProps) => props.size || 1.5}rem;
   background-color: ${(props: IconWrapperProps) =>
-    props.color || palette.white};
+    props.color || palette.dayWhite};
   border-radius: 50%;
   padding: 0.5rem;
   display: flex;

@@ -12,11 +12,11 @@ export const Content = styled.div`
 export const Button = styled.button`
   margin-top: 1.5rem;
   padding: 1rem 4rem;
-  background: ${palette.blue};
+  background: ${palette.dayNavy};
   border-radius: 2rem;
   font-size: 1.5rem;
   font-weight: bold;
-  color: ${palette.white};
+  color: ${palette.dayWhite};
   border: none;
 `;
 
@@ -24,7 +24,7 @@ export const Input = styled.input`
   border-top: none;
   border-right: none;
   border-left: none;
-  border-color: ${palette.blue};
+  border-color: ${palette.dayNavy};
   border-width: 0.1rem;
   box-sizing: border-box;
   margin-bottom: 1rem;

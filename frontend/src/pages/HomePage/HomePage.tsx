@@ -2,19 +2,33 @@ import { useState, useEffect } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
 import Text from "../../components/text/Text";
 import { Button, Container, Content, Flexbox, FlexboxComponent, Graphic, TextFlexbox, HomeText, ButtonFlexbox } from "./style";
-import { useAppSelector } from "src/logic/redux/hooks";
-import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
-import Header from "src/components/Header/Header";
 import reviewSrc from 'src/assets/graphics/review.svg';
-import laptopSrc from 'src/assets/graphics/laptop.svg';
 import alluraSrc from 'src/assets/graphics/allura.svg';
+import ReviewModal from "../../components/ReviewModal/ReviewModal";
+import { useAppDispatch, useAppSelector } from "src/logic/redux/hooks";
+import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
+import Footer from "src/components/Footer/Footer";
+import Header from "src/components/Header/Header";
+import {
+  getCoursesDispatch,
+  LoadingStatusTypes,
+  selectCourse,
+} from "src/logic/redux/reducers/courseSlice/courseSlice";
 
 const HomePage = () => {
+  const dispatch = useAppDispatch();
+
   const [loginDialog, setLoginDialog] = useState<boolean>(false);
+  const [reviewModal, setReviewModal] = useState<boolean>(false);
   const { user } = useAppSelector(selectUser) || {};
+  const { courses, loadingStatus } = useAppSelector(selectCourse) || {};
+
+  useEffect(() => {
+    dispatch(getCoursesDispatch());
+  }, []);
 
   const [landingGraphic, setLandingGraphic] = useState<string>();
-  const graphics = [reviewSrc, laptopSrc, alluraSrc];
+  const graphics = [reviewSrc, alluraSrc];
   const randomNumber = Math.floor(Math.random() * graphics.length);
 
   useEffect(() => {
@@ -60,6 +74,14 @@ const HomePage = () => {
         {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
         <Text>User response:</Text>
         <Text>{JSON.stringify(user)}</Text>
+        {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
+          courses?.courses.map((course) => (
+            <Text key={course.courseCode}>{course.courseCode}</Text>
+          ))}
+        Incoming review modal hey
+        <Button onClick={() => setReviewModal(true)}>Submit a Review</Button>
+        {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
+        <Footer />
       </Container>
     </Content>
   );

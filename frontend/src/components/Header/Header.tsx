@@ -1,8 +1,12 @@
-import { HeaderDiv } from "./style";
+import { HeaderWave, UniLectives } from "../image/imageIndex";
+import { Container, Logo, Wave } from "./style";
 
 const Header = () => {
   return (
-    <HeaderDiv />
+    <Container>
+      <Logo src={UniLectives} />
+      <Wave src={HeaderWave} />
+    </Container>
   );
 };
 
