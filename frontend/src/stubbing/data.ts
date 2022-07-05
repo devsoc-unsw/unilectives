@@ -1,6 +1,8 @@
 import { ICourse } from "src/interfaces/ResponseInterface";
 
 // TODO: someone fill this in pls
+// TODO: pls change terms to list of strings thx- Hexamesters?
+// Terms: "None"?, e.g distributed systems 
 export const mockCourses: ICourse[] = [
   {
     courseCode: "COMP1511",
@@ -24,7 +26,7 @@ export const mockCourses: ICourse[] = [
     enrolmentRules: "",
     equivalents: ["COMP1917", "DPST1091"],
     exclusions: ["DPST1091"],
-    faculty: "Faculty of Engineering",
+    faculty: "Engineering",
     fieldOfEducation: "ugrad",
     genEd: true,
     level: 1,
@@ -57,7 +59,7 @@ export const mockCourses: ICourse[] = [
       "Prerequisite: COMP1511 or DPST1091 or COMP1917 or COMP1921",
     equivalents: [],
     exclusions: ["SENG1010", "SENG1020", "SENG1031"],
-    faculty: "Faculty of Engineering",
+    faculty: "Engineering",
     fieldOfEducation: "ugrad",
     genEd: true,
     level: 1,
@@ -66,6 +68,54 @@ export const mockCourses: ICourse[] = [
     terms: [2, 3],
     title: "Software Engineering Fundamentals",
     uoc: 6,
-    rating: 4,
+    rating: 4.5,
+  },
+
+  {
+    courseCode: "POGG1011",
+    archived: false,
+    attributes: ["yeet"],
+    calendar: "cal-123",
+    campus: "Kensington",
+    description:
+      "pog course with epic rating",
+    enrolmentRules:
+      "",
+    equivalents: [],
+    exclusions: [],
+    faculty: "Science",
+    fieldOfEducation: "ugrad",
+    genEd: true,
+    level: 1,
+    school: "School of Computer Science and Engineering",
+    studyLevel: "ugrad",
+    terms: [0],
+    title: "Pog Fundamentals Fundamentals",
+    uoc: 6,
+    rating: 5,
+  },
+
+  {
+    courseCode: "UNPOG101",
+    archived: false,
+    attributes: ["yeet"],
+    calendar: "cal-123",
+    campus: "Kensington",
+    description:
+      "unpog course with crap rating",
+    enrolmentRules:
+      "",
+    equivalents: [],
+    exclusions: [],
+    faculty: "Science",
+    fieldOfEducation: "ugrad",
+    genEd: true,
+    level: 1,
+    school: "School of Computer Science and Engineering",
+    studyLevel: "ugrad",
+    terms: [0],
+    title: "Unpog Fundamentals",
+    uoc: 6,
+    rating: 1,
   },
 ];

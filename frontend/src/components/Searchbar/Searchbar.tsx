@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -14,24 +15,84 @@ type SearchbarProps = {
   onSearchChange: React.Dispatch<React.SetStateAction<ICourse[]>>;
 };
 
-const sortByOptions = ["Most reviewed", "Alphabetical order", "Highest rating"];
-const faculties = ["Business", "Engineering", "Science", "Medicine"];
-const terms = ["Summer", "1", "2", "3"];
+
+const sortByOptions = ["Most Reviewed", "Alphabetical Order", "Highest Rating"];
+const faculties = ["All Faculties", "Arts", "Business", "Engineering", "Law", "Medicine",
+                "Science", "UNSW Canberra"];
+
+const terms = ["All Terms", "Summer", "Term 1", "Term 2", "Term 3", "Other"];
 
 /**
- *
- * TODO: Add more faculties and/or rewrite the current ones
- * TODO: The filters currently work one at a time - plz fix and write the sort by logic as well
- * Search bar should check courseCode, title and description
- * Feel feel to extract the current logic into a function
  * TODO: Write tests for the searchbar component
+ * TODO: do sort by review
  * Delete the TODOs when done
  *
  */
 const Searchbar = ({ courses, onSearchChange }: SearchbarProps) => {
   const [search, setSearch] = React.useState("");
+  const [sortFilter, setSortFilter] = React.useState(sortByOptions[0]);
+  const [facultyFilter, setFacultyFilter] = React.useState(faculties[0]);
+  const [termFilter, setTermFilter] = React.useState(terms[0]);
+
+
+  // this just updates the displayed courses whenever we filter
+  React.useEffect(() => {
+    if (courses) {
+
+      let filterFaculty = (course: ICourse) => {
+        return facultyFilter === faculties[0] || course.faculty === facultyFilter;
+      }
+
+      let filterTerm = (course: ICourse) => {
+        return termFilter === terms[0] || course.terms.includes(terms.indexOf(termFilter) - 1);
+      }
+
+      let filterSearch = (course: ICourse) => {
+        let checkSearch = (text: string) => {
+          return text.toLowerCase()
+                     .includes(search.toLowerCase())
+        }
+
+        return checkSearch(course.courseCode) ||
+               checkSearch(course.title) ||
+               checkSearch(course.description);
+      }
+
+      let filterSort = (courseList: ICourse[]) => {
+        var filteredCourses: ICourse[] = [...courseList];
+
+        switch(sortFilter) {
+          case "Alphabetical Order":
+            filteredCourses.sort()
+            break;
+          case "Highest Rating":
+            filteredCourses.sort((c1, c2) => c2.rating - c1.rating)
+            break;
+          default:
+            // default sorts by Most Reviewed
+            // TODO: does each course have Reviews?? Update Swagger?
+
+            filteredCourses.sort()
+        }
+
+        return filteredCourses;
+      }
+
+      // add extra filter based on words found inside top reviews??
+      onSearchChange(
+        filterSort(
+          courses.filter((course) =>
+          filterSearch(course) && filterFaculty(course) && filterTerm(course))
+        )
+      )
+
+    }
+
+  }, [search, sortFilter, facultyFilter, termFilter]);
+
 
   return (
+
     <Stack sx={{ width: { xs: "80%", sm: "70%" } }} spacing={4}>
       <Stack>
         <TextField
@@ -56,13 +117,6 @@ const Searchbar = ({ courses, onSearchChange }: SearchbarProps) => {
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
-            onSearchChange(
-              courses.filter((course) =>
-                course.courseCode
-                  .toLowerCase()
-                  .includes(e.target.value.toLowerCase())
-              )
-            );
           }}
         />
       </Stack>
@@ -76,38 +130,27 @@ const Searchbar = ({ courses, onSearchChange }: SearchbarProps) => {
         <SelectFilter
           label="Sort by"
           options={sortByOptions}
-          onFilterChange={() => {
-            console.log("some filtering logic");
+          onFilterChange={(option) => {
+            setSortFilter(option)
           }}
-          defaultOption={sortByOptions[0]}
+          defaultOption={sortFilter}
         ></SelectFilter>
         <Stack spacing={3} direction="row">
           <SelectFilter
             label="Faculty"
             options={faculties}
             onFilterChange={(faculty) => {
-              console.log(courses, faculty);
-              if (courses) {
-                onSearchChange(
-                  courses.filter(
-                    (course) => !faculty || course.faculty == faculty
-                  )
-                );
-              }
+              setFacultyFilter(faculty);
             }}
+            defaultOption={facultyFilter}
           ></SelectFilter>
           <SelectFilter
             label="Term"
             options={terms}
             onFilterChange={(term) => {
-              if (courses) {
-                onSearchChange(
-                  courses.filter((course) =>
-                    course.terms.includes(terms.indexOf(term))
-                  )
-                );
-              }
+              setTermFilter(term)
             }}
+            defaultOption={termFilter}
           ></SelectFilter>
         </Stack>
       </Stack>
