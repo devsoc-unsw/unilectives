@@ -8,6 +8,7 @@ const Header = () => {
     navigate('/');
   };
 
+  
   return (
     <Container>
       <Logo src={UniLectives} onClick={navigateHome}/>
