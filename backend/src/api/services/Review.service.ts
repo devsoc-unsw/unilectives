@@ -93,13 +93,9 @@ export class ReviewService {
   }
 
   async deleteReview(reviewId: string) {
-    const review = await this.reviewRepository.getReview(
-      reviewId
-    );
+    const review = await this.reviewRepository.getReview(reviewId);
     if (!review) {
-      this.logger.error(
-        `There is no review with reviewId ${reviewId}.`
-      );
+      this.logger.error(`There is no review with reviewId ${reviewId}.`);
       throw new HTTPError(badRequest);
     }
 

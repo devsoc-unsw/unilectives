@@ -11,7 +11,6 @@ import { EntityManager, DataSource } from "typeorm";
 import {
   IPostReviewRequestBody,
   IPutReviewRequestBody,
-  IDeleteReviewRequestBody,
   IPostReviewsBookmarkRequestBody,
 } from "IApiResponses";
 
@@ -124,17 +123,12 @@ describe("ReviewService", () => {
     it("should resolve and delete an existing review", () => {
       const service = reviewService();
       const reviewEntity = getReviewEntity();
-
-      const reviewRequest: IDeleteReviewRequestBody = {
-        reviewId: reviewEntity.reviewId,
-      };
+      const id = reviewEntity.reviewId;
 
       manager.findOneBy = jest.fn().mockReturnValue(reviewEntity);
       manager.delete = jest.fn().mockReturnValue(reviewEntity);
       // Should this have an empty toEqual()?
-      expect(service.deleteReview(reviewRequest)).resolves.toEqual(
-        reviewEntity
-      );
+      expect(service.deleteReview(id)).resolves.toEqual(reviewEntity);
     });
   });
 
