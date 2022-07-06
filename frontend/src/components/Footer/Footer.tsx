@@ -1,5 +1,5 @@
 import { CSESoc } from "../image/imageIndex";
-import { FooterWrapper, Logo, TCsLink } from "./style";
+import { FooterWrapper, LinkText, Logo, TCsLink } from "./style";
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -8,7 +8,7 @@ const Footer = () => {
       <Logo src={CSESoc}  />
       <TCsLink>
         <Link to={'/termsandconditions'}>
-          Terms and Conditions 
+          <LinkText>Terms and Conditions</LinkText>
         </Link>
       </TCsLink>
     </FooterWrapper>

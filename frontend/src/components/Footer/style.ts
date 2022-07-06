@@ -7,7 +7,7 @@ export const FooterWrapper = styled.div`
   background-repeat: no-repeat;
   background-position-y: 2rem;
   display: flex;
-  padding: 2.3rem 2rem;
+  padding: 2rem 2rem;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -23,4 +23,11 @@ export const TCsLink = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-left: 2rem;
+  margin-top: 2rem;
+`;
+
+export const LinkText = styled.p`
+  color: white;
+  font-size: smaller;
 `;
