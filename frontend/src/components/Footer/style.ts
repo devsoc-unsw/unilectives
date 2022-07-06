@@ -18,7 +18,7 @@ export const Logo = styled.img`
   margin-top: 2.75rem;
 `;
 
-export const Link = styled.div`
+export const TCsLink = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
