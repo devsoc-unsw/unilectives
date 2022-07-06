@@ -240,7 +240,7 @@ export const getMockReviews = (): IReview[] => {
       usefulness: 3,
       overallRating: 3,
     },
-  ]
+  ];
 };
 
 export const getMockCOMP2521Reviews = (): IReview[] => {
@@ -261,5 +261,5 @@ export const getMockCOMP2521Reviews = (): IReview[] => {
       usefulness: 3,
       overallRating: 3,
     },
-  ]
+  ];
 };

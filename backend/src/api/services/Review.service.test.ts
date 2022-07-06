@@ -5,7 +5,7 @@ import {
   getUserEntity,
   getReviewEntity,
   getMockReviews,
-  getMockCOMP2521Reviews
+  getMockCOMP2521Reviews,
 } from "../../utils/testData";
 import { EntityManager, DataSource } from "typeorm";
 import {
@@ -48,7 +48,7 @@ describe("ReviewService", () => {
       expect(service.getAllReviews()).rejects.toThrow(errorResult);
     });
   });
-  
+
   describe("getCourseReviews", () => {
     it("should return all reviews associated with course", () => {
       const service = reviewService();
@@ -86,7 +86,7 @@ describe("ReviewService", () => {
       });
     });
   });
-  
+
   describe("updateReview", () => {
     it("should throw HTTP 400 error if no review in database", () => {
       const service = reviewService();
@@ -94,7 +94,9 @@ describe("ReviewService", () => {
       manager.findOneBy = jest.fn().mockReturnValue(undefined);
 
       const errorResult = new HTTPError(badRequest);
-      expect(service.updateReview(review, review.reviewId)).rejects.toThrow(errorResult);
+      expect(service.updateReview(review, review.reviewId)).rejects.toThrow(
+        errorResult
+      );
     });
 
     it("should resolve and update an existing review", () => {
@@ -110,12 +112,14 @@ describe("ReviewService", () => {
       manager.findOneBy = jest.fn().mockReturnValue(reviewEntity);
       manager.save = jest.fn().mockReturnValue(reviewEntity);
 
-      expect(service.updateReview(reviewRequest, reviewEntity.reviewId)).resolves.toEqual({
+      expect(
+        service.updateReview(reviewRequest, reviewEntity.reviewId)
+      ).resolves.toEqual({
         review: review,
       });
     });
   });
-  
+
   describe("deleteReview", () => {
     it("should resolve and delete an existing review", () => {
       const service = reviewService();
@@ -127,12 +131,13 @@ describe("ReviewService", () => {
 
       manager.findOneBy = jest.fn().mockReturnValue(reviewEntity);
       manager.delete = jest.fn().mockReturnValue(reviewEntity);
-      
       // Should this have an empty toEqual()?
-      expect(service.deleteReview(reviewRequest)).resolves.toEqual(reviewEntity);
+      expect(service.deleteReview(reviewRequest)).resolves.toEqual(
+        reviewEntity
+      );
     });
   });
-  
+
   describe("bookmarkReview", () => {
     it("should throw HTTP 400 error if no reviews in database", () => {
       const service = reviewService();
@@ -203,7 +208,5 @@ describe("ReviewService", () => {
         review: reviews[0],
       });
     });
-
   });
-
 });
