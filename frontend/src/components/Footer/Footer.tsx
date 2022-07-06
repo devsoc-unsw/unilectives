@@ -1,6 +1,6 @@
 import { CSESoc } from "../image/imageIndex";
 import { FooterWrapper, Logo, TCsLink } from "./style";
-import { useNavigate, Navigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
