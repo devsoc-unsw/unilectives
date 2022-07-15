@@ -8,9 +8,9 @@ export const FooterWrapper = styled.div`
   background-position-y: 2rem;
   display: flex;
   padding: 2rem 2rem;
-  position: absolute;
+  // position: absolute;
   left: 0;
-  bottom: 0;
+  // bottom: 0;
   right: 0;
 `;
 
