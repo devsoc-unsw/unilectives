@@ -17,4 +17,5 @@ COPY run-deployment.sh run-deployment.sh
 
 RUN chmod +x ./run-deployment.sh
 
-ENTRYPOINT ["/usr/src/run-deployment.sh"]
+CMD /usr/src/run-deployment.sh
+
