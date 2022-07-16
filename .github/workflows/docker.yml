@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        component: [backend, frontend]
+        component: [backend, frontend, database]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
