@@ -1,3 +1,3 @@
 #!/bin/bash
 
-PGUSER="$USER" PGPASSWORD="$PASSWORD" sqitch --engine pg deploy --verify db:pg://$HOST:$PORT:$DATABASE
+PGUSER="$POSTGRESQL_USER" PGPASSWORD="$POSTGRESQL_PASSWORD" sqitch --engine pg deploy --verify db:pg://$POSTGRESQL_HOST:$POSTGRESQL_PORT/$POSTGRESQL_DATABASE
