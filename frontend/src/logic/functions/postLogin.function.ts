@@ -1,4 +1,3 @@
-import Config from "../../Config";
 import { Options } from "ky";
 import { ApiError, IPostUserResponse } from "src/interfaces/ResponseInterface";
 import { post } from "../createRequest";

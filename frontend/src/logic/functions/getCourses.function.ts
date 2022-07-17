@@ -1,4 +1,3 @@
-import Config from "../../Config";
 import {
   ApiError,
   IGetCoursesResponse,
