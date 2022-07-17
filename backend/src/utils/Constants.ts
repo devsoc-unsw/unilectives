@@ -2,10 +2,10 @@ import { IHttpError } from "../interfaces/IApiResponses";
 import { HTTPError } from "./Errors";
 
 export const envVars: string[] = [
-  // "POSTGRESQL_HOST",
-  // "POSTGRESQL_USER",
-  // "POSTGRESQL_PASSWORD",
-  // "POSTGRESQL_DATABASE",
+  "POSTGRESQL_HOST",
+  "POSTGRESQL_USER",
+  "POSTGRESQL_PASSWORD",
+  "POSTGRESQL_DATABASE",
   "JWT_SECRET",
 ];
 
