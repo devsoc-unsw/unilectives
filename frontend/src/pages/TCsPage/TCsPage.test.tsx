@@ -1,11 +1,12 @@
+import { BrowserRouter } from "react-router-dom";
 import { render } from "src/helpers/rtl";
 import { it, expect, describe } from "vitest";
 import TCsPage from "./TCsPage";
 
-describe("<HomePage/>", () => {
+describe("<TCsPage/>", () => {
   it("should render", () => {
-    const { getByText } = render(<TCsPage />);
+    const { getByText } = render(<BrowserRouter><TCsPage /></BrowserRouter>);
 
-    expect(getByText("Terms and Conditions")).not.toBeNull();
+    expect(getByText("UNSW Student Code of Conduct")).not.toBeNull();
   });
 });
