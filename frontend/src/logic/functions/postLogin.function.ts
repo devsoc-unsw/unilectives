@@ -10,7 +10,7 @@ export const postLogin = async (
     body: JSON.stringify({ zid }),
   };
 
-  return post(`${Config.apiUri}/v1/user/login`, options) as Promise<
+  return post("/api/v1/user/login", options) as Promise<
     IPostUserResponse | ApiError
   >;
 };
