@@ -4,8 +4,10 @@ module.exports = {
   },
   database: {
     type: "postgres",
-    host: "0.0.0.0",
     port: 5432,
-    schema: "cselectives",
+    host: "localhost",
+    username: "postgres",
+    password: "mysecretpassword",
+    database: "mydb",
   },
 };

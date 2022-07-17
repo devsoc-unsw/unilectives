@@ -11,19 +11,19 @@ import {
   getCoursesDispatch,
   LoadingStatusTypes,
   selectCourse,
-} from "src/logic/redux/reducers/courseSlice/courseSlice";
+} from 'src/logic/redux/reducers/courseSlice/courseSlice'
 
 const HomePage = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const [loginDialog, setLoginDialog] = useState<boolean>(false);
-  const [reviewModal, setReviewModal] = useState<boolean>(false);
-  const { user } = useAppSelector(selectUser) || {};
-  const { courses, loadingStatus } = useAppSelector(selectCourse) || {};
+  const [loginDialog, setLoginDialog] = useState<boolean>(false)
+  const [reviewModal, setReviewModal] = useState<boolean>(false)
+  const { user } = useAppSelector(selectUser) || {}
+  const { courses, loadingStatus } = useAppSelector(selectCourse) || {}
 
   useEffect(() => {
-    dispatch(getCoursesDispatch());
-  }, []);
+    dispatch(getCoursesDispatch())
+  }, [])
 
   return (
     <Container>
@@ -44,7 +44,7 @@ const HomePage = () => {
       </SmallContainer>
       <Footer />
     </Container>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

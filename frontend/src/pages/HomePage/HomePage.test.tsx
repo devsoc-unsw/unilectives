@@ -1,4 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
+import { describe, it, expect } from "vitest";
 import { render } from "src/helpers/rtl";
 import HomePage from "./HomePage";
 
