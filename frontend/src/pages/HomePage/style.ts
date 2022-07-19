@@ -16,6 +16,18 @@ export const Container = styled.div`
   align-items: center;
 `;
 
+export const HomeHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-bottom: 10vh;
+`;
+
+export const Logo = styled.img`
+  margin-left: 5rem;
+  margin-top: 1rem;
+`;
+
 export const Graphic = styled.img`
   max-width: 90%;
 

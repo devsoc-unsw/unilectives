@@ -9,10 +9,13 @@ import { Button,
          Graphic,
          TextFlexbox,
          HomeText,
-         ButtonFlexbox
+         ButtonFlexbox,
+         HomeHeader,
+         Logo
 } from "./style";
 import reviewSrc from 'src/assets/graphics/review.svg';
 import alluraSrc from 'src/assets/graphics/allura.svg';
+import { HeaderWave, UniLectives } from "src/components/image/imageIndex";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import { useAppDispatch, useAppSelector } from "src/logic/redux/hooks";
 import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
@@ -46,7 +49,9 @@ const HomePage = () => {
 
   return (
     <Content>
-      <Header />
+      <HomeHeader>
+        <Logo src={UniLectives} />
+      </HomeHeader>
       <Flexbox>
         <FlexboxComponent padding="10em">
           <TextFlexbox>
