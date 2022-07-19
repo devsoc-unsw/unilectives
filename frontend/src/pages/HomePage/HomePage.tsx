@@ -11,7 +11,8 @@ import { Button,
          HomeText,
          ButtonFlexbox,
          HomeHeader,
-         Logo
+         Logo,
+         SmallContainer
 } from "./style";
 import reviewSrc from 'src/assets/graphics/review.svg';
 import alluraSrc from 'src/assets/graphics/allura.svg';
@@ -25,19 +26,19 @@ import {
   getCoursesDispatch,
   LoadingStatusTypes,
   selectCourse,
-} from "src/logic/redux/reducers/courseSlice/courseSlice";
+} from 'src/logic/redux/reducers/courseSlice/courseSlice'
 
 const HomePage = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const [loginDialog, setLoginDialog] = useState<boolean>(false);
-  const [reviewModal, setReviewModal] = useState<boolean>(false);
-  const { user } = useAppSelector(selectUser) || {};
-  const { courses, loadingStatus } = useAppSelector(selectCourse) || {};
+  const [loginDialog, setLoginDialog] = useState<boolean>(false)
+  const [reviewModal, setReviewModal] = useState<boolean>(false)
+  const { user } = useAppSelector(selectUser) || {}
+  const { courses, loadingStatus } = useAppSelector(selectCourse) || {}
 
   useEffect(() => {
-    dispatch(getCoursesDispatch());
-  }, []);
+    dispatch(getCoursesDispatch())
+  }, [])
 
   const [landingGraphic, setLandingGraphic] = useState<string>();
   const graphics = [reviewSrc, alluraSrc];
@@ -104,4 +105,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default HomePage

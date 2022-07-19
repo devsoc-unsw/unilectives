@@ -12,7 +12,14 @@ export const Content = styled.div`
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  min-height: 100vh;
+  justify-content: space-between;
+  align-items: left;
+`;
+
+export const SmallContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
 `;
 

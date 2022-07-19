@@ -145,7 +145,7 @@ export const getReportEntity = (): ReportEntity => {
   };
 };
 
-export const getMockReports = (): IReport[] => {
+export const getMockReports = (date = new Date()): IReport[] => {
   return [
     {
       reportId: "REPORT1",
@@ -153,8 +153,8 @@ export const getMockReports = (): IReport[] => {
       zid: "z5555555",
       reason: "Nothing makes sense",
       status: "UNSEEN",
-      createdTimestamp: new Date(),
-      updatedTimestamp: new Date(),
+      createdTimestamp: date,
+      updatedTimestamp: date,
     },
     {
       reportId: "REPORT2",
@@ -162,8 +162,8 @@ export const getMockReports = (): IReport[] => {
       zid: "z5000000",
       reason: "There were rude words in the review!",
       status: "UNSEEN",
-      createdTimestamp: new Date(),
-      updatedTimestamp: new Date(),
+      createdTimestamp: date,
+      updatedTimestamp: date,
     },
   ];
 };
