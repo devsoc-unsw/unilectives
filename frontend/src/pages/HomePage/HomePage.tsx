@@ -12,6 +12,7 @@ import { Button,
          ButtonFlexbox,
          HomeHeader,
          Logo,
+         SmallContainer
 } from "./style";
 import reviewSrc from 'src/assets/graphics/review.svg';
 import alluraSrc from 'src/assets/graphics/allura.svg';
@@ -85,18 +86,20 @@ const HomePage = () => {
         </FlexboxComponent>
       </Flexbox>
       <Container>
-        Hello1
-        <Button onClick={() => setLoginDialog(true)}>Login</Button>
-        {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
-        <Text>User response:</Text>
-        <Text>{JSON.stringify(user)}</Text>
-        {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
-          courses?.courses.map((course) => (
-            <Text key={course.courseCode}>{course.courseCode}</Text>
-          ))}
-        Incoming review modal hey
-        <Button onClick={() => setReviewModal(true)}>Submit a Review</Button>
-        {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
+        <SmallContainer>
+          Hello1
+          <Button onClick={() => setLoginDialog(true)}>Login</Button>
+          {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
+          <Text>User response:</Text>
+          <Text>{JSON.stringify(user)}</Text>
+          {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
+            courses?.courses.map((course) => (
+              <Text key={course.courseCode}>{course.courseCode}</Text>
+            ))}
+          Incoming review modal hey
+          <Button onClick={() => setReviewModal(true)}>Submit a Review</Button>
+          {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
+        </SmallContainer>
         <Footer />
       </Container>
     </Content>
