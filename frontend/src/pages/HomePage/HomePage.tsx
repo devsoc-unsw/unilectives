@@ -12,16 +12,14 @@ import { Button,
          ButtonFlexbox,
          HomeHeader,
          Logo,
-         SmallContainer
 } from "./style";
 import reviewSrc from 'src/assets/graphics/review.svg';
 import alluraSrc from 'src/assets/graphics/allura.svg';
-import { HeaderWave, UniLectives } from "src/components/image/imageIndex";
+import { UniLectives } from "src/components/image/imageIndex";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import { useAppDispatch, useAppSelector } from "src/logic/redux/hooks";
 import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
 import Footer from "src/components/Footer/Footer";
-import Header from "src/components/Header/Header";
 import {
   getCoursesDispatch,
   LoadingStatusTypes,
