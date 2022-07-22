@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { palette } from "src/components/palette/palette";
 
 export const Dim = styled.div`
   position: fixed;
@@ -18,7 +19,7 @@ export const Dim = styled.div`
 export const ModalContent = styled.div`
   max-height: 90vh;
   z-index: 101;
-  background: white;
+  background-color: ${palette.dayCream};
   padding: 1rem;
   display: flex;
   flex-direction: column;
