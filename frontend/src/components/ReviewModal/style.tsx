@@ -17,12 +17,11 @@ export const Dim = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  background: #EFEFEF;
+  background: ${palette.dayCream};
   padding: 2rem;
   border-radius: 0.6rem;
   flex-wrap: wrap;
   flex-direction: row;
-  // max-height: 80vh;
 `;
 
 export const CloseLockup = styled.div`
@@ -39,7 +38,6 @@ export const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: .5rem;
-  // background-color: lightblue;
   width: 29%;
 `;
 
@@ -47,7 +45,6 @@ export const MiddleVerticalLine = styled.div`
   display: flex;
   flex-direction: column;
   padding: .5rem;
-  // background-color: lightblue;
   width: 1%;
   margin: 0.2rem;
   padding: 0.5rem 0.5rem 0.5rem 0rem;
@@ -59,7 +56,6 @@ export const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: .5rem;
-  // background-color: lightblue;
   margin-right: 0.9rem;
   width: 70%;
   flex-wrap: wrap;
@@ -113,7 +109,6 @@ export const TermAndGradeContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
   margin-top: 1rem;
-  // background-color: pink;
 `;
 
 export const TermField = styled.textarea`
@@ -134,11 +129,8 @@ export const LeftFooter = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0.5rem;
-  // align items horizontally to the left
   justify-content: flex-start;
-  // background-color: pink;
   height: 2rem;
-  // justify-content: space-evenly;
 
 `;
 
@@ -153,7 +145,6 @@ export const SubmitButton = styled.button`
   font-size: 1rem;
   border: none;
   cursor: pointer;
-  // margin-left: 10rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   margin-left: auto;
@@ -195,7 +186,6 @@ export const ReviewBodyInput = styled.textarea`
   resize: none;
   outline: none;
   padding : 1rem;
-  // make the scroll bar width smaller
   ::-webkit-scrollbar {
     width: 1rem;
   }
@@ -206,7 +196,6 @@ export const RatingsContainer = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   margin-top: 0.1rem;
-  // background-color: pink;
   padding: 0rem 0.5rem 0.5rem 0.5rem;
   height: 100%;
 `;
