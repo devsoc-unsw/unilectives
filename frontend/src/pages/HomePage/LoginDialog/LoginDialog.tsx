@@ -41,7 +41,7 @@ const LoginDialog = ({ close }: LoginDialogProps) => {
   return (
     <Dialog close={close} modalSize="25">
       <Content>
-        <Text noMargin bold fontSize="2rem" style={{ marginBottom: "1rem" }}>
+        <Text noMargin bold fontSize="1.8rem" style={{ marginBottom: "2rem" }}>
           Login.
         </Text>
         {error && <Error>Please enter a valid zID</Error>}
@@ -57,7 +57,9 @@ const LoginDialog = ({ close }: LoginDialogProps) => {
         </Text>
         <Input placeholder="Enter your zPass" type="password" />
         <Center>
-          <Button onClick={login}>Log In</Button>
+          <Button onClick={login}>
+              Log In
+          </Button>
         </Center>
       </Content>
     </Dialog>
