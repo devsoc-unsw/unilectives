@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import CourseHeader from "src/components/CourseHeader/CourseHeader";
 import Header from "src/components/Header/Header";
+import Footer from "src/components/Footer/Footer";
 import { Container, CourseContainer } from "./style";
 
 type ParamTypes = {
@@ -23,6 +24,7 @@ const CoursePage = () => {
           noReviews={22}    
         />
       </CourseContainer>
+      <Footer />
     </Container>
   );
 };
