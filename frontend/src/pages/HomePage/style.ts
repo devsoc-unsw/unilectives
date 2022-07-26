@@ -101,14 +101,14 @@ interface ButtonProps {
 export const Button = styled.button<ButtonProps>`
   border-radius: 20px;
   border: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  // box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  font-size: 18px;
-  font-weight: 700;
-  padding: 15px 25px;
+  font-size: 16px;
+  font-weight: 550;
+  padding: 13px 28px;
+  margin-top: 10px;
   background-color: ${props => props.bg || '#333'};
   color:  ${props => props.color || '#FFF'};
-
   &:hover {
     opacity: 0.9;
     transform: scale(0.98);
