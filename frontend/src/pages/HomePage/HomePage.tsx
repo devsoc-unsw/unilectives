@@ -69,12 +69,12 @@ const HomePage = () => {
             </HomeText>
             <ButtonFlexbox>
               <Button bg="#3B5DD5" onClick={() => alert('Browse')}>
-                <HomeText fontFamily={'Lato'} fontWeight={'bold'}>
+                <HomeText fontFamily={'Lato'}>
                   Browse
                 </HomeText>
               </Button>
               <Button bg="#72C1DA" onClick={() => alert('Add a review')}>
-                <HomeText fontFamily={'Lato'} fontWeight={'bold'}>
+                <HomeText fontFamily={'Lato'} >
                   Add a Review
                 </HomeText>
               </Button>
@@ -96,7 +96,6 @@ const HomePage = () => {
             courses?.courses.map((course) => (
               <Text key={course.courseCode}>{course.courseCode}</Text>
             ))}
-          Incoming review modal hey
           <Button onClick={() => setReviewModal(true)}>Submit a Review</Button>
           {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
         </SmallContainer>
