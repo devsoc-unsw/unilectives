@@ -2,14 +2,16 @@ import CSESoc from "src/assets/images/csesoc.svg";
 import UniLectives from "src/assets/images/uni-lectives.svg";
 import FooterWave from "src/assets/images/footer-wave.svg";
 import HeaderWave from "src/assets/images/header-wave.svg";
-import ReviewGraphic from "src/assets/graphics/review.svg";
-import AlluraGraphic from "src/assets/graphics/allura.svg";
+import AlluraOne from "src/assets/graphics/allura1.svg";
+import AlluraTwo from "src/assets/graphics/allura2.svg";
+import AlluraThree from "src/assets/graphics/allura3.svg";
 
 export {
   HeaderWave,
   FooterWave,
   CSESoc,
   UniLectives,
-  ReviewGraphic,
-  AlluraGraphic,
+  AlluraOne,
+  AlluraTwo,
+  AlluraThree,
 };
