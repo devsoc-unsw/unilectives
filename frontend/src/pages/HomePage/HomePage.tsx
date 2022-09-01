@@ -1,22 +1,23 @@
 import { useState, useEffect } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
 import Text from "../../components/text/Text";
-import { Button,
-         Container,
-         Content,
-         Flexbox,
-         FlexboxComponent,
-         Graphic,
-         TextFlexbox,
-         HomeText,
-         ButtonFlexbox,
-         HomeHeader,
-         Logo,
-         SmallContainer,
-         LoginButton
+import {
+  Button,
+  Container,
+  Content,
+  Flexbox,
+  FlexboxComponent,
+  Graphic,
+  TextFlexbox,
+  HomeText,
+  ButtonFlexbox,
+  HomeHeader,
+  Logo,
+  SmallContainer,
+  LoginButton,
 } from "./style";
-import alluraSrc1 from 'src/assets/graphics/allura1.svg';
-import alluraSrc3 from 'src/assets/graphics/allura3.svg';
+import alluraSrc1 from "src/assets/graphics/allura1.svg";
+import alluraSrc3 from "src/assets/graphics/allura3.svg";
 import { UniLectives } from "src/components/image/imageIndex";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import { useAppDispatch, useAppSelector } from "src/logic/redux/hooks";
@@ -26,67 +27,65 @@ import {
   getCoursesDispatch,
   LoadingStatusTypes,
   selectCourse,
-} from 'src/logic/redux/reducers/courseSlice/courseSlice'
+} from "src/logic/redux/reducers/courseSlice/courseSlice";
 
 const HomePage = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  const [loginDialog, setLoginDialog] = useState<boolean>(false)
-  const [reviewModal, setReviewModal] = useState<boolean>(false)
-  const { user } = useAppSelector(selectUser) || {}
-  const { courses, loadingStatus } = useAppSelector(selectCourse) || {}
+  const [loginDialog, setLoginDialog] = useState<boolean>(false);
+  const [reviewModal, setReviewModal] = useState<boolean>(false);
+  const { user } = useAppSelector(selectUser) || {};
+  const { courses, loadingStatus } = useAppSelector(selectCourse) || {};
 
   useEffect(() => {
-    dispatch(getCoursesDispatch())
-  }, [])
+    dispatch(getCoursesDispatch());
+  }, []);
 
   const [landingGraphic, setLandingGraphic] = useState<string>();
   const graphics = [alluraSrc1, alluraSrc3];
   const randomNumber = Math.floor(Math.random() * graphics.length);
 
   useEffect(() => {
-    setLandingGraphic(graphics[randomNumber])
-  }, [])
+    setLandingGraphic(graphics[randomNumber]);
+  }, []);
 
   return (
     <Content>
       <HomeHeader>
         <Logo src={UniLectives} />
-        <LoginButton justify={'flex-end'} onClick={() => setLoginDialog(true)}>
+        <LoginButton justify={"flex-end"} onClick={() => setLoginDialog(true)}>
           Login
         </LoginButton>
       </HomeHeader>
       <Flexbox>
-        <FlexboxComponent width={'40%'} padding="10em">
+        <FlexboxComponent width={"40%"} padding="10em">
           <TextFlexbox>
-            <HomeText fontFamily={'Lato'} fontWeight={'bold'} fontSize="15px">
+            <HomeText fontFamily={"Lato"} fontWeight={"bold"} fontSize="15px">
               CSEsoc Presents
             </HomeText>
-            <HomeText fontFamily={'Poppins'}
-                      fontWeight={'bold'}
-                      fontSize="70px"
-                      color="#1279F2">
+            <HomeText
+              fontFamily={"Poppins"}
+              fontWeight={"bold"}
+              fontSize="70px"
+              color="#1279F2"
+            >
               uni-lectives
             </HomeText>
-            <HomeText fontFamily={'Lato'} fontWeight={'bold'} fontSize="15px">
+            <HomeText fontFamily={"Lato"} fontWeight={"bold"} fontSize="15px">
               Your one stop shop for UNSW course and electives reviews.
             </HomeText>
             <ButtonFlexbox>
-              <Button bg="#3B5DD5" onClick={() => alert('Browse')}>
-                <HomeText fontFamily={'Lato'}>
-                  Browse
-                </HomeText>
+              <Button bg="#3B5DD5" onClick={() => alert("Browse")}>
+                <HomeText fontFamily={"Lato"}>Browse</HomeText>
               </Button>
-              <Button bg="#72C1DA" onClick={() => alert('Add a review')}>
-                <HomeText fontFamily={'Lato'} >
-                  Add a Review
-                </HomeText>
+              <Button bg="#72C1DA" onClick={() => alert("Add a review")}>
+                <HomeText fontFamily={"Lato"}>Add a Review</HomeText>
               </Button>
             </ButtonFlexbox>
           </TextFlexbox>
         </FlexboxComponent>
-        <FlexboxComponent width={'60%'}>
-          <Graphic src={landingGraphic}/>
+        <FlexboxComponent width={"60%"}>
+          <Graphic src={landingGraphic} />
         </FlexboxComponent>
       </Flexbox>
       <Container>
@@ -108,4 +107,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage
+export default HomePage;
