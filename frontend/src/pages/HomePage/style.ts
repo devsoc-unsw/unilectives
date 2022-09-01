@@ -44,8 +44,8 @@ export const LoginButton = styled.button<ButtonProps>`
   font-weight: 550;
   padding: 10x 10px;
   background: none;
-  border:  2px solid white;
-  color:  #FFF;
+  border: 2px solid white;
+  color: #fff;
   &:hover {
     opacity: 0.9;
     transform: scale(0.98);
@@ -68,17 +68,17 @@ export const Flexbox = styled.div`
 `;
 
 interface FlexboxProps {
-  padding ?: string;
-  padding_top ?: string;
-  width ?: string;
+  padding?: string;
+  padding_top?: string;
+  width?: string;
 }
 
 export const FlexboxComponent = styled.div<FlexboxProps>`
   justify-content: center;
   align-items: center;
-  padding-left: ${props => props.padding};
-  padding-top: ${props => props.padding};
-  width: ${props => props.width};
+  padding-left: ${(props) => props.padding};
+  padding-top: ${(props) => props.padding};
+  width: ${(props) => props.width};
 `;
 
 /** Landing Page CSS for Text  */
@@ -89,10 +89,10 @@ export const TextFlexbox = styled.div`
 `;
 
 interface TextProps {
-  fontFamily ?: string;
-  fontWeight ?: string;
-  fontSize ?: string;
-  color ?: string;
+  fontFamily?: string;
+  fontWeight?: string;
+  fontSize?: string;
+  color?: string;
 }
 
 export const HomeText = styled.text<TextProps>`
@@ -113,9 +113,9 @@ export const ButtonFlexbox = styled.div`
 `;
 
 interface ButtonProps {
-  bg ?: string;
-  color ?: string;
-  justify ?: string;
+  bg?: string;
+  color?: string;
+  justify?: string;
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -126,8 +126,8 @@ export const Button = styled.button<ButtonProps>`
   font-weight: 550;
   padding: 13px 28px;
   margin-top: 18px;
-  background-color: ${props => props.bg || '#333'};
-  color:  ${props => props.color || '#FFF'};
+  background-color: ${(props) => props.bg || "#333"};
+  color: ${(props) => props.color || "#FFF"};
   &:hover {
     opacity: 0.9;
     transform: scale(0.98);
