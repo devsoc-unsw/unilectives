@@ -31,6 +31,10 @@ export interface IPutReviewRequestBody {
   grade: number;
 }
 
+export interface IDeleteReviewRequestBody {
+  reviewId: string;
+}
+
 export type IPutReviewSuccessResponse = IPostReviewSuccessResponse;
 
 export interface IPostReviewsBookmarkRequestBody {

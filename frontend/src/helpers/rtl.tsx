@@ -1,14 +1,19 @@
 import {
   userSlice,
-  initialState,
+  initialState as userState,
 } from "src/logic/redux/reducers/userSlice/userSlice";
+import {
+  courseSlice,
+  initialState as courseState,
+} from "src/logic/redux/reducers/courseSlice/courseSlice";
 import { render as rtlRender } from "@testing-library/react";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { ReactNode } from "react";
 
 const preloadedInitialState = {
-  user: initialState,
+  user: userState,
+  course: courseState,
 };
 
 const render = (
@@ -18,6 +23,7 @@ const render = (
     store = configureStore({
       reducer: {
         user: userSlice.reducer,
+        course: courseSlice.reducer,
       },
       preloadedState: state || preloadedInitialState,
     }),

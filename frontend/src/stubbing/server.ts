@@ -1,6 +1,9 @@
 import { createServer, Model } from "miragejs";
-import Config from "../Config";
-import { IPostUserResponse } from "src/interfaces/ResponseInterface";
+import {
+  IGetCoursesResponse,
+  IPostUserResponse,
+} from "src/interfaces/ResponseInterface";
+import { mockCourses } from "./data";
 
 export function makeServer({ environment = "test" }) {
   const mockServer = createServer({
@@ -19,11 +22,10 @@ export function makeServer({ environment = "test" }) {
     },
 
     routes() {
-      this.urlPrefix = `${Config.apiUri}/v1`;
       this.passthrough();
 
       // Login
-      this.post("/user/login", (schema, request) => {
+      this.post("/api/v1/user/login", (schema, request) => {
         const user = schema.db.users.findBy({
           id: "123",
         });
@@ -44,6 +46,19 @@ export function makeServer({ environment = "test" }) {
         };
 
         schema.db.users.update({ user: user.id }, { ...user, user: res });
+        return res;
+      });
+
+      // Courses
+      this.get("/api/v1/courses", (schema) => {
+        const user = schema.db.users.findBy({
+          id: "123",
+        });
+        const res: IGetCoursesResponse = {
+          courses: mockCourses,
+        };
+
+        schema.db.users.update({ user: user.id }, { ...user, courses: res });
         return res;
       });
     },

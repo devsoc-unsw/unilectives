@@ -5,6 +5,7 @@ import {
   IPostReviewSuccessResponse,
   IPutReviewSuccessResponse,
   IPostReviewsBookmarkRequestBody,
+  IDeleteReviewRequestBody,
   IPostReviewUpvoteSuccessResponse,
   IPostReviewUpvoteRequestBody,
 } from "IApiResponses";
@@ -37,19 +38,15 @@ export class ReviewService {
   async getCourseReviews(
     courseCode: string
   ): Promise<IGetReviewsSuccessResponse | undefined> {
-    try {
-      const reviews: ReviewEntity[] =
-        await this.reviewRepository.getCourseReviews(courseCode);
-      if (reviews.length === 0) {
-        this.logger.error("Database returned with no reviews.");
-        throw new HTTPError(internalServerError);
-      }
-      return {
-        reviews: reviews.map(convertReviewEntityToInterface),
-      };
-    } catch {
-      this.logger.warn(`An error occurred when trying to GET /reviews`);
+    const reviews: ReviewEntity[] =
+      await this.reviewRepository.getCourseReviews(courseCode);
+    if (reviews.length === 0) {
+      this.logger.error("Database returned with no reviews.");
+      throw new HTTPError(internalServerError);
     }
+    return {
+      reviews: reviews.map(convertReviewEntityToInterface),
+    };
   }
 
   async postReview(
@@ -96,9 +93,7 @@ export class ReviewService {
   }
 
   async deleteReview(reviewId: string) {
-    // Get review entity by review id
     const review = await this.reviewRepository.getReview(reviewId);
-
     if (!review) {
       this.logger.error(`There is no review with reviewId ${reviewId}.`);
       throw new HTTPError(badRequest);

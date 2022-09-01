@@ -11,7 +11,7 @@ import {
 describe("convertReportEntityToInterface", () => {
   it("should convert ReportEntity to IReport", () => {
     const entity = getReportEntity();
-    const report = getMockReports()[0];
+    const report = getMockReports(entity.createdTimestamp)[0];
     expect(convertReportEntityToInterface(entity)).toEqual(report);
   });
 });
@@ -19,7 +19,7 @@ describe("convertReportEntityToInterface", () => {
 describe("convertReportInterfaceToEntity", () => {
   it("should convert IReport to ReportEntity", () => {
     const entity = getReportEntity();
-    const report = getMockReports()[0];
+    const report = getMockReports(entity.createdTimestamp)[0];
     expect(convertReportInterfaceToEntity(report)).toEqual(entity);
   });
 });
