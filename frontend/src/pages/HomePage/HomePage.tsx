@@ -1,31 +1,51 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
 import Text from "../../components/text/Text";
+import {
+  Button,
+  Container,
+  Content,
+  Flexbox,
+  FlexboxComponent,
+  Graphic,
+  TextFlexbox,
+  HomeText,
+  ButtonFlexbox,
+  HomeHeader,
+  Logo,
+  SmallContainer,
+} from "./style";
+import { UniLectives } from "src/components/image/imageIndex";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
-import { Button, Container } from "./style";
 import { useAppDispatch, useAppSelector } from "src/logic/redux/hooks";
 import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
 import Footer from "src/components/Footer/Footer";
-import Header from "src/components/Header/Header";
 import {
   getCoursesDispatch,
   LoadingStatusTypes,
   selectCourse,
 } from "src/logic/redux/reducers/courseSlice/courseSlice";
+import { homePageGraphics } from "src/constants";
+import { useNavigate } from "react-router-dom";
 import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const [loginDialog, setLoginDialog] = useState<boolean>(false);
-  const [reviewModal, setReviewModal] = useState<boolean>(false);
   const { user } = useAppSelector(selectUser) || {};
   const { courses, loadingStatus } = useAppSelector(selectCourse) || {};
 
+  const [loginDialog, setLoginDialog] = useState<boolean>(false);
+  const [reviewModal, setReviewModal] = useState<boolean>(false);
+  const [landingGraphic, setLandingGraphic] = useState<string>();
   const [results, setResults] = useState<ICourse[]>([]);
 
   useEffect(() => {
+    setLandingGraphic(
+      homePageGraphics[Math.floor(Math.random() * homePageGraphics.length)]
+    );
     dispatch(getCoursesDispatch());
   }, []);
 
@@ -34,23 +54,66 @@ const HomePage = () => {
   }, [courses]);
 
   return (
-    <Container>
-      <Header courses={courses?.courses ?? []} />
-      Hello1
-      <Button onClick={() => setLoginDialog(true)}>Login</Button>
-      {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
-      <Text>User response:</Text>
-      <Text>{JSON.stringify(user)}</Text>
-      <Searchbar courses={courses?.courses ?? []} onSearchChange={setResults} />
-      {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
-        results.map((course) => (
-          <Text key={course.courseCode}>{course.courseCode}</Text>
-        ))}
-      Incoming review modal hey
-      <Button onClick={() => setReviewModal(true)}>Submit a Review</Button>
-      {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
-      <Footer />
-    </Container>
+    <Content>
+      <HomeHeader>
+        <Logo src={UniLectives} />
+        <Button
+          bg="transparent"
+          style={{ marginLeft: "60%", border: "2px solid white" }}
+          onClick={() => setLoginDialog(true)}
+        >
+          Login
+        </Button>
+      </HomeHeader>
+      <Flexbox>
+        <FlexboxComponent padding="10em">
+          <TextFlexbox>
+            <HomeText fontFamily={"Lato"} fontWeight={"bold"} fontSize="15px">
+              CSEsoc Presents
+            </HomeText>
+            <HomeText
+              fontFamily={"Poppins"}
+              fontWeight={"bold"}
+              fontSize="70px"
+              color="#1279F2"
+            >
+              uni-lectives
+            </HomeText>
+            <HomeText fontFamily={"Lato"} fontWeight={"bold"} fontSize="15px">
+              Your one stop shop for UNSW course and electives reviews.
+            </HomeText>
+            <ButtonFlexbox>
+              <Button bg="#3B5DD5" onClick={() => navigate("/search")}>
+                <HomeText fontFamily={"Lato"}>Browse</HomeText>
+              </Button>
+              <Button bg="#72C1DA" onClick={() => setReviewModal(true)}>
+                <HomeText fontFamily={"Lato"}>Add a Review</HomeText>
+              </Button>
+            </ButtonFlexbox>
+          </TextFlexbox>
+        </FlexboxComponent>
+        <FlexboxComponent>
+          <Graphic src={landingGraphic} />
+        </FlexboxComponent>
+      </Flexbox>
+      <Container>
+        <SmallContainer>
+          <Searchbar
+            courses={courses?.courses ?? []}
+            onSearchChange={setResults}
+          />
+          {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
+          <Text>User response:</Text>
+          <Text>{JSON.stringify(user)}</Text>
+          {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
+            results.map((course) => (
+              <Text key={course.courseCode}>{course.courseCode}</Text>
+            ))}
+          {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
+        </SmallContainer>
+        <Footer />
+      </Container>
+    </Content>
   );
 };
 
