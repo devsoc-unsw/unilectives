@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:bullseye-slim
 
 WORKDIR /usr/src
 
@@ -17,4 +17,5 @@ COPY run-deployment.sh run-deployment.sh
 
 RUN chmod +x ./run-deployment.sh
 
-CMD ["/usr/src/run-deployment.sh"]
+CMD /usr/src/run-deployment.sh
+

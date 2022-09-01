@@ -1,17 +1,16 @@
 import { CSESoc } from "../image/imageIndex";
-import { FooterWrapper, Logo, Link } from "./style";
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { FooterWrapper, LinkText, Logo, TCsLink } from "./style";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const navigate = useNavigate();
-  const navigateHome = () => {
-    navigate('/termsandconditions');
-  };
-
   return (
     <FooterWrapper>
-      <Logo src={CSESoc}  />
-      <Link onClick={navigateHome}> Terms and Conditions </Link>
+      <Logo src={CSESoc} />
+      <TCsLink>
+        <Link to={"/termsandconditions"}>
+          <LinkText>Terms and Conditions</LinkText>
+        </Link>
+      </TCsLink>
     </FooterWrapper>
   );
 };

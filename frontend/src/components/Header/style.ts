@@ -10,7 +10,12 @@ export const Logo = styled.img`
   margin-left: 5rem;
 `;
 
-export const Wave = styled.img`
+interface WaveProps {
+  displayWave ?: string
+}
+
+export const Wave = styled.img<WaveProps>`
   width: 100%;
   overflow: hidden;
+  display: ${props => props.displayWave};
 `;

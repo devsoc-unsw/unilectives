@@ -1,5 +1,4 @@
 import { createServer, Model } from "miragejs";
-import Config from "../Config";
 import {
   IGetCoursesResponse,
   IPostUserResponse,
@@ -23,11 +22,10 @@ export function makeServer({ environment = "test" }) {
     },
 
     routes() {
-      this.urlPrefix = `${Config.apiUri}/v1`;
       this.passthrough();
 
       // Login
-      this.post("/user/login", (schema, request) => {
+      this.post("/api/v1/user/login", (schema, request) => {
         const user = schema.db.users.findBy({
           id: "123",
         });
@@ -52,7 +50,7 @@ export function makeServer({ environment = "test" }) {
       });
 
       // Courses
-      this.get("/courses", (schema) => {
+      this.get("/api/v1/courses", (schema) => {
         const user = schema.db.users.findBy({
           id: "123",
         });
