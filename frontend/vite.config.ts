@@ -26,5 +26,10 @@ export default ({ mode }) => {
       },
     },
     define: envWithProcessPrefix,
+    server: {
+      watch: {
+        usePolling: true,
+      },
+    },
   });
 };

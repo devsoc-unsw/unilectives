@@ -5,7 +5,11 @@ import HomePage from "./HomePage";
 
 describe("<HomePage/>", () => {
   it("should render", () => {
-    const { getByText } = render(<BrowserRouter><HomePage /></BrowserRouter>);
+    const { getByText } = render(
+      <BrowserRouter>
+        <HomePage />
+      </BrowserRouter>
+    );
     expect(getByText("Login")).not.toBeNull();
   });
 });

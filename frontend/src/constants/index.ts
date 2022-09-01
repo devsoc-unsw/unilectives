@@ -1,3 +1,3 @@
-import { AlluraGraphic, ReviewGraphic } from "src/components/image/imageIndex";
+import { AlluraOne, AlluraThree } from "src/components/image/imageIndex";
 
-export const homePageGraphics = [ReviewGraphic, AlluraGraphic];
+export const homePageGraphics = [AlluraOne, AlluraThree];

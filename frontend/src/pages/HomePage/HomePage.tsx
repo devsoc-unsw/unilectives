@@ -27,6 +27,8 @@ import {
 } from "src/logic/redux/reducers/courseSlice/courseSlice";
 import { homePageGraphics } from "src/constants";
 import { useNavigate } from "react-router-dom";
+import Searchbar from "src/components/Searchbar/Searchbar";
+import { ICourse } from "src/interfaces/ResponseInterface";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +40,7 @@ const HomePage = () => {
   const [loginDialog, setLoginDialog] = useState<boolean>(false);
   const [reviewModal, setReviewModal] = useState<boolean>(false);
   const [landingGraphic, setLandingGraphic] = useState<string>();
+  const [results, setResults] = useState<ICourse[]>([]);
 
   useEffect(() => {
     setLandingGraphic(
@@ -45,6 +48,10 @@ const HomePage = () => {
     );
     dispatch(getCoursesDispatch());
   }, []);
+
+  useEffect(() => {
+    setResults(courses?.courses ?? []);
+  }, [courses]);
 
   return (
     <Content>
@@ -91,11 +98,15 @@ const HomePage = () => {
       </Flexbox>
       <Container>
         <SmallContainer>
+          <Searchbar
+            courses={courses?.courses ?? []}
+            onSearchChange={setResults}
+          />
           {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
           <Text>User response:</Text>
           <Text>{JSON.stringify(user)}</Text>
           {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
-            courses?.courses.map((course) => (
+            results.map((course) => (
               <Text key={course.courseCode}>{course.courseCode}</Text>
             ))}
           {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}

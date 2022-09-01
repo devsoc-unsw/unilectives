@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
-import TCsPage from "./pages/TCsPage/TCsPage";
 import CoursePage from "./pages/CoursePage/CoursePage";
 import SearchPage from "./pages/SearchPage/SearchPage";
+import TCsPage from "./pages/TCsPage/TCsPage";
 
 const Router = () => (
   <Routes>
