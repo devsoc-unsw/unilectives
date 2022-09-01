@@ -9,15 +9,15 @@ type CourseHeaderProps = {
   courseCode: string,
   overallRating: number,
   enjoyabilityRating: number,
-  usefulnessRating: number, 
+  usefulnessRating: number,
   manageabilityRating: number,
   noReviews: number,
 }
 
-const CourseHeader = ({ courseCode, 
-                        overallRating, 
-                        enjoyabilityRating, 
-                        usefulnessRating, 
+const CourseHeader = ({ courseCode,
+                        overallRating,
+                        enjoyabilityRating,
+                        usefulnessRating,
                         manageabilityRating,
                         noReviews,
                       }: CourseHeaderProps) => {
@@ -28,11 +28,11 @@ const CourseHeader = ({ courseCode,
           <CourseName>Data Structures and Algorithms</CourseName>
         </CourseCodeBox>
         <OverallBox>
-          <Rating 
-            name="read-only" 
-            value={overallRating} 
-            precision={0.1} 
-            size="large" 
+          <Rating
+            name="read-only"
+            value={overallRating}
+            precision={0.1}
+            size="large"
             sx={{
               color: palette.dayGreen,
               fontSize: "3em",
@@ -71,5 +71,5 @@ const CourseHeader = ({ courseCode,
     );
   };
 
-  
+
 export default CourseHeader;

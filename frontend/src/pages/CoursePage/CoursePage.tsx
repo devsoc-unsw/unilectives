@@ -6,7 +6,7 @@ import { Container, CourseContainer } from "./style";
 
 type ParamTypes = {
     courseCode: string
-} 
+}
 
 const CoursePage = () => {
   const { courseCode } = useParams<keyof ParamTypes>() as ParamTypes;
@@ -15,13 +15,13 @@ const CoursePage = () => {
     <Container>
       <Header />
       <CourseContainer>
-        <CourseHeader 
+        <CourseHeader
           courseCode={courseCode}
           overallRating={3.4}
-          enjoyabilityRating={4.1} 
+          enjoyabilityRating={4.1}
           usefulnessRating={3.5}
           manageabilityRating={3.4}
-          noReviews={22}    
+          noReviews={22}
         />
       </CourseContainer>
       <Footer />
