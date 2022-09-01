@@ -3,11 +3,6 @@ import { Container, Logo, Wave } from "./style";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const navigate = useNavigate();
-  const navigateHome = () => {
-    navigate("/");
-  };
-
   return (
     <Container>
       <Link to={"/"}>
