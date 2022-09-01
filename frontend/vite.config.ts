@@ -16,6 +16,10 @@ export default ({ mode }) => {
   );
   return defineConfig({
     plugins: [react()],
+    test: {
+      globals: true,
+      environment: "jsdom",
+    },
     resolve: {
       alias: {
         src: path.resolve("src/"),

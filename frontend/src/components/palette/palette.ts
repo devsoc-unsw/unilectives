@@ -7,6 +7,8 @@ export const palette = {
   dayCyan: "#84CEE7",
   dayGreen: "#1AC97F",
   dayYellow: "#FFE68D",
+  dayCream: "#EFEFEF",
+  placeholderText: "#C8C4C4",
   // dark mode
   nightWhite: "#E7E7E7",
   nightBlack: "#272728",

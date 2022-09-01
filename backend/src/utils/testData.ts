@@ -145,7 +145,7 @@ export const getReportEntity = (): ReportEntity => {
   };
 };
 
-export const getMockReports = (): IReport[] => {
+export const getMockReports = (date = new Date()): IReport[] => {
   return [
     {
       reportId: "REPORT1",
@@ -153,8 +153,8 @@ export const getMockReports = (): IReport[] => {
       zid: "z5555555",
       reason: "Nothing makes sense",
       status: "UNSEEN",
-      createdTimestamp: new Date(),
-      updatedTimestamp: new Date(),
+      createdTimestamp: date,
+      updatedTimestamp: date,
     },
     {
       reportId: "REPORT2",
@@ -162,8 +162,8 @@ export const getMockReports = (): IReport[] => {
       zid: "z5000000",
       reason: "There were rude words in the review!",
       status: "UNSEEN",
-      createdTimestamp: new Date(),
-      updatedTimestamp: new Date(),
+      createdTimestamp: date,
+      updatedTimestamp: date,
     },
   ];
 };
@@ -204,4 +204,62 @@ export const getReviewEntity = (): ReviewEntity => {
     usefulness: 5,
     overallRating: 4.5,
   };
+};
+
+export const getMockReviews = (): IReview[] => {
+  return [
+    {
+      reviewId: "REVIEW1",
+      zid: "z5555555",
+      authorName: "test",
+      description: "amazing",
+      courseCode: "COMP1511",
+      grade: 75,
+      termTaken: "T1",
+      createdTimestamp: new Date(),
+      updatedTimestamp: new Date(),
+      upvotes: ["z513131"],
+      manageability: 3,
+      enjoyability: 4,
+      usefulness: 5,
+      overallRating: 4.5,
+    },
+    {
+      reviewId: "REVIEW2",
+      zid: "z5555555",
+      authorName: "test2",
+      description: "average",
+      courseCode: "COMP2521",
+      grade: 75,
+      termTaken: "T2",
+      createdTimestamp: new Date(),
+      updatedTimestamp: new Date(),
+      upvotes: ["z513131"],
+      manageability: 3,
+      enjoyability: 3,
+      usefulness: 3,
+      overallRating: 3,
+    },
+  ];
+};
+
+export const getMockCOMP2521Reviews = (): IReview[] => {
+  return [
+    {
+      reviewId: "REVIEW2",
+      zid: "z5555555",
+      authorName: "test2",
+      description: "average",
+      courseCode: "COMP2521",
+      grade: 75,
+      termTaken: "T2",
+      createdTimestamp: new Date(),
+      updatedTimestamp: new Date(),
+      upvotes: ["z513131"],
+      manageability: 3,
+      enjoyability: 3,
+      usefulness: 3,
+      overallRating: 3,
+    },
+  ];
 };

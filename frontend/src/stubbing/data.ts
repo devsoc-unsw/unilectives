@@ -2,7 +2,7 @@ import { ICourse } from "src/interfaces/ResponseInterface";
 
 // TODO: someone fill this in pls
 // TODO: pls change terms to list of strings thx- Hexamesters?
-// Terms: "None"?, e.g distributed systems 
+// Terms: "None"?, e.g distributed systems
 export const mockCourses: ICourse[] = [
   {
     courseCode: "COMP1511",
@@ -77,10 +77,8 @@ export const mockCourses: ICourse[] = [
     attributes: ["yeet"],
     calendar: "cal-123",
     campus: "Kensington",
-    description:
-      "pog course with epic rating",
-    enrolmentRules:
-      "",
+    description: "pog course with epic rating",
+    enrolmentRules: "",
     equivalents: [],
     exclusions: [],
     faculty: "Science",
@@ -101,10 +99,8 @@ export const mockCourses: ICourse[] = [
     attributes: ["yeet"],
     calendar: "cal-123",
     campus: "Kensington",
-    description:
-      "unpog course with crap rating",
-    enrolmentRules:
-      "",
+    description: "unpog course with crap rating",
+    enrolmentRules: "",
     equivalents: [],
     exclusions: [],
     faculty: "Science",
