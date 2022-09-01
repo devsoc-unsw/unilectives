@@ -1,5 +1,16 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CourseContainer = styled.div`
+  width: 80%;
+`;
+
 export const CoursePage = styled.div`
   display: flex;
   flex-direction: row-reverse;

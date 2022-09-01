@@ -5,15 +5,15 @@ import Footer from "src/components/Footer/Footer";
 import { Container, CourseContainer } from "./style";
 
 type ParamTypes = {
-    courseCode: string
-}
+  courseCode: string;
+};
 
 const CoursePage = () => {
   const { courseCode } = useParams<keyof ParamTypes>() as ParamTypes;
 
   return (
     <Container>
-      <Header />
+      <Header courses={[]} />
       <CourseContainer>
         <CourseHeader
           courseCode={courseCode}
