@@ -1,4 +1,5 @@
 import { render } from "./helpers/rtl";
+import { it, expect } from "vitest";
 import App from "./App";
 
 it("should render Home", () => {

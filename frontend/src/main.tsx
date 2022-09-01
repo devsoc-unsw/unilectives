@@ -10,9 +10,9 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-if (process.env.NODE_ENV !== "production") {
+if (!import.meta.env.PROD) {
   console.log("running stub");
-  makeServer({ environment: process.env.NODE_ENV });
+  makeServer({ environment: "dev" });
 }
 
 root.render(
