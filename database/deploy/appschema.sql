@@ -121,7 +121,7 @@ VALUES
         'School of Computer Science and Engineering', 
         'Undergraduate', 
         '{1, 2, 3}', 
-        'Programming Fundamentals', 
+        'Software Engineering Fundamentals', 
         6,
         4
     );
