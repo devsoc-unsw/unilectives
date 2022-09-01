@@ -14,10 +14,7 @@ import {
   HomeHeader,
   Logo,
   SmallContainer,
-  LoginButton,
 } from "./style";
-import alluraSrc1 from "src/assets/graphics/allura1.svg";
-import alluraSrc3 from "src/assets/graphics/allura3.svg";
 import { UniLectives } from "src/components/image/imageIndex";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import { useAppDispatch, useAppSelector } from "src/logic/redux/hooks";
@@ -28,37 +25,48 @@ import {
   LoadingStatusTypes,
   selectCourse,
 } from "src/logic/redux/reducers/courseSlice/courseSlice";
+import { homePageGraphics } from "src/constants";
+import { useNavigate } from "react-router-dom";
+import Searchbar from "src/components/Searchbar/Searchbar";
+import { ICourse } from "src/interfaces/ResponseInterface";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const [loginDialog, setLoginDialog] = useState<boolean>(false);
-  const [reviewModal, setReviewModal] = useState<boolean>(false);
   const { user } = useAppSelector(selectUser) || {};
   const { courses, loadingStatus } = useAppSelector(selectCourse) || {};
 
+  const [loginDialog, setLoginDialog] = useState<boolean>(false);
+  const [reviewModal, setReviewModal] = useState<boolean>(false);
+  const [landingGraphic, setLandingGraphic] = useState<string>();
+  const [results, setResults] = useState<ICourse[]>([]);
+
   useEffect(() => {
+    setLandingGraphic(
+      homePageGraphics[Math.floor(Math.random() * homePageGraphics.length)]
+    );
     dispatch(getCoursesDispatch());
   }, []);
 
-  const [landingGraphic, setLandingGraphic] = useState<string>();
-  const graphics = [alluraSrc1, alluraSrc3];
-  const randomNumber = Math.floor(Math.random() * graphics.length);
-
   useEffect(() => {
-    setLandingGraphic(graphics[randomNumber]);
-  }, []);
+    setResults(courses?.courses ?? []);
+  }, [courses]);
 
   return (
     <Content>
       <HomeHeader>
         <Logo src={UniLectives} />
-        <LoginButton justify={"flex-end"} onClick={() => setLoginDialog(true)}>
+        <Button
+          bg="transparent"
+          style={{ marginLeft: "60%", border: "2px solid white" }}
+          onClick={() => setLoginDialog(true)}
+        >
           Login
-        </LoginButton>
+        </Button>
       </HomeHeader>
       <Flexbox>
-        <FlexboxComponent width={"40%"} padding="10em">
+        <FlexboxComponent padding="10em">
           <TextFlexbox>
             <HomeText fontFamily={"Lato"} fontWeight={"bold"} fontSize="15px">
               CSEsoc Presents
@@ -75,30 +83,32 @@ const HomePage = () => {
               Your one stop shop for UNSW course and electives reviews.
             </HomeText>
             <ButtonFlexbox>
-              <Button bg="#3B5DD5" onClick={() => alert("Browse")}>
+              <Button bg="#3B5DD5" onClick={() => navigate("/search")}>
                 <HomeText fontFamily={"Lato"}>Browse</HomeText>
               </Button>
-              <Button bg="#72C1DA" onClick={() => alert("Add a review")}>
+              <Button bg="#72C1DA" onClick={() => setReviewModal(true)}>
                 <HomeText fontFamily={"Lato"}>Add a Review</HomeText>
               </Button>
             </ButtonFlexbox>
           </TextFlexbox>
         </FlexboxComponent>
-        <FlexboxComponent width={"60%"}>
+        <FlexboxComponent>
           <Graphic src={landingGraphic} />
         </FlexboxComponent>
       </Flexbox>
       <Container>
         <SmallContainer>
-          Hello1
+          <Searchbar
+            courses={courses?.courses ?? []}
+            onSearchChange={setResults}
+          />
           {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
           <Text>User response:</Text>
           <Text>{JSON.stringify(user)}</Text>
           {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
-            courses?.courses.map((course) => (
+            results.map((course) => (
               <Text key={course.courseCode}>{course.courseCode}</Text>
             ))}
-          <Button onClick={() => setReviewModal(true)}>Submit a Review</Button>
           {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
         </SmallContainer>
         <Footer />

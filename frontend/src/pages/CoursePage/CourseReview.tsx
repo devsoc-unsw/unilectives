@@ -1,7 +1,7 @@
 import React from 'react';
-import { 
-  ReviewContainer, 
-  ReviewHeadings, 
+import {
+  ReviewContainer,
+  ReviewHeadings,
   Ratings,
   IndivRating,
   ReviewText,
@@ -11,7 +11,7 @@ import {
 } from './style'
 
 export default function CourseReview (props:any) {
-    
+
     // const course = "COMP1511"
     // const handbook = "https://www.handbook.unsw.edu.au/undergraduate/courses/2022/COMP1511/"
     // const faculty = "Engineering"
@@ -77,7 +77,7 @@ export default function CourseReview (props:any) {
                     <p>save or flag</p>
                 </Interactions>
             </ReviewContainer>
-            
+
         </CoursePage>
     );
 }
