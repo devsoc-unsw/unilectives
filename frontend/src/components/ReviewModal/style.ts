@@ -37,25 +37,25 @@ export const CloseLockup = styled.div`
 export const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: .5rem;
+  padding: 0.5rem;
   width: 29%;
 `;
 
 export const MiddleVerticalLine = styled.div`
   display: flex;
   flex-direction: column;
-  padding: .5rem;
+  padding: 0.5rem;
   width: 1%;
   margin: 0.2rem;
   padding: 0.5rem 0.5rem 0.5rem 0rem;
-  border-left: 1px solid #CED9DD;
+  border-left: 1px solid #ced9dd;
   flex-wrap: wrap;
 `;
 
 export const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: .5rem;
+  padding: 0.5rem;
   margin-right: 0.9rem;
   width: 70%;
   flex-wrap: wrap;
@@ -65,7 +65,7 @@ export const Input = styled.input`
   border-top: none;
   border-right: none;
   border-left: none;
-	border-bottom: none;
+  border-bottom: none;
   border-color: ${palette.dayNavy};
   border-width: 0.1rem;
   box-sizing: border-box;
@@ -73,16 +73,16 @@ export const Input = styled.input`
 `;
 
 export const Item = styled.div`
-  display: flex
-  justify-content: center
-  padding: .5rem
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
   background: #dbdbdb;
 `;
 
 export const WholeContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding: .5rem;
+  padding: 0.5rem;
   justify-content: space-evenly;
 `;
 
@@ -131,11 +131,10 @@ export const LeftFooter = styled.div`
   padding: 0.5rem;
   justify-content: flex-start;
   height: 2rem;
-
 `;
 
 export const SubmitButton = styled.button`
-  background-color: #41434A;
+  background-color: #41434a;
   color: white;
   border-radius: 0.6rem;
   margin-top: 1rem;
@@ -166,7 +165,7 @@ export const ReviewTitleInput = styled.textarea`
   border-radius: 0.7rem;
   resize: none;
   outline: none;
-  padding : 0.7rem;
+  padding: 0.7rem;
 `;
 
 export const ReviewBodyInput = styled.textarea`
@@ -180,12 +179,12 @@ export const ReviewBodyInput = styled.textarea`
   padding: 0.5rem;
   background-color: white;
   placeholder: "Title";
-  placeholder-color: #CED9DD;
+  placeholder-color: #ced9dd;
   font-family: "Inter", sans-serif;
   border-radius: 0.7rem;
   resize: none;
   outline: none;
-  padding : 1rem;
+  padding: 1rem;
   ::-webkit-scrollbar {
     width: 1rem;
   }

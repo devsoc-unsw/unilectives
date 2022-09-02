@@ -8,10 +8,9 @@ export const FooterWrapper = styled.div`
   background-position-y: 2rem;
   display: flex;
   padding: 2rem 2rem;
-  // position: absolute;
-  left: 0;
-  // bottom: 0;
-  right: 0;
+  position:absolute;
+  bottom:0;
+  width: 100vw;
 `;
 
 export const Logo = styled.img`

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import landingCurve from "src/assets/curves/landingCurve.svg";
+import landingCurve from "src/assets/curves/fullScreen.svg";
 
 export const Content = styled.div`
   width: 100vw;
@@ -15,6 +15,7 @@ export const Container = styled.div`
   min-height: 100vh;
   justify-content: space-between;
   align-items: left;
+  position: relative;
 `;
 
 export const SmallContainer = styled.div`
@@ -28,10 +29,29 @@ export const HomeHeader = styled.div`
   flex-direction: row;
   width: 100%;
   padding-bottom: 10vh;
+  justify-content: flex-end;
+  justify-content: space-between;
 `;
 
 export const Logo = styled.img`
   margin-left: 5rem;
+  margin-top: 1rem;
+`;
+
+export const LoginButton = styled.button<ButtonProps>`
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 550;
+  padding: 10x 10px;
+  background: none;
+  border: 2px solid white;
+  color: #fff;
+  &:hover {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+  margin-right: 5rem;
   margin-top: 1rem;
 `;
 
@@ -49,17 +69,17 @@ export const Flexbox = styled.div`
 `;
 
 interface FlexboxProps {
-  padding ?: string;
-  padding_top ?: string;
-  width ?: string;
+  padding?: string;
+  padding_top?: string;
+  width?: string;
 }
 
 export const FlexboxComponent = styled.div<FlexboxProps>`
   justify-content: center;
   align-items: center;
-  padding-left: ${props => props.padding};
-  padding-top: ${props => props.padding};
-  width: 50%;
+  padding-left: ${(props) => props.padding};
+  padding-top: ${(props) => props.padding};
+  width: ${(props) => props.width};
 `;
 
 /** Landing Page CSS for Text  */
@@ -70,10 +90,10 @@ export const TextFlexbox = styled.div`
 `;
 
 interface TextProps {
-  fontFamily ?: string;
-  fontWeight ?: string;
-  fontSize ?: string;
-  color ?: string;
+  fontFamily?: string;
+  fontWeight?: string;
+  fontSize?: string;
+  color?: string;
 }
 
 export const HomeText = styled.text<TextProps>`
@@ -94,8 +114,9 @@ export const ButtonFlexbox = styled.div`
 `;
 
 interface ButtonProps {
-  bg ?: string;
-  color ?: string;
+  bg?: string;
+  color?: string;
+  justify?: string;
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -106,10 +127,11 @@ export const Button = styled.button<ButtonProps>`
   font-weight: 550;
   padding: 13px 28px;
   margin-top: 18px;
-  background-color: ${props => props.bg || '#333'};
-  color:  ${props => props.color || '#FFF'};
+  background-color: ${(props) => props.bg || "#333"};
+  color: ${(props) => props.color || "#FFF"};
   &:hover {
     opacity: 0.9;
     transform: scale(0.98);
   }
+  float: right;
 `;
