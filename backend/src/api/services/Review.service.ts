@@ -5,7 +5,6 @@ import {
   IPostReviewSuccessResponse,
   IPutReviewSuccessResponse,
   IPostReviewsBookmarkRequestBody,
-  IDeleteReviewRequestBody,
   IPostReviewUpvoteSuccessResponse,
   IPostReviewUpvoteRequestBody,
 } from "IApiResponses";
@@ -45,7 +44,12 @@ export class ReviewService {
       throw new HTTPError(internalServerError);
     }
     return {
-      reviews: reviews.map(convertReviewEntityToInterface),
+      reviews: reviews.map((review) => {
+        return {
+          ...convertReviewEntityToInterface(review),
+          courseCode,
+        };
+      }),
     };
   }
 
@@ -61,11 +65,18 @@ export class ReviewService {
     reviewEntity.grade = reviewDetails.grade;
     reviewEntity.termTaken = reviewDetails.termTaken;
     reviewEntity.upvotes = [];
+    reviewEntity.manageability = reviewDetails.manageability;
+    reviewEntity.usefulness = reviewDetails.usefulness;
+    reviewEntity.enjoyability = reviewDetails.enjoyability;
+    reviewEntity.overallRating = reviewDetails.overallRating;
 
     const review = await this.reviewRepository.save(reviewEntity);
 
     return {
-      review: convertReviewEntityToInterface(review),
+      review: {
+        ...convertReviewEntityToInterface(review),
+        courseCode: reviewDetails.courseCode,
+      },
     };
   }
 

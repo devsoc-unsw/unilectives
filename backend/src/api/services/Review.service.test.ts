@@ -12,7 +12,7 @@ import {
   IPostReviewRequestBody,
   IPutReviewRequestBody,
   IPostReviewsBookmarkRequestBody,
-} from "IApiResponses";
+} from "../../interfaces/IApiResponses";
 
 describe("ReviewService", () => {
   let manager: EntityManager;
@@ -72,6 +72,10 @@ describe("ReviewService", () => {
         description: reviewEntity.description,
         grade: reviewEntity.grade,
         termTaken: reviewEntity.termTaken,
+        manageability: 5,
+        usefulness: 5,
+        enjoyability: 5,
+        overallRating: 5,
       };
 
       manager.findOneBy = jest

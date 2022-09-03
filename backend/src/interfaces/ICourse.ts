@@ -18,4 +18,5 @@ export interface ICourse {
   title: string;
   uoc: number;
   rating: number;
+  reviewsIds: string[];
 }

@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { CourseEntity } from "./Course";
 import { UserEntity } from "./User";
 
 @Entity({ name: "reviews", schema: "cselectives" })
@@ -18,7 +19,8 @@ export class ReviewEntity {
   @JoinColumn({ name: "zid" })
   zid: string;
 
-  @Column("text", { name: "course_code", nullable: false })
+  @ManyToOne(() => CourseEntity, (course) => course.courseCode)
+  @JoinColumn({ name: "course_code" })
   courseCode: string;
 
   @Column("text", { name: "author_name", nullable: false })

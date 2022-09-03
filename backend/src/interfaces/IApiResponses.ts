@@ -16,6 +16,10 @@ export interface IPostReviewRequestBody {
   description: string;
   grade: number;
   termTaken: string;
+  manageability: number;
+  usefulness: number;
+  enjoyability: number;
+  overallRating: number;
 }
 
 export interface IPostReviewSuccessResponse {
