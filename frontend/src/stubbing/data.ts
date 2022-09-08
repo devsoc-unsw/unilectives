@@ -1,4 +1,4 @@
-import { ICourse } from "src/interfaces/ResponseInterface";
+import { ICourse, IReview } from "src/interfaces/ResponseInterface";
 
 // TODO: someone fill this in pls
 // TODO: pls change terms to list of strings thx- Hexamesters?
@@ -115,3 +115,38 @@ export const mockCourses: ICourse[] = [
     rating: 1,
   },
 ];
+
+export const mockReviews: IReview[] = [
+  {
+    reviewId: "REVIEW1",
+    zid: "z5555555",
+    authorName: "test",
+    description: "amazing",
+    courseCode: "COMP1511",
+    grade: 75,
+    termTaken: "T1",
+    createdTimestamp: new Date(),
+    updatedTimestamp: new Date(),
+    upvotes: ["z513131"],
+    manageability: 3,
+    enjoyability: 4,
+    usefulness: 5,
+    overallRating: 4.5,
+  },
+  {
+    reviewId: "REVIEW2",
+    zid: "z5555555",
+    authorName: "test2",
+    description: "average",
+    courseCode: "COMP2521",
+    grade: 75,
+    termTaken: "T2",
+    createdTimestamp: new Date(),
+    updatedTimestamp: new Date(),
+    upvotes: ["z513131"],
+    manageability: 3,
+    enjoyability: 3,
+    usefulness: 3,
+    overallRating: 3,
+  },
+]
