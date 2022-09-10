@@ -29,6 +29,7 @@ import { homePageGraphics } from "src/constants";
 import { useNavigate } from "react-router-dom";
 import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
+import CourseListItem from "src/components/CourseListItem/CourseListItem";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
@@ -107,7 +108,8 @@ const HomePage = () => {
           <Text>{JSON.stringify(user)}</Text>
           {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
             results.map((course) => (
-              <Text key={course.courseCode}>{course.courseCode}</Text>
+              <CourseListItem key={course.courseCode} course={course} />
+              // <Text key={course.courseCode}>{course.terms} BING CHILLING</Text></>
             ))}
           {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
         </SmallContainer>
