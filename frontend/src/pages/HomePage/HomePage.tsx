@@ -26,10 +26,12 @@ import {
   selectCourse,
 } from "src/logic/redux/reducers/courseSlice/courseSlice";
 import { homePageGraphics } from "src/constants";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
 import CourseListItem from "src/components/CourseListItem/CourseListItem";
+import CourseListHeader from "src/components/CourseListHeader/CourseListHeader";
+import { MenuItem } from "@mui/material";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
@@ -106,6 +108,7 @@ const HomePage = () => {
           {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
           <Text>User response:</Text>
           <Text>{JSON.stringify(user)}</Text>
+          <CourseListHeader/>
           {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
             results.map((course) => (
               <CourseListItem key={course.courseCode} course={course} />
