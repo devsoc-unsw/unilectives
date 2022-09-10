@@ -12,7 +12,11 @@ export const CourseListItemContainer = style.div`
     // padding-top: .8%;
     // padding-bottom: .8%;
     align-items: center;
+    &:hover {
+        transform: scale(1.01);
+    }
 `;
+
 
 export const CourseCode = style.div`
     width: 8%;
