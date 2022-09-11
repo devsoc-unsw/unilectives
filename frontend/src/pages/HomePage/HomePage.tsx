@@ -10,6 +10,7 @@ import {
   Graphic,
   TextFlexbox,
   HomeText,
+  LoginButton,
   ButtonFlexbox,
   HomeHeader,
   Logo,
@@ -57,13 +58,13 @@ const HomePage = () => {
     <Content>
       <HomeHeader>
         <Logo src={UniLectives} />
-        <Button
-          bg="transparent"
-          style={{ marginLeft: "60%", border: "2px solid white" }}
+        <LoginButton
+          // bg="transparent"
+          // style={{ marginLeft: "60%", border: "2px solid white" }}
           onClick={() => setLoginDialog(true)}
         >
           Login
-        </Button>
+        </LoginButton>
       </HomeHeader>
       <Flexbox>
         <FlexboxComponent padding="10em">
@@ -87,7 +88,7 @@ const HomePage = () => {
                 <HomeText fontFamily={"Lato"}>Browse</HomeText>
               </Button>
               <Button bg="#72C1DA" onClick={() => setReviewModal(true)}>
-                <HomeText fontFamily={"Lato"}>Add a Review</HomeText>
+                <HomeText fontFamily={"Lato"}>Add Review</HomeText>
               </Button>
             </ButtonFlexbox>
           </TextFlexbox>
