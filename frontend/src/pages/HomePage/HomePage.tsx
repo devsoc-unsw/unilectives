@@ -27,12 +27,11 @@ import {
   selectCourse,
 } from "src/logic/redux/reducers/courseSlice/courseSlice";
 import { homePageGraphics } from "src/constants";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
 import CourseListItem from "src/components/CourseListItem/CourseListItem";
 import CourseListHeader from "src/components/CourseListHeader/CourseListHeader";
-import { MenuItem } from "@mui/material";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();

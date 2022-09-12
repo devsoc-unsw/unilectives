@@ -4,24 +4,13 @@ import { Link } from "react-router-dom";
 import { ICourse } from "src/interfaces/ResponseInterface";
 import DisplayRating from "../DisplayRating/DisplayRating";
 import DisplayTerms from "../DisplayTerms/DisplayTerms";
-import ReviewRating from "../ReviewRating/ReviewRating";
 import { StarIcon } from "../ReviewRating/style";
 import { CourseCode, CourseListItemContainer, CourseName, Enjoyability, Faculty, FacultyContainer, Manageability, OverallRating, ReviewCount, Terms, Usefulness } from "./style";
 
 interface Props {
     course: ICourse;
 }
-const StarRating = () => {
-    return (
-        <div>
-            <StarIcon fontSize="large" />
-            <StarIcon fontSize="large" />
-            <StarIcon fontSize="large" />
-            <StarIcon fontSize="large" />
-            <StarIcon fontSize="large" />
-        </div>
-    );
-};
+
 
 const CourseListItem = (p: Props) => {
     return (
