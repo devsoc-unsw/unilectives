@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { ICourse } from "src/interfaces/ResponseInterface";
 import DisplayRating from "../DisplayRating/DisplayRating";
 import DisplayTerms from "../DisplayTerms/DisplayTerms";
-import { StarIcon } from "../ReviewRating/style";
 import { CourseCode, CourseListItemContainer, CourseName, Enjoyability, Faculty, FacultyContainer, Manageability, OverallRating, ReviewCount, Terms, Usefulness } from "./style";
 
 interface Props {
