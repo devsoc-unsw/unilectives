@@ -28,7 +28,7 @@ export const HomeHeader = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  padding-bottom: 10vh;
+  padding-bottom: 5vh;
   justify-content: flex-end;
   justify-content: space-between;
 `;

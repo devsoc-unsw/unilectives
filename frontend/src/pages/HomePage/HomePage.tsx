@@ -25,7 +25,7 @@ import {
   LoadingStatusTypes,
   selectCourse,
 } from "src/logic/redux/reducers/courseSlice/courseSlice";
-import { homePageGraphics } from "src/constants";
+import { homePageGraphics } from "src/constants/index";
 import { useNavigate } from "react-router-dom";
 import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
