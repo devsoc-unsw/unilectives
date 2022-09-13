@@ -1,8 +1,4 @@
-import {
-  getReportEntity,
-  getMockReports,
-  getMockReview,
-} from "../utils/testData";
+import { getReportEntity, getMockReports } from "../utils/testData";
 import {
   convertReportEntityToInterface,
   convertReportInterfaceToEntity,

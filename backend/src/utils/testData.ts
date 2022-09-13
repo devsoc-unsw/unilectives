@@ -133,15 +133,15 @@ export const getUserEntity = (): UserEntity => {
   };
 };
 
-export const getReportEntity = (): ReportEntity => {
+export const getReportEntity = (date = new Date()): ReportEntity => {
   return {
     reportId: "REPORT1",
     review: getReviewEntity(),
     zid: "z5555555",
     reason: "Nothing makes sense",
     status: "UNSEEN",
-    createdTimestamp: new Date(),
-    updatedTimestamp: new Date(),
+    createdTimestamp: date,
+    updatedTimestamp: date,
   };
 };
 
@@ -149,7 +149,7 @@ export const getMockReports = (date = new Date()): IReport[] => {
   return [
     {
       reportId: "REPORT1",
-      review: getMockReview(),
+      review: getMockReview(date),
       zid: "z5555555",
       reason: "Nothing makes sense",
       status: "UNSEEN",
@@ -158,7 +158,7 @@ export const getMockReports = (date = new Date()): IReport[] => {
     },
     {
       reportId: "REPORT2",
-      review: getMockReview(),
+      review: getMockReview(date),
       zid: "z5000000",
       reason: "There were rude words in the review!",
       status: "UNSEEN",
@@ -168,7 +168,7 @@ export const getMockReports = (date = new Date()): IReport[] => {
   ];
 };
 
-export const getMockReview = (): IReview => {
+export const getMockReview = (date = new Date()): IReview => {
   return {
     reviewId: "REVIEW1",
     zid: "z5555555",
@@ -177,8 +177,8 @@ export const getMockReview = (): IReview => {
     courseCode: "COMP1511",
     grade: 75,
     termTaken: "T1",
-    createdTimestamp: new Date(),
-    updatedTimestamp: new Date(),
+    createdTimestamp: date,
+    updatedTimestamp: date,
     upvotes: ["z513131"],
     manageability: 3,
     enjoyability: 4,
@@ -187,7 +187,7 @@ export const getMockReview = (): IReview => {
   };
 };
 
-export const getReviewEntity = (): ReviewEntity => {
+export const getReviewEntity = (date = new Date()): ReviewEntity => {
   return {
     reviewId: "REVIEW1",
     zid: "z5555555",
@@ -196,8 +196,8 @@ export const getReviewEntity = (): ReviewEntity => {
     courseCode: "COMP1511",
     grade: 75,
     termTaken: "T1",
-    createdTimestamp: new Date(),
-    updatedTimestamp: new Date(),
+    createdTimestamp: date,
+    updatedTimestamp: date,
     upvotes: ["z513131"],
     manageability: 3,
     enjoyability: 4,
@@ -206,7 +206,7 @@ export const getReviewEntity = (): ReviewEntity => {
   };
 };
 
-export const getMockReviews = (): IReview[] => {
+export const getMockReviews = (date = new Date()): IReview[] => {
   return [
     {
       reviewId: "REVIEW1",
@@ -216,8 +216,8 @@ export const getMockReviews = (): IReview[] => {
       courseCode: "COMP1511",
       grade: 75,
       termTaken: "T1",
-      createdTimestamp: new Date(),
-      updatedTimestamp: new Date(),
+      createdTimestamp: date,
+      updatedTimestamp: date,
       upvotes: ["z513131"],
       manageability: 3,
       enjoyability: 4,
@@ -232,8 +232,8 @@ export const getMockReviews = (): IReview[] => {
       courseCode: "COMP2521",
       grade: 75,
       termTaken: "T2",
-      createdTimestamp: new Date(),
-      updatedTimestamp: new Date(),
+      createdTimestamp: date,
+      updatedTimestamp: date,
       upvotes: ["z513131"],
       manageability: 3,
       enjoyability: 3,
@@ -243,7 +243,7 @@ export const getMockReviews = (): IReview[] => {
   ];
 };
 
-export const getMockCOMP2521Reviews = (): IReview[] => {
+export const getMockCOMP2521Reviews = (date = new Date()): IReview[] => {
   return [
     {
       reviewId: "REVIEW2",
@@ -253,8 +253,8 @@ export const getMockCOMP2521Reviews = (): IReview[] => {
       courseCode: "COMP2521",
       grade: 75,
       termTaken: "T2",
-      createdTimestamp: new Date(),
-      updatedTimestamp: new Date(),
+      createdTimestamp: date,
+      updatedTimestamp: date,
       upvotes: ["z513131"],
       manageability: 3,
       enjoyability: 3,

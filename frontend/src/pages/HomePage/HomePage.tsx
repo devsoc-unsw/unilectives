@@ -10,6 +10,7 @@ import {
   Graphic,
   TextFlexbox,
   HomeText,
+  LoginButton,
   ButtonFlexbox,
   HomeHeader,
   Logo,
@@ -29,6 +30,8 @@ import { homePageGraphics } from "src/constants/index";
 import { useNavigate } from "react-router-dom";
 import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
+import CourseListItem from "src/components/CourseListItem/CourseListItem";
+import CourseListHeader from "src/components/CourseListHeader/CourseListHeader";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
@@ -57,13 +60,13 @@ const HomePage = () => {
     <Content>
       <HomeHeader>
         <Logo src={UniLectives} />
-        <Button
-          bg="transparent"
-          style={{ marginLeft: "60%", border: "2px solid white" }}
+        <LoginButton
+          // bg="transparent"
+          // style={{ marginLeft: "60%", border: "2px solid white" }}
           onClick={() => setLoginDialog(true)}
         >
           Login
-        </Button>
+        </LoginButton>
       </HomeHeader>
       <Flexbox>
         <FlexboxComponent padding="10em">
@@ -87,7 +90,7 @@ const HomePage = () => {
                 <HomeText fontFamily={"Lato"}>Browse</HomeText>
               </Button>
               <Button bg="#72C1DA" onClick={() => setReviewModal(true)}>
-                <HomeText fontFamily={"Lato"}>Add a Review</HomeText>
+                <HomeText fontFamily={"Lato"}>Add Review</HomeText>
               </Button>
             </ButtonFlexbox>
           </TextFlexbox>
@@ -105,9 +108,11 @@ const HomePage = () => {
           {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
           <Text>User response:</Text>
           <Text>{JSON.stringify(user)}</Text>
+          <CourseListHeader/>
           {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
             results.map((course) => (
-              <Text key={course.courseCode}>{course.courseCode}</Text>
+              <CourseListItem key={course.courseCode} course={course} />
+              // <Text key={course.courseCode}>{course.terms} BING CHILLING</Text></>
             ))}
           {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
         </SmallContainer>

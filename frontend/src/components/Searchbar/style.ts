@@ -10,7 +10,7 @@ export const searchbarStyle = (
       paddingX: "15px",
       "& > fieldset": {
         borderRadius: "30px",
-        borderWidth: "2px",
+        borderWidth: "2.3px",
       },
       "& > fieldset, &.Mui-focused > fieldset": {
         borderColor: mainColour,
@@ -31,6 +31,10 @@ export const searchbarStyle = (
     },
     "& .MuiFormLabel-filled": {
       color: mainColour,
+    },
+    marginTop: "85px",
+    "& .MuiInputLabel-outlined": {
+      fontSize: "1.2rem",
     },
   } as SxProps;
 };
