@@ -27,7 +27,6 @@ import {
   selectCourse,
 } from "src/logic/redux/reducers/courseSlice/courseSlice";
 import { homePageGraphics } from "src/constants";
-import { useNavigate } from "react-router-dom";
 import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
 import CourseListItem from "src/components/CourseListItem/CourseListItem";
