@@ -13,9 +13,14 @@ export interface IPostReviewRequestBody {
   zid: string;
   courseCode: string;
   authorName: string;
+  title: string;
   description: string;
   grade: number;
   termTaken: string;
+  manageability: number;
+  usefulness: number;
+  enjoyability: number;
+  overallRating: number;
 }
 
 export interface IPostReviewSuccessResponse {

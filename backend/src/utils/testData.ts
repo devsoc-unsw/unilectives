@@ -28,6 +28,7 @@ export const getCourseEntity = (): CourseEntity => {
     title: "good course imo",
     uoc: 6,
     rating: 4,
+    reviewsIds: ["rev-123"],
   };
 };
 
@@ -53,6 +54,7 @@ export const getMockCourses = (): ICourse[] => {
       title: "good course imo",
       uoc: 6,
       rating: 4,
+      reviewsIds: ["rev-123"],
     },
     {
       courseCode: "COMP1531",
@@ -74,6 +76,7 @@ export const getMockCourses = (): ICourse[] => {
       title: "good course imo",
       uoc: 6,
       rating: 4,
+      reviewsIds: ["rev-123"],
     },
   ];
 };
@@ -113,6 +116,7 @@ export const getMockUser = (): IUser => {
         title: "good course imo",
         uoc: 6,
         rating: 4,
+        reviewsIds: ["rev-123"],
       },
     ],
     bookmarkedReviews: [],
@@ -173,6 +177,7 @@ export const getMockReview = (date = new Date()): IReview => {
     reviewId: "REVIEW1",
     zid: "z5555555",
     authorName: "test",
+    title: "my review1",
     description: "amazing",
     courseCode: "COMP1511",
     grade: 75,
@@ -192,6 +197,7 @@ export const getReviewEntity = (date = new Date()): ReviewEntity => {
     reviewId: "REVIEW1",
     zid: "z5555555",
     authorName: "test",
+    title: "my review1",
     description: "amazing",
     courseCode: "COMP1511",
     grade: 75,
@@ -212,6 +218,7 @@ export const getMockReviews = (date = new Date()): IReview[] => {
       reviewId: "REVIEW1",
       zid: "z5555555",
       authorName: "test",
+      title: "my review1",
       description: "amazing",
       courseCode: "COMP1511",
       grade: 75,
@@ -228,6 +235,7 @@ export const getMockReviews = (date = new Date()): IReview[] => {
       reviewId: "REVIEW2",
       zid: "z5555555",
       authorName: "test2",
+      title: "my review2",
       description: "average",
       courseCode: "COMP2521",
       grade: 75,
@@ -249,6 +257,7 @@ export const getMockCOMP2521Reviews = (date = new Date()): IReview[] => {
       reviewId: "REVIEW2",
       zid: "z5555555",
       authorName: "test2",
+      title: "my review2",
       description: "average",
       courseCode: "COMP2521",
       grade: 75,

@@ -1,4 +1,5 @@
-import { PrimaryColumn, Column, Entity } from "typeorm";
+import { PrimaryColumn, Column, Entity, OneToMany, RelationId } from "typeorm";
+import { ReviewEntity } from "./Review";
 
 @Entity({ name: "courses", schema: "cselectives" })
 export class CourseEntity {
@@ -58,4 +59,10 @@ export class CourseEntity {
 
   @Column("float", { name: "rating", nullable: false })
   rating: number;
+
+  @OneToMany(() => ReviewEntity, (review) => review.courseCode)
+  reviews?: ReviewEntity[];
+
+  @RelationId((course: CourseEntity) => course.reviews)
+  reviewsIds: string[] | [];
 }

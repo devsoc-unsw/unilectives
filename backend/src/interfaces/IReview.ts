@@ -3,6 +3,7 @@ export interface IReview {
   zid: string;
   courseCode: string;
   authorName: string;
+  title: string;
   description: string;
   grade: number;
   termTaken: string;
