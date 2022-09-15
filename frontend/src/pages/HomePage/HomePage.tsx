@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
 import Text from "../../components/text/Text";
 import {
@@ -45,6 +45,12 @@ const HomePage = () => {
   const [landingGraphic, setLandingGraphic] = useState<string>();
   const [results, setResults] = useState<ICourse[]>([]);
 
+  const ref = useRef<null | HTMLDivElement>(null); 
+
+  const handleClick = () => {
+    ref.current?.scrollIntoView({behavior: 'smooth'}); 
+  };
+
   useEffect(() => {
     setLandingGraphic(
       homePageGraphics[Math.floor(Math.random() * homePageGraphics.length)]
@@ -61,8 +67,6 @@ const HomePage = () => {
       <HomeHeader>
         <Logo src={UniLectives} />
         <LoginButton
-          // bg="transparent"
-          // style={{ marginLeft: "60%", border: "2px solid white" }}
           onClick={() => setLoginDialog(true)}
         >
           Login
@@ -86,7 +90,7 @@ const HomePage = () => {
               Your one stop shop for UNSW course and electives reviews.
             </HomeText>
             <ButtonFlexbox>
-              <Button bg="#3B5DD5" onClick={() => navigate("/search")}>
+              <Button bg="#3B5DD5" onClick={handleClick}>
                 <HomeText fontFamily={"Lato"}>Browse</HomeText>
               </Button>
               <Button bg="#72C1DA" onClick={() => setReviewModal(true)}>
@@ -100,22 +104,24 @@ const HomePage = () => {
         </FlexboxComponent>
       </Flexbox>
       <Container>
-        <SmallContainer>
-          <Searchbar
-            courses={courses?.courses ?? []}
-            onSearchChange={setResults}
-          />
-          {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
-          <Text>User response:</Text>
-          <Text>{JSON.stringify(user)}</Text>
-          <CourseListHeader/>
-          {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
-            results.map((course) => (
-              <CourseListItem key={course.courseCode} course={course} />
-              // <Text key={course.courseCode}>{course.terms} BING CHILLING</Text></>
-            ))}
-          {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
-        </SmallContainer>
+        <div ref={ref}>
+          <SmallContainer>
+            <Searchbar
+              courses={courses?.courses ?? []}
+              onSearchChange={setResults}
+            />
+            {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
+            <Text>User response:</Text>
+            <Text>{JSON.stringify(user)}</Text>
+            <CourseListHeader/>
+            {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
+              results.map((course) => (
+                <CourseListItem key={course.courseCode} course={course} />
+                // <Text key={course.courseCode}>{course.terms} BING CHILLING</Text></>
+              ))}
+            {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
+          </SmallContainer>
+        </div>
         <Footer />
       </Container>
     </Content>
