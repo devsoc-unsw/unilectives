@@ -61,5 +61,6 @@ module.exports = {
     "global-require": "off",
     "@typescript-eslint/dot-notation": "off",
     "no-else-return": "off",
+    "no-param-reassign": "off",
   },
 };

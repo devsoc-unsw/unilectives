@@ -2,7 +2,6 @@ import styled from "styled-components";
 import landingCurve from "src/assets/curves/fullScreen.svg";
 
 export const Content = styled.div`
-  width: 100vw;
   height: 100vh;
   background-image: url(${landingCurve});
   background-size: cover;

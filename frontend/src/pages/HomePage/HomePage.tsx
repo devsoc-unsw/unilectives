@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
-import Text from "../../components/text/Text";
 import {
   Button,
   Container,
@@ -18,7 +17,6 @@ import {
 import { UniLectives } from "src/components/image/imageIndex";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import { useAppDispatch, useAppSelector } from "src/logic/redux/hooks";
-import { selectUser } from "src/logic/redux/reducers/userSlice/userSlice";
 import Footer from "src/components/Footer/Footer";
 import {
   getCoursesDispatch,
@@ -29,12 +27,12 @@ import { homePageGraphics } from "src/constants";
 import { useNavigate } from "react-router-dom";
 import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
+import CourseCard from "src/components/CourseCard/CourseCard";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { user } = useAppSelector(selectUser) || {};
   const { courses, loadingStatus } = useAppSelector(selectCourse) || {};
 
   const [loginDialog, setLoginDialog] = useState<boolean>(false);
@@ -59,7 +57,7 @@ const HomePage = () => {
         <Logo src={UniLectives} />
         <Button
           bg="transparent"
-          style={{ marginLeft: "60%", border: "2px solid white" }}
+          style={{ marginRight: "1rem", border: "2px solid white" }}
           onClick={() => setLoginDialog(true)}
         >
           Login
@@ -103,12 +101,24 @@ const HomePage = () => {
             onSearchChange={setResults}
           />
           {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
-          <Text>User response:</Text>
-          <Text>{JSON.stringify(user)}</Text>
-          {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
-            results.map((course) => (
-              <Text key={course.courseCode}>{course.courseCode}</Text>
-            ))}
+          <div
+            style={{
+              alignItems: "center",
+              margin: "0 50%",
+              display: "grid",
+              gridTemplateColumns: "auto auto auto",
+            }}
+          >
+            {(loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED ||
+              results.length > 0) &&
+              results.map((course, idx) => (
+                <CourseCard
+                  key={`${course.courseCode} + ${idx}`}
+                  course={course}
+                  onClick={() => navigate(`/course/${course.courseCode}`)}
+                />
+              ))}
+          </div>
           {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
         </SmallContainer>
         <Footer />

@@ -15,10 +15,17 @@ type SearchbarProps = {
   onSearchChange: React.Dispatch<React.SetStateAction<ICourse[]>>;
 };
 
-
 const sortByOptions = ["Most Reviewed", "Alphabetical Order", "Highest Rating"];
-const faculties = ["All Faculties", "Arts", "Business", "Engineering", "Law", "Medicine",
-                "Science", "UNSW Canberra"];
+const faculties = [
+  "All Faculties",
+  "Arts",
+  "Business",
+  "Engineering",
+  "Law",
+  "Medicine",
+  "Science",
+  "UNSW Canberra",
+];
 
 const terms = ["All Terms", "Summer", "Term 1", "Term 2", "Term 3", "Other"];
 
@@ -34,65 +41,69 @@ const Searchbar = ({ courses, onSearchChange }: SearchbarProps) => {
   const [facultyFilter, setFacultyFilter] = React.useState(faculties[0]);
   const [termFilter, setTermFilter] = React.useState(terms[0]);
 
-
   // this just updates the displayed courses whenever we filter
   React.useEffect(() => {
     if (courses) {
-
       let filterFaculty = (course: ICourse) => {
-        return facultyFilter === faculties[0] || course.faculty === facultyFilter;
-      }
+        return (
+          facultyFilter === faculties[0] || course.faculty === facultyFilter
+        );
+      };
 
       let filterTerm = (course: ICourse) => {
-        return termFilter === terms[0] || course.terms.includes(terms.indexOf(termFilter) - 1);
-      }
+        return (
+          termFilter === terms[0] ||
+          course.terms.includes(terms.indexOf(termFilter) - 1)
+        );
+      };
 
       let filterSearch = (course: ICourse) => {
         let checkSearch = (text: string) => {
-          return text.toLowerCase()
-                     .includes(search.toLowerCase())
-        }
+          return text.toLowerCase().includes(search.toLowerCase());
+        };
 
-        return checkSearch(course.courseCode) ||
-               checkSearch(course.title) ||
-               checkSearch(course.description);
-      }
+        return (
+          checkSearch(course.courseCode) ||
+          checkSearch(course.title) ||
+          checkSearch(course.description)
+        );
+      };
 
       let filterSort = (courseList: ICourse[]) => {
         var filteredCourses: ICourse[] = [...courseList];
 
-        switch(sortFilter) {
+        switch (sortFilter) {
           case "Alphabetical Order":
-            filteredCourses.sort()
+            filteredCourses.sort();
             break;
           case "Highest Rating":
-            filteredCourses.sort((c1, c2) => c2.rating - c1.rating)
+            filteredCourses.sort((c1, c2) => c2.rating - c1.rating);
             break;
           default:
             // default sorts by Most Reviewed
             // TODO: does each course have Reviews?? Update Swagger?
 
-            filteredCourses.sort()
+            filteredCourses.sort();
         }
 
         return filteredCourses;
-      }
+      };
 
       // add extra filter based on words found inside top reviews??
       onSearchChange(
         filterSort(
-          courses.filter((course) =>
-          filterSearch(course) && filterFaculty(course) && filterTerm(course))
+          courses.filter(
+            (course) =>
+              filterSearch(course) &&
+              filterFaculty(course) &&
+              filterTerm(course)
+          )
         )
-      )
-
+      );
     }
-
   }, [search, sortFilter, facultyFilter, termFilter]);
 
-
   return (
-
     <Stack sx={{ width: { xs: "80%", sm: "70%" } }} spacing={4}>
       <Stack>
         <TextField
@@ -131,7 +142,7 @@ const Searchbar = ({ courses, onSearchChange }: SearchbarProps) => {
           label="Sort by"
           options={sortByOptions}
           onFilterChange={(option) => {
-            setSortFilter(option)
+            setSortFilter(option);
           }}
           defaultOption={sortFilter}
         ></SelectFilter>
@@ -148,7 +159,7 @@ const Searchbar = ({ courses, onSearchChange }: SearchbarProps) => {
             label="Term"
             options={terms}
             onFilterChange={(term) => {
-              setTermFilter(term)
+              setTermFilter(term);
             }}
             defaultOption={termFilter}
           ></SelectFilter>

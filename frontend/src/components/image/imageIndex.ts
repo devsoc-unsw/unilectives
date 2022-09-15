@@ -5,6 +5,7 @@ import HeaderWave from "src/assets/images/header-wave.svg";
 import AlluraOne from "src/assets/graphics/allura1.svg";
 import AlluraTwo from "src/assets/graphics/allura2.svg";
 import AlluraThree from "src/assets/graphics/allura3.svg";
+import LoadingAnimation from "src/assets/images/loading.gif";
 
 export {
   HeaderWave,
@@ -14,4 +15,5 @@ export {
   AlluraOne,
   AlluraTwo,
   AlluraThree,
+  LoadingAnimation,
 };

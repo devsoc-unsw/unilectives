@@ -19,6 +19,7 @@ export interface ICourse {
   title: string;
   uoc: number;
   rating: number;
+  reviewsIds: string[];
 }
 
 // Reviews
@@ -92,4 +93,22 @@ export interface IPostUserResponse {
 
 export interface IGetCoursesResponse {
   courses: ICourse[];
+}
+
+export interface IPostReviewRequestBody {
+  zid: string;
+  courseCode: string;
+  authorName: string;
+  title: string;
+  description: string;
+  grade: number;
+  termTaken: string;
+  manageability: number;
+  usefulness: number;
+  enjoyability: number;
+  overallRating: number;
+}
+
+export interface IPostReviewResponse {
+  review: IReview;
 }
