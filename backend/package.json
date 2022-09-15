@@ -9,7 +9,8 @@
     "build": "tsc",
     "build:container": "tsc && tsc config/* && rm config/*.ts",
     "start": "node dist/src/index.js",
-    "dev": "NODE_ENV=dev ts-node --transpile-only src/index.ts",
+    "dev": "NODE_ENV=dev tsx src/index.ts",
+    "dev:watch": "NODE_ENV=dev tsx watch src/index.ts",
     "test": "jest --coverage --verbose"
   },
   "dependencies": {
@@ -43,7 +44,7 @@
     "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "ts-jest": "28.0.8",
-    "ts-node": "10.9.1",
+    "tsx": "^3.9.0",
     "typescript": "4.8.2"
   }
 }
