@@ -14,7 +14,7 @@ const DisplayRating = (p: Props) => {
           ? (rating % 1) * 100
           : 100;
       };
-    
+
     return (
         <StarContainer>
             {Array.from(Array(maxRating).keys()).map((idx) => (idx < rating &&
