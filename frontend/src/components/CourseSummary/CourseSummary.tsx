@@ -26,8 +26,8 @@ const CourseSummary = ({course,
   // TODO: Set value for rating through logic
   const [value, setValue] = useState<number | null>(5);
 
-  const [clamped, setClamped] = useState(true);
-  const [showButton, setShowButton] = useState(true);
+  const [clamped, setClamped] = useState<boolean>(true);
+  const [showButton, setShowButton] = useState<boolean>(true);
 
   const handleClick = () => setClamped(!clamped)
 

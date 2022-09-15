@@ -6,6 +6,7 @@ export const Container = styled.div`
   flex-wrap: wrap;
   align-items: flex-end;
   margin-top: 1rem;
+  justify-content: space-between;
 `;
 
 // Styles for course code and name section
@@ -14,12 +15,13 @@ export const CourseCodeBox = styled.div`
   flex-direction: column;
 `;
 
-export const CourseCode = styled.h1`
+export const CourseCode = styled.text`
   font-size: 2.5em;
+  font-weight: bold;
   margin: 0;
 `;
 
-export const CourseName = styled.h2`
+export const CourseName = styled.text`
   font-size: 1.5em;
   margin: 0;
 `;
@@ -80,4 +82,43 @@ export const CategoryRating = styled.div`
   display: flex; 
   flex-direction: row;
   align-items: flex-end;
-`
+`;
+
+// Add review button
+interface ButtonProps {
+  bg?: string;
+  color?: string;
+  justify?: string;
+}
+
+export const Button = styled.button<ButtonProps>`
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 550;
+  padding: 13px 28px;
+  margin-top: 18px;
+  background-color: ${(props) => props.bg || "#333"};
+  color: ${(props) => props.color || "#FFF"};
+  &:hover {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+  height: 45px;
+  margin-bottom: 15px;
+`;
+
+interface TextProps {
+  fontFamily?: string;
+  fontWeight?: string;
+  fontSize?: string;
+  color?: string;
+}
+
+export const Text = styled.text<TextProps>`
+  font-family: ${(props) => props.fontFamily}, sans-serif;
+  font-weight: ${(props) => props.fontWeight};
+  font-size: ${(props) => props.fontSize};
+  color: ${(props) => props.color || "#000"};
+`;
