@@ -8,6 +8,11 @@ export const Container = styled.div`
   align-items: center;
 `;
 
+export const Content = styled.div`
+  width: 100vw;
+  height: 100vh;
+`;
+
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
