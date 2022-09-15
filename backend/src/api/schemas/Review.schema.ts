@@ -21,6 +21,7 @@ export const CommonReviewSchema = Joi.object({
 export const PostReviewSchema = Joi.object({
   zid: Joi.string().required(),
   authorName: Joi.string().required(),
+  title: Joi.string().required(),
   description: Joi.string().required(),
   courseCode: Joi.string().required(),
   rating: Joi.number().required(),

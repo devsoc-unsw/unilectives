@@ -26,6 +26,9 @@ export class ReviewEntity {
   @Column("text", { name: "author_name", nullable: false })
   authorName: string;
 
+  @Column("text", { name: "title", nullable: false })
+  title: string;
+
   @Column("text", { name: "description", nullable: true })
   description: string;
 

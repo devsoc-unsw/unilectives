@@ -69,6 +69,7 @@ describe("ReviewService", () => {
         zid: reviewEntity.zid,
         courseCode: reviewEntity.courseCode,
         authorName: reviewEntity.authorName,
+        title: reviewEntity.title,
         description: reviewEntity.description,
         grade: reviewEntity.grade,
         termTaken: reviewEntity.termTaken,

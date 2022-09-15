@@ -61,6 +61,7 @@ export class ReviewService {
     reviewEntity.zid = reviewDetails.zid;
     reviewEntity.courseCode = reviewDetails.courseCode;
     reviewEntity.authorName = reviewDetails.authorName;
+    reviewEntity.title = reviewDetails.title;
     reviewEntity.description = reviewDetails.description;
     reviewEntity.grade = reviewDetails.grade;
     reviewEntity.termTaken = reviewDetails.termTaken;
