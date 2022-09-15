@@ -74,3 +74,18 @@ export const CourseInfo = styled.div`
   border-radius: 5px;
   padding: 28px 28px 28px 28px;
 `;
+
+export const Flexbox = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+interface FlexboxProps {
+  width?: string;
+}
+
+export const FlexboxComponent = styled.div<FlexboxProps>`
+  justify-content: center;
+  align-items: center;
+  width: ${(props) => props.width};
+`;
