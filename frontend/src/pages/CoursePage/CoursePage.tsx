@@ -31,9 +31,11 @@ const CoursePage = () => {
         <FlexboxComponent width={'40'}>
           {/* TODO: Fetch rating sections from BE */}
           <CourseSummary
+            course={courseCode}
             enjoyabilityRating={4.1}
             usefulnessRating={3.5}
             manageabilityRating={3.4}
+            noReviews={22}
           />
         </FlexboxComponent>
       </Flexbox>

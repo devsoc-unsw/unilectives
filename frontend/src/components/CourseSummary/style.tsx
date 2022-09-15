@@ -4,7 +4,11 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  gap: 20px;
+  border: 2px solid #E8E8E8;
+  border-radius: 20px;
+  padding: 3em;
 `;
 
 export const CourseTerms = styled.div`
@@ -35,6 +39,7 @@ export const Flexbox = styled.div`
   display: flex;
   flex-direction: row;
   gap: 5px;
+  align-items: center;
 `;
 
 // Styles for category ratings sections

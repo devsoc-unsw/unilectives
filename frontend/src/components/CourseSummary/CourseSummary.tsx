@@ -1,25 +1,42 @@
 import { useState } from "react";
+import {
+  Link
+} from "react-router-dom";
 import { Container, CourseTerms, Text, Flexbox } from "./style";
 import { AllRatingsBox, RatingBox, RatingTitle, RatingNum, OutOfRating, CategoryRating } from "./style";
 import Rating from '@mui/material/Rating';
+// import Link from '@mui/material/Link';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 type CourseSummaryProps = {
+  course: string,
   enjoyabilityRating: number,
   usefulnessRating: number,
   manageabilityRating: number,
+  noReviews: number,
 }
 
-const CourseSummary = ({enjoyabilityRating,
+const CourseSummary = ({course,
+                        enjoyabilityRating,
                         usefulnessRating,
                         manageabilityRating,
+                        noReviews,
                       }: CourseSummaryProps) => {
 
   // TODO: Set value for rating through logic
   const [value, setValue] = useState<number | null>(5);
 
+  const [clamped, setClamped] = useState(true);
+  const [showButton, setShowButton] = useState(true);
+
+  const handleClick = () => setClamped(!clamped)
+
+  const openHandbook = () => {
+    window.open(`www.handbook.unsw.edu.au/undergraduate/courses/2023/${course}`, "_blank", "noopener noreferrer");
+  };
+
   return (
     <Container>
-      Hello
       <Flexbox>
         <CourseTerms>
           <Text fontFamily={"Roboto"} fontWeight={"regular"} fontSize="15px">
@@ -37,16 +54,28 @@ const CourseSummary = ({enjoyabilityRating,
           </Text>
         </CourseTerms>
       </Flexbox>
-      <Rating 
-        name="read-only"
-        value={value}
-        readOnly
-        sx={{
-          '& .MuiRating-iconFilled': {
-            color: '#326BF7',
-          },
-        }}
-      />
+      <Link color={'#38B2E5'} target="_blank" to={`//www.handbook.unsw.edu.au/undergraduate/courses/2023/${course}`}>
+        <Flexbox>
+          <OpenInNewIcon style={{ fill: '#38B2E5' }} />
+          {course} Handbook Page
+        </Flexbox>
+      </Link>
+      <Flexbox>
+        <Rating 
+          name="read-only"
+          value={value}
+          readOnly
+          sx={{
+            '& .MuiRating-iconFilled': {
+              color: '#326BF7',
+              fontSize: '1.7rem',
+            },
+          }}
+        />
+        <Text color={'#808080'}>
+          {noReviews} reviews
+        </Text>
+      </Flexbox>
       <AllRatingsBox>
         <RatingBox>
           <RatingTitle>Enjoyability</RatingTitle>
@@ -70,6 +99,13 @@ const CourseSummary = ({enjoyabilityRating,
           </CategoryRating>
         </RatingBox>
       </AllRatingsBox>
+      <Text fontWeight={"bold"}>
+        Course Description
+      </Text>
+
+      {showButton && (
+        <button onClick={handleClick}>Read {clamped ? "more" : "less"}</button>
+      )}
     </Container>
   );
 }
