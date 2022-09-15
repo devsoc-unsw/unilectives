@@ -35,7 +35,6 @@ import CourseListHeader from "src/components/CourseListHeader/CourseListHeader";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const { user } = useAppSelector(selectUser) || {};
   const { courses, loadingStatus } = useAppSelector(selectCourse) || {};
@@ -45,10 +44,10 @@ const HomePage = () => {
   const [landingGraphic, setLandingGraphic] = useState<string>();
   const [results, setResults] = useState<ICourse[]>([]);
 
-  const ref = useRef<null | HTMLDivElement>(null); 
+  const ref = useRef<null | HTMLDivElement>(null);
 
   const handleClick = () => {
-    ref.current?.scrollIntoView({behavior: 'smooth'}); 
+    ref.current?.scrollIntoView({behavior: 'smooth'});
   };
 
   useEffect(() => {
