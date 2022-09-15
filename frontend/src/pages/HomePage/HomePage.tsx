@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import LoginDialog from "./LoginDialog/LoginDialog";
 import {
   Button,
@@ -9,6 +9,7 @@ import {
   Graphic,
   TextFlexbox,
   HomeText,
+  LoginButton,
   ButtonFlexbox,
   HomeHeader,
   Logo,
@@ -24,14 +25,13 @@ import {
   selectCourse,
 } from "src/logic/redux/reducers/courseSlice/courseSlice";
 import { homePageGraphics } from "src/constants";
-import { useNavigate } from "react-router-dom";
 import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
-import CourseCard from "src/components/CourseCard/CourseCard";
+import CourseListItem from "src/components/CourseListItem/CourseListItem";
+import CourseListHeader from "src/components/CourseListHeader/CourseListHeader";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const { courses, loadingStatus } = useAppSelector(selectCourse) || {};
 
@@ -39,6 +39,12 @@ const HomePage = () => {
   const [reviewModal, setReviewModal] = useState<boolean>(false);
   const [landingGraphic, setLandingGraphic] = useState<string>();
   const [results, setResults] = useState<ICourse[]>([]);
+
+  const ref = useRef<null | HTMLDivElement>(null);
+
+  const handleClick = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     setLandingGraphic(
@@ -55,13 +61,7 @@ const HomePage = () => {
     <Content>
       <HomeHeader>
         <Logo src={UniLectives} />
-        <Button
-          bg="transparent"
-          style={{ marginRight: "1rem", border: "2px solid white" }}
-          onClick={() => setLoginDialog(true)}
-        >
-          Login
-        </Button>
+        <LoginButton onClick={() => setLoginDialog(true)}>Login</LoginButton>
       </HomeHeader>
       <Flexbox>
         <FlexboxComponent padding="10em">
@@ -81,11 +81,11 @@ const HomePage = () => {
               Your one stop shop for UNSW course and electives reviews.
             </HomeText>
             <ButtonFlexbox>
-              <Button bg="#3B5DD5" onClick={() => navigate("/search")}>
+              <Button bg="#3B5DD5" onClick={handleClick}>
                 <HomeText fontFamily={"Lato"}>Browse</HomeText>
               </Button>
               <Button bg="#72C1DA" onClick={() => setReviewModal(true)}>
-                <HomeText fontFamily={"Lato"}>Add a Review</HomeText>
+                <HomeText fontFamily={"Lato"}>Add Review</HomeText>
               </Button>
             </ButtonFlexbox>
           </TextFlexbox>
@@ -95,32 +95,22 @@ const HomePage = () => {
         </FlexboxComponent>
       </Flexbox>
       <Container>
-        <SmallContainer>
-          <Searchbar
-            courses={courses?.courses ?? []}
-            onSearchChange={setResults}
-          />
-          {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
-          <div
-            style={{
-              alignItems: "center",
-              margin: "0 50%",
-              display: "grid",
-              gridTemplateColumns: "auto auto auto",
-            }}
-          >
-            {(loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED ||
-              results.length > 0) &&
-              results.map((course, idx) => (
-                <CourseCard
-                  key={`${course.courseCode} + ${idx}`}
-                  course={course}
-                  onClick={() => navigate(`/course/${course.courseCode}`)}
-                />
+        <div ref={ref}>
+          <SmallContainer>
+            <Searchbar
+              courses={courses?.courses ?? []}
+              onSearchChange={setResults}
+            />
+            {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
+            <CourseListHeader />
+            {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
+              results.map((course) => (
+                <CourseListItem key={course.courseCode} course={course} />
+                // <Text key={course.courseCode}>{course.terms} BING CHILLING</Text></>
               ))}
-          </div>
-          {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
-        </SmallContainer>
+            {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
+          </SmallContainer>
+        </div>
         <Footer />
       </Container>
     </Content>

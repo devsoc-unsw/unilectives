@@ -37,20 +37,22 @@ export const Logo = styled.img`
 `;
 
 export const LoginButton = styled.button<ButtonProps>`
-  border-radius: 12px;
+  border-radius: 22px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 550;
   padding: 10x 10px;
   background: none;
-  border: 2px solid white;
+  border: 1.6px solid white;
+  width: 80px;
+  height: 40px;
   color: #fff;
   &:hover {
     opacity: 0.9;
     transform: scale(0.98);
   }
-  margin-right: 5rem;
-  margin-top: 1rem;
+  margin-right: 2rem;
+  margin-top: 2rem;
 `;
 
 export const Graphic = styled.img`
@@ -102,6 +104,7 @@ export const HomeText = styled.text<TextProps>`
   font-size: ${(props) => props.fontSize};
   color: ${(props) => props.color};
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
 `;
 
 /**Button CSS */
@@ -132,4 +135,6 @@ export const Button = styled.button<ButtonProps>`
     transform: scale(0.98);
   }
   float: right;
+  height: 45px;
+  margin-bottom: 15px;
 `;

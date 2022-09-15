@@ -153,7 +153,7 @@ export const getMockReports = (date = new Date()): IReport[] => {
   return [
     {
       reportId: "REPORT1",
-      review: getMockReview(),
+      review: getMockReview(date),
       zid: "z5555555",
       reason: "Nothing makes sense",
       status: "UNSEEN",
@@ -162,7 +162,7 @@ export const getMockReports = (date = new Date()): IReport[] => {
     },
     {
       reportId: "REPORT2",
-      review: getMockReview(),
+      review: getMockReview(date),
       zid: "z5000000",
       reason: "There were rude words in the review!",
       status: "UNSEEN",
