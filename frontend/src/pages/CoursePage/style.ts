@@ -8,7 +8,7 @@ export const Container = styled.div`
 `;
 
 export const CourseContainer = styled.div`
-  width: 80%;
+  width: 80vw;
 `;
 
 export const CoursePage = styled.div`
@@ -75,17 +75,23 @@ export const CourseInfo = styled.div`
   padding: 28px 28px 28px 28px;
 `;
 
-export const Flexbox = styled.div`
+export const Flexbox = styled.div<FlexboxProps>`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(props) => props.direction};
+  width: 80vw;
+  gap: 5vh;
 `;
 
 interface FlexboxProps {
-  width?: string;
+  direction?: string;
 }
 
-export const FlexboxComponent = styled.div<FlexboxProps>`
+export const FlexboxComponent = styled.div<FlexboxComponentProps>`
   justify-content: center;
   align-items: center;
-  width: ${(props) => props.width};
+  width: ${(props) => props.width}%;
 `;
+
+interface FlexboxComponentProps {
+  width?: string;
+}

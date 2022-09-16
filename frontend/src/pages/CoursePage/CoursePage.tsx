@@ -15,7 +15,8 @@ const CoursePage = () => {
   return (
     <Container>
       <Header courses={[]} />
-      <CourseContainer>
+      <Flexbox direction={'column'}>
+        {/* <CourseContainer> */}
         <CourseHeader
           courseCode={courseCode}
           overallRating={3.4}
@@ -24,20 +25,22 @@ const CoursePage = () => {
           manageabilityRating={3.4}
           noReviews={22}
         />
-      </CourseContainer>
-      <Flexbox>
-        <FlexboxComponent width={'60'}>
-        </FlexboxComponent>
-        <FlexboxComponent width={'40'}>
-          {/* TODO: Fetch rating sections from BE */}
-          <CourseSummary
-            course={courseCode}
-            enjoyabilityRating={4.1}
-            usefulnessRating={3.5}
-            manageabilityRating={3.4}
-            noReviews={22}
-          />
-        </FlexboxComponent>
+        {/* </CourseContainer> */}
+        <Flexbox direction={'row'}>
+          <FlexboxComponent width={'60'}>
+            Hello
+          </FlexboxComponent>
+          <FlexboxComponent width={'40'}>
+            {/* TODO: Fetch rating sections from BE */}
+            <CourseSummary
+              course={courseCode}
+              enjoyabilityRating={4.1}
+              usefulnessRating={3.5}
+              manageabilityRating={3.4}
+              noReviews={22}
+            />
+          </FlexboxComponent>
+        </Flexbox>
       </Flexbox>
       <Footer />
     </Container>

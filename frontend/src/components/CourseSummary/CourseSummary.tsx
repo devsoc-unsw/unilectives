@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Link
 } from "react-router-dom";
 import { Container, CourseTerms, Text, Flexbox } from "./style";
 import { AllRatingsBox, RatingBox, RatingTitle, RatingNum, OutOfRating, CategoryRating } from "./style";
 import Rating from '@mui/material/Rating';
-// import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { mockCourses } from '../../stubbing/data'
 
 type CourseSummaryProps = {
   course: string,
@@ -24,35 +24,37 @@ const CourseSummary = ({course,
                       }: CourseSummaryProps) => {
 
   // TODO: Set value for rating through logic
-  const [value, setValue] = useState<number | null>(5);
+  const [rating, setRating] = useState<number | null>(5);
 
   const [clamped, setClamped] = useState<boolean>(true);
   const [showButton, setShowButton] = useState<boolean>(true);
+  
+  const [courseTerms, setCourseTerms] = useState<number[]>([]);
+  const [courseDesc, setCourseDesc] = useState<string>();
 
   const handleClick = () => setClamped(!clamped)
 
-  const openHandbook = () => {
-    window.open(`www.handbook.unsw.edu.au/undergraduate/courses/2023/${course}`, "_blank", "noopener noreferrer");
-  };
+  useEffect(() => {
+    const result = mockCourses.find((obj) => {
+      return obj.courseCode === course;
+    });
+    setCourseDesc(result.description);
+    // console.log(typeof(result.terms));
+    setCourseTerms(result.terms);
+    setRating(result.rating);
+  }, [course]);
+
 
   return (
     <Container>
       <Flexbox>
-        <CourseTerms>
-          <Text fontFamily={"Roboto"} fontWeight={"regular"} fontSize="15px">
-            Term 1
-          </Text>
-        </CourseTerms>
-        <CourseTerms>
-          <Text fontFamily={"Roboto"} fontWeight={"regular"} fontSize="15px">
-            Term 2
-          </Text>
-        </CourseTerms>
-        <CourseTerms>
-          <Text fontFamily={"Roboto"} fontWeight={"regular"} fontSize="15px">
-            Term 3
-          </Text>
-        </CourseTerms>
+        {courseTerms.map((term: any) => (
+          <CourseTerms key={term}>
+            <Text fontFamily={"Roboto"} fontWeight={"regular"} fontSize="15px">
+              Term {term}
+            </Text>
+          </CourseTerms>
+        ))}
       </Flexbox>
       <Link color={'#38B2E5'} target="_blank" to={`//www.handbook.unsw.edu.au/undergraduate/courses/2023/${course}`}>
         <Flexbox>
@@ -63,7 +65,7 @@ const CourseSummary = ({course,
       <Flexbox>
         <Rating 
           name="read-only"
-          value={value}
+          value={rating}
           readOnly
           sx={{
             '& .MuiRating-iconFilled': {
@@ -101,6 +103,9 @@ const CourseSummary = ({course,
       </AllRatingsBox>
       <Text fontWeight={"bold"}>
         Course Description
+      </Text>
+      <Text>
+        {courseDesc}
       </Text>
 
       {showButton && (
