@@ -5,4 +5,5 @@ module.exports = {
   database: {
     type: "postgres",
   },
+  firebase: {},
 };

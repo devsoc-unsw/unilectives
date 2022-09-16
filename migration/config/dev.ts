@@ -10,4 +10,9 @@ module.exports = {
     password: "mysecretpassword",
     database: "mydb",
   },
+  firebase: {
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+  },
 };

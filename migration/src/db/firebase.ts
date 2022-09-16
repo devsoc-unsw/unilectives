@@ -13,14 +13,17 @@ export default class Firebase {
   private store: Firestore;
 
   constructor(firebaseConfig: FirebaseOptions) {
-    this.config = firebaseConfig;
+    this.config = {
+      ...firebaseConfig,
+      authDomain: process.env.AUTH_DOMAIN,
+      projectId: process.env.PROJECT_ID,
+      storageBucket: process.env.STORAGE_BUCKET,
+    };
   }
 
   async start(): Promise<void> {
-    if (!!this.config) {
-      return;
-    }
     this.store = getFirestore(initializeApp(this.config));
+    console.log("Started up firebase!");
   }
 
   async stop(): Promise<void> {
@@ -46,9 +49,6 @@ export default class Firebase {
   }
 
   async getReviews() {
-    if (!!this.config) {
-      return mockData;
-    }
     const reviews: {
       [id: string]: IOldReview;
     } = {};
@@ -60,32 +60,3 @@ export default class Firebase {
     return reviews;
   }
 }
-
-const mockData = {
-  "1": {
-    id: "yeet1",
-    courseCode: "COMP1511",
-    termTaken: "22T1",
-    comment: "This course was great!",
-    rating: {
-      usefulness: 5,
-      enjoyment: 5,
-      difficulty: 5,
-      workload: 5,
-      overall: 5,
-    },
-  },
-  "2": {
-    id: "yeet2",
-    courseCode: "COMP1531",
-    termTaken: "22T2",
-    comment: "This course was great!",
-    rating: {
-      usefulness: 5,
-      enjoyment: 5,
-      difficulty: 5,
-      workload: 5,
-      overall: 5,
-    },
-  },
-};
