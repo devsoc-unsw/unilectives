@@ -13,7 +13,7 @@ export default class MigrationService {
 
       const newReviews: ReviewEntity[] = oldReviews.map((review) => {
         const entity = new ReviewEntity();
-        entity.zid = "z0000000";
+        entity.zid = "z5000000";
         entity.courseCode = review.courseCode;
         entity.authorName = "Anonymous";
         entity.title = "";
@@ -24,6 +24,7 @@ export default class MigrationService {
         entity.usefulness = review.rating.usefulness;
         entity.enjoyability = review.rating.enjoyment;
         entity.overallRating = review.rating.overall;
+        entity.upvotes = [];
         return entity;
       });
 

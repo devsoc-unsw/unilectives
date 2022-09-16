@@ -17,9 +17,10 @@ export default class Firebase {
   }
 
   async start(): Promise<void> {
-    // TODO: uncomment this once we have firebase config
-    // this.store = getFirestore(initializeApp(this.config));
-    console.log("mock starting");
+    if (!!this.config) {
+      return;
+    }
+    this.store = getFirestore(initializeApp(this.config));
   }
 
   async stop(): Promise<void> {
@@ -45,6 +46,9 @@ export default class Firebase {
   }
 
   async getReviews() {
+    if (!!this.config) {
+      return mockData;
+    }
     const reviews: {
       [id: string]: IOldReview;
     } = {};
@@ -53,7 +57,35 @@ export default class Firebase {
     reviewsSnapshot.docs.forEach((doc) => {
       reviews[doc.id] = doc.data() as IOldReview;
     });
-
     return reviews;
   }
 }
+
+const mockData = {
+  "1": {
+    id: "yeet1",
+    courseCode: "COMP1511",
+    termTaken: "22T1",
+    comment: "This course was great!",
+    rating: {
+      usefulness: 5,
+      enjoyment: 5,
+      difficulty: 5,
+      workload: 5,
+      overall: 5,
+    },
+  },
+  "2": {
+    id: "yeet2",
+    courseCode: "COMP1531",
+    termTaken: "22T2",
+    comment: "This course was great!",
+    rating: {
+      usefulness: 5,
+      enjoyment: 5,
+      difficulty: 5,
+      workload: 5,
+      overall: 5,
+    },
+  },
+};
