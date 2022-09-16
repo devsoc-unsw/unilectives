@@ -1,8 +1,11 @@
-import { useState } from "react";
-import { Container, CourseCodeBox, CourseCode, CourseName, Button, Text } from "./style";
-
-import { Rating } from '@mui/material';
-import { palette } from "../palette/palette";
+import {
+  Container,
+  CourseCodeBox,
+  CourseCode,
+  CourseName,
+  Button,
+  Text,
+} from "./style";
 
 type CourseHeaderProps = {
   courseCode: string,
@@ -14,8 +17,6 @@ type CourseHeaderProps = {
 }
 
 const CourseHeader = ({ courseCode, }: CourseHeaderProps) => {
-
-  const [courseName, setCourseName] = useState<string>();
 
   return (
     <Container>

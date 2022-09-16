@@ -3,7 +3,7 @@ import CourseHeader from "src/components/CourseHeader/CourseHeader";
 import Header from "src/components/Header/Header";
 import Footer from "src/components/Footer/Footer";
 import CourseSummary from "src/components/CourseSummary/CourseSummary";
-import { Container, CourseContainer, Flexbox, FlexboxComponent } from "./style";
+import { Container, Flexbox, FlexboxComponent } from "./style";
 
 type ParamTypes = {
   courseCode: string;
@@ -16,7 +16,6 @@ const CoursePage = () => {
     <Container>
       <Header courses={[]} />
       <Flexbox direction={'column'}>
-        {/* <CourseContainer> */}
         <CourseHeader
           courseCode={courseCode}
           overallRating={3.4}
@@ -25,7 +24,6 @@ const CoursePage = () => {
           manageabilityRating={3.4}
           noReviews={22}
         />
-        {/* </CourseContainer> */}
         <Flexbox direction={'row'}>
           <FlexboxComponent width={'60'}>
             Hello
@@ -42,7 +40,7 @@ const CoursePage = () => {
           </FlexboxComponent>
         </Flexbox>
       </Flexbox>
-      {/* <Footer /> */}
+      <Footer />
     </Container>
   );
 };

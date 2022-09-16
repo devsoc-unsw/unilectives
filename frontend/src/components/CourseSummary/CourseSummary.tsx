@@ -28,11 +28,14 @@ const CourseSummary = ({course,
 
   const [clamped, setClamped] = useState<boolean>(true);
   const [showButton, setShowButton] = useState<boolean>(true);
-  
+
   const [courseTerms, setCourseTerms] = useState<number[]>([]);
   const [courseDesc, setCourseDesc] = useState<string>();
 
-  const handleClick = () => setClamped(!clamped)
+  const handleClick = () => {
+    setClamped(!clamped);
+    setShowButton(!showButton);
+  }
 
   useEffect(() => {
     const result = mockCourses.find((obj) => {
@@ -63,7 +66,7 @@ const CourseSummary = ({course,
         </Flexbox>
       </Link>
       <Flexbox>
-        <Rating 
+        <Rating
           name="read-only"
           value={rating}
           readOnly

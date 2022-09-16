@@ -1,10 +1,5 @@
 import * as React from "react";
 import { Container } from "./style";
-import { IReview } from "src/interfaces/ResponseInterface";
-
-type ReviewCardProps = {
-  review: IReview;
-};
 
 const ReviewCard = () => {
 
