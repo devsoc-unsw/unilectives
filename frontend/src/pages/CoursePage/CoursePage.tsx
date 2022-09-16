@@ -42,7 +42,7 @@ const CoursePage = () => {
           </FlexboxComponent>
         </Flexbox>
       </Flexbox>
-      <Footer />
+      {/* <Footer /> */}
     </Container>
   );
 };

@@ -109,7 +109,7 @@ const CourseSummary = ({course,
       </Text>
 
       {showButton && (
-        <button onClick={handleClick}>Read {clamped ? "more" : "less"}</button>
+        <Text onClick={handleClick}>Read {clamped ? "more" : "less"}</Text>
       )}
     </Container>
   );
