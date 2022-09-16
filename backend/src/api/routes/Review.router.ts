@@ -47,14 +47,14 @@ export class ReviewRouter implements IRouter {
       .get(
         "/reviews/:courseCode",
         async (req: Request, res: Response, next: NextFunction) => {
-          this.logger.debug(`Received request in /reviews/specific_course`);
+          this.logger.debug(`Received request in /reviews/:courseCode`);
           try {
             const courseCode: string = req.params.courseCode;
             const result = await this.reviewService.getCourseReviews(
               courseCode
             );
             this.logger.info(
-              `Responding to client in GET /reviews/specific_course`
+              `Responding to client in GET /reviews/${courseCode}`
             );
             return res.status(200).json(result);
           } catch (err: any) {
@@ -71,7 +71,7 @@ export class ReviewRouter implements IRouter {
         "/reviews",
         validationMiddleware(PostReviewSchema, "body"),
         async (req: Request, res: Response, next: NextFunction) => {
-          this.logger.debug(`Received request in POST /reviews`);
+          this.logger.debug("Received request in POST /reviews");
           try {
             const reviewDetails = req.body as IPostReviewRequestBody;
             if (!reviewDetails) throw new HTTPError(badRequest);

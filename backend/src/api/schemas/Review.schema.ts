@@ -19,12 +19,17 @@ export const CommonReviewSchema = Joi.object({
 }).options({ allowUnknown: true });
 
 export const PostReviewSchema = Joi.object({
-  authorId: Joi.string().required(),
+  zid: Joi.string().required(),
   authorName: Joi.string().required(),
+  title: Joi.string().required(),
   description: Joi.string().required(),
   courseCode: Joi.string().required(),
   rating: Joi.number().required(),
   termTaken: Joi.string().required(),
+  manageability: Joi.number().required(),
+  usefulness: Joi.number().required(),
+  enjoyability: Joi.number().required(),
+  overallRating: Joi.number().required(),
 });
 
 export const BookmarkReviewSchema = Joi.object({
