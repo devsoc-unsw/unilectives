@@ -16,4 +16,5 @@ export interface IOldCourse {
   terms: number[];
   title: string;
   uoc: number;
+  reviews: string[];
 }
