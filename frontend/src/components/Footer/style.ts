@@ -15,6 +15,7 @@ export const FooterWrapper = styled.div`
 
 export const Logo = styled.img`
   margin-top: 2.75rem;
+  margin-left: 3rem;
 `;
 
 export const TCsLink = styled.div`
