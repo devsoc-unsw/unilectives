@@ -5,6 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 `;
 
 export const CourseContainer = styled.div`
@@ -80,6 +81,7 @@ export const Flexbox = styled.div<FlexboxProps>`
   flex-direction: ${(props) => props.direction};
   width: 80vw;
   gap: 5vh;
+  padding-bottom: 5vh;
 `;
 
 interface FlexboxProps {

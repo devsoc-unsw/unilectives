@@ -8,7 +8,8 @@ export const FooterWrapper = styled.div`
   background-position-y: 2rem;
   display: flex;
   padding: 2rem 2rem;
-  position:absolute;
+  position: sticky;
+  top: 100vh;
   bottom:0;
   width: 100vw;
 `;
