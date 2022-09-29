@@ -14,7 +14,7 @@ interface Props {
 const CourseListItem = (p: Props) => {
     return (
     <CourseListItemContainer>
-        <MenuItem component={Link} to={'/course/' + p.course.courseCode} style={{width:"100%", textAlign:"left", padding:"0%", lineHeight:"1"}}>
+        <MenuItem component={Link} to={'/course/' + p.course.courseCode} style={{width:"100%", textAlign:"left", padding:"0%"}}>
             <CourseCode>
                 {p.course.courseCode}
             </CourseCode>
@@ -46,7 +46,7 @@ const CourseListItem = (p: Props) => {
             </ReviewCount>
         </MenuItem>
     </CourseListItemContainer>
-        )
+    )
 }
 
 export default CourseListItem
