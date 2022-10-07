@@ -26,6 +26,7 @@ export const Overall = style.div`
     @media (max-width: 809px) {
         width: 23%;
     }
+    margin-left: 1%;
 `
 
 export const RatingCategories = style.div`

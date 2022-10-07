@@ -14,4 +14,5 @@ export const TermContainer = style.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
 `;

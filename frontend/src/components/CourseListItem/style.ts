@@ -53,6 +53,8 @@ export const OverallRating = style.div`
     @media (max-width: 809px) {
         width: 23%;
     }
+    display: flex;
+    justify-content: center;
 `;
 
 export const Enjoyability = style.div`
