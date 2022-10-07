@@ -6,6 +6,7 @@ export const StarContainer = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     flex-wrap: wrap;
+    width: 145px;
 `;
 
 export const StarIcon = styled(StarRoundedIcon)`

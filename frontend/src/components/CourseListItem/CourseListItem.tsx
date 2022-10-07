@@ -12,6 +12,11 @@ interface Props {
 
 
 const CourseListItem = (p: Props) => {
+
+    const makeFacultyString = (facultyString: string) => {
+        return facultyString.replace("Faculty of ", "");
+    }
+
     return (
     <CourseListItemContainer>
         <MenuItem component={Link} to={'/course/' + p.course.courseCode} style={{width:"100%", textAlign:"left", padding:"0%"}}>
@@ -38,7 +43,7 @@ const CourseListItem = (p: Props) => {
             </Manageability>
             <FacultyContainer>
                 <Faculty>
-                    {p.course.faculty}
+                    {makeFacultyString(p.course.faculty)}
                 </Faculty>
             </FacultyContainer>
             <ReviewCount>
