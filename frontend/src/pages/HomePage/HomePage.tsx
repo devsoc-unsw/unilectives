@@ -32,8 +32,8 @@ import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
 import CourseListItem from "src/components/CourseListItem/CourseListItem";
 import CourseListHeader from "src/components/CourseListHeader/CourseListHeader";
-import Grid from "@mui/material/Grid"
-import CourseCard from "src/components/CourseCard/CourseCard"
+import Grid from "@mui/material/Grid";
+import CourseCard from "../../components/CourseCard/CourseCard";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
@@ -111,16 +111,35 @@ const HomePage = () => {
             <Searchbar
               courses={courses?.courses ?? []}
               onSearchChange={setResults}
+              onViewChange={setCourseView}
             />
             {loginDialog && <LoginDialog close={() => setLoginDialog(false)} />}
             <Text>User response:</Text>
             <Text>{JSON.stringify(user)}</Text>
-            <CourseListHeader/>
-            {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED &&
-              results.map((course) => (
-                <CourseListItem key={course.courseCode} course={course} />
-                // <Text key={course.courseCode}>{course.terms} BING CHILLING</Text></>
-              ))}
+            {courseView == 'list' && <CourseListHeader/>}
+            {loadingStatus === LoadingStatusTypes.GET_COURSES_COMPLETED && (() => {
+              if (courseView == 'card') {
+                return (
+                  <CardsContainer>
+                    <Grid container rowSpacing={{ xs: 2, sm: 3, md: 4 }} columnSpacing={{ xs: 1, sm: 1, md: 6 }}
+                      justifyContent="flex-start"
+                      alignItems="center">
+                      {results.map((course) => (
+                          <Grid item xs={12} sm={12} md={6} lg={4}>
+                            <CourseCard key={course.courseCode} course={course} />
+                          </Grid>
+                        ))}
+                    </Grid>
+                  </CardsContainer>
+                )
+              } else if (courseView == 'list') {
+                return (
+                  results.map((course) => (
+                    <CourseListItem key={course.courseCode} course={course} />
+                  ))
+                )
+              } 
+            })()}
             {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
           </SmallContainer>
         </div>

@@ -1,5 +1,5 @@
 import React from "react"
-import { CardContentsExtras, CardContentsTag } from "./style";
+import { CardContentsTag } from "./style";
 
 interface Props {
     terms: number[];

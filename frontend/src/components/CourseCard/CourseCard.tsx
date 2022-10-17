@@ -3,7 +3,6 @@ import { Card, CardContentsContainer, CardContentsColumn, CardContentsTitle,
     CardContentsReviews, CardCategoriesTable, CardContentsFaculty } from './style'
 
 import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import { ICourse } from "src/interfaces/ResponseInterface"
 
