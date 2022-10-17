@@ -15,6 +15,7 @@ import {
   HomeHeader,
   Logo,
   SmallContainer,
+  CardsContainer
 } from "./style";
 import { UniLectives } from "src/components/image/imageIndex";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
@@ -31,6 +32,8 @@ import Searchbar from "src/components/Searchbar/Searchbar";
 import { ICourse } from "src/interfaces/ResponseInterface";
 import CourseListItem from "src/components/CourseListItem/CourseListItem";
 import CourseListHeader from "src/components/CourseListHeader/CourseListHeader";
+import Grid from "@mui/material/Grid"
+import CourseCard from "src/components/CourseCard/CourseCard"
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +45,7 @@ const HomePage = () => {
   const [reviewModal, setReviewModal] = useState<boolean>(false);
   const [landingGraphic, setLandingGraphic] = useState<string>();
   const [results, setResults] = useState<ICourse[]>([]);
+  const [courseView, setCourseView] = useState<string>('list');
 
   const ref = useRef<null | HTMLDivElement>(null);
 
