@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+// not used anymore
 export const Card = styled.div`
     border-radius: 12px;
     box-shadow: 0 3px 6px 0 rgba(0,0,0,0.2);
@@ -10,11 +11,12 @@ export const Card = styled.div`
     margin: auto;
 `;
 
-
 export const CardContentsContainer = styled.div`
     display: flex;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     padding: 0.5rem 0.5rem 1rem 0.5rem;
+    max-width: 100%;
+    height: 100%;
 `;
 
 export const CardContentsColumn = styled.div`
