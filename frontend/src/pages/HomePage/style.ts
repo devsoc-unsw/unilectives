@@ -143,6 +143,6 @@ export const Button = styled.button<ButtonProps>`
 export const CardsContainer = styled.div`
   margin: 0 auto;
   align-items: center;
-  width: 80%;
-  max-width: 65rem;
+  width: 85%;
+  max-width: 70rem;
 `;

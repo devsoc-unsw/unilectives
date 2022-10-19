@@ -14,9 +14,12 @@ export const Card = styled.div`
 export const CardContentsContainer = styled.div`
     display: flex;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
-    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    padding: 1.5rem 1.2rem 0.8rem 1.2rem;
+    margin: auto auto;
     max-width: 100%;
     height: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
 `;
 
 export const CardContentsColumn = styled.div`
@@ -24,9 +27,9 @@ export const CardContentsColumn = styled.div`
 `;
 
 export const CardContentsTitle = styled.div`
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 500;
-    margin: 0.5rem 0 0.5rem 0.5rem;
+    margin: 0.2rem 0 0.5rem 0.5rem;
 `;
 
 export const CardContentsDesc = styled.div`
@@ -50,33 +53,33 @@ export const CardContentsFaculty = styled.div`
 `;
 
 export const CardContentsRating = styled.div`
-    margin: 0.3rem 0 0 0.2rem;
-    padding-bottom: -0.5rem;
+    margin: 0.1rem 0 0 0;
+    padding-right: 0.2rem;
 `;
 
 export const CardContentsReviews = styled.div`
     text-align: right;
     color: #808080;
-    margin-right: 0.5rem;
-    padding: 0 0 0.2rem 0;
+    margin-right: 0.3rem;
+    padding: 0 0.5rem 0.2rem 0;
 `;
 
 
 export const CardCategoriesTable = styled.table`
     font-size: 12px;
     font-weight: 400;
-    padding-top: 0.6rem;
+    padding-top: 1rem;
     width: 100%;
     table {
         width: 100%;
         padding-left: 0.5rem;
     }
-    th, td {
-        padding: 0.3rem;
-    }
     th {
         text-align: left;
         font-weight: 400;
+    }
+    th, td {
+        padding: 0.3rem 0.3rem 0.5rem 0.3rem;
     }
 `;
 

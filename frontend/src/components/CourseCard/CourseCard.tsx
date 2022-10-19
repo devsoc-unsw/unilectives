@@ -22,9 +22,11 @@ const CourseCard = (p: Props) => {
     }
 
     var cardStyle = {
-        height: '11.5rem',
-        maxWidth: '28rem',
+        height: '13.5rem',
+        width: '21rem',
         margin: 'auto',
+        boxShadow: '0 3px 6px 0 rgba(0,0,0,0.2)',
+        backgroundColor: '#FEFDFD',
     }
 
     return (
@@ -50,7 +52,7 @@ const CourseCard = (p: Props) => {
                                 emptyIcon={<StarRoundedIcon fontSize="inherit" style={{fill: "#CED9DD"}}/>}
                                 value={p.course.rating}
                                 precision={0.5}
-                                sx={{fontSize: 29}}
+                                sx={{fontSize: 28}}
                                 readOnly
                             />
                         </CardContentsRating>

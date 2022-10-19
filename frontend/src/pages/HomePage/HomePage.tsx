@@ -121,7 +121,7 @@ const HomePage = () => {
               if (courseView == 'card') {
                 return (
                   <CardsContainer>
-                    <Grid container rowSpacing={{ xs: 2, sm: 3, md: 4 }} columnSpacing={{ xs: 1, sm: 1, md: 6 }}
+                    <Grid container rowSpacing={{ xs: 2, sm: 3, md: 5 }} columnSpacing={{ xs: 1, sm: 1, md: 7 }}
                       justifyContent="flex-start"
                       alignItems="center">
                       {results.map((course) => (
