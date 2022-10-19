@@ -93,3 +93,7 @@ export interface IPostUserResponse {
 export interface IGetCoursesResponse {
   courses: ICourse[];
 }
+
+export interface IGetReviewsResponse {
+  reviews: IReview[];
+}

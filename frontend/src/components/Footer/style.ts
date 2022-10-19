@@ -8,14 +8,15 @@ export const FooterWrapper = styled.div`
   background-position-y: 2rem;
   display: flex;
   padding: 2rem 2rem;
-  // position: absolute;
-  left: 0;
-  // bottom: 0;
-  right: 0;
+  position: sticky;
+  top: 100vh;
+  bottom:0;
+  width: 100vw;
 `;
 
 export const Logo = styled.img`
   margin-top: 2.75rem;
+  margin-left: 3rem;
 `;
 
 export const TCsLink = styled.div`

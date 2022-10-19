@@ -15,6 +15,7 @@ export const Container = styled.div`
   min-height: 100vh;
   justify-content: space-between;
   align-items: left;
+  position: relative;
 `;
 
 export const SmallContainer = styled.div`
@@ -27,7 +28,7 @@ export const HomeHeader = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  padding-bottom: 10vh;
+  padding-bottom: 5vh;
   justify-content: flex-end;
   justify-content: space-between;
 `;
