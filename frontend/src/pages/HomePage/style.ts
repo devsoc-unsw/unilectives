@@ -14,6 +14,7 @@ export const Container = styled.div`
   min-height: 100vh;
   justify-content: space-between;
   align-items: left;
+  position: relative;
 `;
 
 export const SmallContainer = styled.div`
@@ -26,7 +27,7 @@ export const HomeHeader = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  padding-bottom: 10vh;
+  padding-bottom: 5vh;
   justify-content: flex-end;
   justify-content: space-between;
 `;
@@ -137,4 +138,11 @@ export const Button = styled.button<ButtonProps>`
   float: right;
   height: 45px;
   margin-bottom: 15px;
+`;
+
+export const CardsContainer = styled.div`
+  margin: 0 auto;
+  align-items: center;
+  width: 85%;
+  max-width: 70rem;
 `;

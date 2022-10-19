@@ -112,3 +112,6 @@ export interface IPostReviewRequestBody {
 export interface IPostReviewResponse {
   review: IReview;
 }
+export interface IGetReviewsResponse {
+  reviews: IReview[];
+}

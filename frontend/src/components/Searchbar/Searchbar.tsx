@@ -9,10 +9,12 @@ import { palette } from "../palette/palette";
 import SelectFilter from "../SelectFilter/SelectFilter";
 import { searchbarStyle } from "./style";
 import { ICourse } from "src/interfaces/ResponseInterface";
+import CourseViewSwitch from '../CourseViewSwitch/CourseViewSwitch';
 
 type SearchbarProps = {
   courses: ICourse[];
   onSearchChange: React.Dispatch<React.SetStateAction<ICourse[]>>;
+  onViewChange: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const sortByOptions = ["Most Reviewed", "Alphabetical Order", "Highest Rating"];
@@ -35,7 +37,7 @@ const terms = ["All Terms", "Summer", "Term 1", "Term 2", "Term 3", "Other"];
  * Delete the TODOs when done
  *
  */
-const Searchbar = ({ courses, onSearchChange }: SearchbarProps) => {
+const Searchbar = ({ courses, onSearchChange, onViewChange }: SearchbarProps) => {
   const [search, setSearch] = React.useState("");
   const [sortFilter, setSortFilter] = React.useState(sortByOptions[0]);
   const [facultyFilter, setFacultyFilter] = React.useState(faculties[0]);
@@ -163,6 +165,9 @@ const Searchbar = ({ courses, onSearchChange }: SearchbarProps) => {
             }}
             defaultOption={termFilter}
           ></SelectFilter>
+          <CourseViewSwitch
+            onViewChange={onViewChange}
+          />
         </Stack>
       </Stack>
     </Stack>

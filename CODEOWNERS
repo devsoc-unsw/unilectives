@@ -1,0 +1,7 @@
+backend/ @csesoc/cselectives-team-leads
+database/ @csesoc/cselectives-team-leads
+frontend/ @csesoc/cselectives-team-leads
+
+.github/ @csesoc/technical
+renovate.json @csesoc/technical
+Dockerfile @csesoc/technical

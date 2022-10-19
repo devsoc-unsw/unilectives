@@ -1,4 +1,4 @@
-import { ICourse } from "src/interfaces/ResponseInterface";
+import { ICourse, IReview } from "src/interfaces/ResponseInterface";
 
 // TODO: someone fill this in pls
 // TODO: pls change terms to list of strings thx- Hexamesters?
@@ -26,7 +26,7 @@ export const mockCourses: ICourse[] = [
     enrolmentRules: "",
     equivalents: ["COMP1917", "DPST1091"],
     exclusions: ["DPST1091"],
-    faculty: "Engineering",
+    faculty: "Faculty of Engineering",
     fieldOfEducation: "ugrad",
     genEd: true,
     level: 1,
@@ -60,7 +60,7 @@ export const mockCourses: ICourse[] = [
       "Prerequisite: COMP1511 or DPST1091 or COMP1917 or COMP1921",
     equivalents: [],
     exclusions: ["SENG1010", "SENG1020", "SENG1031"],
-    faculty: "Engineering",
+    faculty: "Faculty of Engineering",
     fieldOfEducation: "ugrad",
     genEd: true,
     level: 1,
@@ -83,7 +83,7 @@ export const mockCourses: ICourse[] = [
     enrolmentRules: "",
     equivalents: [],
     exclusions: [],
-    faculty: "Science",
+    faculty: "Faculty of Science",
     fieldOfEducation: "ugrad",
     genEd: true,
     level: 1,
@@ -105,7 +105,7 @@ export const mockCourses: ICourse[] = [
     enrolmentRules: "",
     equivalents: [],
     exclusions: [],
-    faculty: "Science",
+    faculty: "Faculty of Science",
     fieldOfEducation: "ugrad",
     genEd: true,
     level: 1,
@@ -118,3 +118,38 @@ export const mockCourses: ICourse[] = [
     reviewsIds: ["review-123", "review-456"],
   },
 ];
+
+export const mockReviews: IReview[] = [
+  {
+    reviewId: "REVIEW1",
+    zid: "z5555555",
+    authorName: "test",
+    description: "amazing",
+    courseCode: "COMP1511",
+    grade: 75,
+    termTaken: "T1",
+    createdTimestamp: new Date(),
+    updatedTimestamp: new Date(),
+    upvotes: ["z513131"],
+    manageability: 3,
+    enjoyability: 4,
+    usefulness: 5,
+    overallRating: 4.5,
+  },
+  {
+    reviewId: "REVIEW2",
+    zid: "z5555555",
+    authorName: "test2",
+    description: "average",
+    courseCode: "COMP2521",
+    grade: 75,
+    termTaken: "T2",
+    createdTimestamp: new Date(),
+    updatedTimestamp: new Date(),
+    upvotes: ["z513131"],
+    manageability: 3,
+    enjoyability: 3,
+    usefulness: 3,
+    overallRating: 3,
+  },
+]

@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 import CourseHeader from "src/components/CourseHeader/CourseHeader";
 import Header from "src/components/Header/Header";
 import Footer from "src/components/Footer/Footer";
-import { Container, CourseContainer } from "./style";
+import CourseSummary from "src/components/CourseSummary/CourseSummary";
+import { Container, Flexbox, FlexboxComponent } from "./style";
 
 type ParamTypes = {
   courseCode: string;
@@ -14,7 +15,7 @@ const CoursePage = () => {
   return (
     <Container>
       <Header courses={[]} />
-      <CourseContainer>
+      <Flexbox direction={'column'}>
         <CourseHeader
           courseCode={courseCode}
           overallRating={3.4}
@@ -23,7 +24,22 @@ const CoursePage = () => {
           manageabilityRating={3.4}
           noReviews={22}
         />
-      </CourseContainer>
+        <Flexbox direction={'row'}>
+          <FlexboxComponent width={'60'}>
+            Hello
+          </FlexboxComponent>
+          <FlexboxComponent width={'40'}>
+            {/* TODO: Fetch rating sections from BE */}
+            <CourseSummary
+              course={courseCode}
+              enjoyabilityRating={4.1}
+              usefulnessRating={3.5}
+              manageabilityRating={3.4}
+              noReviews={22}
+            />
+          </FlexboxComponent>
+        </Flexbox>
+      </Flexbox>
       <Footer />
     </Container>
   );
