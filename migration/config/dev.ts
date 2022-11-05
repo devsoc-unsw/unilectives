@@ -7,7 +7,7 @@ module.exports = {
     port: 5432,
     host: "localhost",
     username: "postgres",
-    password: "mysecretpassword",
+    password: "pass",
     database: "mydb",
   },
   firebase: {
@@ -15,4 +15,7 @@ module.exports = {
     projectId: "",
     storageBucket: "",
   },
+  // circles: {
+  //   url: "http://localhost:8000",
+  // },
 };

@@ -14,3 +14,7 @@ export interface IDatabaseConfig {
   password: string;
   database: string;
 }
+
+export interface ICirclesConfig {
+  url: string;
+}

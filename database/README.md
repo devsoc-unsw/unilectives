@@ -59,13 +59,13 @@ To test any changes you've made, you will need to apply the changes to a postgre
 #### Start up a Postgres server
 
 ```
-docker run --rm -itd --name app -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_DB=mydb -p 5432:5432 postgres
+docker run --rm -itd --name app -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=mydb -p 5432:5432 postgres
 ```
 
 Then as an example, to apply your changes, run:
 
 ```
-sqitch deploy db:pg://postgres:mysecretpassword@0.0.0.0:5432/mydb
+sqitch deploy db:pg://postgres:pass@0.0.0.0:5432/mydb
 ```
 
 To connect to the database locally via PSQL, run:

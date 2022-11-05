@@ -6,4 +6,7 @@ module.exports = {
     type: "postgres",
   },
   firebase: {},
+  circles: {
+    url: "https://circlesapi.csesoc.app",
+  },
 };
