@@ -24,7 +24,11 @@ export const convertCourseEntityToInterface = (
     title: entity.title,
     uoc: entity.uoc,
     rating: entity.rating,
-    reviewsIds: entity.reviewsIds,
+    reviewCount: entity.reviewCount,
+    overallRating: entity.overallRating,
+    manageability: entity.manageability,
+    usefulness: entity.usefulness,
+    enjoyability: entity.enjoyability,
   };
 };
 
@@ -51,6 +55,11 @@ export const convertCourseInterfaceToEntity = (
     title: course.title,
     uoc: course.uoc,
     rating: course.rating,
-    reviewsIds: course.reviewsIds,
+    reviewCount: course.reviewCount,
+    overallRating: course.overallRating,
+    manageability: course.manageability,
+    usefulness: course.usefulness,
+    enjoyability: course.enjoyability,
+    reviewsIds: [],
   };
 };

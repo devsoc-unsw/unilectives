@@ -28,7 +28,12 @@ export const getCourseEntity = (): CourseEntity => {
     title: "good course imo",
     uoc: 6,
     rating: 4,
-    reviewsIds: ["rev-123"],
+    reviewsIds: [],
+    reviewCount: 1,
+    overallRating: 4,
+    manageability: 4,
+    usefulness: 4,
+    enjoyability: 4,
   };
 };
 
@@ -54,7 +59,11 @@ export const getMockCourses = (): ICourse[] => {
       title: "good course imo",
       uoc: 6,
       rating: 4,
-      reviewsIds: ["rev-123"],
+      reviewCount: 1,
+      overallRating: 4,
+      manageability: 4,
+      usefulness: 4,
+      enjoyability: 4,
     },
     {
       courseCode: "COMP1531",
@@ -76,7 +85,11 @@ export const getMockCourses = (): ICourse[] => {
       title: "good course imo",
       uoc: 6,
       rating: 4,
-      reviewsIds: ["rev-123"],
+      reviewCount: 1,
+      overallRating: 4,
+      manageability: 4,
+      usefulness: 4,
+      enjoyability: 4,
     },
   ];
 };
@@ -116,7 +129,11 @@ export const getMockUser = (): IUser => {
         title: "good course imo",
         uoc: 6,
         rating: 4,
-        reviewsIds: ["rev-123"],
+        reviewCount: 1,
+        overallRating: 4,
+        manageability: 4,
+        usefulness: 4,
+        enjoyability: 4,
       },
     ],
     bookmarkedReviews: [],

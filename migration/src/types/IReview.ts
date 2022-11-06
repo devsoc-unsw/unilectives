@@ -9,6 +9,7 @@ export interface IRating {
 export interface IOldReview {
   id: string;
   courseCode: string;
+  title: string;
   comment: string;
   rating: IRating;
   termTaken: string;

@@ -18,5 +18,9 @@ export interface ICourse {
   title: string;
   uoc: number;
   rating: number;
-  reviewsIds: string[];
+  reviewCount: number;
+  overallRating: number;
+  manageability: number;
+  usefulness: number;
+  enjoyability: number;
 }

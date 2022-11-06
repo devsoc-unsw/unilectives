@@ -23,7 +23,7 @@ export default class MigrationService {
         entity.zid = "z5000000";
         entity.courseCode = review.courseCode;
         entity.authorName = "Anonymous";
-        entity.title = "";
+        entity.title = review.title;
         entity.description = review.comment;
         entity.termTaken = review.termTaken;
         entity.manageability =
@@ -137,11 +137,22 @@ export default class MigrationService {
   }
 
   async saveCourses(courses: CourseEntity[]): Promise<void> {
-    await this.manager
-      .createQueryBuilder()
-      .insert()
-      .into("courses")
-      .values(courses)
-      .execute();
+    try {
+      await this.manager
+        .createQueryBuilder()
+        .insert()
+        .into("courses")
+        .values(courses)
+        .execute();
+    } catch {
+      for (const course of courses) {
+        await this.manager
+          .createQueryBuilder()
+          .update("courses")
+          .set(course)
+          .where("courseCode = :courseCode", { courseCode: course.courseCode })
+          .execute();
+      }
+    }
   }
 }

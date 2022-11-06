@@ -11,16 +11,16 @@ import {
 } from "../../converters/Course.converter";
 import { HTTPError } from "../../utils/Errors";
 import { badRequest, internalServerError } from "../../utils/Constants";
-import { EntityManager } from "typeorm";
 import { CourseRepository } from "../../repositories/Course.repository";
 import { ICourse } from "ICourse";
 import { UserRepository } from "../../repositories/User.repository";
 
 export class CourseService {
   private logger = getLogger();
-  constructor(private readonly manager: EntityManager) {}
-  private courseRepository = new CourseRepository(this.manager);
-  private userRepository = new UserRepository(this.manager);
+  constructor(
+    private readonly courseRepository: CourseRepository,
+    private readonly userRepository: UserRepository
+  ) {}
 
   async getCourses(): Promise<IGetCoursesSuccessResponse | undefined> {
     const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
@@ -49,8 +49,10 @@ export class CourseService {
       throw new HTTPError(badRequest);
     }
 
-    const newCourseEntity: CourseEntity =
-      convertCourseInterfaceToEntity(updatedCourse);
+    const newCourseEntity: CourseEntity = convertCourseInterfaceToEntity({
+      ...course,
+      ...updatedCourse,
+    });
     course = await this.courseRepository.save(newCourseEntity);
 
     this.logger.info(

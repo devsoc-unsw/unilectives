@@ -9,7 +9,6 @@ export default class Fetcher {
   async getCourses(): Promise<CirclesCourse[]> {
     try {
       const circles = config.get("circles") as ICirclesConfig;
-      console.log(circles.url);
       const res = await got.get(`${circles.url}/courses/dump`);
       const courses = JSON.parse(res.body) as CirclesCourse[];
 

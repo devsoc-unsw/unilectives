@@ -18,7 +18,12 @@ export interface ICourse {
   terms: number[];
   title: string;
   uoc: number;
-  rating: number;
+  rating: number; // same as overallRating
+  reviewCount: number;
+  overallRating: number;
+  manageability: number;
+  usefulness: number;
+  enjoyability: number;
 }
 
 // Reviews

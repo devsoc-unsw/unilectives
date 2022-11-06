@@ -36,6 +36,11 @@ export const mockCourses: ICourse[] = [
     title: "Programming Fundamentals",
     uoc: 6,
     rating: 4,
+    reviewCount: 4,
+    overallRating: 4,
+    manageability: 4,
+    usefulness: 4,
+    enjoyability: 4,
   },
   {
     courseCode: "COMP1531",
@@ -69,6 +74,11 @@ export const mockCourses: ICourse[] = [
     title: "Software Engineering Fundamentals",
     uoc: 6,
     rating: 4.5,
+    reviewCount: 4,
+    overallRating: 4,
+    manageability: 4,
+    usefulness: 4,
+    enjoyability: 4,
   },
 
   {
@@ -91,6 +101,11 @@ export const mockCourses: ICourse[] = [
     title: "Pog Fundamentals Fundamentals",
     uoc: 6,
     rating: 5,
+    reviewCount: 4,
+    overallRating: 4,
+    manageability: 4,
+    usefulness: 4,
+    enjoyability: 4,
   },
 
   {
@@ -113,5 +128,10 @@ export const mockCourses: ICourse[] = [
     title: "Unpog Fundamentals",
     uoc: 6,
     rating: 1,
+    reviewCount: 4,
+    overallRating: 4,
+    manageability: 4,
+    usefulness: 4,
+    enjoyability: 4,
   },
 ];
