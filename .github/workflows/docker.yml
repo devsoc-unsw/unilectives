@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - "develop"
+      - "feature/migration"
 
 jobs:
   build:
