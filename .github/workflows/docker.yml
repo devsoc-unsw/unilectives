@@ -50,6 +50,7 @@ jobs:
     environment:
       name: staging
       url: https://cselectives.staging.csesoc.unsw.edu.au
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
