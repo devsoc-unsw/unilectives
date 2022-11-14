@@ -1,4 +1,4 @@
-import { ICourse, IReview } from "src/interfaces/ResponseInterface";
+import { ICourse, IReview, IUser } from "src/interfaces/ResponseInterface";
 
 // TODO: someone fill this in pls
 // TODO: pls change terms to list of strings thx- Hexamesters?
@@ -1247,3 +1247,12 @@ export const mockReviews: IReview[] = [
     overallRating: 3,
   },
 ]
+
+export const mockUser: IUser = {
+  zid: "z5555555",
+  isAdmin: false,
+  bookmarkedCourses: mockCourses.slice(0, 2),
+  bookmarkedReviews: [],
+  reports: [],
+  reviews: []
+}
