@@ -2,7 +2,7 @@ import Header from "src/components/Header/Header";
 import Footer from "src/components/Footer/Footer";
 import { Container, Row, Column, NameBox, CategoryBox, Button, 
   ButtonBox, CardsBox, BookmarksHeader, Content } from "./style";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { mockUser } from "src/stubbing/data";
 import BookmarkCourseCard from "src/components/BookmarkCourseCard/BookmarkCourseCard";
 
