@@ -4,6 +4,10 @@ import Header from "src/components/Header/Header";
 import Footer from "src/components/Footer/Footer";
 import CourseSummary from "src/components/CourseSummary/CourseSummary";
 import { Container, Flexbox, FlexboxComponent } from "./style";
+import { mockReviews } from "src/stubbing/data";
+import { useEffect, useState } from "react";
+import {IReview} from "src/interfaces/ResponseInterface";
+import ReviewCard from "src/components/ReviewCard/ReviewCard";
 
 type ParamTypes = {
   courseCode: string;
@@ -11,6 +15,28 @@ type ParamTypes = {
 
 const CoursePage = () => {
   const { courseCode } = useParams<keyof ParamTypes>() as ParamTypes;
+  const [reviews, setReviews] = useState<IReview[]>([]);
+
+  useEffect(() => {
+    // TODO: currently using mock data 
+    setReviews([]);
+    mockReviews.forEach(review => {
+      if (review.courseCode === courseCode) {
+        setReviews((reviews) => [...reviews, review]);
+      }
+    })
+  }, [])
+
+  const showReviews = () => {
+    if (reviews.length === 0) {
+      return <div>No reviews yet!</div>
+    }
+    return (
+      reviews.map((review, index) => {
+        return <ReviewCard review={review} key={index} />
+      })
+    )
+  }
 
   return (
     <Container>
@@ -26,7 +52,7 @@ const CoursePage = () => {
         />
         <Flexbox direction={'row'}>
           <FlexboxComponent width={'60'}>
-            Hello
+            {showReviews()}
           </FlexboxComponent>
           <FlexboxComponent width={'40'}>
             {/* TODO: Fetch rating sections from BE */}
