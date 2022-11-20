@@ -1,6 +1,6 @@
 module.exports = {
   api: {
-    port: 3030,
+    port: 8080,
   },
   database: {
     type: "postgres",
@@ -10,4 +10,12 @@ module.exports = {
     password: "pass",
     database: "mydb",
   },
+  firebase: {
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+  },
+  // circles: {
+  //   url: "http://localhost:8000",
+  // },
 };

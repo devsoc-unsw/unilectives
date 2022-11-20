@@ -65,14 +65,4 @@ export class CourseEntity {
 
   @RelationId((course: CourseEntity) => course.reviews)
   reviewsIds: string[] | [];
-
-  reviewCount: number;
-
-  overallRating: number;
-
-  manageability: number;
-
-  usefulness: number;
-
-  enjoyability: number;
 }

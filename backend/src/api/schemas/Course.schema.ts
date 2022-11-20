@@ -22,7 +22,7 @@ export const UpdateCourseSchema = Joi.object({
     uoc: Joi.number().required(),
     rating: Joi.number().required(),
   }).required(),
-});
+}).options({ allowUnknown: true });
 
 export const BookmarkCourseSchema = Joi.object({
   courseCode: Joi.string().required(),

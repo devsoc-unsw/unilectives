@@ -1,13 +1,12 @@
-export interface ICourse {
+export interface IOldCourse {
   courseCode: string;
-  archived: boolean;
   attributes: string[];
   calendar: string;
   campus: string;
   description: string;
   enrolmentRules: string;
-  equivalents: string[];
-  exclusions: string[];
+  equivalents: { [code: string]: 1 };
+  exclusions: { [code: string]: 1 };
   faculty: string;
   fieldOfEducation: string;
   genEd: boolean;
@@ -17,10 +16,5 @@ export interface ICourse {
   terms: number[];
   title: string;
   uoc: number;
-  rating: number;
-  reviewCount: number;
-  overallRating: number;
-  manageability: number;
-  usefulness: number;
-  enjoyability: number;
+  reviews: string[];
 }
