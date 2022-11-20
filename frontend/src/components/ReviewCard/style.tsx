@@ -1,3 +1,4 @@
+import CircleRounded from "@mui/icons-material/CircleRounded";
 import styled from "styled-components";
 import { palette } from "../palette/palette";
 
@@ -16,6 +17,14 @@ export const ReviewHeadings = styled.div`
   flex-direction: row;
   justify-content: space-between;
   padding-bottom: 4px;
+  align-items: center;
+`;
+
+export const OverallRating = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 `;
 
 export const Ratings = styled.div`
@@ -61,4 +70,14 @@ export const InteractButton = styled.button`
   border: none;
   cursor: pointer;
   padding-left: 0;
+`;
+
+export const CircleFilledIcon = styled(CircleRounded)`
+  color: ${palette.dayNavy};
+  margin-right: 0.5rem;
+`;
+
+export const CircleEmptyIcon = styled(CircleRounded)`
+  color: "#D6D6D6";
+  margin-right: 0.5rem;
 `;

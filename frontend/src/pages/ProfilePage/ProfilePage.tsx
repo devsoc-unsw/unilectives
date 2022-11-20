@@ -1,6 +1,6 @@
 import Header from "src/components/Header/Header";
 import Footer from "src/components/Footer/Footer";
-import { Container, Row, Column, NameBox, CategoryBox, Button, 
+import { Container, Row, Column, NameBox, CategoryBox, Button,
   ButtonBox, CardsBox, BookmarksHeader, Content } from "./style";
 import { useState } from "react";
 import { mockUser } from "src/stubbing/data";
@@ -21,7 +21,7 @@ const ProfilePage = () => {
       )
     } else {
       return <div>reviews</div>
-    } 
+    }
   }
 
   // TODO:
@@ -31,7 +31,7 @@ const ProfilePage = () => {
     <Content>
       <Container>
         <Header courses={[]} />
-        <NameBox>Victoria Vu</NameBox> 
+        <NameBox>Victoria Vu</NameBox>
         <Row>
           <Column>
             <CategoryBox>

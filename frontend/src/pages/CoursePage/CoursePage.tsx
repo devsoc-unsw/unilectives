@@ -18,11 +18,11 @@ const CoursePage = () => {
   const [reviews, setReviews] = useState<IReview[]>([]);
 
   useEffect(() => {
-    // TODO: currently using mock data 
+    // TODO: currently using mock data
     setReviews([]);
     mockReviews.forEach(review => {
       if (review.courseCode === courseCode) {
-        setReviews((reviews) => [...reviews, review]);
+        setReviews([...reviews, review]);
       }
     })
   }, [])

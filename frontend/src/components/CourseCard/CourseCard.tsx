@@ -1,5 +1,5 @@
-import { CardContentsContainer, CardContentsColumn, CardContentsTitle, 
-    CardContentsDesc, CardContentsExtras, CardContentsRating, 
+import { CardContentsContainer, CardContentsColumn, CardContentsTitle,
+    CardContentsDesc, CardContentsExtras, CardContentsRating,
     CardContentsReviews, CardCategoriesTable, CardContentsFaculty } from './style'
 import Card from '@mui/material/Card';
 import Rating from '@mui/material/Rating';
