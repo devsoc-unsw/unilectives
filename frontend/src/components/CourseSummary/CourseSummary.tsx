@@ -75,6 +75,9 @@ const CourseSummary = ({course,
               color: '#326BF7',
               fontSize: '1.7rem',
             },
+            '& .MuiRating-iconEmpty': {
+              fontSize: '1.7rem',
+            }
           }}
         />
         <Text color={'#808080'}>

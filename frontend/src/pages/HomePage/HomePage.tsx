@@ -34,6 +34,7 @@ import CourseListItem from "src/components/CourseListItem/CourseListItem";
 import CourseListHeader from "src/components/CourseListHeader/CourseListHeader";
 import Grid from "@mui/material/Grid";
 import CourseCard from "../../components/CourseCard/CourseCard";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
@@ -64,15 +65,30 @@ const HomePage = () => {
     setResults(courses?.courses ?? []);
   }, [courses]);
 
+  const showLoginOrProfile = () => {
+    if (user !== undefined) {
+      return (
+        <Link to={'/profile/' + user.zid}>
+          <LoginButton
+            onClick={() => {}}
+          >
+            Profile
+          </LoginButton>
+        </Link> 
+      )} else {
+      return <LoginButton
+        onClick={() => setLoginDialog(true)}
+      >
+        Login
+      </LoginButton>
+    }
+  }
+
   return (
     <Content>
       <HomeHeader>
         <Logo src={UniLectives} />
-        <LoginButton
-          onClick={() => setLoginDialog(true)}
-        >
-          Login
-        </LoginButton>
+        {showLoginOrProfile()}
       </HomeHeader>
       <Flexbox>
         <FlexboxComponent padding="10em">
@@ -138,7 +154,7 @@ const HomePage = () => {
                     <CourseListItem key={course.courseCode} course={course} />
                   ))
                 )
-              } 
+              }
             })()}
             {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
           </SmallContainer>

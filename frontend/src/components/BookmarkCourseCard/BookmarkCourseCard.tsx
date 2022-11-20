@@ -1,5 +1,5 @@
-import { CardContentsContainer, CardContentsTitle, 
-    CardContentsDesc, CardContentsExtras, CardContentsRating, 
+import { CardContentsContainer, CardContentsTitle,
+    CardContentsDesc, CardContentsExtras, CardContentsRating,
     CardContentsReviews, CardCategoriesTable, CardContentsFaculty } from '../CourseCard/style'
 import Card from '@mui/material/Card';
 import Rating from '@mui/material/Rating';
@@ -20,7 +20,7 @@ const BookmarkCourseCard = (p: Props) => {
   const makeFacultyString = (facultyString: string) => {
       return facultyString.replace("Faculty of ", "");
   }
-  
+
   var cardStyle = {
       height: '13.5rem',
       width: '100%',
