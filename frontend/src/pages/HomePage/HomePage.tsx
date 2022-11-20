@@ -154,7 +154,7 @@ const HomePage = () => {
                     <CourseListItem key={course.courseCode} course={course} />
                   ))
                 )
-              } 
+              }
             })()}
             {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
           </SmallContainer>
