@@ -159,8 +159,8 @@ const HomePage = () => {
             {reviewModal && <ReviewModal close={() => setReviewModal(false)} />}
           </SmallContainer>
         </div>
-        <Footer />
       </Container>
+      <Footer />
     </Content>
   );
 };

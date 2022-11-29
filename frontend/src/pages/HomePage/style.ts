@@ -6,7 +6,10 @@ export const Content = styled.div`
   height: 100vh;
   background-image: url(${landingCurve});
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: top right;
+  overflow-x: hidden;
+  background-attachment: scroll;
 `;
 
 export const Container = styled.div`
