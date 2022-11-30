@@ -77,6 +77,22 @@ export default class MigrationService {
     }
   }
 
+  async flush(): Promise<IResponse> {
+    try {
+      await this.manager.query("DELETE FROM reviews");
+      await this.manager.query("DELETE FROM courses");
+      return {
+        status: "SUCCESS",
+        message: "Successfully flushed database",
+      };
+    } catch (err: any) {
+      return {
+        status: "FAILURE",
+        message: err.message,
+      };
+    }
+  }
+
   convertToCourseEntity(course: CirclesCourse): CourseEntity {
     const getTerms = (terms: string[]): number[] => {
       const termNums: number[] = [];
