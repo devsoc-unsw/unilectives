@@ -160,4 +160,5 @@ CREATE TABLE cselectives.reports (
 --     5,
 --     4.5);
 
--- COMMIT;
+
+COMMIT;
