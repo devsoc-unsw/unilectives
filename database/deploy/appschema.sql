@@ -127,20 +127,14 @@ CREATE TABLE cselectives.reports (
 --         4
 --     );
 
--- INSERT INTO cselectives.users
--- VALUES
---     (
---         'z5555555',
---         '{}',
---         '{"COMP1511"}',
---         TRUE
---     ),
---     (
---         'z5000000',
---         '{}',
---         '{"COMP1531"}',
---         FALSE
---     );
+INSERT INTO cselectives.users
+VALUES
+    (
+        'z5000000',
+        '{}',
+        '{"COMP1531"}',
+        FALSE
+    );
 
 -- INSERT INTO cselectives.reviews
 -- VALUES(
