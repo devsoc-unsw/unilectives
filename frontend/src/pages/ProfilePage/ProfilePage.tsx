@@ -31,7 +31,7 @@ const ProfilePage = () => {
     <Content>
       <Container>
         <Header courses={[]} />
-        <NameBox>{mockUser.zid}</NameBox> 
+        <NameBox>{mockUser.zid}</NameBox>
         <Row>
           <Column>
             <CategoryBox>

@@ -74,7 +74,7 @@ const HomePage = () => {
           >
             Profile
           </LoginButton>
-        </Link> 
+        </Link>
       )} else {
       return <LoginButton
         onClick={() => setLoginDialog(true)}

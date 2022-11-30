@@ -35,8 +35,8 @@ export interface IReview {
   description: string;
   grade: number;
   termTaken: string;
-  createdTimestamp: Date;
-  updatedTimestamp: Date;
+  createdTimestamp: string;
+  updatedTimestamp: string;
   upvotes: string[];
   manageability: number;
   enjoyability: number;
