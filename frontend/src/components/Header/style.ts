@@ -20,4 +20,5 @@ export const Wave = styled.img<WaveProps>`
   width: 100%;
   overflow: hidden;
   display: ${props => props.displayWave};
+  align-self: flex-start;
 `;
