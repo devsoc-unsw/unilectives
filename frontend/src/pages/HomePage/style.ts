@@ -2,11 +2,15 @@ import styled from "styled-components";
 import landingCurve from "src/assets/curves/fullScreen.svg";
 
 export const Content = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   background-image: url(${landingCurve});
-  background-size: cover;
-  background-position: top right;
+  // background-size: cover;
+  background-size: 100vw;
+  background-repeat: no-repeat;
+  background-position: top;
+  // background-attachment: scroll;
+  overflow-x: hidden;
 `;
 
 export const Container = styled.div`

@@ -1,11 +1,14 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  width: 100dvw;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  overflow-x: hidden;
 `;
 
 export const CourseContainer = styled.div`
