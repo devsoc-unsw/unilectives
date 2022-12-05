@@ -46,7 +46,7 @@ const HomePage = () => {
   const [reviewModal, setReviewModal] = useState<boolean>(false);
   const [landingGraphic, setLandingGraphic] = useState<string>();
   const [results, setResults] = useState<ICourse[]>([]);
-  const [courseView, setCourseView] = useState<string>('list');
+  const [courseView, setCourseView] = useState<string>('card');
 
   const ref = useRef<null | HTMLDivElement>(null);
 
