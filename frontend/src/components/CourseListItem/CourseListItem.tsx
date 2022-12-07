@@ -47,7 +47,7 @@ const CourseListItem = (p: Props) => {
                 </Faculty>
             </FacultyContainer>
             <ReviewCount>
-                12
+                {p.course.reviewCount}
             </ReviewCount>
         </MenuItem>
     </CourseListItemContainer>

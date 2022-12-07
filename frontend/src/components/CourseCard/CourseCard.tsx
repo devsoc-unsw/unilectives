@@ -57,7 +57,7 @@ const CourseCard = (p: Props) => {
                             />
                         </CardContentsRating>
                         <CardContentsReviews>
-                            21 reviews
+                            {p.course.reviewCount} reviews
                         </CardContentsReviews>
                         <CardCategoriesTable>
                             <table>
