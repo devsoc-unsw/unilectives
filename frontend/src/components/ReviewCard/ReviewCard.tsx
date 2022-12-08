@@ -1,6 +1,7 @@
 import { Bookmark, BookmarkBorder, FlagOutlined } from "@mui/icons-material";
 import { Rating } from "@mui/material";
 import { IReview } from "src/interfaces/ResponseInterface";
+import { mockUser } from "src/stubbing/data";
 import {
   ReviewContainer,
   ReviewHeadings,
@@ -101,7 +102,7 @@ const ReviewCard = (p: Props) => {
         </InteractButton>
         <div>
           <InteractButton>
-            {p.review.upvotes.includes("z5555555") ? (
+            {mockUser.bookmarkedReviews.includes(p.review) ? (
               <Bookmark />
             ) : (
               <BookmarkBorder />

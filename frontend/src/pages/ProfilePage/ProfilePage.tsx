@@ -5,7 +5,7 @@ import { Container, Row, Column, NameBox, CategoryBox, Button,
 import { useState } from "react";
 import { mockUser } from "src/stubbing/data";
 import BookmarkCourseCard from "src/components/BookmarkCourseCard/BookmarkCourseCard";
-import OwnReviewCard from "src/components/ReviewCard/OwnReviewCard";
+import ProfileReviewCard from "src/components/ReviewCard/OwnReviewCard";
 
 // currently using data from mockUser
 
@@ -21,13 +21,17 @@ const ProfilePage = () => {
         })
       )
     } else {
-      return <div>reviews</div>
+      return (
+        mockUser.bookmarkedReviews.map((r) => {
+          return <ProfileReviewCard review={r} />
+        })
+      )
     }
   }
 
   const getOwnReviews = () => {
     return mockUser.reviews.map((r) => {
-      return <OwnReviewCard review={r} />
+      return <ProfileReviewCard review={r} />
     })
   }
 
