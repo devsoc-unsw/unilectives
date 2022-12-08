@@ -15,6 +15,7 @@ import {
   CircleEmptyIcon,
   OverallRating,
   ReviewTime,
+  ReviewTitle
 } from "./style";
 interface Props {
   review: IReview;
@@ -59,11 +60,20 @@ const ReviewCard = (p: Props) => {
     return dateObj.toLocaleDateString();
   };
 
+  const showTitle = (review: string) => {
+    if (review.includes(".") || review.includes(" ")) {
+      return review.substring(0, review.indexOf(".") + 1);
+    }
+    if (review.includes("\n")) {
+      return review.substring(0, review.indexOf("\n"));
+    }
+  };
+
   return (
     <ReviewContainer>
       <ReviewHeadings>
         <div>
-          <b>{p.review.description.substring(0, 10)}</b>
+          <ReviewTitle>{showTitle(p.review.description)}</ReviewTitle>
         </div>
         <div>
           <ReviewTime>{showDate(p.review.createdTimestamp)}</ReviewTime>
