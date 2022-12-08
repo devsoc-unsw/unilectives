@@ -47,7 +47,6 @@ export const RatingNumber = styled.div`
 export const ReviewTitle = styled.p`
   font-size: 14pt;
   font-weight: 500;
-  // add right padding
   padding-right: 2rem;
 `;
 
