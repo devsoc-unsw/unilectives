@@ -74,7 +74,10 @@ const Searchbar = ({ courses, onSearchChange, onViewChange }: SearchbarProps) =>
       let filterSort = (courseList: ICourse[]) => {
         var filteredCourses: ICourse[] = [...courseList];
 
-        switch (sortFilter) {
+        switch(sortFilter) {
+          case "Most Reviewed":
+            filteredCourses.sort((c1, c2) => c2.reviewCount - c1.reviewCount)
+            break;
           case "Alphabetical Order":
             filteredCourses.sort();
             break;
@@ -82,10 +85,7 @@ const Searchbar = ({ courses, onSearchChange, onViewChange }: SearchbarProps) =>
             filteredCourses.sort((c1, c2) => c2.rating - c1.rating);
             break;
           default:
-            // default sorts by Most Reviewed
-            // TODO: does each course have Reviews?? Update Swagger?
-
-            filteredCourses.sort();
+            filteredCourses.sort((c1, c2) => c2.reviewCount - c1.reviewCount)
         }
 
         return filteredCourses;
