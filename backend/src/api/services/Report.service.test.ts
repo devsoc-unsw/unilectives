@@ -157,9 +157,10 @@ describe("ReportService", () => {
 
     it("should resolve and return updated report", async () => {
       const service = reportService();
-      const reportEntity = getReportEntity();
-      const report = getMockReports()[0];
-      const review = getMockReview();
+      const date = new Date();
+      const reportEntity = getReportEntity(date);
+      const report = getMockReports(date)[0];
+      const review = getMockReview(date);
       const userEntity = getUserEntity();
       userEntity.isAdmin = true;
       const reportRequest: IUpdateReportRequestBody = {
@@ -176,7 +177,11 @@ describe("ReportService", () => {
       expect(reportResult.report.status).toEqual("UNSEEN");
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);
-      expect(reportResult.report.review).toEqual(review);
+      expect({
+        ...reportResult.report.review,
+        updatedTimestamp: date,
+        createdTimestamp: date,
+      }).toEqual(review);
     });
   });
 });

@@ -11,6 +11,8 @@ import { UserRouter } from "./api/routes/User.router";
 import { ReportRouter } from "./api/routes/Report.router";
 import { ReportService } from "./api/services/Report.service";
 import { AuthService } from "./modules/Auth";
+import { CourseRepository } from "./repositories/Course.repository";
+import { UserRepository } from "./repositories/User.repository";
 
 export default class App {
   readonly logger = getLogger();
@@ -23,8 +25,15 @@ export default class App {
   // auth
   private readonly auth = new AuthService();
 
+  // repositories
+  private readonly courseRepository = new CourseRepository(this.manager);
+  private readonly userRepository = new UserRepository(this.manager);
+
   // add services here
-  private readonly courseService = new CourseService(this.manager);
+  private readonly courseService = new CourseService(
+    this.courseRepository,
+    this.userRepository
+  );
   private readonly userService = new UserService(this.manager, this.auth);
   private readonly reportService = new ReportService(this.manager);
   private readonly reviewService = new ReviewService(this.manager);

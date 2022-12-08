@@ -71,4 +71,12 @@ export const CardsBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-top: 15px;
+`;
+
+export const ReviewsBox = styled.div`
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
 `;

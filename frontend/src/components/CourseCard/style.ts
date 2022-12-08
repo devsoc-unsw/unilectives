@@ -62,6 +62,7 @@ export const CardContentsReviews = styled.div`
   color: #808080;
   margin-right: 0.3rem;
   padding: 0 0.5rem 0.2rem 0;
+  font-size: 13px;
 `;
 
 export const CardCategoriesTable = styled.table`

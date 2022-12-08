@@ -6,16 +6,18 @@ import {
 
 describe("convertReviewEntityToInterface", () => {
   it("should convert ReviewEntity to IReview", () => {
-    const review = getMockReview();
-    const entity = getReviewEntity();
+    const date = new Date();
+    const review = getMockReview(date);
+    const entity = getReviewEntity(date);
     expect(convertReviewEntityToInterface(entity)).toEqual(review);
   });
 });
 
 describe("convertReviewInterfaceToEntity", () => {
   it("should convert IReview to ReviewEntity", () => {
-    const review = getMockReview();
-    const entity = getReviewEntity();
+    const date = new Date();
+    const review = getMockReview(date);
+    const entity = getReviewEntity(date);
     expect(convertReviewInterfaceToEntity(review)).toEqual(entity);
   });
 });

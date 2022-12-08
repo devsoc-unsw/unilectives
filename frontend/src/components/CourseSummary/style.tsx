@@ -33,6 +33,9 @@ export const Text = styled.text<TextProps>`
   font-weight: ${(props) => props.fontWeight};
   font-size: ${(props) => props.fontSize};
   color: ${(props) => props.color || "#000"};
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const Flexbox = styled.div`

@@ -69,72 +69,66 @@ CREATE TABLE cselectives.reports (
     CONSTRAINT fk_zid        FOREIGN KEY ( zid )       REFERENCES cselectives.users(zid)
 );
 
-INSERT INTO cselectives.courses
-VALUES
-    (
-        'COMP1511', 
-        FALSE, 
-        '{"yeet"}', 
-        '3+', 
-        'Kensington', 
-        'An introduction to problem-solving via programming, which aims to have students develop proficiency in using a high level programming language. '
-        'Topics: algorithms, program structures (statements, sequence, selection, iteration, functions), data types (numeric, character), data structures '
-        '(arrays, tuples, pointers, lists), storage structures (memory, addresses), introduction to analysis of algorithms, testing, code quality, teamwork, '
-        'and reflective practice. The course includes extensive practical work in labs and programming projects. Additional Information This course should  '
-        'be taken by all CSE majors, and any other students who have an interest in computing or who wish to be extended. It does not require any prior '
-        'computing knowledge or experience. COMP1511 leads on to COMP1521, COMP1531, COMP2511 and COMP2521, which form the core of the study of computing at '
-        'UNSW and which are pre-requisites for the full range of further computing courses. Due to overlapping material, students who complete COMP1511 may '
-        'not also enrol in COMP1911 or COMP1921.', 
-        '', 
-        '{"COMP1917","DPST1091"}', 
-        '{"DPST1091"}', 
-        'Faculty of Engineering', 
-        '020103 Programming', 
-        TRUE, 
-        1, 
-        'School of Computer Science and Engineering', 
-        'Undergraduate', 
-        '{1, 2, 3}', 
-        'Programming Fundamentals', 
-        6,
-        4
-    ),
-    (
-        'COMP1531', 
-        FALSE, 
-        '{"yeet"}', 
-        '3+', 
-        'Kensington', 
-        'This course provides an introduction to software engineering principles: basic software lifecycle concepts, modern development methodologies, '
-        'conceptual modeling and how these activities relate to programming. It also introduces the basic notions of team-based project management via '
-        'conducting a project to design, build and deploy a simple web-based application. It is typically taken in the term after completing COMP1511, but '
-        'could be delayed and taken later. It provides essential background for the teamwork and project management required in many later courses.The goal '
-        'of this course is to expose the students to:basic elements of software engineering: including requirements elicitation, analysis and specification; '
-        'design; construction; verification and validation; deployment; and operation and maintenancedata modellingsoftware engineering methodologies, '
-        'processes, measurements, tools and techniquesWeb-based system architecture and development practices on Web platforms.', 
-        'Prerequisite: COMP1511 or DPST1091 or COMP1917 or COMP1921', 
-        '{}', 
-        '{"SENG1010","SENG1020","SENG1031"}', 
-        'Faculty of Engineering', 
-        '020103 Programming', 
-        TRUE, 
-        1, 
-        'School of Computer Science and Engineering', 
-        'Undergraduate', 
-        '{1, 2, 3}', 
-        'Software Engineering Fundamentals', 
-        6,
-        4
-    );
+-- INSERT INTO cselectives.courses
+-- VALUES
+--     (
+--         'COMP1511', 
+--         FALSE, 
+--         '{"yeet"}', 
+--         '3+', 
+--         'Kensington', 
+--         'An introduction to problem-solving via programming, which aims to have students develop proficiency in using a high level programming language. '
+--         'Topics: algorithms, program structures (statements, sequence, selection, iteration, functions), data types (numeric, character), data structures '
+--         '(arrays, tuples, pointers, lists), storage structures (memory, addresses), introduction to analysis of algorithms, testing, code quality, teamwork, '
+--         'and reflective practice. The course includes extensive practical work in labs and programming projects. Additional Information This course should  '
+--         'be taken by all CSE majors, and any other students who have an interest in computing or who wish to be extended. It does not require any prior '
+--         'computing knowledge or experience. COMP1511 leads on to COMP1521, COMP1531, COMP2511 and COMP2521, which form the core of the study of computing at '
+--         'UNSW and which are pre-requisites for the full range of further computing courses. Due to overlapping material, students who complete COMP1511 may '
+--         'not also enrol in COMP1911 or COMP1921.', 
+--         '', 
+--         '{"COMP1917","DPST1091"}', 
+--         '{"DPST1091"}', 
+--         'Faculty of Engineering', 
+--         '020103 Programming', 
+--         TRUE, 
+--         1, 
+--         'School of Computer Science and Engineering', 
+--         'Undergraduate', 
+--         '{1, 2, 3}', 
+--         'Programming Fundamentals', 
+--         6,
+--         4
+--     ),
+--     (
+--         'COMP1531', 
+--         FALSE, 
+--         '{"yeet"}', 
+--         '3+', 
+--         'Kensington', 
+--         'This course provides an introduction to software engineering principles: basic software lifecycle concepts, modern development methodologies, '
+--         'conceptual modeling and how these activities relate to programming. It also introduces the basic notions of team-based project management via '
+--         'conducting a project to design, build and deploy a simple web-based application. It is typically taken in the term after completing COMP1511, but '
+--         'could be delayed and taken later. It provides essential background for the teamwork and project management required in many later courses.The goal '
+--         'of this course is to expose the students to:basic elements of software engineering: including requirements elicitation, analysis and specification; '
+--         'design; construction; verification and validation; deployment; and operation and maintenancedata modellingsoftware engineering methodologies, '
+--         'processes, measurements, tools and techniquesWeb-based system architecture and development practices on Web platforms.', 
+--         'Prerequisite: COMP1511 or DPST1091 or COMP1917 or COMP1921', 
+--         '{}', 
+--         '{"SENG1010","SENG1020","SENG1031"}', 
+--         'Faculty of Engineering', 
+--         '020103 Programming', 
+--         TRUE, 
+--         1, 
+--         'School of Computer Science and Engineering', 
+--         'Undergraduate', 
+--         '{1, 2, 3}', 
+--         'Software Engineering Fundamentals', 
+--         6,
+--         4
+--     );
 
 INSERT INTO cselectives.users
 VALUES
-    (
-        'z5555555',
-        '{}',
-        '{"COMP1511"}',
-        TRUE
-    ),
     (
         'z5000000',
         '{}',
@@ -142,22 +136,23 @@ VALUES
         FALSE
     );
 
-INSERT INTO cselectives.reviews
-VALUES(
-    gen_random_uuid(), 
-    'z5555555', 
-    'COMP1511', 
-    'Admin user', 
-    'My review',
-    'Amazing course', 
-    99, 
-    '20T1', 
-    current_timestamp,
-    current_timestamp,
-    '{}',
-    3,
-    4,
-    5,
-    4.5);
+-- INSERT INTO cselectives.reviews
+-- VALUES(
+--     gen_random_uuid(), 
+--     'z5555555', 
+--     'COMP1511', 
+--     'Admin user', 
+--     'My review',
+--     'Amazing course', 
+--     99, 
+--     '20T1', 
+--     current_timestamp,
+--     current_timestamp,
+--     '{}',
+--     3,
+--     4,
+--     5,
+--     4.5);
+
 
 COMMIT;
