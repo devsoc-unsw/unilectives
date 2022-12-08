@@ -1,6 +1,7 @@
 import { Bookmark, BookmarkBorder, FlagOutlined } from "@mui/icons-material";
 import { Rating } from "@mui/material";
 import { IReview } from "src/interfaces/ResponseInterface";
+import { mockUser } from "src/stubbing/data";
 import {
   ReviewContainer,
   ReviewHeadings,
@@ -13,6 +14,7 @@ import {
   CircleFilledIcon,
   CircleEmptyIcon,
   OverallRating,
+  ReviewTime,
 } from "./style";
 interface Props {
   review: IReview;
@@ -52,6 +54,11 @@ const ReviewCard = (p: Props) => {
     );
   };
 
+  const showDate = (date: string) => {
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString();
+  };
+
   return (
     <ReviewContainer>
       <ReviewHeadings>
@@ -59,7 +66,7 @@ const ReviewCard = (p: Props) => {
           <b>{p.review.description.substring(0, 10)}</b>
         </div>
         <div>
-          <b>{p.review.createdTimestamp}</b>
+          <ReviewTime>{showDate(p.review.createdTimestamp)}</ReviewTime>
         </div>
       </ReviewHeadings>
       <ReviewHeadings>
@@ -71,7 +78,7 @@ const ReviewCard = (p: Props) => {
       </ReviewHeadings>
       <ReviewHeadings>
         <div>Term Taken: {p.review.termTaken}</div>
-        <div>Grade: {p.review.grade}</div>
+        <div>Grade: {p.review.grade ? p.review.grade : 'N/A'}</div>
       </ReviewHeadings>
 
       <Ratings>
@@ -101,7 +108,7 @@ const ReviewCard = (p: Props) => {
         </InteractButton>
         <div>
           <InteractButton>
-            {p.review.upvotes.includes("z5555555") ? (
+            {mockUser.bookmarkedReviews.includes(p.review) ? (
               <Bookmark />
             ) : (
               <BookmarkBorder />

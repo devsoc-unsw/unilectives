@@ -4,8 +4,7 @@ import { palette } from "../palette/palette";
 
 export const ReviewContainer = styled.div`
   width: 100%;
-  border-top: 1px solid grey;
-  border-bottom: 1px solid grey;
+  border-top: 2px solid #E8E8E8;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -49,6 +48,11 @@ export const ReviewText = styled.p`
   float: left;
 `;
 
+export const ReviewTime = styled.p`
+  float: right;
+  font-weight: 500;
+`;
+
 export const Interactions = styled.div`
   display: flex;
   flex-direction: row;
@@ -80,4 +84,24 @@ export const CircleFilledIcon = styled(CircleRounded)`
 export const CircleEmptyIcon = styled(CircleRounded)`
   color: "#D6D6D6";
   margin-right: 0.5rem;
+`;
+
+export const CourseText = styled.div`
+  font-size: 15pt;
+  color: grey;
+`;
+
+// the margin bottom and background color are just to cover the grey line on top of
+// review card for now
+export const OwnReviewHeader = styled.div`
+  padding: 1rem;
+  background-color: white;
+  margin-bottom: -15px;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  color: grey;
 `;
