@@ -147,6 +147,10 @@ export const SubmitButton = styled.button`
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   margin-left: auto;
+  :disabled {
+    background-color: #b3b3b3;
+    cursor: not-allowed;
+  }
 `;
 
 export const ReviewTitleInput = styled.textarea`

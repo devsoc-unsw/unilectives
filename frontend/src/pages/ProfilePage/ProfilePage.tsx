@@ -1,10 +1,11 @@
 import Header from "src/components/Header/Header";
 import Footer from "src/components/Footer/Footer";
 import { Container, Row, Column, NameBox, CategoryBox, Button,
-  ButtonBox, CardsBox, BookmarksHeader, Content } from "./style";
+  ButtonBox, CardsBox, BookmarksHeader, Content, ReviewsBox } from "./style";
 import { useState } from "react";
 import { mockUser } from "src/stubbing/data";
 import BookmarkCourseCard from "src/components/BookmarkCourseCard/BookmarkCourseCard";
+import ProfileReviewCard from "src/components/ReviewCard/OwnReviewCard";
 
 // currently using data from mockUser
 
@@ -20,13 +21,22 @@ const ProfilePage = () => {
         })
       )
     } else {
-      return <div>reviews</div>
+      return (
+        mockUser.bookmarkedReviews.map((r) => {
+          return <ProfileReviewCard review={r} />
+        })
+      )
     }
+  }
+
+  const getOwnReviews = () => {
+    return mockUser.reviews.map((r) => {
+      return <ProfileReviewCard review={r} />
+    })
   }
 
   // TODO:
   // Show authorised user's name
-  // Show authorised user's reviews
   return (
     <Content>
       <Container>
@@ -37,6 +47,9 @@ const ProfilePage = () => {
             <CategoryBox>
               My Reviews
             </CategoryBox>
+            <ReviewsBox>
+              {getOwnReviews()}
+            </ReviewsBox>
           </Column>
           <Column>
             <BookmarksHeader>
