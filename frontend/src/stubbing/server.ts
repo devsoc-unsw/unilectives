@@ -2,6 +2,7 @@ import { createServer, Model } from "miragejs";
 import {
   IGetCoursesResponse,
   IPostUserResponse,
+  IReview,
 } from "src/interfaces/ResponseInterface";
 import { mockCourses } from "./data";
 
@@ -9,7 +10,7 @@ export function makeServer({ environment = "test" }) {
   const mockServer = createServer({
     environment,
     logging: true,
-    timing: 2000,
+    timing: 300,
 
     models: {
       user: Model,
@@ -18,6 +19,7 @@ export function makeServer({ environment = "test" }) {
     seeds(server) {
       server.create("user", {
         id: "123",
+        reviews: [],
       });
     },
 
@@ -45,7 +47,10 @@ export function makeServer({ environment = "test" }) {
           },
         };
 
-        schema.db.users.update({ user: user.id }, { ...user, user: res });
+        schema.db.users.update(
+          { user: user.id },
+          { ...user, user: res, reviews: [] }
+        );
         return res;
       });
 
@@ -59,6 +64,37 @@ export function makeServer({ environment = "test" }) {
         };
 
         schema.db.users.update({ user: user.id }, { ...user, courses: res });
+        return res;
+      });
+
+      // Reviews
+      this.get("/api/v1/reviews", (schema) => {
+        const user = schema.db.users.findBy({
+          id: "123",
+        });
+        return user.reviews;
+      });
+
+      this.post("/api/v1/reviews", (schema, request) => {
+        const user = schema.db.users.findBy({
+          id: "123",
+        });
+        const body = JSON.parse(request.requestBody);
+        const res = {
+          review: {
+            ...body,
+            createdTimestamp: new Date(),
+            updatedTimestamp: new Date(),
+            termTaken: "2020s1",
+            upvotes: [],
+            reviewId: "rev-123",
+          } as IReview,
+        };
+
+        schema.db.users.update(
+          { user: user.id },
+          { ...user, reviews: [...user.reviews, res] }
+        );
         return res;
       });
     },
