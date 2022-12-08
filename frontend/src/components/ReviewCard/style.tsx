@@ -4,8 +4,7 @@ import { palette } from "../palette/palette";
 
 export const ReviewContainer = styled.div`
   width: 100%;
-  border-top: 1px solid grey;
-  border-bottom: 1px solid grey;
+  border-top: 2px solid #E8E8E8;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -47,6 +46,11 @@ export const RatingNumber = styled.div`
 
 export const ReviewText = styled.p`
   float: left;
+`;
+
+export const ReviewTime = styled.p`
+  float: right;
+  font-weight: 500;
 `;
 
 export const Interactions = styled.div`
