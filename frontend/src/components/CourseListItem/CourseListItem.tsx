@@ -17,6 +17,13 @@ const CourseListItem = (p: Props) => {
         return facultyString.replace("Faculty of ", "");
     }
 
+    const getCategoryRating = (rating: number) => {
+        if (rating === null) {
+            return 0;
+        }
+        return Math.round(rating * 10) / 10;
+    }
+
     return (
     <CourseListItemContainer>
         <MenuItem component={Link} to={'/course/' + p.course.courseCode} style={{width:"100%", textAlign:"left", padding:"0%"}}>
@@ -33,13 +40,13 @@ const CourseListItem = (p: Props) => {
                 <DisplayRating rating={p.course.rating} />
             </OverallRating>
             <Enjoyability>
-                4.5
+                {getCategoryRating(p.course.enjoyability)}
             </Enjoyability>
             <Usefulness>
-                4.5
+                {getCategoryRating(p.course.usefulness)}
             </Usefulness>
             <Manageability>
-                4.5
+                {getCategoryRating(p.course.manageability)}
             </Manageability>
             <FacultyContainer>
                 <Faculty>
@@ -47,7 +54,7 @@ const CourseListItem = (p: Props) => {
                 </Faculty>
             </FacultyContainer>
             <ReviewCount>
-                12
+                {p.course.reviewCount}
             </ReviewCount>
         </MenuItem>
     </CourseListItemContainer>
