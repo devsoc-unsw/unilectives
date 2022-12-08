@@ -10,10 +10,10 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-// if (!import.meta.env.PROD) {
-//   console.log("running stub");
-//   makeServer({ environment: "dev" });
-// }
+if (!import.meta.env.PROD) {
+  console.log("running stub");
+  makeServer({ environment: "dev" });
+}
 
 root.render(
   <React.StrictMode>
