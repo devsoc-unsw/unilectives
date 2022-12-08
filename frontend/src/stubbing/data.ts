@@ -107,7 +107,6 @@ export const mockCourses: ICourse[] = [
     usefulness: 4,
     enjoyability: 4,
   },
-
   {
     courseCode: "UNPOG101",
     archived: false,
