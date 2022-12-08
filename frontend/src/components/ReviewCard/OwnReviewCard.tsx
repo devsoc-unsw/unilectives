@@ -8,14 +8,20 @@ interface Props {
   review: IReview;
 }
 
-const OwnReviewCard = (p: Props) => {
+// TODO: fix the check that the author of review is the user
+
+const ProfileReviewCard = (p: Props) => {
   return (
     <>
       <OwnReviewHeader>
         <CourseText>{p.review.courseCode}</CourseText>
         <div>
-          <EditIcon />
-          <DeleteIcon />
+          {p.review.zid === 'z5555555' && (
+            <>
+              <EditIcon />
+              <DeleteIcon />
+            </>
+          )}
         </div>
       </OwnReviewHeader>
       <ReviewCard review={p.review} />
@@ -23,4 +29,4 @@ const OwnReviewCard = (p: Props) => {
   )
 }
 
-export default OwnReviewCard;
+export default ProfileReviewCard;
