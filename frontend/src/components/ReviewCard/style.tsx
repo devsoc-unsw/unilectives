@@ -44,8 +44,16 @@ export const RatingNumber = styled.div`
   font-size: 15pt;
 `;
 
+export const ReviewTitle = styled.p`
+  font-size: 14pt;
+  font-weight: 500;
+  // add right padding
+  padding-right: 2rem;
+`;
+
 export const ReviewText = styled.p`
   float: left;
+  white-space: pre-line;
 `;
 
 export const ReviewTime = styled.p`
