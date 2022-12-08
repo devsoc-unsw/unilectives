@@ -81,3 +81,23 @@ export const CircleEmptyIcon = styled(CircleRounded)`
   color: "#D6D6D6";
   margin-right: 0.5rem;
 `;
+
+export const CourseText = styled.div`
+  font-size: 15pt;
+  color: grey;
+`;
+
+// the margin bottom and background color are just to cover the grey line on top of
+// review card for now
+export const OwnReviewHeader = styled.div`
+  padding: 1rem;
+  background-color: white;
+  margin-bottom: -15px;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  color: grey;
+`;

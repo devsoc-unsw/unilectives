@@ -71,7 +71,7 @@ const ReviewCard = (p: Props) => {
       </ReviewHeadings>
       <ReviewHeadings>
         <div>Term Taken: {p.review.termTaken}</div>
-        <div>Grade: {p.review.grade}</div>
+        <div>Grade: {p.review.grade ? p.review.grade : 'N/A'}</div>
       </ReviewHeadings>
 
       <Ratings>
