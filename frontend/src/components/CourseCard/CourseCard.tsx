@@ -28,6 +28,13 @@ const CourseCard = (p: Props) => {
         boxShadow: '0 3px 6px 0 rgba(0,0,0,0.2)',
         backgroundColor: '#FEFDFD',
     }
+    
+    const getCategoryRating = (rating: number) => {
+        if (rating === null) {
+            return 0;
+        }
+        return Math.round(rating * 10) / 10;
+    }
 
     return (
         <Card style={cardStyle}>
@@ -63,15 +70,15 @@ const CourseCard = (p: Props) => {
                             <table>
                                 <tr>
                                     <th>Enjoyability</th>
-                                    <td>3.5</td>
+                                    <td>{getCategoryRating(p.course.enjoyability)}</td>
                                 </tr>
                                 <tr>
                                     <th>Usefulness</th>
-                                    <td>4.1</td>
+                                    <td>{getCategoryRating(p.course.usefulness)}</td>
                                 </tr>
                                 <tr>
                                     <th>Manageability</th>
-                                    <td>2.3</td>
+                                    <td>{getCategoryRating(p.course.manageability)}</td>
                                 </tr>
                             </table>
                         </CardCategoriesTable>
