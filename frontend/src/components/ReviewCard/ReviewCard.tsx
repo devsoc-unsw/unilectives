@@ -60,16 +60,10 @@ const ReviewCard = (p: Props) => {
     return dateObj.toLocaleDateString();
   };
 
-  // make function which shows the title of the review 
-  // which will be the first sentence of the review
-  // if the review is too short, then just show the first 10 characters
   const showTitle = (review: string) => {
-    // show the first sentence of the review
-    // which will be when the first period or new line is found
     if (review.includes(".") || review.includes(" ")) {
       return review.substring(0, review.indexOf(".") + 1);
     }
-    // get the sentence before the first new line
     if (review.includes("\n")) {
       return review.substring(0, review.indexOf("\n"));
     }
