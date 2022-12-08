@@ -13,6 +13,7 @@ import {
   CircleFilledIcon,
   CircleEmptyIcon,
   OverallRating,
+  ReviewTime,
 } from "./style";
 interface Props {
   review: IReview;
@@ -52,6 +53,18 @@ const ReviewCard = (p: Props) => {
     );
   };
 
+  const showDate = (date: string) => {
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString();
+  };
+
+  const showGrade = (grade: number) => {
+    if (grade === null) {
+      return "N/A";
+    }
+    return grade;
+  };
+
   return (
     <ReviewContainer>
       <ReviewHeadings>
@@ -59,7 +72,7 @@ const ReviewCard = (p: Props) => {
           <b>{p.review.description.substring(0, 10)}</b>
         </div>
         <div>
-          <b>{p.review.createdTimestamp}</b>
+          <ReviewTime>{showDate(p.review.createdTimestamp)}</ReviewTime>
         </div>
       </ReviewHeadings>
       <ReviewHeadings>
@@ -71,7 +84,7 @@ const ReviewCard = (p: Props) => {
       </ReviewHeadings>
       <ReviewHeadings>
         <div>Term Taken: {p.review.termTaken}</div>
-        <div>Grade: {p.review.grade}</div>
+        <div> Grade: {showGrade(p.review.grade)}</div >
       </ReviewHeadings>
 
       <Ratings>
