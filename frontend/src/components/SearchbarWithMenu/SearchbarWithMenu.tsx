@@ -7,6 +7,7 @@ import { palette } from "../palette/palette";
 import { searchbarStyle } from "src/components/Searchbar/style";
 import { ICourse } from "src/interfaces/ResponseInterface";
 import { useNavigate } from "react-router-dom";
+
 type SearchbarWithMenuProps = {
   courses: ICourse[];
 };
@@ -15,7 +16,7 @@ const SearchbarWithMenu = ({ courses }: SearchbarWithMenuProps) => {
   const [search, setSearch] = React.useState("");
   const navigate = useNavigate();
   return (
-    <div style={{ position: "absolute", top: 10, right: 50 }}>
+    <div style={{ position: "absolute", top: 10, right: 150 }}>
       <Autocomplete
         size="small"
         fullWidth
@@ -47,11 +48,11 @@ const SearchbarWithMenu = ({ courses }: SearchbarWithMenuProps) => {
             variant="outlined"
             placeholder="COMP1511"
             sx={{
-              minWidth: 150,
+              minWidth: 175,
               ...searchbarStyle(
-                palette.dayWhite,
-                palette.nightWhite,
-                palette.dayWhite
+                palette.dayNavy, 
+                palette.nightNavy,
+                palette.dayNavy
               ),
             }}
             InputProps={{
@@ -60,7 +61,7 @@ const SearchbarWithMenu = ({ courses }: SearchbarWithMenuProps) => {
                 <InputAdornment position="start">
                   <SearchIcon
                     sx={{
-                      color: palette.dayWhite,
+                      color: palette.dayNavy,
                     }}
                   />
                 </InputAdornment>
