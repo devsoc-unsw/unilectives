@@ -34,7 +34,7 @@ export const searchbarStyle = (
     },
     marginTop: "85px",
     "& .MuiInputLabel-outlined": {
-      fontSize: "1.2rem",
+      fontSize: "1rem",
     },
   } as SxProps;
 };
