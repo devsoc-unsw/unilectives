@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - "develop"
-      - "feature/migration"
 
 jobs:
   build:
@@ -69,6 +68,7 @@ jobs:
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/cselectives-backend:${{ github.sha }}"' apps/projects/cselectives/v2/staging/deploy-backend.yml
           yq -i '.items[0].spec.template.spec.initContainers[0].image = "ghcr.io/csesoc/cselectives-database:${{ github.sha }}"' apps/projects/cselectives/v2/staging/deploy-backend.yml
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/cselectives-frontend:${{ github.sha }}"' apps/projects/cselectives/v2/staging/deploy-frontend.yml
+          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/cselectives-migration:${{ github.sha }}"' apps/projects/cselectives/v2/staging/deploy-migration.yml
           git add .
           git commit -m "feat(cselectives/staging): update image"
           git push -u origin update/cselectives/${{ github.sha }}
