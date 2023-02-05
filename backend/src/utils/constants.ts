@@ -1,5 +1,5 @@
 import { IHttpError } from "../interfaces/IApiResponses";
-import { HTTPError } from "./Errors";
+import { HTTPError } from "./errors";
 
 export const envVars: string[] = [
   "POSTGRESQL_HOST",

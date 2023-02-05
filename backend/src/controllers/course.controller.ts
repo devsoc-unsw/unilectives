@@ -1,20 +1,20 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { formatError, getLogger } from "../../utils/Logger";
-import { IRouter } from "../../interfaces/IRouter";
-import { CourseService } from "../services/Course.service";
+import { formatError, getLogger } from "../utils/logger";
+import { IController } from "../interfaces/IController";
+import { CourseService } from "../services/course.service";
 import {
   BookmarkCourseSchema,
   UpdateCourseSchema,
-} from "../schemas/Course.schema";
-import validationMiddleware from "../middlewares/validation";
-import { HTTPError } from "../../utils/Errors";
-import { badRequest } from "../../utils/Constants";
+} from "../api/schemas/course.schema";
+import validationMiddleware from "../api/middlewares/validation";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
 import {
   IPostCoursesBookmarkRequestBody,
   IPutCoursesRequestBody,
 } from "IApiResponses";
 
-export class CourseRouter implements IRouter {
+export class CourseController implements IController {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";

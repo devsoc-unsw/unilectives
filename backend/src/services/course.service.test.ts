@@ -1,15 +1,15 @@
-import { HTTPError } from "../../utils/Errors";
-import { badRequest, internalServerError } from "../../utils/Constants";
-import { CourseService } from "./Course.service";
+import { HTTPError } from "../utils/errors";
+import { badRequest, internalServerError } from "../utils/constants";
+import { CourseService } from "./course.service";
 import {
   getCourseEntity,
   getMockCourses,
   getUserEntity,
-} from "../../utils/testData";
+} from "../utils/testData";
 import { DataSource, EntityManager } from "typeorm";
-import { IPostCoursesBookmarkRequestBody } from "../../interfaces/IApiResponses";
-import { UserRepository } from "../../repositories/User.repository";
-import { CourseRepository } from "../../repositories/Course.repository";
+import { IPostCoursesBookmarkRequestBody } from "../interfaces/IApiResponses";
+import { UserRepository } from "../repositories/User.repository";
+import { CourseRepository } from "../repositories/Course.repository";
 
 describe("CourseService", () => {
   const courseRepository = {} as CourseRepository;

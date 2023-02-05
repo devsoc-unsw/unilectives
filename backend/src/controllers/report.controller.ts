@@ -1,18 +1,18 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { formatError, getLogger } from "../../utils/Logger";
-import { IRouter } from "../../interfaces/IRouter";
-import { ReportService } from "../services/Report.service";
-import validationMiddleware from "../middlewares/validation";
+import { formatError, getLogger } from "../utils/logger";
+import { IController } from "../interfaces/IController";
+import { ReportService } from "../services/report.service";
+import validationMiddleware from "../api/middlewares/validation";
 import {
   CreateReportSchema,
   UpdateReportStatusSchema,
-} from "../schemas/Report.schema";
+} from "../api/schemas/report.schema";
 import {
   IPostReportRequestBody,
   IUpdateReportRequestBody,
 } from "IApiResponses";
 
-export class ReportRouter implements IRouter {
+export class ReportController implements IController {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";

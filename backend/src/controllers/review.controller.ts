@@ -1,22 +1,23 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { formatError, getLogger } from "../../utils/Logger";
-import { IRouter } from "../../interfaces/IRouter";
-import { ReviewService } from "../services/Review.service";
-import validationMiddleware from "../middlewares/validation";
+import { formatError, getLogger } from "../utils/logger";
+import { IController } from "../interfaces/IController";
+import { ReviewService } from "../services/review.service";
+import validationMiddleware from "../api/middlewares/validation";
 import {
   PostReviewSchema,
   BookmarkReviewSchema,
   UpvoteReviewSchema,
-} from "../schemas/Review.schema";
-import { HTTPError } from "../../utils/Errors";
-import { badRequest } from "../../utils/Constants";
+} from "../api/schemas/review.schema";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
 import {
   IPostReviewRequestBody,
   IPutReviewRequestBody,
   IPostReviewsBookmarkRequestBody,
   IPostReviewUpvoteRequestBody,
 } from "IApiResponses";
-export class ReviewRouter implements IRouter {
+
+export class ReviewController implements IController {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";

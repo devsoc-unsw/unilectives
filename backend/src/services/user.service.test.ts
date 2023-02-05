@@ -1,15 +1,15 @@
-import { HTTPError } from "../../utils/Errors";
-import { badRequest } from "../../utils/Constants";
-import { UserService } from "./User.service";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
+import { UserService } from "./user.service";
 import {
   getUserEntity,
   getMockNewUser,
   getMockUser,
   getMockCourses,
-} from "../../utils/testData";
+} from "../utils/testData";
 import { EntityManager } from "typeorm/entity-manager/EntityManager";
 import { DataSource } from "typeorm";
-import { AuthService } from "../../modules/Auth";
+import { AuthService } from "../modules/Auth";
 
 describe("UserService", () => {
   let manager: EntityManager;

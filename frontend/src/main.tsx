@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-if (!import.meta.env.PROD) {
+if (!import.meta.env.VITE_LOCAL) {
   console.log("running stub");
   makeServer({ environment: "dev" });
 }
