@@ -6,10 +6,9 @@ import {
   getMockCourses,
   getUserEntity,
 } from "../utils/testData";
-import { DataSource, EntityManager } from "typeorm";
 import { IPostCoursesBookmarkRequestBody } from "../interfaces/IApiResponses";
-import { UserRepository } from "../repositories/User.repository";
-import { CourseRepository } from "../repositories/Course.repository";
+import { UserRepository } from "../repositories/user.repository";
+import { CourseRepository } from "../repositories/course.repository";
 
 describe("CourseService", () => {
   const courseRepository = {} as CourseRepository;
