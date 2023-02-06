@@ -55,7 +55,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres@sha256:1785b8611bb46e7b8776841be5febc322cdb84c3b72c12bfed364379ecdf9b0d
+    image: postgres:14.6-alpine
     ports:
       - 5432:5432
     environment:
