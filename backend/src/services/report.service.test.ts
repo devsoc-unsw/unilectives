@@ -1,13 +1,13 @@
-import { HTTPError } from "../../utils/Errors";
-import { badRequest } from "../../utils/Constants";
-import { ReportService } from "./Report.service";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
+import { ReportService } from "./report.service";
 import {
   getReportEntity,
   getMockReports,
   getReviewEntity,
   getMockReview,
   getUserEntity,
-} from "../../utils/testData";
+} from "../utils/testData";
 import { EntityManager, DataSource } from "typeorm";
 import {
   IPostReportRequestBody,

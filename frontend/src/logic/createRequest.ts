@@ -28,9 +28,10 @@ const createRequest = async (
     },
   };
 
+  const formattedUrl = import.meta.env.VITE_LOCAL === "true" ? `http://localhost:3030${url}` : url;
   // eslint-disable-next-line no-useless-catch
   try {
-    return await ky(url, joinOptions([additionalOptions, options])).json();
+    return await ky(formattedUrl, joinOptions([additionalOptions, options])).json();
   } catch (ex) {
     throw ex;
   }

@@ -1,20 +1,20 @@
-import { ReportRepository } from "../../repositories/Report.repository";
-import { getLogger } from "../../utils/Logger";
-import { ReportEntity } from "../../entity/Report";
-import { convertReportEntityToInterface } from "../../converters/Report.converter";
-import { HTTPError } from "../../utils/Errors";
-import { badRequest } from "../../utils/Constants";
-import { ReportStatus } from "../../interfaces/IReport";
+import { ReportRepository } from "../repositories/report.repository";
+import { getLogger } from "../utils/logger";
+import { ReportEntity } from "../entity/Report";
+import { convertReportEntityToInterface } from "../converters/Report.converter";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
+import { ReportStatus } from "../interfaces/IReport";
 import {
   IGetAllReportsSuccessResponse,
   IPostReportRequestBody,
   IPostReportSuccessResponse,
   IUpdateReportRequestBody,
-} from "../../interfaces/IApiResponses";
+} from "../interfaces/IApiResponses";
 import { EntityManager } from "typeorm";
-import { ReviewRepository } from "../../repositories/Review.repository";
-import { UserRepository } from "../../repositories/User.repository";
-import { UserEntity } from "../../entity/User";
+import { ReviewRepository } from "../repositories/review.repository";
+import { UserRepository } from "../repositories/user.repository";
+import { UserEntity } from "../entity/User";
 
 export class ReportService {
   private logger = getLogger();
