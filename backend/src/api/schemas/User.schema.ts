@@ -1,5 +1,5 @@
-import Joi from "joi";
+import { z } from "zod";
 
-export const CreateUserSchema = Joi.object({
-  zid: Joi.string().required(),
-}).required();
+export const CreateUserSchema = z.object({
+  zid: z.string(),
+}).strict();

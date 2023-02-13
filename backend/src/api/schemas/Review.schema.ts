@@ -1,45 +1,35 @@
-import Joi from "joi";
+import { z } from "zod";
 
-export const CommonReviewSchema = Joi.object({
-  userId: Joi.string()
-    .uuid({ version: ["uuidv4"] })
-    .required(),
-  widgets: Joi.array()
-    .items(
-      Joi.object({
-        widgetType: Joi.string()
-          .pattern(/ARTICLE/)
-          .required(),
-        articleId: Joi.string()
-          .uuid({ version: ["uuidv4"] })
-          .required(),
-      })
-    )
-    .required(),
-}).options({ allowUnknown: true });
+export const CommonReviewSchema = z.object({
+  userId: z.string().uuid(),
+  widgets: z.array(z.object({
+    widgetType: z.string().regex(/ARTICLE/),
+    articleId: z.string().uuid(),
+  }))
+}).strict();
 
-export const PostReviewSchema = Joi.object({
-  zid: Joi.string().required(),
-  authorName: Joi.string().required(),
-  title: Joi.string().required(),
-  description: Joi.string().required(),
-  courseCode: Joi.string().required(),
-  rating: Joi.number().required(),
-  termTaken: Joi.string().required(),
-  manageability: Joi.number().required(),
-  usefulness: Joi.number().required(),
-  enjoyability: Joi.number().required(),
-  overallRating: Joi.number().required(),
-});
+export const PostReviewSchema = z.object({
+  zid: z.string(),
+  authorName: z.string(),
+  title: z.string(),
+  description: z.string(),
+  courseCode: z.string(),
+  rating: z.number(),
+  termTaken: z.string(),
+  manageability: z.number(),
+  usefulness: z.number(),
+  enjoyability: z.number(),
+  overallRating: z.number(),
+}).strict();
 
-export const BookmarkReviewSchema = Joi.object({
-  reviewId: Joi.string().required(),
-  zid: Joi.string().required(),
-  bookmark: Joi.boolean().required(),
-});
+export const BookmarkReviewSchema = z.object({
+  reviewId: z.string(),
+  zid: z.string(),
+  bookmark: z.boolean(),
+}).strict();
 
-export const UpvoteReviewSchema = Joi.object({
-  reviewId: Joi.string().required(),
-  zid: Joi.string().required(),
-  upvote: Joi.boolean().required(),
-});
+export const UpvoteReviewSchema = z.object({
+  reviewId: z.string(),
+  zid: z.string(),
+  upvote: z.boolean(),
+}).strict();

@@ -1,31 +1,31 @@
-import Joi from "joi";
+import { z } from "zod";
 
-export const UpdateCourseSchema = Joi.object({
-  course: Joi.object({
-    courseCode: Joi.string().required(),
-    archived: Joi.boolean().required(),
-    attributes: Joi.array().items(Joi.string()).required(),
-    calendar: Joi.string().required(),
-    campus: Joi.string().required(),
-    description: Joi.string().required(),
-    enrolmentRules: Joi.string().required(),
-    equivalents: Joi.array().items(Joi.string()).required(),
-    exclusions: Joi.array().items(Joi.string()).required(),
-    faculty: Joi.string().required(),
-    fieldOfEducation: Joi.string().required(),
-    genEd: Joi.boolean().required(),
-    level: Joi.number().required(),
-    school: Joi.string().required(),
-    studyLevel: Joi.string().required(),
-    terms: Joi.array().items(Joi.number()).required(),
-    title: Joi.string().required(),
-    uoc: Joi.number().required(),
-    rating: Joi.number().required(),
-  }).required(),
-}).options({ allowUnknown: true });
-
-export const BookmarkCourseSchema = Joi.object({
-  courseCode: Joi.string().required(),
-  zid: Joi.string().required(),
-  bookmark: Joi.boolean().required(),
+export const UpdateCourseSchema = z.object({
+  course: z.object({
+    courseCode: z.string(),
+    archived: z.boolean(),
+    attributes: z.array(z.string()),
+    calendar: z.string(),
+    campus: z.string(),
+    description: z.string(),
+    enrolmentRules: z.string(),
+    equivalents: z.array(z.string()),
+    exclusions: z.array(z.string()),
+    faculty: z.string(),
+    fieldOfEducation: z.string(),
+    genEd: z.boolean(),
+    level: z.number(),
+    school: z.string(),
+    studyLevel: z.string(),
+    terms: z.array(z.number()),
+    title: z.string(),
+    uoc: z.number(),
+    rating: z.number(),
+  }).strict()
 });
+
+export const BookmarkCourseSchema = z.object({
+  courseCode: z.string(),
+  zid: z.string(),
+  bookmark: z.boolean(),
+}).strict();

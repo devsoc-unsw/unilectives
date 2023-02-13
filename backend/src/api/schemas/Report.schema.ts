@@ -1,13 +1,13 @@
-import Joi from "joi";
+import { z } from "zod";
 
-export const CreateReportSchema = Joi.object({
-  reviewId: Joi.string().guid().required(),
-  zid: Joi.string().required(),
-  reason: Joi.string().required(),
-});
+export const CreateReportSchema = z.object({
+  reviewId: z.string().uuid(),
+  zid: z.string(),
+  reason: z.string(),
+}).strict();
 
-export const UpdateReportStatusSchema = Joi.object({
-  reportId: Joi.string().guid().required(),
-  zid: Joi.string().required(),
-  status: Joi.valid("UNSEEN", "SEEN", "REMOVED", "SETTLED").required(),
-});
+export const UpdateReportStatusSchema = z.object({
+  reportId: z.string().uuid(),
+  zid: z.string(),
+  status: z.enum(["UNSEEN", "SEEN", "REMOVED", "SETTLED"]),
+}).strict();

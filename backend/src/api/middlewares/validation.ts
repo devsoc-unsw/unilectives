@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { getLogger } from "../../utils/Logger";
-import Joi from "joi";
+import { z } from "zod";
 
 const logger = getLogger();
 
 const validationMiddleware =
-  (schema: Joi.ObjectSchema, property: "body" | "query") =>
+  (schema: any, property: "body" | "query") =>
   (req: Request, res: Response, next: NextFunction): void => {
-    const result = schema.validate(req[property]);
+    const result = schema.safeParse(req[property]);
     const { error } = result;
     const valid = error == null;
     if (!valid) {
