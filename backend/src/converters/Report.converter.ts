@@ -3,7 +3,7 @@ import { IReport } from "../interfaces/IReport";
 import {
   convertReviewEntityToInterface,
   convertReviewInterfaceToEntity,
-} from "./Review.converter";
+} from "./review.converter";
 
 export const convertReportEntityToInterface = (
   entity: ReportEntity

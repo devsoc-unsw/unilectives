@@ -1,7 +1,7 @@
 import { ReportRepository } from "../repositories/report.repository";
 import { getLogger } from "../utils/logger";
 import { ReportEntity } from "../entity/Report";
-import { convertReportEntityToInterface } from "../converters/Report.converter";
+import { convertReportEntityToInterface } from "../converters/report.converter";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
 import { ReportStatus } from "../interfaces/IReport";

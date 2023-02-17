@@ -2,7 +2,7 @@ import { getCourseEntity, getMockCourses } from "../utils/testData";
 import {
   convertCourseEntityToInterface,
   convertCourseInterfaceToEntity,
-} from "./Course.converter";
+} from "./course.converter";
 
 describe("convertCourseEntityToInterface", () => {
   it("should convert CourseEntity to ICourse", () => {

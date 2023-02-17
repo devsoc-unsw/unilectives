@@ -2,7 +2,7 @@ import { getReviewEntity, getMockReview } from "../utils/testData";
 import {
   convertReviewEntityToInterface,
   convertReviewInterfaceToEntity,
-} from "./Review.converter";
+} from "./review.converter";
 
 describe("convertReviewEntityToInterface", () => {
   it("should convert ReviewEntity to IReview", () => {
