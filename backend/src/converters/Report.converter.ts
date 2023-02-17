@@ -1,9 +1,9 @@
-import { ReportEntity } from "../entity/Report";
-import { IReport } from "../interfaces/IReport";
+import { ReportEntity } from '../entity/Report';
+import { IReport } from '../interfaces/IReport';
 import {
   convertReviewEntityToInterface,
   convertReviewInterfaceToEntity,
-} from "./review.converter";
+} from './review.converter';
 
 export const convertReportEntityToInterface = (
   entity: ReportEntity

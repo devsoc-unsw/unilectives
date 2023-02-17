@@ -7,15 +7,15 @@ import {
   IPostReviewsBookmarkRequestBody,
   IPostReviewUpvoteSuccessResponse,
   IPostReviewUpvoteRequestBody,
-} from "IApiResponses";
-import { ReviewRepository } from "../repositories/review.repository";
-import { getLogger } from "../utils/logger";
-import { ReviewEntity } from "../entity/Review";
-import { convertReviewEntityToInterface } from "../converters/review.converter";
-import { HTTPError } from "../utils/errors";
-import { internalServerError, badRequest } from "../utils/constants";
-import { UserRepository } from "../repositories/user.repository";
-import { EntityManager } from "typeorm";
+} from 'IApiResponses';
+import { ReviewRepository } from '../repositories/review.repository';
+import { getLogger } from '../utils/logger';
+import { ReviewEntity } from '../entity/Review';
+import { convertReviewEntityToInterface } from '../converters/review.converter';
+import { HTTPError } from '../utils/errors';
+import { internalServerError, badRequest } from '../utils/constants';
+import { UserRepository } from '../repositories/user.repository';
+import { EntityManager } from 'typeorm';
 
 export class ReviewService {
   private logger = getLogger();
@@ -26,7 +26,7 @@ export class ReviewService {
   async getAllReviews(): Promise<IGetReviewsSuccessResponse | undefined> {
     const reviews: ReviewEntity[] = await this.reviewRepository.getAllReviews();
     if (reviews.length === 0) {
-      this.logger.error("Database returned with no reviews.");
+      this.logger.error('Database returned with no reviews.');
       throw new HTTPError(internalServerError);
     }
     return {
@@ -40,7 +40,7 @@ export class ReviewService {
     const reviews: ReviewEntity[] =
       await this.reviewRepository.getCourseReviews(courseCode);
     if (reviews.length === 0) {
-      this.logger.error("Database returned with no reviews.");
+      this.logger.error('Database returned with no reviews.');
       throw new HTTPError(internalServerError);
     }
     return {
@@ -150,7 +150,7 @@ export class ReviewService {
 
     this.logger.info(
       `Successfully ${
-        reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
+        reviewDetails.bookmark ? 'bookmarked' : 'removed bookmarked'
       } review with reviewId ${reviewDetails.reviewId} for user with zID ${
         reviewDetails.zid
       }.`
@@ -182,7 +182,7 @@ export class ReviewService {
 
     this.logger.info(
       `Successfully ${
-        upvoteDetails.upvote ? "upvoted" : "removed upvote from"
+        upvoteDetails.upvote ? 'upvoted' : 'removed upvote from'
       } review with reviewId ${upvoteDetails.reviewId} for user with zID ${
         upvoteDetails.zid
       }.`
