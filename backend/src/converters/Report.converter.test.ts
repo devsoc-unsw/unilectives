@@ -1,19 +1,19 @@
-import { getReportEntity, getMockReports } from '../utils/testData';
+import { getReportEntity, getMockReports } from "../utils/testData";
 import {
   convertReportEntityToInterface,
   convertReportInterfaceToEntity,
-} from './report.converter';
+} from "./report.converter";
 
-describe('convertReportEntityToInterface', () => {
-  it('should convert ReportEntity to IReport', () => {
+describe("convertReportEntityToInterface", () => {
+  it("should convert ReportEntity to IReport", () => {
     const entity = getReportEntity();
     const report = getMockReports(entity.createdTimestamp)[0];
     expect(convertReportEntityToInterface(entity)).toEqual(report);
   });
 });
 
-describe('convertReportInterfaceToEntity', () => {
-  it('should convert IReport to ReportEntity', () => {
+describe("convertReportInterfaceToEntity", () => {
+  it("should convert IReport to ReportEntity", () => {
     const entity = getReportEntity();
     const report = getMockReports(entity.createdTimestamp)[0];
     expect(convertReportInterfaceToEntity(report)).toEqual(entity);

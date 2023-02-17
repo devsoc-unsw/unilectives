@@ -2,18 +2,18 @@ import {
   IGetCoursesSuccessResponse,
   IPostCoursesBookmarkRequestBody,
   IPutCoursesSuccessResponse,
-} from 'IApiResponses';
-import { getLogger } from '../utils/logger';
-import { CourseEntity } from '../entity/Course';
+} from "IApiResponses";
+import { getLogger } from "../utils/logger";
+import { CourseEntity } from "../entity/Course";
 import {
   convertCourseEntityToInterface,
   convertCourseInterfaceToEntity,
-} from '../converters/course.converter';
-import { HTTPError } from '../utils/errors';
-import { badRequest, internalServerError } from '../utils/constants';
-import { CourseRepository } from '../repositories/course.repository';
-import { ICourse } from 'ICourse';
-import { UserRepository } from '../repositories/user.repository';
+} from "../converters/course.converter";
+import { HTTPError } from "../utils/errors";
+import { badRequest, internalServerError } from "../utils/constants";
+import { CourseRepository } from "../repositories/course.repository";
+import { ICourse } from "ICourse";
+import { UserRepository } from "../repositories/user.repository";
 
 export class CourseService {
   private logger = getLogger();
@@ -25,7 +25,7 @@ export class CourseService {
   async getCourses(): Promise<IGetCoursesSuccessResponse | undefined> {
     const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
     if (courses.length === 0) {
-      this.logger.error('Database returned with no courses.');
+      this.logger.error("Database returned with no courses.");
       throw new HTTPError(internalServerError);
     }
 
@@ -98,7 +98,7 @@ export class CourseService {
 
     this.logger.info(
       `Successfully ${
-        bookmarkDetails.bookmark ? 'bookmarked' : 'removed bookmarked'
+        bookmarkDetails.bookmark ? "bookmarked" : "removed bookmarked"
       } course with courseCode ${
         bookmarkDetails.courseCode
       } for user with zID ${bookmarkDetails.zid}.`

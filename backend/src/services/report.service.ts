@@ -1,20 +1,20 @@
-import { ReportRepository } from '../repositories/report.repository';
-import { getLogger } from '../utils/logger';
-import { ReportEntity } from '../entity/Report';
-import { convertReportEntityToInterface } from '../converters/report.converter';
-import { HTTPError } from '../utils/errors';
-import { badRequest } from '../utils/constants';
-import { ReportStatus } from '../interfaces/IReport';
+import { ReportRepository } from "../repositories/report.repository";
+import { getLogger } from "../utils/logger";
+import { ReportEntity } from "../entity/Report";
+import { convertReportEntityToInterface } from "../converters/report.converter";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
+import { ReportStatus } from "../interfaces/IReport";
 import {
   IGetAllReportsSuccessResponse,
   IPostReportRequestBody,
   IPostReportSuccessResponse,
   IUpdateReportRequestBody,
-} from '../interfaces/IApiResponses';
-import { EntityManager } from 'typeorm';
-import { ReviewRepository } from '../repositories/review.repository';
-import { UserRepository } from '../repositories/user.repository';
-import { UserEntity } from '../entity/User';
+} from "../interfaces/IApiResponses";
+import { EntityManager } from "typeorm";
+import { ReviewRepository } from "../repositories/review.repository";
+import { UserRepository } from "../repositories/user.repository";
+import { UserEntity } from "../entity/User";
 
 export class ReportService {
   private logger = getLogger();
@@ -56,7 +56,7 @@ export class ReportService {
     newReport.review = review;
     newReport.zid = zid;
     newReport.reason = reason;
-    newReport.status = 'UNSEEN' as ReportStatus;
+    newReport.status = "UNSEEN" as ReportStatus;
 
     const reportResult: ReportEntity = await this.reportRepository.saveReport(
       newReport

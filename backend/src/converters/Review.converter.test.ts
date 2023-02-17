@@ -1,11 +1,11 @@
-import { getReviewEntity, getMockReview } from '../utils/testData';
+import { getReviewEntity, getMockReview } from "../utils/testData";
 import {
   convertReviewEntityToInterface,
   convertReviewInterfaceToEntity,
-} from './review.converter';
+} from "./review.converter";
 
-describe('convertReviewEntityToInterface', () => {
-  it('should convert ReviewEntity to IReview', () => {
+describe("convertReviewEntityToInterface", () => {
+  it("should convert ReviewEntity to IReview", () => {
     const date = new Date();
     const review = getMockReview(date);
     const entity = getReviewEntity(date);
@@ -13,8 +13,8 @@ describe('convertReviewEntityToInterface', () => {
   });
 });
 
-describe('convertReviewInterfaceToEntity', () => {
-  it('should convert IReview to ReviewEntity', () => {
+describe("convertReviewInterfaceToEntity", () => {
+  it("should convert IReview to ReviewEntity", () => {
     const date = new Date();
     const review = getMockReview(date);
     const entity = getReviewEntity(date);

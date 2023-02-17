@@ -1,19 +1,19 @@
 import {
   IGetUserSuccessResponse,
   IPostUserSuccessResponse,
-} from 'IApiResponses';
-import { getLogger } from '../utils/logger';
-import { UserEntity } from '../entity/User';
-import { HTTPError } from '../utils/errors';
-import { badRequest } from '../utils/constants';
-import { convertUserEntityToInterface } from '../converters/user.converter';
-import { EntityManager } from 'typeorm';
-import { UserRepository } from '../repositories/user.repository';
-import { ReviewRepository } from '../repositories/review.repository';
-import { CourseRepository } from '../repositories/course.repository';
-import { CourseEntity } from '../entity/Course';
-import { ReviewEntity } from '../entity/Review';
-import { AuthService } from '../modules/Auth';
+} from "IApiResponses";
+import { getLogger } from "../utils/logger";
+import { UserEntity } from "../entity/User";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
+import { convertUserEntityToInterface } from "../converters/user.converter";
+import { EntityManager } from "typeorm";
+import { UserRepository } from "../repositories/user.repository";
+import { ReviewRepository } from "../repositories/review.repository";
+import { CourseRepository } from "../repositories/course.repository";
+import { CourseEntity } from "../entity/Course";
+import { ReviewEntity } from "../entity/Review";
+import { AuthService } from "../modules/Auth";
 
 export class UserService {
   private logger = getLogger();
