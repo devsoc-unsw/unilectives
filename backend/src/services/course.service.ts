@@ -8,7 +8,7 @@ import { CourseEntity } from "../entity/Course";
 import {
   convertCourseEntityToInterface,
   convertCourseInterfaceToEntity,
-} from "../converters/Course.converter";
+} from "../converters/course.converter";
 import { HTTPError } from "../utils/errors";
 import { badRequest, internalServerError } from "../utils/constants";
 import { CourseRepository } from "../repositories/course.repository";

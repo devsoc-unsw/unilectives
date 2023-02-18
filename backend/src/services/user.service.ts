@@ -6,7 +6,7 @@ import { getLogger } from "../utils/logger";
 import { UserEntity } from "../entity/User";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
-import { convertUserEntityToInterface } from "../converters/User.converter";
+import { convertUserEntityToInterface } from "../converters/user.converter";
 import { EntityManager } from "typeorm";
 import { UserRepository } from "../repositories/user.repository";
 import { ReviewRepository } from "../repositories/review.repository";

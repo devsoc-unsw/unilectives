@@ -11,7 +11,7 @@ import {
 import { ReviewRepository } from "../repositories/review.repository";
 import { getLogger } from "../utils/logger";
 import { ReviewEntity } from "../entity/Review";
-import { convertReviewEntityToInterface } from "../converters/Review.converter";
+import { convertReviewEntityToInterface } from "../converters/review.converter";
 import { HTTPError } from "../utils/errors";
 import { internalServerError, badRequest } from "../utils/constants";
 import { UserRepository } from "../repositories/user.repository";

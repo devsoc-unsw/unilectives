@@ -1,5 +1,5 @@
 import { getUserEntity, getMockUser, getCourseEntity } from "../utils/testData";
-import { convertUserEntityToInterface } from "./User.converter";
+import { convertUserEntityToInterface } from "./user.converter";
 
 describe("convertUserEntityToInterface", () => {
   it("should convert UserEntity to IUser", () => {

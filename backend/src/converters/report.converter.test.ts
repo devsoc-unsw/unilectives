@@ -2,7 +2,7 @@ import { getReportEntity, getMockReports } from "../utils/testData";
 import {
   convertReportEntityToInterface,
   convertReportInterfaceToEntity,
-} from "./Report.converter";
+} from "./report.converter";
 
 describe("convertReportEntityToInterface", () => {
   it("should convert ReportEntity to IReport", () => {
