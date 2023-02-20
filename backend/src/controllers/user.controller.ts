@@ -1,12 +1,12 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { formatError, getLogger } from "../../utils/Logger";
-import { IRouter } from "../../interfaces/IRouter";
-import { UserService } from "../services/User.service";
-import validationMiddleware from "../middlewares/validation";
-import { CreateUserSchema } from "../schemas/User.schema";
-import verifyToken from "../middlewares/auth";
+import { formatError, getLogger } from "../utils/logger";
+import { IController } from "../interfaces/IController";
+import { UserService } from "../services/user.service";
+import validationMiddleware from "../api/middlewares/validation";
+import { CreateUserSchema } from "../api/schemas/user.schema";
+import verifyToken from "../api/middlewares/auth";
 
-export class UserRouter implements IRouter {
+export class UserController implements IController {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";

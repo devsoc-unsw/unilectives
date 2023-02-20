@@ -3,17 +3,17 @@ import {
   IPostCoursesBookmarkRequestBody,
   IPutCoursesSuccessResponse,
 } from "IApiResponses";
-import { getLogger } from "../../utils/Logger";
-import { CourseEntity } from "../../entity/Course";
+import { getLogger } from "../utils/logger";
+import { CourseEntity } from "../entity/Course";
 import {
   convertCourseEntityToInterface,
   convertCourseInterfaceToEntity,
-} from "../../converters/Course.converter";
-import { HTTPError } from "../../utils/Errors";
-import { badRequest, internalServerError } from "../../utils/Constants";
-import { CourseRepository } from "../../repositories/Course.repository";
+} from "../converters/course.converter";
+import { HTTPError } from "../utils/errors";
+import { badRequest, internalServerError } from "../utils/constants";
+import { CourseRepository } from "../repositories/course.repository";
 import { ICourse } from "ICourse";
-import { UserRepository } from "../../repositories/User.repository";
+import { UserRepository } from "../repositories/user.repository";
 
 export class CourseService {
   private logger = getLogger();

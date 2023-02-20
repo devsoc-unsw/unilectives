@@ -8,13 +8,13 @@ import {
   IPostReviewUpvoteSuccessResponse,
   IPostReviewUpvoteRequestBody,
 } from "IApiResponses";
-import { ReviewRepository } from "../../repositories/Review.repository";
-import { getLogger } from "../../utils/Logger";
-import { ReviewEntity } from "../../entity/Review";
-import { convertReviewEntityToInterface } from "../../converters/Review.converter";
-import { HTTPError } from "../../utils/Errors";
-import { internalServerError, badRequest } from "../../utils/Constants";
-import { UserRepository } from "../../repositories/User.repository";
+import { ReviewRepository } from "../repositories/review.repository";
+import { getLogger } from "../utils/logger";
+import { ReviewEntity } from "../entity/Review";
+import { convertReviewEntityToInterface } from "../converters/review.converter";
+import { HTTPError } from "../utils/errors";
+import { internalServerError, badRequest } from "../utils/constants";
+import { UserRepository } from "../repositories/user.repository";
 import { EntityManager } from "typeorm";
 
 export class ReviewService {

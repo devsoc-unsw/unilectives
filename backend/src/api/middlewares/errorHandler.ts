@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { HTTPError } from "../../utils/Errors";
+import { HTTPError } from "../../utils/errors";
 import {
   getResponseFromHttpError,
   internalServerError,
-} from "../../utils/Constants";
+} from "../../utils/constants";
 
 export const errorHandlerMiddleware = (
   err: Error | HTTPError,

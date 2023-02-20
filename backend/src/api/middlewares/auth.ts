@@ -1,4 +1,4 @@
-import { unauthorizedError } from "../../utils/Constants";
+import { unauthorizedError } from "../../utils/constants";
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 import { IToken } from "IToken";

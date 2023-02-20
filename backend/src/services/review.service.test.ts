@@ -1,18 +1,18 @@
-import { HTTPError } from "../../utils/Errors";
-import { badRequest, internalServerError } from "../../utils/Constants";
-import { ReviewService } from "./Review.service";
+import { HTTPError } from "../utils/errors";
+import { badRequest, internalServerError } from "../utils/constants";
+import { ReviewService } from "./review.service";
 import {
   getUserEntity,
   getReviewEntity,
   getMockReviews,
   getMockCOMP2521Reviews,
-} from "../../utils/testData";
+} from "../utils/testData";
 import { EntityManager, DataSource } from "typeorm";
 import {
   IPostReviewRequestBody,
   IPutReviewRequestBody,
   IPostReviewsBookmarkRequestBody,
-} from "../../interfaces/IApiResponses";
+} from "../interfaces/IApiResponses";
 
 describe("ReviewService", () => {
   let manager: EntityManager;

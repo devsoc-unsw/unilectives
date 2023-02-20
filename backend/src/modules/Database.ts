@@ -1,6 +1,6 @@
 import config from "config";
 import { DataSource } from "typeorm";
-import { getLogger } from "../utils/Logger";
+import { getLogger } from "../utils/logger";
 import { CourseEntity } from "../entity/Course";
 import { ReviewEntity } from "../entity/Review";
 import { UserEntity } from "../entity/User";

@@ -1,0 +1,65 @@
+version: "3"
+
+services:
+  backend:
+    restart: unless-stopped
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: 3030
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_USER: postgres
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_DATABASE: mydb
+      JWT_SECRET: secret
+    ports:
+      - 3030:3030
+    depends_on:
+      - database
+      - postgres
+
+  database:
+    restart: on-failure
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    environment:
+      POSTGRESQL_PORT: 5432
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_USER: postgres
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_DATABASE: mydb
+    depends_on:
+      - postgres
+
+  migration:
+    restart: unless-stopped
+    build:
+      context: ./migration
+      dockerfile: Dockerfile
+    environment:
+      AUTH_DOMAIN: ${AUTH_DOMAIN}
+      PROJECT_ID: ${PROJECT_ID}
+      STORAGE_BUCKET: ${STORAGE_BUCKET}
+      NODE_ENV: production
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_USER: postgres
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_DATABASE: mydb
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+      - postgres
+
+  postgres:
+    image: postgres:14.6-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    restart: unless-stopped

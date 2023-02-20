@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { getLogger } from "../../utils/Logger";
-import { z } from "zod";
+import { getLogger } from "../../utils/logger";
 
 const logger = getLogger();
 

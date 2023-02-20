@@ -1,18 +1,18 @@
 import config from "config";
 import Database from "./modules/Database";
-import { getLogger } from "./utils/Logger";
+import { getLogger } from "./utils/logger";
 import { ExpressWrapper } from "./modules/ExpressWrapper";
-import { ReviewService } from "./api/services/Review.service";
-import { ReviewRouter } from "./api/routes/Review.router";
-import { CourseService } from "./api/services/Course.service";
-import { CourseRouter } from "./api/routes/Course.router";
-import { UserService } from "./api/services/User.service";
-import { UserRouter } from "./api/routes/User.router";
-import { ReportRouter } from "./api/routes/Report.router";
-import { ReportService } from "./api/services/Report.service";
+import { ReviewService } from "./services/review.service";
+import { ReviewController } from "./controllers/review.controller";
+import { CourseService } from "./services/course.service";
+import { CourseController } from "./controllers/course.controller";
+import { UserService } from "./services/user.service";
+import { UserController } from "./controllers/user.controller";
+import { ReportController } from "./controllers/report.controller";
+import { ReportService } from "./services/report.service";
 import { AuthService } from "./modules/Auth";
-import { CourseRepository } from "./repositories/Course.repository";
-import { UserRepository } from "./repositories/User.repository";
+import { CourseRepository } from "./repositories/course.repository";
+import { UserRepository } from "./repositories/user.repository";
 
 export default class App {
   readonly logger = getLogger();
@@ -39,24 +39,24 @@ export default class App {
   private readonly reviewService = new ReviewService(this.manager);
 
   constructor() {
-    // add routers here .. e.g.
-    const reviewRouter = new ReviewRouter(this.reviewService);
-    const courseRouter = new CourseRouter(this.courseService);
-    const userRouter = new UserRouter(this.userService);
-    const reportRouter = new ReportRouter(this.reportService);
+    // add controllers here .. e.g.
+    const reviewController = new ReviewController(this.reviewService);
+    const courseController = new CourseController(this.courseService);
+    const userController = new UserController(this.userService);
+    const reportController = new ReportController(this.reportService);
 
-    this.ex.addRouters(
-      // ... add routers here
-      reviewRouter,
-      courseRouter,
-      userRouter,
-      reportRouter
+    this.ex.addControllers(
+      // ... add controllers here
+      reviewController,
+      courseController,
+      userController,
+      reportController
     );
   }
 
   async start(): Promise<void> {
     this.logger.info("Starting up...");
-    await this.db.start();
+    // await this.db.start();
     await this.ex.start(config.get("api.port"));
     this.logger.info("Started HTTP Server and Database");
   }

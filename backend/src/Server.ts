@@ -1,8 +1,8 @@
 import App from "./App";
 import Signals = NodeJS.Signals;
-import { formatError, getLogger } from "./utils/Logger";
-import { envVars } from "./utils/Constants";
-import { checkEnv } from "./utils/Helpers";
+import { formatError, getLogger } from "./utils/logger";
+import { envVars } from "./utils/constants";
+import { checkEnv } from "./utils/helpers";
 
 export default class Server {
   private logger = getLogger();

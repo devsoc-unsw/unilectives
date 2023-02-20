@@ -1,10 +1,10 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import { formatError, getLogger } from "../utils/Logger";
+import { formatError, getLogger } from "../utils/logger";
 import * as http from "http";
 import bodyParser from "body-parser";
 import { promisify } from "util";
-import { IRouter } from "../interfaces/IRouter";
+import { IController } from "../interfaces/IController";
 import { errorHandlerMiddleware } from "../api/middlewares/errorHandler";
 
 export class ExpressWrapper {
@@ -62,9 +62,9 @@ export class ExpressWrapper {
     }
   }
 
-  addRouters(...routers: IRouter[]): void {
-    for (const router of routers) {
-      this.express.use(router.getPrefix(), router.getRouter());
+  addControllers(...controllers: IController[]): void {
+    for (const controller of controllers) {
+      this.express.use(controller.getPrefix(), controller.getRouter());
     }
     this.express
       .use((req: Request, res: Response) => {
