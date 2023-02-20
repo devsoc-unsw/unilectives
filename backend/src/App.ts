@@ -56,7 +56,7 @@ export default class App {
 
   async start(): Promise<void> {
     this.logger.info("Starting up...");
-    // await this.db.start();
+    await this.db.start();
     await this.ex.start(config.get("api.port"));
     this.logger.info("Started HTTP Server and Database");
   }
