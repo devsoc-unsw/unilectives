@@ -1,22 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 import { getLogger } from "../../utils/logger";
+import { ZodSchema } from "zod";
 
 const logger = getLogger();
 
 const validationMiddleware =
-  (schema: any, property: "body" | "query") =>
+  (schema: ZodSchema, property: "body" | "query") =>
   (req: Request, res: Response, next: NextFunction): void => {
     const result = schema.safeParse(req[property]);
-    const { error } = result;
-    const valid = error == null;
-    if (!valid) {
+    if (!result.success) {
       logger.info(
         `Invalid request was made - Error: ${
-          error.message
+          result.error.issues[0].message
         } - Data: ${JSON.stringify(req[property])}`
       );
       res.status(400).json({
-        message: `Invalid request was made - Error: ${error.message}`,
+        message: `Invalid request was made - Error: ${result.error.issues[0].message}`,
         data: req.body,
       });
       return;
