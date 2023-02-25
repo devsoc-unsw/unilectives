@@ -30,7 +30,8 @@ export class CourseController implements IController {
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in GET /courses`);
           try {
-            const result = await this.courseService.getCourses();
+            const offset = req.query.offset as string;
+            const result = await this.courseService.getCoursesFromOffset(parseInt(offset));
             this.logger.info(`Responding to client in GET /courses`);
             return res.status(200).json(result);
           } catch (err: any) {

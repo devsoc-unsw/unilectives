@@ -35,6 +35,24 @@ export class CourseService {
     };
   }
 
+  async getCoursesFromOffset(
+    offset: number
+  ): Promise<IGetCoursesSuccessResponse | undefined> {
+    const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
+    if (courses.length === 0) {
+      this.logger.error("Database returned with no courses.");
+      throw new HTTPError(internalServerError);
+    }
+
+    this.logger.info(`Found ${courses.length} courses.`);
+    courses.sort((a, b) => {
+      return b.reviewCount - a.reviewCount;
+    });
+    return {
+      courses: courses.slice(offset, offset + 25),
+    };
+  }
+
   async updateCourse(
     updatedCourse: ICourse
   ): Promise<IPutCoursesSuccessResponse | undefined> {
