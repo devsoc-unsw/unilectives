@@ -1,12 +1,69 @@
 openapi: 3.0.0
 info:
   description: Backend routes for CSElectives 2.0
-  version: 1.1.0
+  version: 1.2.0
   title: CSElectives API Routes
   contact:
     email: joel.huang@csesoc.org.au
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 paths:
+  /user/register:
+    post:
+      tags:
+        - "User"
+      summary: Registers a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                zid:
+                  $ref: '#/components/schemas/User/properties/zid'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    $ref: '#/components/schemas/TokenData'
+        '400':
+          description: Bad request
+  /user/login:
+    post:
+      tags:
+        - "User"
+      summary: Logins a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                zid:
+                  $ref: '#/components/schemas/User/properties/zid'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    $ref: '#/components/schemas/TokenData'
+        '400':
+          description: Bad request
   /user/${zid}:
     get:
       tags:
@@ -26,11 +83,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                items:
                   $ref: '#/components/schemas/User'
-        '404':
-          description: No user found
+        '400':
+          description: Bad request
   /courses:
     get:
       tags:
@@ -45,13 +100,42 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Course'
+        '400':
+          description: Bad request
+  /courses/${courseCode}:
+    put:
+      tags:
+        - "Courses"
+      summary: Puts a course with new courseCode into database
+      parameters:
+        - in: path
+          name: courseCode
+          required: true
+          schema:
+            type: string
+            minimum: 1
+          description: The course code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '400':
+          description: Bad request
   /courses/bookmark:
     post:
       tags:
         - "Courses"
       summary: Bookmarks a specific course for a specific user
       requestBody:
-        content: 
+        content:
           application/json:
             schema:
               type: object
@@ -68,41 +152,10 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Course'
+                $ref: '#/components/schemas/Course'
+        '400':
+          description: Bad request
   /reviews:
-    post:
-      tags:
-        - "Reviews"
-      summary: Creates a review
-      requestBody:
-        content: 
-          application/json:
-            schema:
-              type: object
-              properties:
-                authorId: 
-                  $ref: "#/components/schemas/User/properties/zid"
-                authorName:
-                  type: string
-                description:
-                  type: string
-                courseCode:
-                  $ref: "#/components/schemas/Course/properties/courseCode"
-                rating:
-                  $ref: "#/components/schemas/Rating/properties/overall"
-                termTaken:
-                  type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Review'
     get:
       tags:
         - "Reviews"
@@ -116,159 +169,31 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Review'
-  /reviews/${reviewId}:
-    put:
-      tags:
-        - "Reviews"
-      summary: Edits a specific review with reviewId
-      parameters:
-        - in: path
-          name: reviewId   # Note the name is the same as in the path
-          required: true
-          schema:
-            type: string
-            minimum: 1
-          description: The review ID
-      requestBody:
-        content: 
-          application/json:
-            schema:
-              type: object
-              properties:
-                authorId: 
-                  $ref: "#/components/schemas/User/properties/zid"
-                authorName:
-                  type: string
-                description:
-                  type: string
-                courseCode:
-                  $ref: "#/components/schemas/Course/properties/courseCode"
-                rating:
-                  $ref: "#/components/schemas/Rating/properties/overall"
-                termTaken:
-                  type: string
-      responses:
-        '200':
-          description: OK
-    delete:
-      tags:
-        - "Reviews"
-      summary: Deletes a review with reviewId
-      parameters:
-        - in: path
-          name: reviewId   # Note the name is the same as in the path
-          required: true
-          schema:
-            type: string
-            minimum: 1
-          description: The review ID
-      responses:
-        '200':
-          description: OK
-  /upvote/${reviewId}:
+        '500':
+          description: An internal server error occurred
     post:
       tags:
         - "Reviews"
-      summary: Lets a user upvote a review with reviewId
-      parameters:
-        - in: path
-          name: reviewId   # Note the name is the same as in the path
-          required: true
-          schema:
-            type: string
-            minimum: 1
-          description: The review ID
+      summary: Creates a review
       requestBody:
-        content: 
+        content:
           application/json:
             schema:
-              type: object
-              properties:  
-                upvote:
-                  type: boolean
-      responses:
-        '200':
-          description: OK
-  /reviews/bookmark:
-    post:
-      tags:
-        - "Reviews"
-      summary: Bookmarks a specific review for a user
-      requestBody:
-        content: 
-          application/json:
-            schema:
-              type: object
-              properties:  
-                reviewId:
-                  $ref: '#/components/schemas/Review/properties/reviewId'
-                zid:
-                  $ref: '#/components/schemas/User/properties/zid'
-                bookmark:
-                  type: boolean
+              $ref: '#/components/schemas/PostReviewRequestBody'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Review'
-  /reports:
-    post:
-      tags:
-        - "Reports"
-      summary: Lets a user report a specific review
-      requestBody:
-        content: 
-          application/json:
-            schema:
-              type: object
-              properties:  
-                reviewId:
-                  $ref: '#/components/schemas/Review/properties/reviewId'
-                zid:
-                  $ref: '#/components/schemas/User/properties/zid'
-                reason:
-                  $ref: '#/components/schemas/Report/properties/reason'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Report'
-    put:
-      tags:
-        - "Reports"
-      summary: Changes the status of a specific report
-      requestBody:
-        content: 
-          application/json:
-            schema:
-              type: object
-              properties:  
-                reportId:
-                  $ref: '#/components/schemas/Report/properties/reportId'
-                status:
-                  $ref: '#/components/schemas/Report/properties/status'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Report'
+                $ref: '#/components/schemas/Review'
+        '500':
+          description: Bad request
   /reviews/${courseCode}:
     get:
       tags:
         - "Reviews"
-      summary: Gets a list of reviews associated with course code
+      summary: Gets reviews for a specific course with courseCode
       parameters:
         - in: path
           name: courseCode   # Note the name is the same as in the path
@@ -286,6 +211,173 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Review'
+        '500':
+          description: An internal server error occurred
+  /reviews/${reviewId}:
+    put:
+      tags:
+        - "Reviews"
+      summary: Edits a specific review with reviewId
+      parameters:
+        - in: path
+          name: reviewId   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: string
+            minimum: 1
+          description: The review ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authorName:
+                  $ref: '#/components/schemas/Review/properties/authorName'
+                grade:
+                  $ref: '#/components/schemas/Review/properties/grade'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400':
+          description: Bad request
+    delete:
+      tags:
+        - "Reviews"
+      summary: Deletes a review with reviewId
+      parameters:
+        - in: path
+          name: reviewId   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: string
+            minimum: 1
+          description: The review ID
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+  /reviews/bookmark:
+    post:
+      tags:
+        - "Reviews"
+      summary: Bookmarks a specific review for a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reviewId:
+                  $ref: '#/components/schemas/Review/properties/reviewId'
+                zid:
+                  $ref: '#/components/schemas/User/properties/zid'
+                bookmark:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400':
+          description: Bad request
+  /reviews/upvote:
+    post:
+      tags:
+        - "Reviews"
+      summary: Lets a user upvote a review with reviewId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reviewId:
+                  $ref: '#/components/schemas/Review/properties/reviewId'
+                zid:
+                  $ref: '#/components/schemas/User/properties/zid'
+                upvote:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400':
+          description: Bad request
+  /reports:
+    get:
+      tags:
+        - "Reports"
+      summary: Get all reports
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+    post:
+      tags:
+        - "Reports"
+      summary: Lets a user report a specific review
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reviewId:
+                  $ref: '#/components/schemas/Review/properties/reviewId'
+                zid:
+                  $ref: '#/components/schemas/User/properties/zid'
+                reason:
+                  $ref: '#/components/schemas/Report/properties/reason'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '400':
+          description: Bad request
+    put:
+      tags:
+        - "Reports"
+      summary: Changes the status of a specific report
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reportId:
+                  $ref: '#/components/schemas/Report/properties/reportId'
+                zid:
+                  $ref: '#/components/schemas/User/properties/zid'
+                status:
+                  $ref: '#/components/schemas/Report/properties/status'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '400':
+          description: Bad request
 
 components:
   schemas:
@@ -294,6 +386,10 @@ components:
       properties:
         zid:
           type: string
+        reports:
+          type: array
+          items:
+            $ref: "#/components/schemas/Report"
         reviews:
           type: array
           items:
@@ -308,33 +404,78 @@ components:
             $ref: "#/components/schemas/Course"
         isAdmin:
           type: boolean
+    TokenData:
+      type: object
+      properties:
+        expiresIn:
+          type: string
+        token:
+          type: string
     Review:
       type: object
       properties:
         reviewId:
           type: string
-        authorId: 
+          format: uuid
+        zid:
           $ref: "#/components/schemas/User/properties/zid"
+        courseCode:
+          $ref: "#/components/schemas/Course/properties/courseCode"
         authorName:
+          type: string
+        title:
           type: string
         description:
           type: string
-        courseCode:
-          $ref: "#/components/schemas/Course/properties/courseCode"
-        rating:
-          $ref: "#/components/schemas/Rating/properties/overall"
+          nullable: true
+        grade:
+          type: integer
+          nullable: true
         termTaken:
           type: string
         createdTimestamp:
-          type: integer
+          type: string
+          format: date-time
         updatedTimestamp:
-          type: integer
+          type: string
+          format: date-time
         upvotes:
           type: array
           items:
             $ref: "#/components/schemas/User/properties/zid"
-        reports:
-          $ref: "#/components/schemas/Report"
+        manageability:
+          type: number
+        usefulness:
+          type: number
+        enjoyability:
+          type: number
+        overallRating:
+          type: number
+    PostReviewRequestBody: # Note this has no "reviewId" nor "upvotes" property
+      type: object
+      properties:
+        zid:
+          $ref: "#/components/schemas/User/properties/zid"
+        courseCode:
+          $ref: "#/components/schemas/Course/properties/courseCode"
+        authorName:
+          $ref: "#/components/schemas/Review/properties/authorName"
+        title:
+          $ref: "#/components/schemas/Review/properties/title"
+        description:
+          $ref: "#/components/schemas/Review/properties/description"
+        grade:
+          $ref: "#/components/schemas/Review/properties/grade"
+        termTaken:
+          $ref: "#/components/schemas/Review/properties/termTaken"
+        manageability:
+          $ref: "#/components/schemas/Review/properties/manageability"
+        usefulness:
+          $ref: "#/components/schemas/Review/properties/usefulness"
+        enjoyability:
+          $ref: "#/components/schemas/Review/properties/enjoyability"
+        overallRating:
+          $ref: "#/components/schemas/Review/properties/overallRating"
     Course:
       type: object
       properties:
@@ -343,7 +484,9 @@ components:
         archived:
           type: boolean
         attributes:
-          type: string
+          type: array
+          items:
+            type: string
         calendar:
           type: string
         campus:
@@ -353,46 +496,63 @@ components:
         enrolmentRules:
           type: string
         equivalents:
-          type: string
+          type: array
+          items:
+            $ref: "#/components/schemas/Course/properties/courseCode"
         exclusions:
-          type: string
-        facaulty:
+          type: array
+          items:
+            $ref: "#/components/schemas/Course/properties/courseCode"
+        faculty:
           type: string
         fieldOfEducation:
           type: string
         genEd:
           type: boolean
-        reviews:
-          $ref: "#/components/schemas/Review/properties/reviewId"
-        manageability: 
+        level:
           type: integer
+        school:
+          type: string
+        studyLevel:
+          type: string
+        terms:
+          type: array
+          items:
+            type: integer
+        title:
+          type: string
+        uoc:
+          type: integer
+        rating:
+          type: number
+        reviewCount:
+          type: integer
+        overallRating:
+          $ref: "#/components/schemas/Review/properties/overallRating"
+        manageability:
+          $ref: "#/components/schemas/Review/properties/manageability"
         usefulness:
-          type: integer
+          $ref: "#/components/schemas/Review/properties/usefulness"
         enjoyability:
-          type: integer
-        overall:
-          type: integer
+          $ref: "#/components/schemas/Review/properties/enjoyability"
     Report:
       type: object
       properties:
         reportId:
           type: string
-        reviewId:
-          $ref: "#/components/schemas/Review/properties/reviewId"
-        reason:
-          type: string
+          format: uuid
+        review:
+          $ref: "#/components/schemas/Review"
         zid:
           $ref: "#/components/schemas/User/properties/zid"
         status:
           type: string
-    Rating:
-      type: object
-      properties:
-        manageability: 
-          type: integer
-        usefulness:
-          type: integer
-        enjoyability:
-          type: integer
-        overall:
-          type: integer
+          enum: [UNSEEN, SEEN, REMOVED, SETTLED]
+        reason:
+          type: string
+        createdTimestamp:
+          type: string
+          format: date-time
+        updatedTimestamp:
+          type: string
+          format: date-time
