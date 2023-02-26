@@ -10,12 +10,8 @@ import {
 } from "../api/schemas/review.schema";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
-import {
-  IPostReviewRequestBody,
-  IPutReviewRequestBody,
-  IPostReviewsBookmarkRequestBody,
-  IPostReviewUpvoteRequestBody,
-} from "IApiResponses";
+import { IPostReviewRequestBody, IPutReviewRequestBody } from "IApiResponses";
+import { z } from "zod";
 
 export class ReviewController implements IController {
   private readonly logger = getLogger();
@@ -144,7 +140,9 @@ export class ReviewController implements IController {
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in POST /reviews/bookmark`);
           try {
-            const reviewDetails = req.body as IPostReviewsBookmarkRequestBody;
+            const reviewDetails = req.body as z.infer<
+              typeof BookmarkReviewSchema
+            >;
             if (!reviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.bookmarkReview(
               reviewDetails
@@ -167,7 +165,9 @@ export class ReviewController implements IController {
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in POST /reviews/upvote`);
           try {
-            const reviewDetails = req.body as IPostReviewUpvoteRequestBody;
+            const reviewDetails = req.body as z.infer<
+              typeof UpvoteReviewSchema
+            >;
             const result = await this.reviewService.upvoteReview(reviewDetails);
             this.logger.info(`Responding to client in POST /reviews/upvote`);
             return res.status(200).json(result);

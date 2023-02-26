@@ -7,10 +7,7 @@ import {
   CreateReportSchema,
   UpdateReportStatusSchema,
 } from "../api/schemas/report.schema";
-import {
-  IPostReportRequestBody,
-  IUpdateReportRequestBody,
-} from "IApiResponses";
+import { z } from "zod";
 
 export class ReportController implements IController {
   private readonly logger = getLogger();
@@ -47,7 +44,7 @@ export class ReportController implements IController {
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received POST request in /reports`, req.body);
           try {
-            const request = req.body as IPostReportRequestBody;
+            const request = req.body as z.infer<typeof CreateReportSchema>;
             const result = await this.reportService.createReport(request);
             this.logger.info(`Responding to client in /reports`);
             return res.status(200).json(result);
@@ -67,7 +64,9 @@ export class ReportController implements IController {
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received PUT request in /reports`, req.body);
           try {
-            const request = req.body as IUpdateReportRequestBody;
+            const request = req.body as z.infer<
+              typeof UpdateReportStatusSchema
+            >;
             const result = await this.reportService.updateReport(request);
             this.logger.info(`Responding to client in /reports`);
             return res.status(200).json(result);

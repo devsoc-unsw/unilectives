@@ -9,10 +9,8 @@ import {
 import validationMiddleware from "../api/middlewares/validation";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
-import {
-  IPostCoursesBookmarkRequestBody,
-  IPutCoursesRequestBody,
-} from "IApiResponses";
+import { IPutCoursesRequestBody } from "IApiResponses";
+import { z } from "zod";
 
 export class CourseController implements IController {
   private readonly logger = getLogger();
@@ -74,7 +72,9 @@ export class CourseController implements IController {
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in POST /courses/bookmark`);
           try {
-            const bookmarkDetails = req.body as IPostCoursesBookmarkRequestBody;
+            const bookmarkDetails = req.body as z.infer<
+              typeof BookmarkCourseSchema
+            >;
             if (!bookmarkDetails) throw new HTTPError(badRequest);
             const result = await this.courseService.bookmarkCourse(
               bookmarkDetails

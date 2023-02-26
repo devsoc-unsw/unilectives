@@ -5,6 +5,7 @@ import { UserService } from "../services/user.service";
 import validationMiddleware from "../api/middlewares/validation";
 import { CreateUserSchema } from "../api/schemas/user.schema";
 import verifyToken from "../api/middlewares/auth";
+import { z } from "zod";
 
 export class UserController implements IController {
   private readonly logger = getLogger();
@@ -21,7 +22,7 @@ export class UserController implements IController {
         "/user/register",
         validationMiddleware(CreateUserSchema, "body"),
         async (req: Request, res: Response, next: NextFunction) => {
-          const { zid } = req.body;
+          const { zid } = req.body as z.infer<typeof CreateUserSchema>;
           this.logger.debug(
             `Received POST request in /user/register`,
             req.body
@@ -44,7 +45,7 @@ export class UserController implements IController {
         "/user/login",
         validationMiddleware(CreateUserSchema, "body"),
         async (req: Request, res: Response, next: NextFunction) => {
-          const { zid } = req.body;
+          const { zid } = req.body as z.infer<typeof CreateUserSchema>;
           this.logger.debug(`Received POST request in /user/login`, req.body);
           try {
             const result = await this.userService.loginUser(zid);
