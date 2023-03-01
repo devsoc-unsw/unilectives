@@ -100,8 +100,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Course'
-        '400':
-          description: Bad request
+        '500':
+          description: An internal server error occurred
   /courses/${courseCode}:
     put:
       tags:
@@ -187,7 +187,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Review'
-        '500':
+        '400':
           description: Bad request
   /reviews/${courseCode}:
     get:
