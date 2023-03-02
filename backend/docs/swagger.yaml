@@ -4,10 +4,10 @@ info:
   version: 1.2.0
   title: CSElectives API Routes
   contact:
-    email: joel.huang@csesoc.org.au
+    email: projects.cselectives@csesoc.org.au
   license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    name: CSElectives 2.0
+    url: https://github.com/csesoc/cselectives-v2/blob/develop/LICENSE
 
 paths:
   /user/register:
@@ -68,7 +68,7 @@ paths:
     get:
       tags:
         - "User"
-      summary: Retrieve user profile
+      summary: Retrieves user profile with zid
       parameters:
         - in: path
           name: zid   # Note the name is the same as in the path
@@ -266,7 +266,7 @@ paths:
     post:
       tags:
         - "Reviews"
-      summary: Bookmarks a specific review for a user
+      summary: Bookmarks a specific review for a specific user
       requestBody:
         content:
           application/json:
