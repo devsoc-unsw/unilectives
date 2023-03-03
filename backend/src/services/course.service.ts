@@ -22,7 +22,6 @@ export class CourseService {
     private readonly userRepository: UserRepository
   ) {}
 
-  /* GET ALL COURSES SERVICE
   async getCourses(): Promise<IGetCoursesSuccessResponse | undefined> {
     const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
     if (courses.length === 0) {
@@ -35,7 +34,6 @@ export class CourseService {
       courses: courses.map(convertCourseEntityToInterface),
     };
   }
-  */
 
   async getCoursesFromOffset(
     offset: number

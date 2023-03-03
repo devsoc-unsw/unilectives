@@ -4,7 +4,6 @@ import { EntityManager, In } from "typeorm";
 export class CourseRepository {
   constructor(private readonly manager: EntityManager) {}
 
-  /* GET ALL COURSES REPOSITORY METHOD
   async getAllCourses(): Promise<CourseEntity[]> {
     const rawCourses = await this.manager
       .createQueryBuilder(CourseEntity, "c")
@@ -63,7 +62,6 @@ export class CourseRepository {
       return course;
     });
   }
-  */
 
   async getCoursesFromOffset(offset: number): Promise<CourseEntity[]> {
     const rawCourses = await this.manager
