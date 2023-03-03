@@ -22,6 +22,7 @@ export class CourseService {
     private readonly userRepository: UserRepository
   ) {}
 
+  /* GET ALL COURSES SERVICE
   async getCourses(): Promise<IGetCoursesSuccessResponse | undefined> {
     const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
     if (courses.length === 0) {
@@ -34,22 +35,21 @@ export class CourseService {
       courses: courses.map(convertCourseEntityToInterface),
     };
   }
+  */
 
   async getCoursesFromOffset(
     offset: number
   ): Promise<IGetCoursesSuccessResponse | undefined> {
-    const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
+    const courses: CourseEntity[] =
+      await this.courseRepository.getCoursesFromOffset(offset);
     if (courses.length === 0) {
       this.logger.error("Database returned with no courses.");
       throw new HTTPError(internalServerError);
     }
 
     this.logger.info(`Found ${courses.length} courses.`);
-    courses.sort((a, b) => {
-      return b.reviewCount - a.reviewCount;
-    });
     return {
-      courses: courses.slice(offset, offset + 25),
+      courses: courses.map(convertCourseEntityToInterface),
     };
   }
 
