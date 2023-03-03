@@ -93,6 +93,7 @@ export class CourseRepository {
       .addGroupBy("c.title")
       .addGroupBy("c.uoc")
       .orderBy("review_count", "DESC")
+      .addOrderBy("c.course_code")
       .limit(25)
       .offset(offset)
       .getRawMany();
