@@ -40,11 +40,6 @@ export class CourseService {
   ): Promise<IGetCoursesSuccessResponse | undefined> {
     const courses: CourseEntity[] =
       await this.courseRepository.getCoursesFromOffset(offset);
-    if (courses.length === 0) {
-      this.logger.error("Database returned with no courses.");
-      throw new HTTPError(internalServerError);
-    }
-
     this.logger.info(`Found ${courses.length} courses.`);
     return {
       courses: courses.map(convertCourseEntityToInterface),
