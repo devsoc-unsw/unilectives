@@ -9,10 +9,11 @@ import {
 } from "../utils/testData";
 import { EntityManager, DataSource } from "typeorm";
 import {
-  IPostReviewRequestBody,
-  IPutReviewRequestBody,
-  IPostReviewsBookmarkRequestBody,
-} from "../interfaces/IApiResponses";
+  BookmarkReviewSchema,
+  PostReviewRequestBodySchema,
+  PutReviewRequestBodySchema,
+} from "../api/schemas/review.schema";
+import { z } from "zod";
 
 describe("ReviewService", () => {
   let manager: EntityManager;
@@ -65,7 +66,7 @@ describe("ReviewService", () => {
       const reviewEntity = getReviewEntity();
       const review = getMockReviews()[0];
 
-      const reviewRequest: IPostReviewRequestBody = {
+      const reviewRequest: z.infer<typeof PostReviewRequestBodySchema> = {
         zid: reviewEntity.zid,
         courseCode: reviewEntity.courseCode,
         authorName: reviewEntity.authorName,
@@ -108,7 +109,7 @@ describe("ReviewService", () => {
       const reviewEntity = getReviewEntity();
       const review = getMockReviews()[0];
 
-      const reviewRequest: IPutReviewRequestBody = {
+      const reviewRequest: z.infer<typeof PutReviewRequestBodySchema> = {
         authorName: reviewEntity.authorName,
         grade: reviewEntity.grade,
       };
@@ -142,7 +143,7 @@ describe("ReviewService", () => {
       const service = reviewService();
       const reviews = getMockReviews()[0];
       manager.findOneBy = jest.fn().mockReturnValue(undefined);
-      const request: IPostReviewsBookmarkRequestBody = {
+      const request: z.infer<typeof BookmarkReviewSchema> = {
         reviewId: reviews.reviewId,
         zid: reviews.zid,
         bookmark: true,
@@ -159,7 +160,7 @@ describe("ReviewService", () => {
         .fn()
         .mockReturnValue(reviews[0])
         .mockReturnValue(undefined);
-      const request: IPostReviewsBookmarkRequestBody = {
+      const request: z.infer<typeof BookmarkReviewSchema> = {
         reviewId: reviews[0].reviewId,
         zid: reviews[0].zid,
         bookmark: true,
@@ -178,7 +179,7 @@ describe("ReviewService", () => {
         .mockReturnValueOnce(reviews[0])
         .mockReturnValueOnce(user);
       manager.save = jest.fn().mockReturnValue(user);
-      const request: IPostReviewsBookmarkRequestBody = {
+      const request: z.infer<typeof BookmarkReviewSchema> = {
         reviewId: reviews[0].reviewId,
         zid: reviews[0].zid,
         bookmark: true,
@@ -198,7 +199,7 @@ describe("ReviewService", () => {
         .mockReturnValueOnce(reviews[0])
         .mockReturnValueOnce(user);
       manager.save = jest.fn().mockReturnValueOnce(user);
-      const request: IPostReviewsBookmarkRequestBody = {
+      const request: z.infer<typeof BookmarkReviewSchema> = {
         reviewId: reviews[0].reviewId,
         zid: reviews[0].zid,
         bookmark: false,

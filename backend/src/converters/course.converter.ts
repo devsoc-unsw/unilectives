@@ -1,9 +1,10 @@
-import { ICourse } from "ICourse";
+import { CourseSchema } from "../api/schemas/course.schema";
+import { z } from "zod";
 import { CourseEntity } from "../entity/Course";
 
 export const convertCourseEntityToInterface = (
   entity: CourseEntity
-): ICourse => {
+): z.infer<typeof CourseSchema> => {
   return {
     courseCode: entity.courseCode,
     archived: entity.archived,
@@ -33,7 +34,7 @@ export const convertCourseEntityToInterface = (
 };
 
 export const convertCourseInterfaceToEntity = (
-  course: ICourse
+  course: z.infer<typeof CourseSchema>
 ): CourseEntity => {
   return {
     courseCode: course.courseCode,

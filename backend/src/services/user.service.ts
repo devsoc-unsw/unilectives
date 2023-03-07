@@ -1,7 +1,3 @@
-import {
-  IGetUserSuccessResponse,
-  IPostUserSuccessResponse,
-} from "IApiResponses";
 import { getLogger } from "../utils/logger";
 import { UserEntity } from "../entity/User";
 import { HTTPError } from "../utils/errors";
@@ -14,6 +10,11 @@ import { CourseRepository } from "../repositories/course.repository";
 import { CourseEntity } from "../entity/Course";
 import { ReviewEntity } from "../entity/Review";
 import { AuthService } from "../modules/Auth";
+import { z } from "zod";
+import {
+  UserSuccessResponse,
+  UserTokenSuccessResponse,
+} from "../api/schemas/user.schema";
 
 export class UserService {
   private logger = getLogger();
@@ -25,7 +26,9 @@ export class UserService {
   private courseRepository = new CourseRepository(this.manager);
   private reviewRepository = new ReviewRepository(this.manager);
 
-  async createUser(zid: string): Promise<IPostUserSuccessResponse> {
+  async createUser(
+    zid: string
+  ): Promise<z.infer<typeof UserTokenSuccessResponse>> {
     const userExists = await this.userRepository.getUser(zid);
 
     // existing user
@@ -49,7 +52,7 @@ export class UserService {
     return { user: convertUserEntityToInterface(saveUser), token };
   }
 
-  async getUser(zid: string): Promise<IGetUserSuccessResponse> {
+  async getUser(zid: string): Promise<z.infer<typeof UserSuccessResponse>> {
     // get user info
     const userInfo: UserEntity | null = await this.userRepository.getUser(zid);
     if (!userInfo) {
@@ -80,7 +83,9 @@ export class UserService {
     };
   }
 
-  async loginUser(zid: string): Promise<IPostUserSuccessResponse> {
+  async loginUser(
+    zid: string
+  ): Promise<z.infer<typeof UserTokenSuccessResponse>> {
     const token = this.authService.createToken(zid);
     const { user } = await this.getUser(zid);
     return { user, token };

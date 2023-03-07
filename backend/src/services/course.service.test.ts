@@ -6,9 +6,10 @@ import {
   getMockCourses,
   getUserEntity,
 } from "../utils/testData";
-import { IPostCoursesBookmarkRequestBody } from "../interfaces/IApiResponses";
 import { UserRepository } from "../repositories/user.repository";
 import { CourseRepository } from "../repositories/course.repository";
+import { z } from "zod";
+import { BookmarkCourseSchema } from "../api/schemas/course.schema";
 
 describe("CourseService", () => {
   const courseRepository = {} as CourseRepository;
@@ -69,7 +70,7 @@ describe("CourseService", () => {
       const course = getMockCourses()[0];
       courseRepository.getCourse = jest.fn().mockResolvedValue(undefined);
 
-      const request: IPostCoursesBookmarkRequestBody = {
+      const request: z.infer<typeof BookmarkCourseSchema> = {
         courseCode: course.courseCode,
         zid: "5311111",
         bookmark: true,
@@ -85,7 +86,7 @@ describe("CourseService", () => {
       courseRepository.getCourse = jest.fn().mockResolvedValue(courses[0]);
       userRepository.getUser = jest.fn().mockResolvedValue(undefined);
 
-      const request: IPostCoursesBookmarkRequestBody = {
+      const request: z.infer<typeof BookmarkCourseSchema> = {
         courseCode: courses[0].courseCode,
         zid: "5311111",
         bookmark: true,
@@ -103,7 +104,7 @@ describe("CourseService", () => {
       userRepository.getUser = jest.fn().mockResolvedValue(user);
 
       userRepository.saveUser = jest.fn().mockResolvedValue(user);
-      const request: IPostCoursesBookmarkRequestBody = {
+      const request: z.infer<typeof BookmarkCourseSchema> = {
         courseCode: courses[0].courseCode,
         zid: "5311111",
         bookmark: true,
@@ -122,7 +123,7 @@ describe("CourseService", () => {
       userRepository.getUser = jest.fn().mockResolvedValue(user);
 
       userRepository.saveUser = jest.fn().mockResolvedValue(user);
-      const request: IPostCoursesBookmarkRequestBody = {
+      const request: z.infer<typeof BookmarkCourseSchema> = {
         courseCode: courses[0].courseCode,
         zid: "5311111",
         bookmark: false,

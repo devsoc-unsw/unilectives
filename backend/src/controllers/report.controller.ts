@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
-import { IController } from "../interfaces/IController";
+import { ControllerSchema } from "../api/schemas/controller.schema";
 import { ReportService } from "../services/report.service";
 import validationMiddleware from "../api/middlewares/validation";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../api/schemas/report.schema";
 import { z } from "zod";
 
-export class ReportController implements IController {
+export class ReportController implements z.infer<typeof ControllerSchema> {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";

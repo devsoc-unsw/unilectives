@@ -1,13 +1,13 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
-import { IController } from "../interfaces/IController";
 import { UserService } from "../services/user.service";
 import validationMiddleware from "../api/middlewares/validation";
 import { CreateUserSchema } from "../api/schemas/user.schema";
 import verifyToken from "../api/middlewares/auth";
 import { z } from "zod";
+import { ControllerSchema } from "../api/schemas/controller.schema";
 
-export class UserController implements IController {
+export class UserController implements z.infer<typeof ControllerSchema> {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";

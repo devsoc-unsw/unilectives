@@ -1,13 +1,14 @@
 import { ReportEntity } from "../entity/Report";
-import { IReport } from "../interfaces/IReport";
+import { ReportSchema } from "../api/schemas/report.schema";
 import {
   convertReviewEntityToInterface,
   convertReviewInterfaceToEntity,
 } from "./review.converter";
+import { z } from "zod";
 
 export const convertReportEntityToInterface = (
   entity: ReportEntity
-): IReport => {
+): z.infer<typeof ReportSchema> => {
   return {
     reportId: entity.reportId,
     review: convertReviewEntityToInterface(entity.review),
@@ -20,7 +21,7 @@ export const convertReportEntityToInterface = (
 };
 
 export const convertReportInterfaceToEntity = (
-  report: IReport
+  report: z.infer<typeof ReportSchema>
 ): ReportEntity => {
   return {
     reportId: report.reportId,

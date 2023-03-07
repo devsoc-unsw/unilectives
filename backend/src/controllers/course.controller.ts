@@ -5,11 +5,11 @@ import { CourseService } from "../services/course.service";
 import {
   BookmarkCourseSchema,
   UpdateCourseSchema,
+  CourseRequestBodySchema,
 } from "../api/schemas/course.schema";
 import validationMiddleware from "../api/middlewares/validation";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
-import { IPutCoursesRequestBody } from "IApiResponses";
 import { z } from "zod";
 
 export class CourseController implements IController {
@@ -48,7 +48,9 @@ export class CourseController implements IController {
           const { courseCode } = req.params;
           this.logger.debug(`Received request in PUT /courses/${courseCode}`);
           try {
-            const { course } = req.body as IPutCoursesRequestBody;
+            const { course } = req.body as z.infer<
+              typeof CourseRequestBodySchema
+            >;
             if (courseCode !== course.courseCode)
               throw new HTTPError(badRequest);
             const result = await this.courseService.updateCourse(course);

@@ -1,19 +1,20 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
-import { IController } from "../interfaces/IController";
 import { ReviewService } from "../services/review.service";
 import validationMiddleware from "../api/middlewares/validation";
 import {
   PostReviewSchema,
   BookmarkReviewSchema,
   UpvoteReviewSchema,
+  PostReviewRequestBodySchema,
+  PutReviewRequestBodySchema,
 } from "../api/schemas/review.schema";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
-import { IPostReviewRequestBody, IPutReviewRequestBody } from "IApiResponses";
 import { z } from "zod";
+import { ControllerSchema } from "../api/schemas/controller.schema";
 
-export class ReviewController implements IController {
+export class ReviewController implements z.infer<typeof ControllerSchema> {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";
@@ -70,7 +71,9 @@ export class ReviewController implements IController {
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug("Received request in POST /reviews");
           try {
-            const reviewDetails = req.body as IPostReviewRequestBody;
+            const reviewDetails = req.body as z.infer<
+              typeof PostReviewRequestBodySchema
+            >;
             if (!reviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.postReview(reviewDetails);
             this.logger.info(`Responding to client in POST /reviews`);
@@ -92,7 +95,9 @@ export class ReviewController implements IController {
           const { reviewId } = req.params;
           this.logger.debug(`Received request in PUT /reviews/${reviewId}`);
           try {
-            const updatedReviewDetails = req.body as IPutReviewRequestBody;
+            const updatedReviewDetails = req.body as z.infer<
+              typeof PutReviewRequestBodySchema
+            >;
             if (!updatedReviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.updateReview(
               updatedReviewDetails,
