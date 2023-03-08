@@ -35,6 +35,17 @@ export class CourseService {
     };
   }
 
+  async getCoursesFromOffset(
+    offset: number
+  ): Promise<IGetCoursesSuccessResponse | undefined> {
+    const courses: CourseEntity[] =
+      await this.courseRepository.getCoursesFromOffset(offset);
+    this.logger.info(`Found ${courses.length} courses.`);
+    return {
+      courses: courses.map(convertCourseEntityToInterface),
+    };
+  }
+
   async updateCourse(
     updatedCourse: ICourse
   ): Promise<IPutCoursesSuccessResponse | undefined> {
