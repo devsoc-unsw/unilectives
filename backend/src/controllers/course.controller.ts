@@ -45,7 +45,7 @@ export class CourseController implements IController {
         "/courses/:courseCode",
         validationMiddleware(UpdateCourseSchema, "body"),
         async (
-          req: Request<{ courseCode: string }, {}, CourseBody>,
+          req: Request<{ courseCode: string }, unknown, CourseBody>,
           res: Response,
           next: NextFunction
         ) => {
