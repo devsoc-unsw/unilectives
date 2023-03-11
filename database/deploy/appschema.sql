@@ -25,6 +25,7 @@ CREATE TABLE cselectives.courses (
     field_of_education text NOT NULL,
     gen_ed             boolean NOT NULL,
     level              integer NOT NULL,
+    prerequisites      text[] NOT NULL,
     school             text NOT NULL,
     study_level        text NOT NULL,
     terms              integer[] NOT NULL,
