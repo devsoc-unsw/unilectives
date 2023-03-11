@@ -88,12 +88,6 @@ export interface IGetCoursesSuccessResponse {
   courses: ICourse[];
 }
 
-export interface IPutCoursesRequestBody {
-  course: ICourse;
-}
-
-export type IPutCoursesSuccessResponse = IPutCoursesRequestBody;
-
 export interface IPostCoursesBookmarkRequestBody {
   courseCode: string;
   zid: string;
@@ -105,8 +99,6 @@ export interface IPostCoursesBookmarkRequestBody {
   zid: string;
   bookmark: boolean;
 }
-
-export type IPostCoursesBookmarkSuccessResponse = IPutCoursesSuccessResponse;
 
 export interface IPostReviewUpvoteRequestBody {
   reviewId: string;

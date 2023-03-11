@@ -5,7 +5,7 @@ import { CourseService } from "../services/course.service";
 import {
   BookmarkCourseSchema,
   UpdateCourseSchema,
-  CourseRequestBodySchema,
+  CourseBody,
 } from "../api/schemas/course.schema";
 import validationMiddleware from "../api/middlewares/validation";
 import { HTTPError } from "../utils/errors";
@@ -44,13 +44,15 @@ export class CourseController implements IController {
       .put(
         "/courses/:courseCode",
         validationMiddleware(UpdateCourseSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<{ courseCode: string }, {}, CourseBody>,
+          res: Response,
+          next: NextFunction
+        ) => {
           const { courseCode } = req.params;
           this.logger.debug(`Received request in PUT /courses/${courseCode}`);
           try {
-            const { course } = req.body as z.infer<
-              typeof CourseRequestBodySchema
-            >;
+            const { course } = req.body;
             if (courseCode !== course.courseCode)
               throw new HTTPError(badRequest);
             const result = await this.courseService.updateCourse(course);

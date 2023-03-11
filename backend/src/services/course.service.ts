@@ -11,7 +11,7 @@ import { UserRepository } from "../repositories/user.repository";
 import { z } from "zod";
 import {
   BookmarkCourseSchema,
-  CourseRequestBodySchema,
+  CourseBody,
   CourseSchema,
   CoursesSuccessResponseSchema,
 } from "../api/schemas/course.schema";
@@ -40,7 +40,7 @@ export class CourseService {
 
   async updateCourse(
     updatedCourse: z.infer<typeof CourseSchema>
-  ): Promise<z.infer<typeof CourseRequestBodySchema> | undefined> {
+  ): Promise<CourseBody | undefined> {
     let course = await this.courseRepository.getCourse(
       updatedCourse.courseCode
     );
@@ -68,7 +68,7 @@ export class CourseService {
 
   async bookmarkCourse(
     bookmarkDetails: z.infer<typeof BookmarkCourseSchema>
-  ): Promise<z.infer<typeof CourseRequestBodySchema> | undefined> {
+  ): Promise<CourseBody | undefined> {
     const course = await this.courseRepository.getCourse(
       bookmarkDetails.courseCode
     );

@@ -63,11 +63,13 @@ export const CourseSchema = z
   })
   .strict();
 
-export const CourseRequestBodySchema = z
+const CourseBodySchema = z
   .object({
     course: CourseSchema,
   })
   .strict();
+
+export type CourseBody = z.infer<typeof CourseBodySchema>;
 
 export const CoursesSuccessResponseSchema = z
   .object({
