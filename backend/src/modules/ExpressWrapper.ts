@@ -6,6 +6,8 @@ import bodyParser from "body-parser";
 import { promisify } from "util";
 import { IController } from "../interfaces/IController";
 import { errorHandlerMiddleware } from "../api/middlewares/errorHandler";
+import swaggerUi from "swagger-ui-express";
+import docs from "../../docs/swagger.json";
 
 export class ExpressWrapper {
   private logger = getLogger();
@@ -23,6 +25,7 @@ export class ExpressWrapper {
       .use(cors())
       .use(express.urlencoded({ extended: true }))
       .use(bodyParser.json())
+      .use("/docs", swaggerUi.serve, swaggerUi.setup(docs))
       .get("/", (req: Request, res: Response) => {
         this.logger.info("health check");
         res.status(200).json({
