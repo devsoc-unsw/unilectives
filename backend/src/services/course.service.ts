@@ -35,9 +35,7 @@ export class CourseService {
     };
   }
 
-  async updateCourse(
-    updatedCourse: Course
-  ): Promise<CourseBody | undefined> {
+  async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
     let course = await this.courseRepository.getCourse(
       updatedCourse.courseCode
     );
