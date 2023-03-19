@@ -1,3 +1,4 @@
+import { ReportStatus } from "IReport";
 import {
   Column,
   CreateDateColumn,
@@ -7,8 +8,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { z } from "zod";
-import { ReportStatusSchema } from "../api/schemas/report.schema";
 import { ReviewEntity } from "./Review";
 import { UserEntity } from "./User";
 
@@ -31,7 +30,7 @@ export class ReportEntity {
     enum: ["UNSEEN", "SEEN", "REMOVED", "SETTLED"],
     default: "UNSEEN",
   })
-  status: z.infer<typeof ReportStatusSchema>;
+  status: ReportStatus;
 
   @Column("text", { name: "reason", nullable: false })
   reason: string;

@@ -10,7 +10,6 @@ import { CourseRepository } from "../repositories/course.repository";
 import { CourseEntity } from "../entity/Course";
 import { ReviewEntity } from "../entity/Review";
 import { AuthService } from "../modules/Auth";
-import { z } from "zod";
 import {
   UserSuccessResponse,
   UserTokenSuccessResponse,
@@ -26,9 +25,7 @@ export class UserService {
   private courseRepository = new CourseRepository(this.manager);
   private reviewRepository = new ReviewRepository(this.manager);
 
-  async createUser(
-    zid: string
-  ): Promise<z.infer<typeof UserTokenSuccessResponse>> {
+  async createUser(zid: string): Promise<UserTokenSuccessResponse> {
     const userExists = await this.userRepository.getUser(zid);
 
     // existing user
@@ -52,7 +49,7 @@ export class UserService {
     return { user: convertUserEntityToInterface(saveUser), token };
   }
 
-  async getUser(zid: string): Promise<z.infer<typeof UserSuccessResponse>> {
+  async getUser(zid: string): Promise<UserSuccessResponse> {
     // get user info
     const userInfo: UserEntity | null = await this.userRepository.getUser(zid);
     if (!userInfo) {
@@ -83,9 +80,7 @@ export class UserService {
     };
   }
 
-  async loginUser(
-    zid: string
-  ): Promise<z.infer<typeof UserTokenSuccessResponse>> {
+  async loginUser(zid: string): Promise<UserTokenSuccessResponse> {
     const token = this.authService.createToken(zid);
     const { user } = await this.getUser(zid);
     return { user, token };

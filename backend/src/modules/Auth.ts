@@ -1,9 +1,8 @@
 import * as jwt from "jsonwebtoken";
-import { z } from "zod";
-import { TokenDataSchema } from "../api/schemas/user.schema";
+import { TokenData } from "../api/schemas/user.schema";
 
 export class AuthService {
-  public createToken(zid: string): z.infer<typeof TokenDataSchema> {
+  public createToken(zid: string): TokenData {
     const expiresIn = "12h";
     const secret = process.env.JWT_SECRET ?? "randomsecret";
     const tokenData = {

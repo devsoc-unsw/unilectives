@@ -6,11 +6,11 @@ import {
   BookmarkCourseSchema,
   UpdateCourseSchema,
   CourseBody,
+  BookmarkCourse,
 } from "../api/schemas/course.schema";
 import validationMiddleware from "../api/middlewares/validation";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
-import { z } from "zod";
 
 export class CourseController implements IController {
   private readonly logger = getLogger();
@@ -73,12 +73,14 @@ export class CourseController implements IController {
       .post(
         "/courses/bookmark",
         validationMiddleware(BookmarkCourseSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, BookmarkCourse>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug(`Received request in POST /courses/bookmark`);
           try {
-            const bookmarkDetails = req.body as z.infer<
-              typeof BookmarkCourseSchema
-            >;
+            const bookmarkDetails = req.body;
             if (!bookmarkDetails) throw new HTTPError(badRequest);
             const result = await this.courseService.bookmarkCourse(
               bookmarkDetails

@@ -1,12 +1,11 @@
-import { CourseSchema } from "../api/schemas/course.schema";
+import { Course } from "../api/schemas/course.schema";
 import { UserEntity } from "../entity/User";
-import { UserSchema } from "../api/schemas/user.schema";
+import { User } from "../api/schemas/user.schema";
 import { CourseEntity } from "../entity/Course";
-import { ReportSchema } from "../api/schemas/report.schema";
+import { Report } from "../api/schemas/report.schema";
 import { ReportEntity } from "../entity/Report";
 import { ReviewEntity } from "../entity/Review";
-import { ReviewSchema } from "../api/schemas/review.schema";
-import { z } from "zod";
+import { Review } from "../api/schemas/review.schema";
 
 export const getCourseEntity = (): CourseEntity => {
   return {
@@ -38,7 +37,7 @@ export const getCourseEntity = (): CourseEntity => {
   };
 };
 
-export const getMockCourses = (): z.infer<typeof CourseSchema>[] => {
+export const getMockCourses = (): Course[] => {
   return [
     {
       courseCode: "COMP1511",
@@ -95,7 +94,7 @@ export const getMockCourses = (): z.infer<typeof CourseSchema>[] => {
   ];
 };
 
-export const getMockNewUser = (): z.infer<typeof UserSchema> => {
+export const getMockNewUser = (): User => {
   return {
     zid: "z5555555",
     bookmarkedCourses: [],
@@ -106,7 +105,7 @@ export const getMockNewUser = (): z.infer<typeof UserSchema> => {
   };
 };
 
-export const getMockUser = (): z.infer<typeof UserSchema> => {
+export const getMockUser = (): User => {
   return {
     zid: "z5555555",
     bookmarkedCourses: [
@@ -167,9 +166,7 @@ export const getReportEntity = (date = new Date()): ReportEntity => {
   };
 };
 
-export const getMockReports = (
-  date = new Date()
-): z.infer<typeof ReportSchema>[] => {
+export const getMockReports = (date = new Date()): Report[] => {
   return [
     {
       reportId: "REPORT1",
@@ -192,9 +189,7 @@ export const getMockReports = (
   ];
 };
 
-export const getMockReview = (
-  date = new Date()
-): z.infer<typeof ReviewSchema> => {
+export const getMockReview = (date = new Date()): Review => {
   return {
     reviewId: "REVIEW1",
     zid: "z5555555",
@@ -234,9 +229,7 @@ export const getReviewEntity = (date = new Date()): ReviewEntity => {
   };
 };
 
-export const getMockReviews = (
-  date = new Date()
-): z.infer<typeof ReviewSchema>[] => {
+export const getMockReviews = (date = new Date()): Review[] => {
   return [
     {
       reviewId: "REVIEW1",
@@ -275,9 +268,7 @@ export const getMockReviews = (
   ];
 };
 
-export const getMockCOMP2521Reviews = (
-  date = new Date()
-): z.infer<typeof ReviewSchema>[] => {
+export const getMockCOMP2521Reviews = (date = new Date()): Review[] => {
   return [
     {
       reviewId: "REVIEW2",

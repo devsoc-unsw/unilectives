@@ -1,4 +1,4 @@
-import { string, z } from "zod";
+import { z } from "zod";
 import { ReviewSchema } from "./review.schema";
 
 export const CreateReportSchema = z
@@ -9,12 +9,11 @@ export const CreateReportSchema = z
   })
   .strict();
 
-export const ReportStatusSchema = z.enum([
-  "UNSEEN",
-  "SEEN",
-  "REMOVED",
-  "SETTLED",
-]);
+export type CreateReport = z.infer<typeof CreateReportSchema>;
+
+const ReportStatusSchema = z.enum(["UNSEEN", "SEEN", "REMOVED", "SETTLED"]);
+
+export type ReportStatus = z.infer<typeof ReportStatusSchema>;
 
 export const UpdateReportStatusSchema = z
   .object({
@@ -23,6 +22,8 @@ export const UpdateReportStatusSchema = z
     status: ReportStatusSchema,
   })
   .strict();
+
+export type UpdateReportStatus = z.infer<typeof UpdateReportStatusSchema>;
 
 export const ReportSchema = z
   .object({
@@ -36,10 +37,18 @@ export const ReportSchema = z
   })
   .strict();
 
-export const ReportSuccessResponse = z.object({
+export type Report = z.infer<typeof ReportSchema>;
+
+const ReportSuccessResponseSchema = z.object({
   report: ReportSchema,
 });
 
-export const ReportsSuccessResponse = z.object({
+export type ReportSuccessResponse = z.infer<typeof ReportSuccessResponseSchema>;
+
+const ReportsSuccessResponseSchema = z.object({
   reports: z.array(ReportSchema),
 });
+
+export type ReportsSuccessResponse = z.infer<
+  typeof ReportsSuccessResponseSchema
+>;

@@ -9,11 +9,7 @@ import {
   getUserEntity,
 } from "../utils/testData";
 import { EntityManager, DataSource } from "typeorm";
-import {
-  CreateReportSchema,
-  UpdateReportStatusSchema,
-} from "../api/schemas/report.schema";
-import { z } from "zod";
+import { CreateReport, UpdateReportStatus } from "../api/schemas/report.schema";
 
 describe("ReportService", () => {
   let manager: EntityManager;
@@ -47,7 +43,7 @@ describe("ReportService", () => {
       const service = reportService();
       const entity = getReportEntity();
       const report = getMockReports()[0];
-      const reportRequest: z.infer<typeof CreateReportSchema> = {
+      const reportRequest: CreateReport = {
         reviewId: report.review.reviewId,
         reason: report.reason,
         zid: report.zid,
@@ -61,7 +57,7 @@ describe("ReportService", () => {
     it("should throw HTTP 400 error if review is not in database", () => {
       const service = reportService();
       const report = getMockReports()[0];
-      const reportRequest: z.infer<typeof CreateReportSchema> = {
+      const reportRequest: CreateReport = {
         reviewId: report.review.reviewId,
         reason: report.reason,
         zid: report.zid,
@@ -82,7 +78,7 @@ describe("ReportService", () => {
       const report = getMockReports()[0];
       const reviewEntity = getReviewEntity();
       const review = getMockReview();
-      const reportRequest: z.infer<typeof CreateReportSchema> = {
+      const reportRequest: CreateReport = {
         reviewId: report.review.reviewId,
         reason: report.reason,
         zid: report.zid,
@@ -110,7 +106,7 @@ describe("ReportService", () => {
     it("should throw HTTP 400 error if report is not in database", () => {
       const service = reportService();
       const report = getMockReports()[0];
-      const reportRequest: z.infer<typeof UpdateReportStatusSchema> = {
+      const reportRequest: UpdateReportStatus = {
         reportId: report.reportId,
         zid: report.zid,
         status: report.status,
@@ -125,7 +121,7 @@ describe("ReportService", () => {
       const service = reportService();
       const reportEntity = getReportEntity();
       const report = getMockReports()[0];
-      const reportRequest: z.infer<typeof UpdateReportStatusSchema> = {
+      const reportRequest: UpdateReportStatus = {
         reportId: report.reportId,
         zid: report.zid,
         status: report.status,
@@ -143,7 +139,7 @@ describe("ReportService", () => {
       const reportEntity = getReportEntity();
       const report = getMockReports()[0];
       const userEntity = getUserEntity();
-      const reportRequest: z.infer<typeof UpdateReportStatusSchema> = {
+      const reportRequest: UpdateReportStatus = {
         reportId: report.reportId,
         zid: report.zid,
         status: report.status,
@@ -164,7 +160,7 @@ describe("ReportService", () => {
       const review = getMockReview(date);
       const userEntity = getUserEntity();
       userEntity.isAdmin = true;
-      const reportRequest: z.infer<typeof UpdateReportStatusSchema> = {
+      const reportRequest: UpdateReportStatus = {
         reportId: report.reportId,
         zid: report.zid,
         status: report.status,

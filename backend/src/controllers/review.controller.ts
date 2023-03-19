@@ -2,19 +2,20 @@ import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
 import { ReviewService } from "../services/review.service";
 import validationMiddleware from "../api/middlewares/validation";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
+import { IController } from "IController";
 import {
   PostReviewSchema,
   BookmarkReviewSchema,
   UpvoteReviewSchema,
-  PostReviewRequestBodySchema,
-  PutReviewRequestBodySchema,
+  PostReviewRequestBody,
+  PutReviewRequestBody,
+  BookmarkReview,
+  UpvoteReview,
 } from "../api/schemas/review.schema";
-import { HTTPError } from "../utils/errors";
-import { badRequest } from "../utils/constants";
-import { z } from "zod";
-import { ControllerSchema } from "../api/schemas/controller.schema";
 
-export class ReviewController implements z.infer<typeof ControllerSchema> {
+export class ReviewController implements IController {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";
@@ -44,7 +45,11 @@ export class ReviewController implements z.infer<typeof ControllerSchema> {
       )
       .get(
         "/reviews/:courseCode",
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<{ courseCode: string }, unknown>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug(`Received request in /reviews/:courseCode`);
           try {
             const courseCode: string = req.params.courseCode;
@@ -68,12 +73,14 @@ export class ReviewController implements z.infer<typeof ControllerSchema> {
       .post(
         "/reviews",
         validationMiddleware(PostReviewSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, PostReviewRequestBody>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug("Received request in POST /reviews");
           try {
-            const reviewDetails = req.body as z.infer<
-              typeof PostReviewRequestBodySchema
-            >;
+            const reviewDetails = req.body;
             if (!reviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.postReview(reviewDetails);
             this.logger.info(`Responding to client in POST /reviews`);
@@ -91,13 +98,15 @@ export class ReviewController implements z.infer<typeof ControllerSchema> {
       .put(
         "/reviews/:reviewId",
         validationMiddleware(PostReviewSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<{ reviewId: string }, unknown, PutReviewRequestBody>,
+          res: Response,
+          next: NextFunction
+        ) => {
           const { reviewId } = req.params;
           this.logger.debug(`Received request in PUT /reviews/${reviewId}`);
           try {
-            const updatedReviewDetails = req.body as z.infer<
-              typeof PutReviewRequestBodySchema
-            >;
+            const updatedReviewDetails = req.body;
             if (!updatedReviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.updateReview(
               updatedReviewDetails,
@@ -119,7 +128,11 @@ export class ReviewController implements z.infer<typeof ControllerSchema> {
       )
       .delete(
         "/reviews/:reviewId",
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<{ reviewId: string }, unknown>,
+          res: Response,
+          next: NextFunction
+        ) => {
           const { reviewId } = req.params;
           this.logger.debug(`Received request in DELETE /reviews/${reviewId}`);
           try {
@@ -142,12 +155,14 @@ export class ReviewController implements z.infer<typeof ControllerSchema> {
       .post(
         "/reviews/bookmark",
         validationMiddleware(BookmarkReviewSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, BookmarkReview>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug(`Received request in POST /reviews/bookmark`);
           try {
-            const reviewDetails = req.body as z.infer<
-              typeof BookmarkReviewSchema
-            >;
+            const reviewDetails = req.body;
             if (!reviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.bookmarkReview(
               reviewDetails
@@ -167,12 +182,14 @@ export class ReviewController implements z.infer<typeof ControllerSchema> {
       .post(
         "/reviews/upvote",
         validationMiddleware(UpvoteReviewSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, UpvoteReview>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug(`Received request in POST /reviews/upvote`);
           try {
-            const reviewDetails = req.body as z.infer<
-              typeof UpvoteReviewSchema
-            >;
+            const reviewDetails = req.body;
             const result = await this.reviewService.upvoteReview(reviewDetails);
             this.logger.info(`Responding to client in POST /reviews/upvote`);
             return res.status(200).json(result);

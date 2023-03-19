@@ -10,10 +10,10 @@ import { CourseRepository } from "../repositories/course.repository";
 import { UserRepository } from "../repositories/user.repository";
 import { z } from "zod";
 import {
-  BookmarkCourseSchema,
+  BookmarkCourse,
   CourseBody,
   CourseSchema,
-  CoursesSuccessResponseSchema,
+  CoursesSuccessResponse,
 } from "../api/schemas/course.schema";
 
 export class CourseService {
@@ -23,9 +23,7 @@ export class CourseService {
     private readonly userRepository: UserRepository
   ) {}
 
-  async getCourses(): Promise<
-    z.infer<typeof CoursesSuccessResponseSchema> | undefined
-  > {
+  async getCourses(): Promise<CoursesSuccessResponse | undefined> {
     const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
     if (courses.length === 0) {
       this.logger.error("Database returned with no courses.");
@@ -67,7 +65,7 @@ export class CourseService {
   }
 
   async bookmarkCourse(
-    bookmarkDetails: z.infer<typeof BookmarkCourseSchema>
+    bookmarkDetails: BookmarkCourse
   ): Promise<CourseBody | undefined> {
     const course = await this.courseRepository.getCourse(
       bookmarkDetails.courseCode

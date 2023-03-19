@@ -26,6 +26,8 @@ export const UpdateCourseSchema = z
   })
   .strict();
 
+export type UpdateCourse = z.infer<typeof UpdateCourseSchema>;
+
 export const BookmarkCourseSchema = z
   .object({
     courseCode: z.string(),
@@ -33,6 +35,8 @@ export const BookmarkCourseSchema = z
     bookmark: z.boolean(),
   })
   .strict();
+
+export type BookmarkCourse = z.infer<typeof BookmarkCourseSchema>;
 
 export const CourseSchema = z
   .object({
@@ -63,6 +67,8 @@ export const CourseSchema = z
   })
   .strict();
 
+export type Course = z.infer<typeof CourseSchema>;
+
 const CourseBodySchema = z
   .object({
     course: CourseSchema,
@@ -71,8 +77,12 @@ const CourseBodySchema = z
 
 export type CourseBody = z.infer<typeof CourseBodySchema>;
 
-export const CoursesSuccessResponseSchema = z
+const CoursesSuccessResponseSchema = z
   .object({
     courses: z.array(CourseSchema),
   })
   .strict();
+
+export type CoursesSuccessResponse = z.infer<
+  typeof CoursesSuccessResponseSchema
+>;

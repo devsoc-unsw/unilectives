@@ -1,6 +1,6 @@
-import { object, z } from "zod";
+import { z } from "zod";
 
-export const CommonReviewSchema = z
+const CommonReviewSchema = z
   .object({
     userId: z.string().uuid(),
     widgets: z.array(
@@ -11,6 +11,8 @@ export const CommonReviewSchema = z
     ),
   })
   .strict();
+
+export type CommonReview = z.infer<typeof CommonReviewSchema>;
 
 export const PostReviewSchema = z
   .object({
@@ -28,6 +30,8 @@ export const PostReviewSchema = z
   })
   .strict();
 
+export type PostReview = z.infer<typeof PostReviewSchema>;
+
 export const BookmarkReviewSchema = z
   .object({
     reviewId: z.string(),
@@ -35,6 +39,8 @@ export const BookmarkReviewSchema = z
     bookmark: z.boolean(),
   })
   .strict();
+
+export type BookmarkReview = z.infer<typeof BookmarkReviewSchema>;
 
 export const UpvoteReviewSchema = z
   .object({
@@ -44,7 +50,9 @@ export const UpvoteReviewSchema = z
   })
   .strict();
 
-export const PostReviewRequestBodySchema = z
+export type UpvoteReview = z.infer<typeof UpvoteReviewSchema>;
+
+const PostReviewRequestBodySchema = z
   .object({
     zid: z.string(),
     courseCode: z.string(),
@@ -60,12 +68,16 @@ export const PostReviewRequestBodySchema = z
   })
   .strict();
 
-export const PutReviewRequestBodySchema = z
+export type PostReviewRequestBody = z.infer<typeof PostReviewRequestBodySchema>;
+
+const PutReviewRequestBodySchema = z
   .object({
     authorName: z.string(),
     grade: z.number(),
   })
   .strict();
+
+export type PutReviewRequestBody = z.infer<typeof PutReviewRequestBodySchema>;
 
 export const ReviewSchema = z
   .object({
@@ -87,14 +99,22 @@ export const ReviewSchema = z
   })
   .strict();
 
-export const ReviewSuccessResponse = z
+export type Review = z.infer<typeof ReviewSchema>;
+
+const ReviewSuccessResponseSchema = z
   .object({
     review: ReviewSchema,
   })
   .strict();
 
-export const ReviewsSuccessResponseSchema = z
+export type ReviewSuccessResponse = z.infer<typeof ReviewSuccessResponseSchema>;
+
+const ReviewsSuccessResponseSchema = z
   .object({
     reviews: z.array(ReviewSchema),
   })
   .strict();
+
+export type ReviewsSuccessResponse = z.infer<
+  typeof ReviewsSuccessResponseSchema
+>;

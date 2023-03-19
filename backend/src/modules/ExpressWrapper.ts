@@ -4,9 +4,8 @@ import { formatError, getLogger } from "../utils/logger";
 import * as http from "http";
 import bodyParser from "body-parser";
 import { promisify } from "util";
-import { z } from "zod";
-import { ControllerSchema } from "../api/schemas/controller.schema";
 import { errorHandlerMiddleware } from "../api/middlewares/errorHandler";
+import { IController } from "IController";
 
 export class ExpressWrapper {
   private logger = getLogger();
@@ -63,7 +62,7 @@ export class ExpressWrapper {
     }
   }
 
-  addControllers(...controllers: z.infer<typeof ControllerSchema>[]): void {
+  addControllers(...controllers: IController[]): void {
     for (const controller of controllers) {
       this.express.use(controller.getPrefix(), controller.getRouter());
     }

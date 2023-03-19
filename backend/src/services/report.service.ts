@@ -8,11 +8,11 @@ import { EntityManager } from "typeorm";
 import { ReviewRepository } from "../repositories/review.repository";
 import { UserRepository } from "../repositories/user.repository";
 import { UserEntity } from "../entity/User";
-import { z } from "zod";
 import {
-  CreateReportSchema,
+  CreateReport,
   ReportsSuccessResponse,
   ReportSuccessResponse,
+  UpdateReportStatus,
   UpdateReportStatusSchema,
 } from "../api/schemas/report.schema";
 
@@ -23,7 +23,7 @@ export class ReportService {
   private reviewRepository = new ReviewRepository(this.manager);
   private userRepository = new UserRepository(this.manager);
 
-  async getAllReports(): Promise<z.infer<typeof ReportsSuccessResponse>> {
+  async getAllReports(): Promise<ReportsSuccessResponse> {
     const reports: ReportEntity[] = await this.reportRepository.getAllReports();
     return {
       reports: reports.map(convertReportEntityToInterface),
@@ -31,8 +31,8 @@ export class ReportService {
   }
 
   async createReport(
-    reportDetails: z.infer<typeof CreateReportSchema>
-  ): Promise<z.infer<typeof ReportSuccessResponse>> {
+    reportDetails: CreateReport
+  ): Promise<ReportSuccessResponse> {
     const { reviewId, zid, reason } = reportDetails;
 
     // check if user already created a report for the review
@@ -68,8 +68,8 @@ export class ReportService {
   }
 
   async updateReport(
-    reportDetails: z.infer<typeof UpdateReportStatusSchema>
-  ): Promise<z.infer<typeof ReportSuccessResponse>> {
+    reportDetails: UpdateReportStatus
+  ): Promise<ReportSuccessResponse> {
     const { reportId, zid, status } = reportDetails;
 
     const reportExists: ReportEntity | null =

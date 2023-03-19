@@ -7,14 +7,15 @@ import { internalServerError, badRequest } from "../utils/constants";
 import { UserRepository } from "../repositories/user.repository";
 import { EntityManager } from "typeorm";
 import {
+  BookmarkReview,
   BookmarkReviewSchema,
-  PostReviewRequestBodySchema,
-  PutReviewRequestBodySchema,
-  ReviewsSuccessResponseSchema,
+  PostReviewRequestBody,
+  PutReviewRequestBody,
+  ReviewsSuccessResponse,
   ReviewSuccessResponse,
+  UpvoteReview,
   UpvoteReviewSchema,
 } from "../api/schemas/review.schema";
-import { z } from "zod";
 
 export class ReviewService {
   private logger = getLogger();
@@ -22,9 +23,7 @@ export class ReviewService {
   private reviewRepository = new ReviewRepository(this.manager);
   private userRepository = new UserRepository(this.manager);
 
-  async getAllReviews(): Promise<
-    z.infer<typeof ReviewsSuccessResponseSchema> | undefined
-  > {
+  async getAllReviews(): Promise<ReviewsSuccessResponse | undefined> {
     const reviews: ReviewEntity[] = await this.reviewRepository.getAllReviews();
     if (reviews.length === 0) {
       this.logger.error("Database returned with no reviews.");
@@ -37,7 +36,7 @@ export class ReviewService {
 
   async getCourseReviews(
     courseCode: string
-  ): Promise<z.infer<typeof ReviewsSuccessResponseSchema> | undefined> {
+  ): Promise<ReviewsSuccessResponse | undefined> {
     const reviews: ReviewEntity[] =
       await this.reviewRepository.getCourseReviews(courseCode);
     if (reviews.length === 0) {
@@ -55,8 +54,8 @@ export class ReviewService {
   }
 
   async postReview(
-    reviewDetails: z.infer<typeof PostReviewRequestBodySchema>
-  ): Promise<z.infer<typeof ReviewSuccessResponse> | undefined> {
+    reviewDetails: PostReviewRequestBody
+  ): Promise<ReviewSuccessResponse | undefined> {
     // Convert reviewDetails to a reviewEntity
     const reviewEntity = new ReviewEntity();
     reviewEntity.zid = reviewDetails.zid;
@@ -83,9 +82,9 @@ export class ReviewService {
   }
 
   async updateReview(
-    updatedReviewDetails: z.infer<typeof PutReviewRequestBodySchema>,
+    updatedReviewDetails: PutReviewRequestBody,
     reviewId: string
-  ): Promise<z.infer<typeof ReviewSuccessResponse> | undefined> {
+  ): Promise<ReviewSuccessResponse | undefined> {
     // Get review entity by review id
     let review = await this.reviewRepository.getReview(reviewId);
 
@@ -116,8 +115,8 @@ export class ReviewService {
   }
 
   async bookmarkReview(
-    reviewDetails: z.infer<typeof BookmarkReviewSchema>
-  ): Promise<z.infer<typeof ReviewSuccessResponse> | undefined> {
+    reviewDetails: BookmarkReview
+  ): Promise<ReviewSuccessResponse | undefined> {
     const review = await this.reviewRepository.getReview(
       reviewDetails.reviewId
     );
@@ -162,8 +161,8 @@ export class ReviewService {
   }
 
   async upvoteReview(
-    upvoteDetails: z.infer<typeof UpvoteReviewSchema>
-  ): Promise<z.infer<typeof ReviewSuccessResponse> | undefined> {
+    upvoteDetails: UpvoteReview
+  ): Promise<ReviewSuccessResponse | undefined> {
     let review = await this.reviewRepository.getReview(upvoteDetails.reviewId);
 
     if (!review) {
