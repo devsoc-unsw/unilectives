@@ -8,13 +8,11 @@ import { UserRepository } from "../repositories/user.repository";
 import { EntityManager } from "typeorm";
 import {
   BookmarkReview,
-  BookmarkReviewSchema,
   PostReviewRequestBody,
   PutReviewRequestBody,
   ReviewsSuccessResponse,
   ReviewSuccessResponse,
   UpvoteReview,
-  UpvoteReviewSchema,
 } from "../api/schemas/review.schema";
 
 export class ReviewService {

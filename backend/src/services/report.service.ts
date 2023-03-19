@@ -13,7 +13,6 @@ import {
   ReportsSuccessResponse,
   ReportSuccessResponse,
   UpdateReportStatus,
-  UpdateReportStatusSchema,
 } from "../api/schemas/report.schema";
 
 export class ReportService {

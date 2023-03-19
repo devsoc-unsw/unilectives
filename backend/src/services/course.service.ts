@@ -8,11 +8,10 @@ import { HTTPError } from "../utils/errors";
 import { badRequest, internalServerError } from "../utils/constants";
 import { CourseRepository } from "../repositories/course.repository";
 import { UserRepository } from "../repositories/user.repository";
-import { z } from "zod";
 import {
   BookmarkCourse,
+  Course,
   CourseBody,
-  CourseSchema,
   CoursesSuccessResponse,
 } from "../api/schemas/course.schema";
 
@@ -37,7 +36,7 @@ export class CourseService {
   }
 
   async updateCourse(
-    updatedCourse: z.infer<typeof CourseSchema>
+    updatedCourse: Course
   ): Promise<CourseBody | undefined> {
     let course = await this.courseRepository.getCourse(
       updatedCourse.courseCode
