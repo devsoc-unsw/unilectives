@@ -15,6 +15,7 @@ export const UpdateCourseSchema = Joi.object({
     fieldOfEducation: Joi.string().required(),
     genEd: Joi.boolean().required(),
     level: Joi.number().required(),
+    prerequisites: Joi.array().items(Joi.string()).required(),
     school: Joi.string().required(),
     studyLevel: Joi.string().required(),
     terms: Joi.array().items(Joi.number()).required(),

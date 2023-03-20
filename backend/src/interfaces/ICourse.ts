@@ -12,6 +12,7 @@ export interface ICourse {
   fieldOfEducation: string;
   genEd: boolean;
   level: number;
+  prerequisites: string[];
   school: string;
   studyLevel: string;
   terms: number[];
