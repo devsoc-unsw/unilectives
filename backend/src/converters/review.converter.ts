@@ -1,9 +1,9 @@
-import { IReview } from "IReview";
 import { ReviewEntity } from "../entity/Review";
+import { Review } from "../api/schemas/review.schema";
 
 export const convertReviewEntityToInterface = (
   entity: ReviewEntity
-): IReview => {
+): Review => {
   return {
     reviewId: entity.reviewId,
     zid: entity.zid,
@@ -24,7 +24,7 @@ export const convertReviewEntityToInterface = (
 };
 
 export const convertReviewInterfaceToEntity = (
-  review: IReview
+  review: Review
 ): ReviewEntity => {
   return {
     reviewId: review.reviewId,

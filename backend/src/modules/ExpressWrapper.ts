@@ -4,8 +4,8 @@ import { formatError, getLogger } from "../utils/logger";
 import * as http from "http";
 import bodyParser from "body-parser";
 import { promisify } from "util";
-import { IController } from "../interfaces/IController";
 import { errorHandlerMiddleware } from "../api/middlewares/errorHandler";
+import { IController } from "IController";
 
 export class ExpressWrapper {
   private logger = getLogger();

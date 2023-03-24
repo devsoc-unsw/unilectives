@@ -1,16 +1,14 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
-import { IController } from "../interfaces/IController";
 import { ReportService } from "../services/report.service";
 import validationMiddleware from "../api/middlewares/validation";
 import {
+  CreateReport,
   CreateReportSchema,
+  UpdateReportStatus,
   UpdateReportStatusSchema,
 } from "../api/schemas/report.schema";
-import {
-  IPostReportRequestBody,
-  IUpdateReportRequestBody,
-} from "IApiResponses";
+import { IController } from "IController";
 
 export class ReportController implements IController {
   private readonly logger = getLogger();
@@ -44,10 +42,14 @@ export class ReportController implements IController {
       .post(
         "/reports",
         validationMiddleware(CreateReportSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, CreateReport>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug(`Received POST request in /reports`, req.body);
           try {
-            const request = req.body as IPostReportRequestBody;
+            const request = req.body;
             const result = await this.reportService.createReport(request);
             this.logger.info(`Responding to client in /reports`);
             return res.status(200).json(result);
@@ -64,10 +66,14 @@ export class ReportController implements IController {
       .put(
         "/reports",
         validationMiddleware(UpdateReportStatusSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, UpdateReportStatus>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug(`Received PUT request in /reports`, req.body);
           try {
-            const request = req.body as IUpdateReportRequestBody;
+            const request = req.body;
             const result = await this.reportService.updateReport(request);
             this.logger.info(`Responding to client in /reports`);
             return res.status(200).json(result);

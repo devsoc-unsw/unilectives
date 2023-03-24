@@ -1,3 +1,4 @@
+import { ReportStatus } from "../api/schemas/report.schema";
 import {
   Column,
   CreateDateColumn,
@@ -7,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { ReportStatus } from "../interfaces/IReport";
 import { ReviewEntity } from "./Review";
 import { UserEntity } from "./User";
 
