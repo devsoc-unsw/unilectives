@@ -1,4 +1,4 @@
-import { ReportStatus } from "IReport";
+import { ReportStatus } from "../api/schemas/report.schema";
 import {
   Column,
   CreateDateColumn,
