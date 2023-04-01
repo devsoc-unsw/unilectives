@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <main>
-      <p>uni-lectives</p>
+      <h1 className="text-3xl font-bold underline">uni-lectives</h1>
     </main>
-  )
+  );
 }
