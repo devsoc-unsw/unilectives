@@ -1,9 +1,9 @@
-import { ICourse } from "ICourse";
+import { Course } from "../api/schemas/course.schema";
 import { CourseEntity } from "../entity/Course";
 
 export const convertCourseEntityToInterface = (
   entity: CourseEntity
-): ICourse => {
+): Course => {
   return {
     courseCode: entity.courseCode,
     archived: entity.archived,
@@ -33,7 +33,7 @@ export const convertCourseEntityToInterface = (
 };
 
 export const convertCourseInterfaceToEntity = (
-  course: ICourse
+  course: Course
 ): CourseEntity => {
   return {
     courseCode: course.courseCode,

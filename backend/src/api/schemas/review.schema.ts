@@ -1,45 +1,120 @@
-import Joi from "joi";
+import { z } from "zod";
 
-export const CommonReviewSchema = Joi.object({
-  userId: Joi.string()
-    .uuid({ version: ["uuidv4"] })
-    .required(),
-  widgets: Joi.array()
-    .items(
-      Joi.object({
-        widgetType: Joi.string()
-          .pattern(/ARTICLE/)
-          .required(),
-        articleId: Joi.string()
-          .uuid({ version: ["uuidv4"] })
-          .required(),
+const CommonReviewSchema = z
+  .object({
+    userId: z.string().uuid(),
+    widgets: z.array(
+      z.object({
+        widgetType: z.string().regex(/ARTICLE/),
+        articleId: z.string().uuid(),
       })
-    )
-    .required(),
-}).options({ allowUnknown: true });
+    ),
+  })
+  .strict();
 
-export const PostReviewSchema = Joi.object({
-  zid: Joi.string().required(),
-  authorName: Joi.string().required(),
-  title: Joi.string().required(),
-  description: Joi.string().required(),
-  courseCode: Joi.string().required(),
-  rating: Joi.number().required(),
-  termTaken: Joi.string().required(),
-  manageability: Joi.number().required(),
-  usefulness: Joi.number().required(),
-  enjoyability: Joi.number().required(),
-  overallRating: Joi.number().required(),
-});
+export type CommonReview = z.infer<typeof CommonReviewSchema>;
 
-export const BookmarkReviewSchema = Joi.object({
-  reviewId: Joi.string().required(),
-  zid: Joi.string().required(),
-  bookmark: Joi.boolean().required(),
-});
+export const PostReviewSchema = z
+  .object({
+    zid: z.string(),
+    authorName: z.string(),
+    title: z.string(),
+    description: z.string(),
+    courseCode: z.string(),
+    rating: z.number(),
+    termTaken: z.string(),
+    manageability: z.number(),
+    usefulness: z.number(),
+    enjoyability: z.number(),
+    overallRating: z.number(),
+  })
+  .strict();
 
-export const UpvoteReviewSchema = Joi.object({
-  reviewId: Joi.string().required(),
-  zid: Joi.string().required(),
-  upvote: Joi.boolean().required(),
-});
+export type PostReview = z.infer<typeof PostReviewSchema>;
+
+export const BookmarkReviewSchema = z
+  .object({
+    reviewId: z.string(),
+    zid: z.string(),
+    bookmark: z.boolean(),
+  })
+  .strict();
+
+export type BookmarkReview = z.infer<typeof BookmarkReviewSchema>;
+
+export const UpvoteReviewSchema = z
+  .object({
+    reviewId: z.string(),
+    zid: z.string(),
+    upvote: z.boolean(),
+  })
+  .strict();
+
+export type UpvoteReview = z.infer<typeof UpvoteReviewSchema>;
+
+const PostReviewRequestBodySchema = z
+  .object({
+    zid: z.string(),
+    courseCode: z.string(),
+    authorName: z.string(),
+    title: z.string(),
+    description: z.string(),
+    grade: z.number(),
+    termTaken: z.string(),
+    manageability: z.number(),
+    usefulness: z.number(),
+    enjoyability: z.number(),
+    overallRating: z.number(),
+  })
+  .strict();
+
+export type PostReviewRequestBody = z.infer<typeof PostReviewRequestBodySchema>;
+
+const PutReviewRequestBodySchema = z
+  .object({
+    authorName: z.string(),
+    grade: z.number(),
+  })
+  .strict();
+
+export type PutReviewRequestBody = z.infer<typeof PutReviewRequestBodySchema>;
+
+export const ReviewSchema = z
+  .object({
+    reviewId: z.string(),
+    zid: z.string(),
+    courseCode: z.string(),
+    authorName: z.string(),
+    title: z.string(),
+    description: z.string(),
+    grade: z.number(),
+    termTaken: z.string(),
+    createdTimestamp: z.date(),
+    updatedTimestamp: z.date(),
+    upvotes: z.string().array(),
+    manageability: z.number(),
+    enjoyability: z.number(),
+    usefulness: z.number(),
+    overallRating: z.number(),
+  })
+  .strict();
+
+export type Review = z.infer<typeof ReviewSchema>;
+
+const ReviewSuccessResponseSchema = z
+  .object({
+    review: ReviewSchema,
+  })
+  .strict();
+
+export type ReviewSuccessResponse = z.infer<typeof ReviewSuccessResponseSchema>;
+
+const ReviewsSuccessResponseSchema = z
+  .object({
+    reviews: z.array(ReviewSchema),
+  })
+  .strict();
+
+export type ReviewsSuccessResponse = z.infer<
+  typeof ReviewsSuccessResponseSchema
+>;

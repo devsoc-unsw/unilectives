@@ -1,5 +1,5 @@
 import { ReportEntity } from "../entity/Report";
-import { EntityManager, In } from "typeorm";
+import { EntityManager } from "typeorm";
 
 export class ReportRepository {
   constructor(private readonly manager: EntityManager) {}

@@ -1,21 +1,19 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
-import { IController } from "../interfaces/IController";
 import { ReviewService } from "../services/review.service";
 import validationMiddleware from "../api/middlewares/validation";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
+import { IController } from "IController";
 import {
   PostReviewSchema,
   BookmarkReviewSchema,
   UpvoteReviewSchema,
+  PostReviewRequestBody,
+  PutReviewRequestBody,
+  BookmarkReview,
+  UpvoteReview,
 } from "../api/schemas/review.schema";
-import { HTTPError } from "../utils/errors";
-import { badRequest } from "../utils/constants";
-import {
-  IPostReviewRequestBody,
-  IPutReviewRequestBody,
-  IPostReviewsBookmarkRequestBody,
-  IPostReviewUpvoteRequestBody,
-} from "IApiResponses";
 
 export class ReviewController implements IController {
   private readonly logger = getLogger();
@@ -47,7 +45,11 @@ export class ReviewController implements IController {
       )
       .get(
         "/reviews/:courseCode",
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<{ courseCode: string }, unknown>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug(`Received request in /reviews/:courseCode`);
           try {
             const courseCode: string = req.params.courseCode;
@@ -71,10 +73,14 @@ export class ReviewController implements IController {
       .post(
         "/reviews",
         validationMiddleware(PostReviewSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, PostReviewRequestBody>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug("Received request in POST /reviews");
           try {
-            const reviewDetails = req.body as IPostReviewRequestBody;
+            const reviewDetails = req.body;
             if (!reviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.postReview(reviewDetails);
             this.logger.info(`Responding to client in POST /reviews`);
@@ -92,11 +98,15 @@ export class ReviewController implements IController {
       .put(
         "/reviews/:reviewId",
         validationMiddleware(PostReviewSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<{ reviewId: string }, unknown, PutReviewRequestBody>,
+          res: Response,
+          next: NextFunction
+        ) => {
           const { reviewId } = req.params;
           this.logger.debug(`Received request in PUT /reviews/${reviewId}`);
           try {
-            const updatedReviewDetails = req.body as IPutReviewRequestBody;
+            const updatedReviewDetails = req.body;
             if (!updatedReviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.updateReview(
               updatedReviewDetails,
@@ -118,7 +128,11 @@ export class ReviewController implements IController {
       )
       .delete(
         "/reviews/:reviewId",
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<{ reviewId: string }, unknown>,
+          res: Response,
+          next: NextFunction
+        ) => {
           const { reviewId } = req.params;
           this.logger.debug(`Received request in DELETE /reviews/${reviewId}`);
           try {
@@ -141,10 +155,14 @@ export class ReviewController implements IController {
       .post(
         "/reviews/bookmark",
         validationMiddleware(BookmarkReviewSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, BookmarkReview>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug(`Received request in POST /reviews/bookmark`);
           try {
-            const reviewDetails = req.body as IPostReviewsBookmarkRequestBody;
+            const reviewDetails = req.body;
             if (!reviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.bookmarkReview(
               reviewDetails
@@ -164,10 +182,14 @@ export class ReviewController implements IController {
       .post(
         "/reviews/upvote",
         validationMiddleware(UpvoteReviewSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, UpvoteReview>,
+          res: Response,
+          next: NextFunction
+        ) => {
           this.logger.debug(`Received request in POST /reviews/upvote`);
           try {
-            const reviewDetails = req.body as IPostReviewUpvoteRequestBody;
+            const reviewDetails = req.body;
             const result = await this.reviewService.upvoteReview(reviewDetails);
             this.logger.info(`Responding to client in POST /reviews/upvote`);
             return res.status(200).json(result);

@@ -1,8 +1,3 @@
-import {
-  IGetCoursesSuccessResponse,
-  IPostCoursesBookmarkRequestBody,
-  IPutCoursesSuccessResponse,
-} from "IApiResponses";
 import { getLogger } from "../utils/logger";
 import { CourseEntity } from "../entity/Course";
 import {
@@ -12,8 +7,13 @@ import {
 import { HTTPError } from "../utils/errors";
 import { badRequest, internalServerError } from "../utils/constants";
 import { CourseRepository } from "../repositories/course.repository";
-import { ICourse } from "ICourse";
 import { UserRepository } from "../repositories/user.repository";
+import {
+  BookmarkCourse,
+  Course,
+  CourseBody,
+  CoursesSuccessResponse,
+} from "../api/schemas/course.schema";
 
 export class CourseService {
   private logger = getLogger();
@@ -22,7 +22,7 @@ export class CourseService {
     private readonly userRepository: UserRepository
   ) {}
 
-  async getCourses(): Promise<IGetCoursesSuccessResponse | undefined> {
+  async getCourses(): Promise<CoursesSuccessResponse | undefined> {
     const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
     if (courses.length === 0) {
       this.logger.error("Database returned with no courses.");
@@ -37,7 +37,7 @@ export class CourseService {
 
   async getCoursesFromOffset(
     offset: number
-  ): Promise<IGetCoursesSuccessResponse | undefined> {
+  ): Promise<CoursesSuccessResponse | undefined> {
     const courses: CourseEntity[] =
       await this.courseRepository.getCoursesFromOffset(offset);
     this.logger.info(`Found ${courses.length} courses.`);
@@ -46,9 +46,7 @@ export class CourseService {
     };
   }
 
-  async updateCourse(
-    updatedCourse: ICourse
-  ): Promise<IPutCoursesSuccessResponse | undefined> {
+  async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
     let course = await this.courseRepository.getCourse(
       updatedCourse.courseCode
     );
@@ -75,8 +73,8 @@ export class CourseService {
   }
 
   async bookmarkCourse(
-    bookmarkDetails: IPostCoursesBookmarkRequestBody
-  ): Promise<IPutCoursesSuccessResponse | undefined> {
+    bookmarkDetails: BookmarkCourse
+  ): Promise<CourseBody | undefined> {
     const course = await this.courseRepository.getCourse(
       bookmarkDetails.courseCode
     );

@@ -1,5 +1,5 @@
 import { ReportEntity } from "../entity/Report";
-import { IReport } from "../interfaces/IReport";
+import { Report } from "../api/schemas/report.schema";
 import {
   convertReviewEntityToInterface,
   convertReviewInterfaceToEntity,
@@ -7,7 +7,7 @@ import {
 
 export const convertReportEntityToInterface = (
   entity: ReportEntity
-): IReport => {
+): Report => {
   return {
     reportId: entity.reportId,
     review: convertReviewEntityToInterface(entity.review),
@@ -20,7 +20,7 @@ export const convertReportEntityToInterface = (
 };
 
 export const convertReportInterfaceToEntity = (
-  report: IReport
+  report: Report
 ): ReportEntity => {
   return {
     reportId: report.reportId,

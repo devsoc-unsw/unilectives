@@ -1,10 +1,10 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
-import { IController } from "../interfaces/IController";
 import { UserService } from "../services/user.service";
 import validationMiddleware from "../api/middlewares/validation";
-import { CreateUserSchema } from "../api/schemas/user.schema";
 import verifyToken from "../api/middlewares/auth";
+import { IController } from "IController";
+import { CreateUser, CreateUserSchema } from "../api/schemas/user.schema";
 
 export class UserController implements IController {
   private readonly logger = getLogger();
@@ -20,7 +20,11 @@ export class UserController implements IController {
       .post(
         "/user/register",
         validationMiddleware(CreateUserSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, CreateUser>,
+          res: Response,
+          next: NextFunction
+        ) => {
           const { zid } = req.body;
           this.logger.debug(
             `Received POST request in /user/register`,
@@ -43,7 +47,11 @@ export class UserController implements IController {
       .post(
         "/user/login",
         validationMiddleware(CreateUserSchema, "body"),
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<Record<string, never>, unknown, CreateUser>,
+          res: Response,
+          next: NextFunction
+        ) => {
           const { zid } = req.body;
           this.logger.debug(`Received POST request in /user/login`, req.body);
           try {
@@ -63,7 +71,11 @@ export class UserController implements IController {
       .get(
         "/user/:zid",
         [verifyToken],
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<{ zid: string }, unknown>,
+          res: Response,
+          next: NextFunction
+        ) => {
           const { zid } = req.params;
           this.logger.debug(`Received GET request in /user`, req.params);
           try {
