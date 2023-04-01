@@ -5,12 +5,9 @@ import * as http from "http";
 import bodyParser from "body-parser";
 import { promisify } from "util";
 import { errorHandlerMiddleware } from "../api/middlewares/errorHandler";
-<<<<<<< HEAD
 import swaggerUi from "swagger-ui-express";
 import docs from "../../docs/swagger.json";
-=======
 import { IController } from "IController";
->>>>>>> develop
 
 export class ExpressWrapper {
   private logger = getLogger();
