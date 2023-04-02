@@ -135,6 +135,7 @@ export default class MigrationService {
     entity.genEd = course.gen_ed;
     entity.uoc = course.UOC;
     entity.level = course.level;
+    entity.prerequisites = Object.keys(course.prerequisites);
     entity.studyLevel = course.study_level;
     entity.terms = getTerms(course.terms);
     entity.title = course.title;
