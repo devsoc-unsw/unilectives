@@ -11,6 +11,7 @@ export interface IOldCourse {
   fieldOfEducation: string;
   genEd: boolean;
   level: number;
+  prerequisites: { [code: string]: 1 };
   school: string;
   studyLevel: string;
   terms: number[];

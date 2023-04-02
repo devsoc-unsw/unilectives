@@ -3,6 +3,7 @@ export interface CirclesCourse {
   code: string;
   UOC: number;
   level: number;
+  prerequisites: { [ket: string]: string };
   description: string;
   study_level: string;
   school: string;
