@@ -15,6 +15,7 @@ import {
 } from "../api/schemas/review.schema";
 
 describe("ReviewService", () => {
+  jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   let manager: EntityManager;
   let connection: DataSource;
 
@@ -29,6 +30,7 @@ describe("ReviewService", () => {
   });
 
   const reviewService = () => new ReviewService(manager);
+  const date = new Date();
 
   describe("getAllReviews", () => {
     it("should return all reviews", () => {
@@ -62,8 +64,8 @@ describe("ReviewService", () => {
   describe("postReview", () => {
     it("should resolve and post a new review", async () => {
       const service = reviewService();
-      const reviewEntity = getReviewEntity();
-      const review = getMockReviews()[0];
+      const reviewEntity = getReviewEntity(date);
+      const review = getMockReviews(date)[0];
 
       const reviewRequest: PostReviewRequestBody = {
         zid: reviewEntity.zid,
@@ -105,8 +107,8 @@ describe("ReviewService", () => {
 
     it("should resolve and update an existing review", () => {
       const service = reviewService();
-      const reviewEntity = getReviewEntity();
-      const review = getMockReviews()[0];
+      const reviewEntity = getReviewEntity(date);
+      const review = getMockReviews(date)[0];
 
       const reviewRequest: PutReviewRequestBody = {
         authorName: reviewEntity.authorName,
