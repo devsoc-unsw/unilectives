@@ -12,6 +12,7 @@ import { DataSource } from "typeorm";
 import { AuthService } from "../modules/Auth";
 
 describe("UserService", () => {
+  jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   let manager: EntityManager;
   let auth: AuthService;
   let connection: DataSource;

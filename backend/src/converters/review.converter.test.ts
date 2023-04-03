@@ -5,6 +5,7 @@ import {
 } from "./review.converter";
 
 describe("convertReviewEntityToInterface", () => {
+  jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   it("should convert ReviewEntity to IReview", () => {
     const date = new Date();
     const review = getMockReview(date);
@@ -14,6 +15,7 @@ describe("convertReviewEntityToInterface", () => {
 });
 
 describe("convertReviewInterfaceToEntity", () => {
+  jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   it("should convert IReview to ReviewEntity", () => {
     const date = new Date();
     const review = getMockReview(date);
