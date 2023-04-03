@@ -7,4 +7,3 @@ temp/
 dist/
 coverage/
 .DS_Store
-package-lock.json
