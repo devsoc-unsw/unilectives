@@ -31,6 +31,7 @@ services:
       POSTGRESQL_USER: postgres
       POSTGRESQL_PASSWORD: password
       POSTGRESQL_DATABASE: mydb
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - postgres
 

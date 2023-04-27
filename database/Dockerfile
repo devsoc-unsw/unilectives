@@ -1,21 +1,10 @@
-FROM debian:bullseye-slim
+FROM node:16.18-alpine
 
-WORKDIR /usr/src
+WORKDIR /app
 
-RUN apt-get -y update && \
-  mkdir -p /usr/share/man/man1 && \
-  mkdir -p /usr/share/man/man7 && \
-  apt-get install -y sqitch libdbd-pg-perl postgresql-client && \
-  rm -rf /var/lib/apt/lists/* /var/log/dpkg.log /var/cache/apt/archives/
+COPY package.json package-lock.json ./
 
-COPY deploy/ ./deploy/
-COPY revert/ ./revert/
-COPY verify/ ./verify/
-COPY sqitch.plan .
-COPY sqitch.conf .
-COPY run-deployment.sh run-deployment.sh
+COPY prisma ./prisma
+RUN npm install
 
-RUN chmod +x ./run-deployment.sh
-
-CMD /usr/src/run-deployment.sh
-
+CMD npx prisma migrate deploy

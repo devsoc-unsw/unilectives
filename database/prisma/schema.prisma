@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum report_status {
+  SEEN
+  UNSEEN
+  REMOVED
+  SETTLED
+}
+
+model courses {
+  course_code        String    @id(map: "pk_course_code")
+  archived           Boolean
+  attributes         String[]
+  calendar           String
+  campus             String
+  description        String
+  enrolment_rules    String
+  equivalents        String[]
+  exclusions         String[]
+  faculty            String
+  field_of_education String
+  gen_ed             Boolean
+  level              Int
+  school             String
+  study_level        String
+  terms              Int[]
+  title              String
+  uoc                Int
+  rating             Float
+  reviews            reviews[]
+}
+
+model reports {
+  report_id         String                       @id(map: "pk_report_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  review_id         String                       @db.Uuid
+  zid               String
+  status            report_status
+  reason            String
+  created_timestamp DateTime                     @default(now()) @db.Timestamp(6)
+  updated_timestamp DateTime                     @default(now()) @db.Timestamp(6)
+  reviews           reviews                      @relation(fields: [review_id], references: [review_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_review_id")
+  users             users                        @relation(fields: [zid], references: [zid], onDelete: NoAction, onUpdate: NoAction, map: "fk_zid")
+}
+
+model reviews {
+  review_id         String    @id(map: "pk_review_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  zid               String
+  course_code       String
+  author_name       String
+  title             String
+  description       String?
+  grade             Int?
+  term_taken        String
+  created_timestamp DateTime  @default(now()) @db.Timestamp(6)
+  updated_timestamp DateTime  @default(now()) @db.Timestamp(6)
+  upvotes           String[]
+  manageability     Float
+  usefulness        Float
+  enjoyability      Float
+  overall_rating    Float
+  reports           reports[]
+  courses           courses   @relation(fields: [course_code], references: [course_code], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
+  users             users     @relation(fields: [zid], references: [zid], onDelete: NoAction, onUpdate: NoAction, map: "fk_zid")
+}
+
+model users {
+  zid                String    @id(map: "pk_zid")
+  bookmarked_reviews String[]
+  bookmarked_courses String[]
+  is_admin           Boolean
+  reports            reports[]
+  reviews            reviews[]
+}

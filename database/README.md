@@ -4,71 +4,61 @@
 
 This repository handles database management for an app.
 
-The management of this database is done using **sqitch** as a means of managing updates,
-reverts and verifications of SQL scripts. The back end database engine used is **Postgres**.
+The back end database engine used is **Postgres**.
+The management of this database is done using **Prisma**. Prisma is able to both add migrations 
+to the schema of the database and also provide an ORM for the backend (which is *currently* written
+using typeORM).
 
-For more information on **sqitch** check https://sqitch.org
-Currently for local development, we have to download sqitch.
+For more information on **Prisma** check https://prisma.io
 
-- For debian systems, run: `apt-get install sqitch libdbd-pg-perl postgresql-client libdbd-sqlite3-perl sqlite3`
-- For Downloading on Mac, see: https://sqitch.org/download/macos/
+## Local development
+For local development, we simply have to hit npm install to download the necessary packages.
 
-### Creating a Transaction
+Install required packages: `npm install`
 
-To add changes to the database, create a new transaction using the following command:
-`sqitch add <transaction_name> --requires <schema_name> -n '<A Message Goes Here>'`
+### Prisma use
 
-Eg: `sqitch add feedback --requires schema -n 'Description goes here'`
+Prisma has two main CLI operations that can be used for database script execution and to add migrations to the database,
 
-### sqitch execution
+1. **Prisma Migrate** - : An operation for applying database schema changes in a version-controlled manner. It creates a new migration folder containing
+  changes made on each on use.
 
-Sqitch introduces three main operations of database script execution,
+2. **Prisma Diff** - An operation to compare two schemas and create a migration that will take the first schema to the state of the second schema.
 
-1. **Deploy Opration** - This is the operation where the schemas and tables would be created based on the existing version of the scripts
+In order to execute scripts and deploy using Prisma, use the following commands once the local development environment has been set up.
 
-2. **Verify Opration** - This operation which must be executed after `deploy` in order to make sure that the executed scripts are accurate and as expected produced a final result
-
-3. **Revert Opration** - This operations reverts any changes made to the database, currently reverts to the immdiate previous git-commit version
-
-In order to execute the scripts and deploy using sqitch use the following command once navigated to the root of the project folder.
-
-For Deploying:
+For Migrating:
 
 ```
-sqitch deploy db:pg://<databaseuser>:<password>@<database host>/<schema>
+npx prisma migrate dev
 ```
 
-For Verification:
+For Diff:
 
 ```
-sqitch verify db:pg://<databaseuser>:<password>@<database host>/<schema>
+prisma migrate diff --from-... <source1> --to-... <source2> --script > <outputFilename>.sql
 ```
 
-For Reverting:
+>The --from... and --to tags... can be set to a few options that can be found in the docs linked above.
 
-```
-sqitch revert db:pg://<databaseuser>:<password>@<database host>/<schema>
-```
-
-> It must be noted that if the schema is deleted outside from sqitch such change would not be captured by sqitch. Hence it is always recommended to use sqitch `revert` to undo any changes applied to the backend database
 
 ### Testing Changes Locally
 
-To test any changes you've made, you will need to apply the changes to a postgres database. To spin one up, run the following:
+To test any changes you've made, you will need to apply the changes to a postgres database. To spin one up, run the following to start a postgres server:
 
 #### Start up a Postgres server
 
 ```
-docker run --rm -itd --name app -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=mydb -p 5432:5432 postgres
+docker run --rm -itd --name app -e POSTGRES_PASSWORD=password -e POSTGRES_DB=mydb -p 5432:5432 postgres
 ```
 
 Then as an example, to apply your changes, run:
 
 ```
-sqitch deploy db:pg://postgres:pass@0.0.0.0:5432/mydb
+npx prisma migrate dev
 ```
 
-To connect to the database locally via PSQL, run:
+To optionally connect to the database and verify changes locally via PSQL, run:
 
 ```
 psql -U postgres -d mydb -h 0.0.0.0
