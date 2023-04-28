@@ -1,13 +1,3 @@
-import {
-  IGetReviewsSuccessResponse,
-  IPostReviewRequestBody,
-  IPutReviewRequestBody,
-  IPostReviewSuccessResponse,
-  IPutReviewSuccessResponse,
-  IPostReviewsBookmarkRequestBody,
-  IPostReviewUpvoteSuccessResponse,
-  IPostReviewUpvoteRequestBody,
-} from "IApiResponses";
 import { ReviewRepository } from "../repositories/review.repository";
 import { getLogger } from "../utils/logger";
 import { ReviewEntity } from "../entity/Review";
@@ -16,6 +6,14 @@ import { HTTPError } from "../utils/errors";
 import { internalServerError, badRequest } from "../utils/constants";
 import { UserRepository } from "../repositories/user.repository";
 import { EntityManager } from "typeorm";
+import {
+  BookmarkReview,
+  PostReviewRequestBody,
+  PutReviewRequestBody,
+  ReviewsSuccessResponse,
+  ReviewSuccessResponse,
+  UpvoteReview,
+} from "../api/schemas/review.schema";
 
 export class ReviewService {
   private logger = getLogger();
@@ -23,7 +21,7 @@ export class ReviewService {
   private reviewRepository = new ReviewRepository(this.manager);
   private userRepository = new UserRepository(this.manager);
 
-  async getAllReviews(): Promise<IGetReviewsSuccessResponse | undefined> {
+  async getAllReviews(): Promise<ReviewsSuccessResponse | undefined> {
     const reviews: ReviewEntity[] = await this.reviewRepository.getAllReviews();
     if (reviews.length === 0) {
       this.logger.error("Database returned with no reviews.");
@@ -36,7 +34,7 @@ export class ReviewService {
 
   async getCourseReviews(
     courseCode: string
-  ): Promise<IGetReviewsSuccessResponse | undefined> {
+  ): Promise<ReviewsSuccessResponse | undefined> {
     const reviews: ReviewEntity[] =
       await this.reviewRepository.getCourseReviews(courseCode);
     if (reviews.length === 0) {
@@ -54,8 +52,8 @@ export class ReviewService {
   }
 
   async postReview(
-    reviewDetails: IPostReviewRequestBody
-  ): Promise<IPostReviewSuccessResponse | undefined> {
+    reviewDetails: PostReviewRequestBody
+  ): Promise<ReviewSuccessResponse | undefined> {
     // Convert reviewDetails to a reviewEntity
     const reviewEntity = new ReviewEntity();
     reviewEntity.zid = reviewDetails.zid;
@@ -82,9 +80,9 @@ export class ReviewService {
   }
 
   async updateReview(
-    updatedReviewDetails: IPutReviewRequestBody,
+    updatedReviewDetails: PutReviewRequestBody,
     reviewId: string
-  ): Promise<IPutReviewSuccessResponse | undefined> {
+  ): Promise<ReviewSuccessResponse | undefined> {
     // Get review entity by review id
     let review = await this.reviewRepository.getReview(reviewId);
 
@@ -115,8 +113,8 @@ export class ReviewService {
   }
 
   async bookmarkReview(
-    reviewDetails: IPostReviewsBookmarkRequestBody
-  ): Promise<IPutReviewSuccessResponse | undefined> {
+    reviewDetails: BookmarkReview
+  ): Promise<ReviewSuccessResponse | undefined> {
     const review = await this.reviewRepository.getReview(
       reviewDetails.reviewId
     );
@@ -161,8 +159,8 @@ export class ReviewService {
   }
 
   async upvoteReview(
-    upvoteDetails: IPostReviewUpvoteRequestBody
-  ): Promise<IPostReviewUpvoteSuccessResponse | undefined> {
+    upvoteDetails: UpvoteReview
+  ): Promise<ReviewSuccessResponse | undefined> {
     let review = await this.reviewRepository.getReview(upvoteDetails.reviewId);
 
     if (!review) {

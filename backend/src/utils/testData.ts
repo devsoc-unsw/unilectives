@@ -1,11 +1,11 @@
-import { ICourse } from "ICourse";
+import { Course } from "../api/schemas/course.schema";
 import { UserEntity } from "../entity/User";
-import { IUser } from "IUser";
+import { User } from "../api/schemas/user.schema";
 import { CourseEntity } from "../entity/Course";
-import { IReport } from "IReport";
+import { Report } from "../api/schemas/report.schema";
 import { ReportEntity } from "../entity/Report";
 import { ReviewEntity } from "../entity/Review";
-import { IReview } from "IReview";
+import { Review } from "../api/schemas/review.schema";
 
 export const getCourseEntity = (): CourseEntity => {
   return {
@@ -37,7 +37,7 @@ export const getCourseEntity = (): CourseEntity => {
   };
 };
 
-export const getMockCourses = (): ICourse[] => {
+export const getMockCourses = (): Course[] => {
   return [
     {
       courseCode: "COMP1511",
@@ -94,7 +94,7 @@ export const getMockCourses = (): ICourse[] => {
   ];
 };
 
-export const getMockNewUser = (): IUser => {
+export const getMockNewUser = (): User => {
   return {
     zid: "z5555555",
     bookmarkedCourses: [],
@@ -105,7 +105,7 @@ export const getMockNewUser = (): IUser => {
   };
 };
 
-export const getMockUser = (): IUser => {
+export const getMockUser = (): User => {
   return {
     zid: "z5555555",
     bookmarkedCourses: [
@@ -166,7 +166,7 @@ export const getReportEntity = (date = new Date()): ReportEntity => {
   };
 };
 
-export const getMockReports = (date = new Date()): IReport[] => {
+export const getMockReports = (date = new Date()): Report[] => {
   return [
     {
       reportId: "REPORT1",
@@ -189,7 +189,7 @@ export const getMockReports = (date = new Date()): IReport[] => {
   ];
 };
 
-export const getMockReview = (date = new Date()): IReview => {
+export const getMockReview = (date = new Date()): Review => {
   return {
     reviewId: "REVIEW1",
     zid: "z5555555",
@@ -229,7 +229,7 @@ export const getReviewEntity = (date = new Date()): ReviewEntity => {
   };
 };
 
-export const getMockReviews = (date = new Date()): IReview[] => {
+export const getMockReviews = (date = new Date()): Review[] => {
   return [
     {
       reviewId: "REVIEW1",
@@ -268,7 +268,7 @@ export const getMockReviews = (date = new Date()): IReview[] => {
   ];
 };
 
-export const getMockCOMP2521Reviews = (date = new Date()): IReview[] => {
+export const getMockCOMP2521Reviews = (date = new Date()): Review[] => {
   return [
     {
       reviewId: "REVIEW2",

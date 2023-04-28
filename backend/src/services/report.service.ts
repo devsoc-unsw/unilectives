@@ -4,17 +4,16 @@ import { ReportEntity } from "../entity/Report";
 import { convertReportEntityToInterface } from "../converters/report.converter";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
-import { ReportStatus } from "../interfaces/IReport";
-import {
-  IGetAllReportsSuccessResponse,
-  IPostReportRequestBody,
-  IPostReportSuccessResponse,
-  IUpdateReportRequestBody,
-} from "../interfaces/IApiResponses";
 import { EntityManager } from "typeorm";
 import { ReviewRepository } from "../repositories/review.repository";
 import { UserRepository } from "../repositories/user.repository";
 import { UserEntity } from "../entity/User";
+import {
+  CreateReport,
+  ReportsSuccessResponse,
+  ReportSuccessResponse,
+  UpdateReportStatus,
+} from "../api/schemas/report.schema";
 
 export class ReportService {
   private logger = getLogger();
@@ -23,7 +22,7 @@ export class ReportService {
   private reviewRepository = new ReviewRepository(this.manager);
   private userRepository = new UserRepository(this.manager);
 
-  async getAllReports(): Promise<IGetAllReportsSuccessResponse> {
+  async getAllReports(): Promise<ReportsSuccessResponse> {
     const reports: ReportEntity[] = await this.reportRepository.getAllReports();
     return {
       reports: reports.map(convertReportEntityToInterface),
@@ -31,8 +30,8 @@ export class ReportService {
   }
 
   async createReport(
-    reportDetails: IPostReportRequestBody
-  ): Promise<IPostReportSuccessResponse> {
+    reportDetails: CreateReport
+  ): Promise<ReportSuccessResponse> {
     const { reviewId, zid, reason } = reportDetails;
 
     // check if user already created a report for the review
@@ -56,7 +55,7 @@ export class ReportService {
     newReport.review = review;
     newReport.zid = zid;
     newReport.reason = reason;
-    newReport.status = "UNSEEN" as ReportStatus;
+    newReport.status = "UNSEEN";
 
     const reportResult: ReportEntity = await this.reportRepository.saveReport(
       newReport
@@ -68,8 +67,8 @@ export class ReportService {
   }
 
   async updateReport(
-    reportDetails: IUpdateReportRequestBody
-  ): Promise<IPostReportSuccessResponse> {
+    reportDetails: UpdateReportStatus
+  ): Promise<ReportSuccessResponse> {
     const { reportId, zid, status } = reportDetails;
 
     const reportExists: ReportEntity | null =

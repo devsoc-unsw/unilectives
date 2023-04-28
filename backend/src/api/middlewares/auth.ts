@@ -1,7 +1,7 @@
 import { unauthorizedError } from "../../utils/constants";
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
-import { IToken } from "IToken";
+import { CreateUser } from "../schemas/user.schema";
 
 export const verifyToken = async (
   req: Request,
@@ -18,7 +18,7 @@ export const verifyToken = async (
   }
 
   try {
-    jwt.verify(tokenArray[1], secret) as IToken;
+    jwt.verify(tokenArray[1], secret) as CreateUser;
   } catch (err: any) {
     if (err.name === "TokenExpiredError") {
       return res
