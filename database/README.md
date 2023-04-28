@@ -55,7 +55,7 @@ docker run --rm -itd --name app -e POSTGRES_PASSWORD=password -e POSTGRES_DB=myd
 Then as an example, to apply your changes, run:
 
 ```
-npx prisma migrate dev
+DATABASE_URL="postgresql://postgres:password@0.0.0.0:5432/mydb?schema=cselectives" npx prisma migrate dev
 ```
 
 To optionally connect to the database and verify changes locally via PSQL, run:

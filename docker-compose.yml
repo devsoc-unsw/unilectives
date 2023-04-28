@@ -31,7 +31,7 @@ services:
       POSTGRESQL_USER: postgres
       POSTGRESQL_PASSWORD: password
       POSTGRESQL_DATABASE: mydb
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/mydb?schema=cselectives
     depends_on:
       - postgres
 
