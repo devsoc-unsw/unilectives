@@ -1,4 +1,4 @@
-import { env, firebaseConfig } from "./env";
+import { env } from "./env";
 import express, { Express } from "express";
 import Firebase from "./db/firebase";
 import Postgres from "./db/postgres";
