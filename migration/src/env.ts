@@ -10,6 +10,7 @@ export const env =  envsafe({
   }),
   DB_TYPE: str({
     default: "postgres",
+    choices: ["postgres"],
   }),
   DB_PORT: port({
     default:  5432,
@@ -34,8 +35,3 @@ export const env =  envsafe({
   }),
 });
 
-export const firebaseConfig: FirebaseOptions= {
-  authDomain: env.AUTH_DOMAIN,
-  projectId: env.PROJECT_ID,
-  storageBucket: env.STORAGE_BUCKET,
-}

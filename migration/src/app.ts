@@ -9,7 +9,7 @@ import MigrationService from "./migrate/service";
 export default class App {
   private logger = console;
   private pg = new Postgres("default");
-  private fb = new Firebase(firebaseConfig);
+  private fb = new Firebase(env.AUTH_DOMAIN, env.PROJECT_ID, env.STORAGE_BUCKET);
   private fetcher = new Fetcher();
   private migrationService = new MigrationService(
     this.pg.get().manager,
