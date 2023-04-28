@@ -10,7 +10,7 @@ export default class Postgres {
 
   constructor(readonly connectionName: string) {
     this.dbConnection = new DataSource({
-      type: "postgres",
+      type: env.DB_TYPE as "postgres" | "mysql",
       applicationName: this.connectionName,
       entities: [CourseEntity, ReviewEntity, UserEntity],
       port: env.DB_PORT,

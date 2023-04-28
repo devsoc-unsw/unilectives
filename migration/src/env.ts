@@ -10,7 +10,7 @@ export const env =  envsafe({
   }),
   DB_TYPE: str({
     default: "postgres",
-    choices: ["postgres"],
+    choices: ["postgres", "mysql"],
   }),
   DB_PORT: port({
     default:  5432,
