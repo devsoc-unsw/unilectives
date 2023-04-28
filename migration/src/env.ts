@@ -1,30 +1,29 @@
-import { envsafe, port, str } from 'envsafe';
-import { FirebaseOptions } from 'firebase/app';
+import { envsafe, port, str, url } from 'envsafe';
 
 export const env =  envsafe({
   API_PORT: port({
     default: 8080,
   }),
-  CIRCLES_URL: str({
+  CIRCLES_URL: url({
     default: "https://circlesapi.csesoc.app",
   }),
   DB_TYPE: str({
     default: "postgres",
     choices: ["postgres", "mysql"],
   }),
-  DB_PORT: port({
+  POSTGRESQL_PORT: port({
     default:  5432,
   }), 
-  DB_HOST: str({
+  POSTGRESQL_HOST: str({
     default: "localhost",
   }), 
-  DB_USERNAME: str({
+  POSTGRESQL_USER: str({
     default: "postgres",
   }),
-  DB_PASWORD: str({
+  POSTGRESQL_PASSWORD: str({
     default: "pass",
   }),
-  DB: str({
+  POSTGRESQL_DATABASE: str({
     default:  "mydb",
   }),
   AUTH_DOMAIN: str({

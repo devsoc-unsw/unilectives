@@ -13,11 +13,11 @@ export default class Postgres {
       type: env.DB_TYPE as "postgres" | "mysql",
       applicationName: this.connectionName,
       entities: [CourseEntity, ReviewEntity, UserEntity],
-      port: env.DB_PORT,
-      host: env.DB_HOST,
-      username: env.DB_USERNAME,
-      password: env.DB_PASWORD,
-      database: env.DB,
+      port: env.POSTGRESQL_PORT,
+      host: env.POSTGRESQL_HOST,
+      username: env.POSTGRESQL_USER,
+      password: env.POSTGRESQL_PASSWORD,
+      database: env.POSTGRESQL_DATABASE,
     });
   }
 
