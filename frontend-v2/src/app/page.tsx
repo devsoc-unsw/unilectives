@@ -1,5 +1,4 @@
 'use client'
-import { UniLectives } from "@/components/image/imageIndex";
 import {
   Content, 
   HomeHeader,
@@ -23,7 +22,7 @@ export default function Home() {
   return (
     <Content>
       <HomeHeader>
-        <Logo src={UniLectives} />
+        <Logo src="/images/uni-lectives.svg" />
       </HomeHeader>
       <Flexbox>
         <LandingFlexbox padding="10em">
