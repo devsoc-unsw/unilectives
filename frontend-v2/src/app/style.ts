@@ -128,6 +128,7 @@ interface ButtonProps {
 
 export const AddReviewButton = styled.button<ButtonProps>`
   display: inline-flex;
+  align-items: center;
   border-radius: 20px;
   border: none;
   cursor: pointer;
