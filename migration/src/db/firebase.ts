@@ -7,16 +7,18 @@ import {
 } from "firebase/firestore/lite";
 import { IOldCourse } from "src/types/ICourse";
 import { IOldReview } from "src/types/IReview";
+import { env } from "src/env";
 
 export default class Firebase {
   private config: FirebaseOptions;
   private store: Firestore;
 
-  constructor() {
+  constructor(firebaseConfig: FirebaseOptions) {
     this.config = {
-      authDomain: process.env.AUTH_DOMAIN,
-      projectId: process.env.PROJECT_ID,
-      storageBucket: process.env.STORAGE_BUCKET,
+      ...firebaseConfig,
+      authDomain: env.AUTH_DOMAIN,
+      projectId: env.PROJECT_ID,
+      storageBucket: env.STORAGE_BUCKET,
     };
   }
 

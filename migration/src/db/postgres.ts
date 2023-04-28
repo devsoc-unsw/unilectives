@@ -3,7 +3,6 @@ import { DataSource } from "typeorm";
 import { CourseEntity } from "../entity/Course";
 import { ReviewEntity } from "../entity/Review";
 import { UserEntity } from "../entity/User";
-import { IDatabaseConfig } from "src/types/IConfig";
 
 export default class Postgres {
   private logger = console;
@@ -15,10 +14,10 @@ export default class Postgres {
       applicationName: this.connectionName,
       entities: [CourseEntity, ReviewEntity, UserEntity],
       port: env.DB_PORT,
-      host: process.env.POSTGRESQL_HOST ?? env.DB_HOST,
-      username: process.env.POSTGRESQL_USER ?? env.DB_USERNAME,
-      password: process.env.POSTGRESQL_PASSWORD ?? env.DB_PASWORD,
-      database: process.env.POSTGRESQL_DATABASE ?? env.DB,
+      host: env.DB_HOST,
+      username: env.DB_USERNAME,
+      password: env.DB_PASWORD,
+      database: env.DB,
     });
   }
 

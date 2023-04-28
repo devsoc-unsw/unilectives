@@ -1,4 +1,5 @@
 import { envsafe, port, str } from 'envsafe';
+import { FirebaseOptions } from 'firebase/app';
 
 export const env =  envsafe({
   API_PORT: port({
@@ -32,3 +33,9 @@ export const env =  envsafe({
   STORAGE_BUCKET: str({
   }),
 });
+
+export const firebaseConfig: FirebaseOptions= {
+  authDomain: env.AUTH_DOMAIN,
+  projectId: env.PROJECT_ID,
+  storageBucket: env.STORAGE_BUCKET,
+}

@@ -1,4 +1,4 @@
-import { env } from "./env";
+import { env, firebaseConfig } from "./env";
 import express, { Express } from "express";
 import Firebase from "./db/firebase";
 import Postgres from "./db/postgres";
@@ -9,7 +9,7 @@ import MigrationService from "./migrate/service";
 export default class App {
   private logger = console;
   private pg = new Postgres("default");
-  private fb = new Firebase();
+  private fb = new Firebase(firebaseConfig);
   private fetcher = new Fetcher();
   private migrationService = new MigrationService(
     this.pg.get().manager,
