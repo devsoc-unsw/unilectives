@@ -1,4 +1,4 @@
-import config from "config";
+import { env } from "src/env";
 import { DataSource } from "typeorm";
 import { CourseEntity } from "../entity/Course";
 import { ReviewEntity } from "../entity/Review";
@@ -10,15 +10,15 @@ export default class Postgres {
   private dbConnection: DataSource;
 
   constructor(readonly connectionName: string) {
-    const dbConfig: IDatabaseConfig = config.get("database");
     this.dbConnection = new DataSource({
+      type: "postgres",
       applicationName: this.connectionName,
       entities: [CourseEntity, ReviewEntity, UserEntity],
-      ...dbConfig,
-      host: process.env.POSTGRESQL_HOST ?? dbConfig.host,
-      username: process.env.POSTGRESQL_USER ?? dbConfig.username,
-      password: process.env.POSTGRESQL_PASSWORD ?? dbConfig.password,
-      database: process.env.POSTGRESQL_DATABASE ?? dbConfig.database,
+      port: env.DB_PORT,
+      host: process.env.POSTGRESQL_HOST ?? env.DB_HOST,
+      username: process.env.POSTGRESQL_USER ?? env.DB_USERNAME,
+      password: process.env.POSTGRESQL_PASSWORD ?? env.DB_PASWORD,
+      database: process.env.POSTGRESQL_DATABASE ?? env.DB,
     });
   }
 

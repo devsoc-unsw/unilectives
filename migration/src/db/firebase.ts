@@ -12,9 +12,8 @@ export default class Firebase {
   private config: FirebaseOptions;
   private store: Firestore;
 
-  constructor(firebaseConfig: FirebaseOptions) {
+  constructor() {
     this.config = {
-      ...firebaseConfig,
       authDomain: process.env.AUTH_DOMAIN,
       projectId: process.env.PROJECT_ID,
       storageBucket: process.env.STORAGE_BUCKET,

@@ -1,4 +1,4 @@
-import config from "config";
+import { env } from "./env";
 import express, { Express } from "express";
 import Firebase from "./db/firebase";
 import Postgres from "./db/postgres";
@@ -9,7 +9,7 @@ import MigrationService from "./migrate/service";
 export default class App {
   private logger = console;
   private pg = new Postgres("default");
-  private fb = new Firebase(config.get("firebase"));
+  private fb = new Firebase();
   private fetcher = new Fetcher();
   private migrationService = new MigrationService(
     this.pg.get().manager,
@@ -33,7 +33,7 @@ export default class App {
     this.logger.info("Starting up...");
     await this.pg.start();
     await this.fb.start();
-    this.ex.listen(config.get("api.port"));
+    this.ex.listen(env.API_PORT);
 
     this.logger.info("Started up!");
   }
