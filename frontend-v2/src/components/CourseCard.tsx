@@ -1,23 +1,25 @@
-interface CourseCardProps {
+// Type for the course card component
+type CourseCardProps = {
   code: string;
   name: string;
   rating: number;
-  reviews: number;
+  numReviews: number;
   terms: {
     summer?: boolean;
     term1?: boolean;
     term2?: boolean;
     term3?: boolean;
   };
-}
+};
 
-const CourseCard = ({
+// Course card component
+export default function CourseCard({
   code,
   name,
   rating,
-  reviews,
+  numReviews,
   terms,
-}: CourseCardProps) => {
+}: CourseCardProps) {
   // Convert percentage to 1 decimal float
   const percentage = parseFloat(
     (((rating > 5 ? 5 : rating) / 5) * 100).toFixed(1)
@@ -29,7 +31,7 @@ const CourseCard = ({
       <div className="flex flex-wrap justify-between text-2xl">
         {/* Rating */}
         <h1 className="font-bold">{code}</h1>
-        <div className="relative text-2xl text-right text-unilectives-subheadings">
+        <div className="relative text-2xl text-right text-unilectives-subheadings/30">
           <span aria-label="rating" className="">
             ★★★★★
           </span>
@@ -41,12 +43,12 @@ const CourseCard = ({
             ★★★★★
           </span>
           {/* Number of reviews */}
-          <p className="text-xs">
+          <p className="text-xs text-unilectives-subheadings">
             {/* Format number to their abbreviated string e.g 1000 to 1k, or 1000000 to 1M */}
             {Intl.NumberFormat("en-US", {
               notation: "compact",
               maximumFractionDigits: 1,
-            }).format(reviews)}{" "}
+            }).format(numReviews)}{" "}
             reviews
           </p>
         </div>
@@ -80,6 +82,4 @@ const CourseCard = ({
       </div>
     </div>
   );
-};
-
-export default CourseCard;
+}
