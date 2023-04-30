@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import landingCurve from "src/assets/curves/fullScreen.svg";
 
 export const Content = styled.div`
   width: 100dvw;
   height: 100dvh;
-  background-image: url(${landingCurve});
+  background-image: url('/images/Navbar.png');
   // background-size: cover;
   background-size: 100vw;
   background-repeat: no-repeat;
