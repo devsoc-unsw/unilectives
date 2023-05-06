@@ -2,7 +2,7 @@ export const HomeText = () => {
   return (
     <div className="flex flex-row justify-between">
       <div className="justify-center items-center pl-0 w-full pt-standard">
-        <div className="flex flex-row w-full justify-between gap-[10px] mt-[18em]">
+        <div className="flex flex-row w-full justify-between gap-[10px] mt-[15em]">
           <div className="flex flex-col gap-[10px] ml-[18em]">
             <p className="whitespace-no-wrap items-center justify-center drop-shadow-md italic font-lato">
               CSESoc presents
