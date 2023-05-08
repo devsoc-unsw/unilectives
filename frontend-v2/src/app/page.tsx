@@ -1,7 +1,28 @@
 'use client'
+import { useState, useEffect } from 'react';
 import { Content } from "./style";
 
+interface CourseData {
+  name: string;
+}
+
+export async function getCoursesData(): Promise<CourseData> {
+  const response = await fetch('https://swapi.dev/api/people/1');
+  const data = await response.json();
+  return data;
+}
+
 export default function Home() {
+  const [courses, retrieveCourses] = useState<CourseData | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getCoursesData();
+      retrieveCourses(data);
+    }
+    fetchData();
+  }, []);
+
   return (
     <Content>
       <div className="flex">
@@ -44,18 +65,4 @@ export default function Home() {
       </div>
     </Content>
   );
-}
-
-export async function getServerSideProps() {
-  const response = await fetch('localhost:3030/api/v1/courses', {
-    method: 'GET'
-  });
-  const data = await response.json();
-
-  return {
-    props: {
-      courses: data,
-      reviews: data
-    }
-  }
 }

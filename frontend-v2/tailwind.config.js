@@ -19,4 +19,7 @@ module.exports = {
     },
   },
   plugins: [],
+  gridTemplateColumns: {
+    "responsive-cards": "repeat(auto-fit, minmax(315px, 1fr))",
+  },
 };
