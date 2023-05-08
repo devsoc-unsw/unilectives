@@ -28,7 +28,6 @@ export class CourseRepository {
       .addGroupBy("c.field_of_education")
       .addGroupBy("c.gen_ed")
       .addGroupBy("c.level")
-      .addGroupBy("c.prerequisites")
       .addGroupBy("c.school")
       .addGroupBy("c.study_level")
       .addGroupBy("c.terms")
@@ -49,7 +48,6 @@ export class CourseRepository {
       course.fieldOfEducation = rawCourse.field_of_education;
       course.genEd = rawCourse.gen_ed;
       course.level = rawCourse.level;
-      course.prerequisites = rawCourse.prerequisites;
       course.school = rawCourse.school;
       course.studyLevel = rawCourse.study_level;
       course.terms = rawCourse.terms;
@@ -89,7 +87,6 @@ export class CourseRepository {
       .addGroupBy("c.field_of_education")
       .addGroupBy("c.gen_ed")
       .addGroupBy("c.level")
-      .addGroupBy("c.prerequisites")
       .addGroupBy("c.school")
       .addGroupBy("c.study_level")
       .addGroupBy("c.terms")
@@ -114,7 +111,6 @@ export class CourseRepository {
       course.fieldOfEducation = rawCourse.field_of_education;
       course.genEd = rawCourse.gen_ed;
       course.level = rawCourse.level;
-      course.prerequisites = rawCourse.prerequisites;
       course.school = rawCourse.school;
       course.studyLevel = rawCourse.study_level;
       course.terms = rawCourse.terms;

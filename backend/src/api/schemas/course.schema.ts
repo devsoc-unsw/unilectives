@@ -53,7 +53,6 @@ export const CourseSchema = z
     fieldOfEducation: z.string(),
     genEd: z.boolean(),
     level: z.number(),
-    prerequisites: z.string().array(),
     school: z.string(),
     studyLevel: z.string(),
     terms: z.number().array(),

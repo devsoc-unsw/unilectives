@@ -42,9 +42,6 @@ export class CourseEntity {
   @Column("integer", { name: "level", nullable: false })
   level: number;
 
-  @Column("text", { array: true, name: "prerequisites", nullable: false })
-  prerequisites: string[];
-
   @Column("text", { name: "school", nullable: false })
   school: string;
 
