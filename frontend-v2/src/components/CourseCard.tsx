@@ -32,9 +32,7 @@ export default function CourseCard({
         {/* Rating */}
         <h1 className="font-bold">{code}</h1>
         <div className="relative text-2xl text-right text-unilectives-subheadings/30">
-          <span aria-label="rating" className="">
-            ★★★★★
-          </span>
+          <span aria-label="rating">★★★★★</span>
           <span
             className="absolute inset-0 bg-unilectives-purple text-transparent bg-clip-text"
             style={{ width: `${percentage}%` }}
