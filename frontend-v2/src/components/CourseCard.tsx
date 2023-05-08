@@ -4,7 +4,7 @@ type CourseCardProps = {
   name: string;
   rating: number;
   numReviews: number;
-  terms: {
+  terms?: {
     summer?: boolean;
     term1?: boolean;
     term2?: boolean;
@@ -26,15 +26,13 @@ export default function CourseCard({
   );
 
   return (
-    <div className="box-border px-6 py-7 bg-unilectives-card shadow-card rounded-xl space-y-2">
+    <div className="box-border px-6 py-7 bg-unilectives-card shadow-card rounded-xl space-y-2 cursor-pointer">
       {/* Course code + Ratings */}
       <div className="flex flex-wrap justify-between text-2xl">
         {/* Rating */}
         <h1 className="font-bold">{code}</h1>
         <div className="relative text-2xl text-right text-unilectives-subheadings/30">
-          <span aria-label="rating" className="">
-            ★★★★★
-          </span>
+          <span aria-label="rating">★★★★★</span>
           <span
             className="absolute inset-0 bg-unilectives-purple text-transparent bg-clip-text"
             style={{ width: `${percentage}%` }}
@@ -59,22 +57,22 @@ export default function CourseCard({
       </p>
       {/* Terms */}
       <div className="flex flex-wrap gap-2">
-        {terms.summer && (
+        {terms && terms.summer && (
           <span className="bg-unilectives-tags text-xs py-1 px-2 rounded-full">
             Summer
           </span>
         )}
-        {terms.term1 && (
+        {terms && terms.term1 && (
           <span className="bg-unilectives-tags text-xs py-1 px-2 rounded-full">
             Term 1
           </span>
         )}
-        {terms.term2 && (
+        {terms && terms.term2 && (
           <span className="bg-unilectives-tags text-xs py-1 px-2 rounded-full">
             Term 2
           </span>
         )}
-        {terms.term3 && (
+        {terms && terms.term3 && (
           <span className="bg-unilectives-tags text-xs py-1 px-2 rounded-full">
             Term 3
           </span>
