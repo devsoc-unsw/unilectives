@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { Content } from "./style";
+import CourseCard from "../components/CourseCard";
 
 interface CourseData {
   name: string;
@@ -42,7 +43,7 @@ export default function Home() {
                 Your one-stop shop for UNSW course and elective reviews.
               </p>
             </div>
-            <div className="flex flex-row mr-0 gap-px items-center justify-center mr-[18em]">
+            <div className="flex flex-row gap-px items-center justify-center mr-[18em]">
               <button className="px-[28px] py-[13px] rounded-3xl bg-unilectives_blue hover:bg-unilectives_blue2 hover:scale-[0.98]">
                 <p className="whitespace-no-wrap items-center drop-shadow justify-center font-lato text-white font-semibold">
                   Add a Review
@@ -52,15 +53,26 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col space-between">
+      <div className="flex flex-col space-between gap-[5em]">
         <div className="flex overflow-hidden flex-row mt-[2em] ml-[18em] mr-[18em] rounded-full border-2 border-unilectives_blue">
           <section className="flex flex-row space-between w-full h-10">
             <span className="w-[3em] h-[3em]">
-              <img className="p-[0.9em]" src="/images/search-icon.svg" />
+              <img className="p-[0.8em]" src="/images/search-icon.svg" />
             </span>
             <input type="text" className="w-full h-full bg-slate-0 placeholder:italic placeholder-unilectives_blue focus:outline-none"
               placeholder="Search for a course e.g. COMP1511"></input>
           </section>
+        </div>
+        <div className="grid grid-cols-responsive-cards gap-4 pl-[18em] pr-[18em]">
+          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
+          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
+          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
+          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
+          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
+          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
+          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
+          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
+          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
         </div>
       </div>
     </Content>
