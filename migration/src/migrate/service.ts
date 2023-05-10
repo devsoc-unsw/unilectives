@@ -3,14 +3,14 @@ import { CourseEntity } from "src/entity/Course";
 import { ReviewEntity } from "src/entity/Review";
 import { IResponse } from "src/types/IApi";
 import { CirclesCourse } from "src/types/ICircles";
-import { EntityManager } from "typeorm";
 import Fetcher from "./fetcher";
+import MigrationRepository from "./repository";
 
 export default class MigrationService {
   constructor(
-    readonly manager: EntityManager,
     readonly fb: Firebase,
-    readonly fetcher: Fetcher
+    readonly fetcher: Fetcher,
+    readonly migrationRepository: MigrationRepository
   ) {}
 
   async migrateReviews(): Promise<IResponse> {
@@ -35,7 +35,7 @@ export default class MigrationService {
         return entity;
       });
 
-      await this.saveReviews(newReviews);
+      await this.migrationRepository.insertReviews(newReviews);
       return {
         status: "SUCCESS",
         message: "Successfully migrated reviews",
@@ -50,9 +50,8 @@ export default class MigrationService {
 
   async migrateCourses(): Promise<IResponse> {
     try {
-      const courses: CourseEntity[] = [];
       const circleCourses = await this.fetcher.getCourses();
-
+      const courses: CourseEntity[] = [];
       const courseSet = new Set<string>();
 
       for (const course of circleCourses) {
@@ -63,7 +62,7 @@ export default class MigrationService {
         courses.push(this.convertToCourseEntity(course));
         courseSet.add(course.code);
       }
-      await this.saveCourses(courses);
+      await this.migrationRepository.insertCourses(courses);
 
       return {
         status: "SUCCESS",
@@ -79,12 +78,11 @@ export default class MigrationService {
 
   async flush(): Promise<IResponse> {
     try {
-      await this.manager.query("DELETE FROM reviews");
-      await this.manager.query("DELETE FROM courses");
+      await this.migrationRepository.flush();
       return {
         status: "SUCCESS",
         message: "Successfully flushed database",
-      };
+      }
     } catch (err: any) {
       return {
         status: "FAILURE",
@@ -141,34 +139,5 @@ export default class MigrationService {
     entity.rating = -1;
 
     return entity;
-  }
-
-  async saveReviews(reviews: ReviewEntity[]): Promise<void> {
-    await this.manager
-      .createQueryBuilder()
-      .insert()
-      .into("reviews")
-      .values(reviews)
-      .execute();
-  }
-
-  async saveCourses(courses: CourseEntity[]): Promise<void> {
-    try {
-      await this.manager
-        .createQueryBuilder()
-        .insert()
-        .into("courses")
-        .values(courses)
-        .execute();
-    } catch {
-      for (const course of courses) {
-        await this.manager
-          .createQueryBuilder()
-          .update("courses")
-          .set(course)
-          .where("courseCode = :courseCode", { courseCode: course.courseCode })
-          .execute();
-      }
-    }
   }
 }
