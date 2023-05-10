@@ -1,35 +1,24 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { Content } from "./style";
+import getAllCourses from "../../lib/getAllCourses";
 import CourseCard from "../components/CourseCard";
 
-interface CourseData {
-  name: string;
-}
-
-export async function getCoursesData(): Promise<CourseData> {
-  const response = await fetch('https://swapi.dev/api/people/1');
-  const data = await response.json();
-  return data;
-}
-
-export default function Home() {
-  const [courses, retrieveCourses] = useState<CourseData | null>(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getCoursesData();
-      retrieveCourses(data);
-    }
-    fetchData();
-  }, []);
+export default async function Home() {
+  const retrieveCourses: Promise<Course[]> = getAllCourses();
+  const courses: Course[] = await retrieveCourses;
+  console.log(courses);
 
   return (
     <Content>
+      {/* Logo */}
       <div className="flex">
         <img className="pt-[1rem] pl-[5rem]" src="/images/uni-lectives.svg" />
       </div>
+      {/* Landing screen main container */}      
       <div className="flex flex-row justify-between">
+        
+        {/* Home text */}
         <div className="justify-center items-center pl-0 w-full pt-standard">
           <div className="flex flex-row w-full justify-between gap-[10px] mt-[15em]">
             <div className="flex flex-col gap-[10px] ml-[18em]">
@@ -43,6 +32,7 @@ export default function Home() {
                 Your one-stop shop for UNSW course and elective reviews.
               </p>
             </div>
+            {/* 'Add a Review' button */}
             <div className="flex flex-row gap-px items-center justify-center mr-[18em]">
               <button className="px-[28px] py-[13px] rounded-3xl bg-unilectives_blue hover:bg-unilectives_blue2 hover:scale-[0.98]">
                 <p className="whitespace-no-wrap items-center drop-shadow justify-center font-lato text-white font-semibold">
@@ -53,6 +43,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {/* Search bar */}
       <div className="flex flex-col space-between gap-[5em]">
         <div className="flex overflow-hidden flex-row mt-[2em] ml-[18em] mr-[18em] rounded-full border-2 border-unilectives_blue">
           <section className="flex flex-row space-between w-full h-10">
@@ -63,17 +54,12 @@ export default function Home() {
               placeholder="Search for a course e.g. COMP1511"></input>
           </section>
         </div>
-        <div className="grid grid-cols-responsive-cards gap-4 pl-[18em] pr-[18em]">
-          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
-          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
-          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
-          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
-          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
-          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
-          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
-          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
-          <CourseCard code="COMP1521" name="Computer System Fundamentals" rating={2.5} numReviews={69}/>
-        </div>
+        {/* Course Cards */}
+        {/* <div className="grid grid-cols-responsive-cards gap-4 pl-[18em] pr-[18em]">
+          {courses.slice(0, 10).map(course => (
+            <CourseCard name="{course.fact}" code="x" rating={2} numReviews={1}/>
+          ))};
+        </div> */}
       </div>
     </Content>
   );
