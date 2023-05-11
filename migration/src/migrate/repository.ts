@@ -23,26 +23,40 @@ export default class MigrationRepository {
       .execute();
   }
 
-  async upsertCourses(): Promise<void> {
-    // update course info and add any new courses into the database
+  async upsertCourses(courses: CourseEntity[]): Promise<void> {
+    for (const course of courses) {
+      await this.manager
+        .createQueryBuilder() 
+        .insert()
+        .into("courses")
+        .values(course)
+        .orUpdate([
+          "archived", 
+          "attributes", 
+          "calendar", 
+          "campus", 
+          "description", 
+          "enrolmentRules", 
+          "equivalents", 
+          "exclusions", 
+          "faculty", 
+          "fieldOfEducation", 
+          "genEd", 
+          "level", 
+          "school", 
+          "studyLevel", 
+          "terms", 
+          "title", 
+          "uoc", 
+          "rating", 
+          ],
+          ["courseCode"]
+        )
+        .execute()
+      }
   }
-
   async flush(): Promise<void> {
     await this.manager.query("DELETE FROM courses");
     await this.manager.query("DELETE FROM reviews");
   }
 }
-
-
-
-
-
-    // } catch {
-    //   for (const course of courses) {
-    //     await this.manager
-    //       .createQueryBuilder()
-    //       .update("courses")
-    //       .set(course)
-    //       .where("courseCode = :courseCode", { courseCode: course.courseCode })
-    //       .execute();
-    //   }

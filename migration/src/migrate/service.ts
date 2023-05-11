@@ -67,8 +67,9 @@ export default class MigrationService {
 
   async updateCourses(): Promise<IResponse> {
     try {
-      // get circles courses
-      // call upsertcourses from repository
+      const courses = await this.getCirclesCourses();
+      await this.migrationRepository.upsertCourses(courses);
+
       return {
         status: "SUCCESS",
         message: "Successfully updated courses",
