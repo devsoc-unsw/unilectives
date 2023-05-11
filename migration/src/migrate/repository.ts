@@ -3,6 +3,8 @@ import { CourseEntity } from "src/entity/Course";
 import { ReviewEntity } from "src/entity/Review";
 
 export default class MigrationRepository {
+  private readonly logger = console;
+
   constructor(private readonly manager: EntityManager) {}
   
   async insertReviews(reviews: ReviewEntity[]): Promise<void> {
@@ -25,6 +27,7 @@ export default class MigrationRepository {
 
   async upsertCourses(courses: CourseEntity[]): Promise<void> {
     for (const course of courses) {
+      this.logger.debug(`Updating/inserting course with course code ${course.courseCode}`)
       await this.manager
         .createQueryBuilder() 
         .insert()
@@ -59,7 +62,6 @@ export default class MigrationRepository {
   }
 
   async flush(): Promise<void> {
-    await this.manager.query("DELETE FROM courses");
     await this.manager.query("DELETE FROM reviews");
   }
 }
