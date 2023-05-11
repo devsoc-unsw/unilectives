@@ -50,23 +50,28 @@ export default class MigrationService {
 
   async migrateCourses(): Promise<IResponse> {
     try {
-      const circleCourses = await this.fetcher.getCourses();
-      const courses: CourseEntity[] = [];
-      const courseSet = new Set<string>();
-
-      for (const course of circleCourses) {
-        if (courseSet.has(course.code)) {
-          continue;
-        }
-
-        courses.push(this.convertToCourseEntity(course));
-        courseSet.add(course.code);
-      }
+      const courses = await this.getCirclesCourses();
       await this.migrationRepository.insertCourses(courses);
 
       return {
         status: "SUCCESS",
         message: "Successfully migrated courses",
+      };
+    } catch (err: any) {
+      return {
+        status: "FAILURE",
+        message: err.message,
+      };
+    }
+  }
+
+  async updateCourses(): Promise<IResponse> {
+    try {
+      // get circles courses
+      // call upsertcourses from repository
+      return {
+        status: "SUCCESS",
+        message: "Successfully updated courses",
       };
     } catch (err: any) {
       return {
@@ -139,5 +144,21 @@ export default class MigrationService {
     entity.rating = -1;
 
     return entity;
+  }
+
+  async getCirclesCourses(): Promise<CourseEntity[]> {
+    const circlesCourses = await this.fetcher.getCourses();
+    const courses: CourseEntity[] = [];
+    const courseSet = new Set<string>();
+
+    for (const course of circlesCourses) {
+      if (courseSet.has(course.code)) {
+        continue;
+      }
+
+      courses.push(this.convertToCourseEntity(course));
+      courseSet.add(course.code);
+    }
+    return courses;
   }
 }
