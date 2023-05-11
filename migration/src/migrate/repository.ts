@@ -30,27 +30,29 @@ export default class MigrationRepository {
         .insert()
         .into("courses")
         .values(course)
-        .orUpdate([
-          "archived", 
-          "attributes", 
-          "calendar", 
-          "campus", 
-          "description", 
-          "enrolmentRules", 
-          "equivalents", 
-          "exclusions", 
-          "faculty", 
-          "fieldOfEducation", 
-          "genEd", 
-          "level", 
-          "school", 
-          "studyLevel", 
-          "terms", 
-          "title", 
-          "uoc", 
-          "rating", 
+        .orUpdate(
+          [
+            "archived", 
+            "attributes", 
+            "calendar", 
+            "campus", 
+            "description", 
+            "enrolmentRules", 
+            "equivalents", 
+            "exclusions", 
+            "faculty", 
+            "fieldOfEducation", 
+            "genEd", 
+            "level", 
+            "school", 
+            "studyLevel", 
+            "terms", 
+            "title", 
+            "uoc", 
+            "rating", 
           ],
-          ["courseCode"]
+          ["courseCode"],
+          { skipUpdateIfNoValuesChanged: true },
         )
         .execute()
       }
