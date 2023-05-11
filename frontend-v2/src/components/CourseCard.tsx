@@ -1,4 +1,4 @@
-import Rating from "./Rating";
+import StarRating from "./StarRating";
 import TermsGroup from "./TermsGroup";
 
 // Type for the course card component
@@ -24,8 +24,8 @@ export default function CourseCard({
       <div className="flex flex-wrap justify-between text-2xl">
         <h1 className="font-bold">{courseCode}</h1>
         <div>
-          {/* Rating */}
-          <Rating rating={rating} />
+          {/* StarRating */}
+          <StarRating rating={rating} />
           {/* Number of reviews */}
           <p className="text-xs text-unilectives-subheadings">
             {/* Format number to their abbreviated string e.g 1000 to 1k, or 1000000 to 1M */}

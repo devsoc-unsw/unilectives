@@ -1,34 +1,53 @@
 export default function DoughnutChart({
-  label,
   rating,
+  width,
+  strokeWidth,
 }: {
-  label: string;
   rating: number;
+  width: number;
+  strokeWidth: number;
 }) {
   // Convert percentage to 1 decimal float
   const percentage = parseFloat(
     (((rating > 5 ? 5 : rating) / 5) * 100).toFixed(1)
   );
 
-  console.log(Math.round((percentage / 100) * 440));
+  // Get radius, dasharray and dashoffset values
+  const radius = width / 2 - strokeWidth;
+  const dashArray = radius * Math.PI * 2;
+  const dashOffset = dashArray - (dashArray * percentage) / 100;
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <svg viewBox="0 0 100 100" width={90} height={90}>
+    <div className="flex relative flex-col justify-center w-fit items-center">
+      <svg
+        className="-scale-x-100"
+        width={width}
+        height={width}
+        viewBox={`0 0 ${width} ${width}`}
+      >
         <circle
-          className="fill-none stroke-unilectives-purple stroke-[10]"
-          cx="40"
-          cy="40"
-          r="40"
+          className="fill-none stroke-unilectives-purple/20"
+          cx={width / 2}
+          cy={width / 2}
+          r={radius}
+          strokeWidth={strokeWidth}
         ></circle>
         <circle
-          className="fill-none stroke-unilectives-purple stroke-[10]"
-          cx="40"
-          cy="40"
-          r="40"
+          className="fill-none stroke-unilectives-purple"
+          cx={width / 2}
+          cy={width / 2}
+          r={radius}
+          strokeWidth={strokeWidth}
+          strokeDasharray={dashArray}
+          strokeDashoffset={dashOffset}
+          strokeLinecap="round"
+          transform={`rotate(-90 ${width / 2} ${width / 2})`}
         ></circle>
       </svg>
-      <span className="absolute">{rating.toFixed(1)} / 5</span>
+      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">
+        <span className="text-2xl font-bold">{rating.toFixed(1)}</span>
+        <span className="text-sm font-bold text-black/50">/ 5</span>
+      </span>
     </div>
   );
 }

@@ -33,7 +33,6 @@ module.exports = {
         "unilectives-purple": "#B789E5",
         "unilectives-indigo": "#9BADE8",
         "unilectives-icon": "#60A8D8",
-        "unilectives-tags-2": "#F7D6E0",
       },
       boxShadow: {
         btn: "-0.313rem 0.313rem 0.625rem -0.063rem rgb(0 0 0 / 15%)",
@@ -43,9 +42,6 @@ module.exports = {
       },
       fontFamily: {
         custom: ["TT Commons Pro Variable", "Segoe UI", "Arial", "sans-serif"],
-      },
-      backgroundImage: {
-        chart: "conic-gradient(#B789E5 90deg, #989898 360deg)",
       },
     },
   },
@@ -62,5 +58,6 @@ module.exports = {
         },
       });
     }),
+    require("tailwind-scrollbar"),
   ],
 };

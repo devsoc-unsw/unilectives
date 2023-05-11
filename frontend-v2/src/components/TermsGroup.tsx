@@ -5,7 +5,7 @@ export default function TermsGroup({ terms }: { terms: number[] }) {
   const termsObj = terms.reduce(
     (result: Record<string, boolean>, index: number) => {
       const termsArray = ["summer", "term1", "term2", "term3"];
-      result[termsArray[index]] = true;
+      if (!result[termsArray[index]]) result[termsArray[index]] = true;
       return result;
     },
     {}
