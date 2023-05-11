@@ -57,6 +57,7 @@ export default class MigrationRepository {
         .execute()
       }
   }
+
   async flush(): Promise<void> {
     await this.manager.query("DELETE FROM courses");
     await this.manager.query("DELETE FROM reviews");
