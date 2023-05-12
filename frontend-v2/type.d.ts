@@ -1,8 +1,21 @@
+// type Course = {
+//     userId: number,
+//     id: number,
+//     title: string,
+//     completed: boolean
+// }
+
 type Course = {
-    userId: number,
-    id: number,
-    title: string,
-    completed: boolean
+    faculty: string,
+    code: string,
+    name: string,
+    terms: string[],
+    rating: number; // same as overallRating
+    reviewCount: number;
+    overallRating: number;
+    manageability: number;
+    usefulness: number;
+    enjoyability: number;
 }
 
 // type Course = {

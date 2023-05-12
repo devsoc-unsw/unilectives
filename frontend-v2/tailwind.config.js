@@ -22,10 +22,11 @@ module.exports = {
     },
     extend: {
       backgroundColor: {
-        'unilectives-bg': '#FDFDFD'
+        'unilectives-blue1': '#1279F2',
+        'unilectives-blue2': '#4B94EB'
       },
       colors: {
-        'unilectives_blue': '#1279F2',
+        'unilectives-blue': '#1279F2',
         'unilectives-headings': '#202020',
         'unilectives-subheadings': '#989898',
         'unilectives-placeholder': '#606060',
@@ -33,7 +34,10 @@ module.exports = {
         'unilectives-card': '#FAFAFA',
         'unilectives-light-blue': '#84CEE7',
         'unilectives-purple': '#B789E5',
-        'unilectives-indigo': '#9BADE8'
+        'unilectives-indigo': '#9BADE8',
+        'term-blue': '#247BA0',
+        'faculty-blue': '#13293D'
+
       },
       flexShrink: {
         'std': '2'
