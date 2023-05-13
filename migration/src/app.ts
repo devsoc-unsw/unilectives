@@ -5,16 +5,18 @@ import Postgres from "./db/postgres";
 import MigrationController from "./migrate";
 import Fetcher from "./migrate/fetcher";
 import MigrationService from "./migrate/service";
+import MigrationRepository from"./migrate/repository";
 
 export default class App {
   private logger = console;
   private pg = new Postgres("default");
   private fb = new Firebase(config.get("firebase"));
   private fetcher = new Fetcher();
+  private migrationRepository = new MigrationRepository(this.pg.get().manager);
   private migrationService = new MigrationService(
-    this.pg.get().manager,
     this.fb,
-    this.fetcher
+    this.fetcher,
+    this.migrationRepository
   );
   private migrationController = new MigrationController(this.migrationService);
   private ex = this.setupExpress();
