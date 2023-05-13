@@ -30,68 +30,68 @@ export default function Home() {
   const [selectedTerms, setSelectedTerms] = useState<string[]>([]);
   
   // Retrieve the courses with useEffect (which has a callback)
-  // const [courses, setCourses] = useState<Course[]>([]);
-  // useEffect(() => {
-  //   getAllCourses().then(setCourses);
-  // }, [])
+  const [courses, setCourses] = useState<Course[]>([]);
+  useEffect(() => {
+    getAllCourses().then(setCourses);
+  }, [])
 
-  const courses=[
-    {faculty: "Arts",
-    name: "LOLOL",
-    code: "HULULU",
-    terms: ["Term 1", "Term 2"],
-    rating: 3, // same as overallRating
-    reviewCount: 3,
-    overallRating: 3,
-    manageability: 3,
-    usefulness: 3,
-    enjoyability: 3,},
-    {faculty: "Arts",
-    name: "XDDD!!!",
-    code: "so close to done",
-    terms: ["Term 1", "Term 2"],
-    rating: 4, // same as overallRating
-    reviewCount: 4,
-    overallRating: 4,
-    manageability: 4,
-    usefulness: 4,
-    enjoyability: 4,},
-    {faculty: "Engineering",
-    name: "Never Do Frontend",
-    terms: ["Term 1", "Term 2"],
-    code: "HAXD1011",
-    rating: 3, // same as overallRating
-    reviewCount: 3,
-    overallRating: 3,
-    manageability: 3,
-    usefulness: 3,
-    enjoyability: 3,},
-    {faculty: "Engineering",
-    name: "StanIU",
-    terms: ["Term 1", "Term 2", "Term 3"],
-    code: "SLAY9622",
-    rating: 4, // same as overallRating
-    reviewCount: 4,
-    overallRating: 4,
-    manageability: 4,
-    usefulness: 4,
-    enjoyability: 18,},
-  ]
+  // const courses=[
+  //   {faculty: "Arts",
+  //   name: "LOLOL",
+  //   code: "HULULU",
+  //   terms: ["Term 1", "Term 2"],
+  //   rating: 3, // same as overallRating
+  //   reviewCount: 3,
+  //   overallRating: 3,
+  //   manageability: 3,
+  //   usefulness: 3,
+  //   enjoyability: 3,},
+  //   {faculty: "Arts",
+  //   name: "XDDD!!!",
+  //   code: "so close to done",
+  //   terms: ["Term 1", "Term 2"],
+  //   rating: 4, // same as overallRating
+  //   reviewCount: 4,
+  //   overallRating: 4,
+  //   manageability: 4,
+  //   usefulness: 4,
+  //   enjoyability: 4,},
+  //   {faculty: "Engineering",
+  //   name: "Never Do Frontend",
+  //   terms: ["Term 1", "Term 2"],
+  //   code: "HAXD1011",
+  //   rating: 3, // same as overallRating
+  //   reviewCount: 3,
+  //   overallRating: 3,
+  //   manageability: 3,
+  //   usefulness: 3,
+  //   enjoyability: 3,},
+  //   {faculty: "Engineering",
+  //   name: "StanIU",
+  //   terms: ["Term 1", "Term 2", "Term 3"],
+  //   code: "SLAY9622",
+  //   rating: 4, // same as overallRating
+  //   reviewCount: 4,
+  //   overallRating: 4,
+  //   manageability: 4,
+  //   usefulness: 4,
+  //   enjoyability: 18,},
+  // ]
 
   const SievedCourses = courses
   .filter(course => {
     // Filter faculty
     if (selectedFaculties.length === 0) return true;
-    return selectedFaculties.includes(course.faculty);
+    return selectedFaculties.some((faculty) => course.faculty.includes(faculty));
   })
   .filter(course => {
     // Filter term
     if (selectedTerms.length === 0) return true;
-    return selectedTerms.some((term) => course.terms.includes(term));
+    return selectedTerms.some((term) => course.terms.includes(Number((term.slice(-1)))));
   })
   .filter((course) =>
-      course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.code.toLowerCase().includes(searchQuery.toLowerCase())
+      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.courseCode.toLowerCase().includes(searchQuery.toLowerCase())
     )
   .sort((a, b) => {
     // Apply sorting
@@ -174,7 +174,7 @@ export default function Home() {
         {/* Course Cards */}
         <div className="grid grid-cols-responsive-cards gap-4 pl-[18em] pr-[18em] mt-[2em]">
             {SievedCourses?.map(course => (
-              <CourseCard code={course.code} name={course.name} rating={course.rating} numReviews={course.reviewCount} />
+              <CourseCard code={course.courseCode} name={course.title} rating={course.rating} numReviews={course.reviewCount} />
             ))}
         </div>
       </div>

@@ -5,38 +5,11 @@
 //     completed: boolean
 // }
 
-type Course = {
-    faculty: string,
-    code: string,
-    name: string,
-    terms: string[],
-    rating: number; // same as overallRating
-    reviewCount: number;
-    overallRating: number;
-    manageability: number;
-    usefulness: number;
-    enjoyability: number;
-}
-
 // type Course = {
-//     courseCode: string;
-//     archived: boolean;
-//     attributes: string[];
-//     calendar: string;
-//     campus: string;
-//     description: string;
-//     enrolmentRules: string;
-//     equivalents: string[];
-//     exclusions: string[];
-//     faculty: string;
-//     fieldOfEducation: string;
-//     genEd: boolean;
-//     level: number;
-//     school: string;
-//     studyLevel: string;
-//     terms: number[];
-//     title: string;
-//     uoc: number;
+//     faculty: string,
+//     code: string,
+//     name: string,
+//     terms: string[],
 //     rating: number; // same as overallRating
 //     reviewCount: number;
 //     overallRating: number;
@@ -44,6 +17,33 @@ type Course = {
 //     usefulness: number;
 //     enjoyability: number;
 // }
+
+type Course = {
+    courseCode: string;
+    archived: boolean;
+    attributes: string[];
+    calendar: string;
+    campus: string;
+    description: string;
+    enrolmentRules: string;
+    equivalents: string[];
+    exclusions: string[];
+    faculty: string;
+    fieldOfEducation: string;
+    genEd: boolean;
+    level: number;
+    school: string;
+    studyLevel: string;
+    terms: number[];
+    title: string;
+    uoc: number;
+    rating: number; // same as overallRating
+    reviewCount: number;
+    overallRating: number;
+    manageability: number;
+    usefulness: number;
+    enjoyability: number;
+}
   
 // // Reviews
 // type Review = {
