@@ -1,5 +1,5 @@
 'use client'
-import React, { use, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import getAllCourses from '../../lib/getAllCourses';
 import { Content } from './style';
 import CourseCard from '@/components/CourseCard';
@@ -25,6 +25,8 @@ const terms = [
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const paginateAmount = 16;
+  const [paginateN, setPaginateN] = useState(0);
   const [selectedReviewFilter, setSelectedReviewFilter] = useState<string>(reviewProperties[0]);
   const [selectedFaculties, setSelectedFaculties] = useState<string[]>([]);
   const [selectedTerms, setSelectedTerms] = useState<string[]>([]);
@@ -34,49 +36,6 @@ export default function Home() {
   useEffect(() => {
     getAllCourses().then(setCourses);
   }, [])
-
-  // const courses=[
-  //   {faculty: "Arts",
-  //   name: "LOLOL",
-  //   code: "HULULU",
-  //   terms: ["Term 1", "Term 2"],
-  //   rating: 3, // same as overallRating
-  //   reviewCount: 3,
-  //   overallRating: 3,
-  //   manageability: 3,
-  //   usefulness: 3,
-  //   enjoyability: 3,},
-  //   {faculty: "Arts",
-  //   name: "XDDD!!!",
-  //   code: "so close to done",
-  //   terms: ["Term 1", "Term 2"],
-  //   rating: 4, // same as overallRating
-  //   reviewCount: 4,
-  //   overallRating: 4,
-  //   manageability: 4,
-  //   usefulness: 4,
-  //   enjoyability: 4,},
-  //   {faculty: "Engineering",
-  //   name: "Never Do Frontend",
-  //   terms: ["Term 1", "Term 2"],
-  //   code: "HAXD1011",
-  //   rating: 3, // same as overallRating
-  //   reviewCount: 3,
-  //   overallRating: 3,
-  //   manageability: 3,
-  //   usefulness: 3,
-  //   enjoyability: 3,},
-  //   {faculty: "Engineering",
-  //   name: "StanIU",
-  //   terms: ["Term 1", "Term 2", "Term 3"],
-  //   code: "SLAY9622",
-  //   rating: 4, // same as overallRating
-  //   reviewCount: 4,
-  //   overallRating: 4,
-  //   manageability: 4,
-  //   usefulness: 4,
-  //   enjoyability: 18,},
-  // ]
 
   const SievedCourses = courses
   .filter(course => {
@@ -150,7 +109,7 @@ export default function Home() {
               <img className="bg-white p-[0.9em]" src="/images/search-icon.svg" />
             </span>
             <input type="text" className="w-full h-full bg-slate-0 placeholder:italic placeholder-unilectives-blue focus:outline-none"
-              placeholder="Search for a course e.g. COMP1511" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}></input>
+              placeholder="Search for a course e.g. COMP1511" value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setPaginateN(0) }}></input>
           </section>
         </div>
         {/* Sort and Filter Options... Child 2 of a separate shared state */}
@@ -173,13 +132,32 @@ export default function Home() {
         </div>
         {/* Course Cards */}
         <div className="grid grid-cols-responsive-cards gap-4 pl-[18em] pr-[18em] mt-[2em]">
-            {SievedCourses?.map(course => (
+            {SievedCourses?.slice(paginateN * paginateAmount, paginateN * paginateAmount + paginateAmount).map(course => (
               <CourseCard code={course.courseCode} name={course.title} rating={course.rating} numReviews={course.reviewCount} />
             ))}
         </div>
       </div>
-      <div className="flex w-full justify-center content-center">
-        <img className="drop-shadow-xl h-[4em] w-[6em] mt-[5em]" src="/images/down_arrow.svg" />
+      {/* Pagination */}
+      <div className="flex w-full justify-center content-center mt-[3em] gap-[10px] mb-[5em]">
+        {(SievedCourses.length === 0) ? (
+          <span>No courses found</span>
+        ) : (
+          <>
+          <button type="button" onClick={() => setPaginateN((paginateN <= 0) ? paginateN : paginateN - 1)} className="hover:bg-blue-200 h-[24px] w-[24px] justify-center content-center">
+            <img src="/images/double_arrow.svg" className="h-[15px] w-[24px]"></img>
+          </button>
+          {Array.from(Array(
+            (SievedCourses.length % paginateAmount === 0) ? parseInt(String(SievedCourses.length/paginateAmount)) : parseInt(String(SievedCourses.length/paginateAmount)) + 1) 
+            .keys()).map((x) => (
+            <ul className="flex gap-[10px] justify-center content-center">
+              <button type="button" onClick={() => setPaginateN(x)} className="hover:bg-blue-200 w-[24px]">{x + 1}</button>
+            </ul>
+          ))}
+          <button type="button" onClick={() => setPaginateN((paginateN >= (SievedCourses.length - paginateAmount)/paginateAmount) ? paginateN : paginateN + 1)} className="hover:bg-blue-200 h-[24px] w-[24px] justify-center content-center">
+            <img src="/images/double_arrow.svg" className="h-[15px] w-[24px] rotate-180"></img>
+          </button>
+          </>
+        )}
       </div>
     </Content>
   );
@@ -198,7 +176,7 @@ function FilterBubble({colour, filter, state, setState}: FilterBubbleProps) {
   return (
     <div className={`flex flex-row content-center justify-center relative rounded-full py-1.5 px-4 ${colour} gap-[10px]`}>
       {filter}
-      <button type="button" className="h-[8px] w-[8px] hover:scale-[1.]" onClick={() => setState(state.filter(option => option != filter))}>
+      <button type="button" className="h-[8px] w-[8px] hover:scale-[1.]" onClick={() => setState(state.filter(option => option !== filter))}>
         <img className="object-scale-down h-[1.5em] w-[10px]" src="/images/x.svg" />
       </button>
     </div>
@@ -216,7 +194,7 @@ type SortFilterOptionsProps = {
 
 function SortFilterOptions({selectedReviewState, setReviewState, selectedFacultiesState, setFacultiesState, selectedTermsState, setTermsState}: SortFilterOptionsProps) {
   return (
-    <div className="flex flex-row justify-between mt-[0.5em] mx-[21em]">
+    <div className="relative flex flex-row justify-between mt-[0.5em] mx-[21em]">
       <DropboxSingle
             text="Sort by:"
             stateSelected={selectedReviewState}
