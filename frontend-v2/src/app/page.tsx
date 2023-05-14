@@ -147,7 +147,7 @@ export default function Home() {
         <div className="flex overflow-hidden flex-row mt-[2em] ml-[18em] mr-[18em] rounded-xl border-2 border-unilectives-blue">
           <section className="flex flex-row space-between w-full h-10">
             <span className="w-[3em] h-[3em]">
-              <img className="p-[0.9em]" src="/images/search-icon.svg" />
+              <img className="bg-white p-[0.9em]" src="/images/search-icon.svg" />
             </span>
             <input type="text" className="w-full h-full bg-slate-0 placeholder:italic placeholder-unilectives-blue focus:outline-none"
               placeholder="Search for a course e.g. COMP1511" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}></input>
