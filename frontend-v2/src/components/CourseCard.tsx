@@ -26,7 +26,7 @@ export default function CourseCard({
   );
 
   return (
-    <div className="box-border px-6 py-7 bg-unilectives-card shadow-card rounded-xl space-y-2 cursor-pointer">
+    <div className="xxs:w-[200px] box-border px-6 py-7 bg-unilectives-card shadow-card rounded-xl space-y-2 cursor-pointer">
       {/* Course code + Ratings */}
       <div className="flex flex-wrap justify-between text-2xl">
         {/* Rating */}

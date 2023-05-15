@@ -7,18 +7,16 @@ module.exports = {
       bold: 600,
     },
     screens: {
-      // The following screen sizes are converted into css like so
-      // @media (max-width: ...px) { ... }
-      '2xl': { 'max': '1536px' },
-      'xl': { 'max': '1280px' },
-      'lg': { 'max': '1024px' },
-      'md': { 'max': '768px' },
-      'sm': { 'max': '640px' },
-      'xs': { 'max': '480px' },
+      'xxs': { 'max': '280px' },
+      'xs': { 'min': '480px' },
+      'sm': { 'min': '640px' },
+      'md': { 'min': '768px' },
+      'lg': { 'min': '1024px' },
+      'xl': { 'min': '1280px' },
+      '2xl': { 'min': '1536px' },
     },
     fontFamily: {
-      'lato': ['lato', 'sans-serif'],
-      'poppins': ['poppins', 'sans-serif'],
+      sans: ['"TT Commons Pro Trial"', 'sans-serif']
     },
     extend: {
       backgroundColor: {
