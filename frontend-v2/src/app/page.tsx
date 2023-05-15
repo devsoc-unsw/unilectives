@@ -72,7 +72,7 @@ export default function Home() {
   return (
     <Content>
       {/* Logo */}
-      <div className="flex bg-red-500 sm:bg-yellow-500 md:bg-green-500 lg:bg-pink-500 xxs:bg-orange-200">
+      <div className="flex">
         <img className="pt-[1rem] pl-[2rem]" src="/images/uni-lectives.svg" />
       </div>
       {/* HomeText */}
@@ -123,11 +123,11 @@ export default function Home() {
         />
         {/* Filter Bubbles */}
         <div className="flex flex-wrap justify-start mx-[1em] sm:mx-[3em] md:mx-[9em] lg:mx-[11em] xl:mx-[18em] gap-[3px] mt-[1em]">
-          {selectedFaculties?.map((faculty) => (
-            <FilterBubble colour="bg-blue-500" filter={faculty} state={selectedFaculties} setState={setSelectedFaculties} />
+          {selectedFaculties?.map((faculty, i) => (
+            <FilterBubble key={i} colour="bg-blue-500" filter={faculty} state={selectedFaculties} setState={setSelectedFaculties} />
           ))}
-          {selectedTerms?.map((term) => (
-            <FilterBubble colour="bg-blue-300" filter={term} state={selectedTerms} setState={setSelectedTerms}/>
+          {selectedTerms?.map((term, i) => (
+            <FilterBubble key={i} colour="bg-blue-300" filter={term} state={selectedTerms} setState={setSelectedTerms}/>
           ))}
         </div>
         {/* Course Cards */}
@@ -148,9 +148,9 @@ export default function Home() {
           </button>
           {Array.from(Array(
             (SievedCourses.length % paginateAmount === 0) ? parseInt(String(SievedCourses.length/paginateAmount)) : parseInt(String(SievedCourses.length/paginateAmount)) + 1) 
-            .keys()).map((x) => (
-            <ul className="flex gap-[10px] justify-center content-center">
-              <button type="button" onClick={() => setPaginateN(x)} className="hover:bg-blue-200 w-[24px]">{x + 1}</button>
+            .keys()).map((x, i) => (
+            <ul key={i} className="flex gap-[10px] justify-center content-center">
+              <button type="button" onClick={() => setPaginateN(x)} key={i} className="hover:bg-blue-200 w-[24px]">{x + 1}</button>
             </ul>
           ))}
           <button type="button" onClick={() => setPaginateN((paginateN >= (SievedCourses.length - paginateAmount)/paginateAmount) ? paginateN : paginateN + 1)} className="hover:bg-blue-200 h-[24px] w-[24px] justify-center content-center">
@@ -166,17 +166,18 @@ export default function Home() {
 //  Abstracted components and partials
 
 type FilterBubbleProps = {
+  key: number,
   colour: string,
   filter: string,
   state: string[],
   setState: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-function FilterBubble({colour, filter, state, setState}: FilterBubbleProps) {
+function FilterBubble({key, colour, filter, state, setState}: FilterBubbleProps) {
   return (
-    <div className={`flex flex-row content-center justify-center text-xs sm:text-base relative rounded-full py-1.5 px-4 ${colour} gap-[10px]`}>
+    <div key={key} className={`flex flex-row content-center justify-center text-xs sm:text-base relative rounded-full py-1.5 px-4 ${colour} gap-[10px]`}>
       {filter}
-      <button type="button" className="h-[8px] w-[8px] hover:scale-[1.1]" onClick={() => setState(state.filter(option => option !== filter))}>
+      <button type="button" key={key} className="h-[8px] w-[8px] hover:scale-[1.1]" onClick={() => setState(state.filter(option => option !== filter))}>
         <img className="object-scale-down h-[1.3em] sm:h-[1.5em] w-[10px]" src="/images/x.svg" />
       </button>
     </div>

@@ -16,7 +16,7 @@ module.exports = {
       '2xl': { 'min': '1536px' },
     },
     fontFamily: {
-      sans: ['"TT Commons Pro Trial"', 'sans-serif']
+      sans: ['"TT Commons Pro"', 'sans-serif']
     },
     extend: {
       backgroundColor: {
