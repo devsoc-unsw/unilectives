@@ -1,144 +1,108 @@
-import { CourseEntity } from "../entity/Course";
-import { EntityManager, In } from "typeorm";
+import { PrismaClient, courses } from "@prisma/client";
+import { Course } from "../api/schemas/course.schema";
+import { EntityManager } from "typeorm";
+import { toCamelCase } from "../converters/prisma.converter";
 
 export class CourseRepository {
   constructor(private readonly manager: EntityManager) {}
+  // will be passed in as a constructor argument after full migration
+  private prisma = new PrismaClient({
+    datasources: {
+      db: {
+        url: "postgresql://postgres:password@0.0.0.0:5432/mydb?schema=cselectives",
+      },
+    },
+  });
 
-  async getAllCourses(): Promise<CourseEntity[]> {
-    const rawCourses = await this.manager
-      .createQueryBuilder(CourseEntity, "c")
-      .select([
-        "c.*",
-        "AVG(r.overall_rating) AS avg_overall_rating",
-        "AVG(r.manageability) AS avg_manageability",
-        "AVG(r.usefulness) AS avg_usefulness",
-        "AVG(r.enjoyability) AS avg_enjoyability",
-        "COUNT(r.review_id) AS review_count",
-      ])
-      .leftJoin("c.reviews", "r")
-      .groupBy("c.course_code")
-      .addGroupBy("c.attributes")
-      .addGroupBy("c.calendar")
-      .addGroupBy("c.campus")
-      .addGroupBy("c.description")
-      .addGroupBy("c.enrolment_rules")
-      .addGroupBy("c.equivalents")
-      .addGroupBy("c.exclusions")
-      .addGroupBy("c.faculty")
-      .addGroupBy("c.field_of_education")
-      .addGroupBy("c.gen_ed")
-      .addGroupBy("c.level")
-      .addGroupBy("c.school")
-      .addGroupBy("c.study_level")
-      .addGroupBy("c.terms")
-      .addGroupBy("c.title")
-      .addGroupBy("c.uoc")
-      .getRawMany();
-    return rawCourses.map((rawCourse) => {
-      const course = new CourseEntity();
-      course.courseCode = rawCourse.course_code;
-      course.attributes = rawCourse.attributes;
-      course.calendar = rawCourse.calendar;
-      course.campus = rawCourse.campus;
-      course.description = rawCourse.description;
-      course.enrolmentRules = rawCourse.enrolment_rules;
-      course.equivalents = rawCourse.equivalents;
-      course.exclusions = rawCourse.exclusions;
-      course.faculty = rawCourse.faculty;
-      course.fieldOfEducation = rawCourse.field_of_education;
-      course.genEd = rawCourse.gen_ed;
-      course.level = rawCourse.level;
-      course.school = rawCourse.school;
-      course.studyLevel = rawCourse.study_level;
-      course.terms = rawCourse.terms;
-      course.title = rawCourse.title;
-      course.uoc = rawCourse.uoc;
-      course.rating = rawCourse.avg_overall_rating;
-      course.overallRating = rawCourse.avg_overall_rating;
-      course.manageability = rawCourse.avg_manageability;
-      course.usefulness = rawCourse.avg_usefulness;
-      course.enjoyability = rawCourse.avg_enjoyability;
-      course.reviewCount = +rawCourse.review_count;
-      return course;
-    });
+  private async createRatings(courseCode: string): Promise<Course> {
+    const result = (await this.prisma.$queryRaw`
+    SELECT
+      AVG(r.overall_rating) AS "overallRating",
+      AVG(r.manageability) AS "manageability",
+      AVG(r.usefulness) AS "usefulness",
+      AVG(r.enjoyability) AS "enjoyability",
+      COUNT(r.review_id) AS "reviewCount"
+    FROM courses c
+    LEFT JOIN reviews r ON c.course_code = r.course_code
+    WHERE c.course_code = ${courseCode}
+    GROUP BY c.course_code
+    `) as courses[];
+
+    return result.map((course) =>
+      toCamelCase(course)
+    )[0] as Course;
   }
 
-  async getCoursesFromOffset(offset: number): Promise<CourseEntity[]> {
-    const rawCourses = await this.manager
-      .createQueryBuilder(CourseEntity, "c")
-      .select([
-        "c.*",
-        "AVG(r.overall_rating) AS avg_overall_rating",
-        "AVG(r.manageability) AS avg_manageability",
-        "AVG(r.usefulness) AS avg_usefulness",
-        "AVG(r.enjoyability) AS avg_enjoyability",
-        "COUNT(r.review_id) AS review_count",
-      ])
-      .leftJoin("c.reviews", "r")
-      .groupBy("c.course_code")
-      .addGroupBy("c.attributes")
-      .addGroupBy("c.calendar")
-      .addGroupBy("c.campus")
-      .addGroupBy("c.description")
-      .addGroupBy("c.enrolment_rules")
-      .addGroupBy("c.equivalents")
-      .addGroupBy("c.exclusions")
-      .addGroupBy("c.faculty")
-      .addGroupBy("c.field_of_education")
-      .addGroupBy("c.gen_ed")
-      .addGroupBy("c.level")
-      .addGroupBy("c.school")
-      .addGroupBy("c.study_level")
-      .addGroupBy("c.terms")
-      .addGroupBy("c.title")
-      .addGroupBy("c.uoc")
-      .orderBy("review_count", "DESC")
-      .addOrderBy("c.course_code")
-      .limit(25)
-      .offset(offset)
-      .getRawMany();
-    return rawCourses.map((rawCourse) => {
-      const course = new CourseEntity();
-      course.courseCode = rawCourse.course_code;
-      course.attributes = rawCourse.attributes;
-      course.calendar = rawCourse.calendar;
-      course.campus = rawCourse.campus;
-      course.description = rawCourse.description;
-      course.enrolmentRules = rawCourse.enrolment_rules;
-      course.equivalents = rawCourse.equivalents;
-      course.exclusions = rawCourse.exclusions;
-      course.faculty = rawCourse.faculty;
-      course.fieldOfEducation = rawCourse.field_of_education;
-      course.genEd = rawCourse.gen_ed;
-      course.level = rawCourse.level;
-      course.school = rawCourse.school;
-      course.studyLevel = rawCourse.study_level;
-      course.terms = rawCourse.terms;
-      course.title = rawCourse.title;
-      course.uoc = rawCourse.uoc;
-      course.rating = rawCourse.avg_overall_rating;
-      course.overallRating = rawCourse.avg_overall_rating;
-      course.manageability = rawCourse.avg_manageability;
-      course.usefulness = rawCourse.avg_usefulness;
-      course.enjoyability = rawCourse.avg_enjoyability;
-      course.reviewCount = +rawCourse.review_count;
-      return course;
-    });
+  private async processRatings(courses: courses[]): Promise<Course[]> {
+    const courseDataWithRatings = (await Promise.all(
+      courses.map(async (course) => {
+        const ratings = await this.createRatings(course.courseCode);
+        return { ...course, ...ratings };
+      })
+    )) as Course[];
+    return courseDataWithRatings;
   }
 
-  async getCoursesById(courseCodes: string[]): Promise<CourseEntity[]> {
-    return await this.manager.findBy(CourseEntity, {
-      courseCode: In(courseCodes),
+  // async getAllCourses(): Promise<Course[]> {
+  //   const rawCourseData: courses[] = await this.prisma.courses.findMany();
+  //   return this.processRatings(rawCourseData);
+  // }
+
+  async getAllCourses () {
+    const co
+    const coursesWithAveragesAndCounts = await this.prisma.courses.({
+      include: {
+        _count: {
+          select: {
+            reviews: true
+          }
+        }
+      }
     });
+// 8==D
+    return courses;
   }
 
-  async getCourse(courseCode: string): Promise<CourseEntity | null> {
-    return await this.manager.findOneBy(CourseEntity, {
-      courseCode,
+  async getCoursesFromOffset(offset: number): Promise<Course[]> {
+    const rawCourseData = await this.prisma.courses.findMany({
+      skip: offset,
+      take: 25,
+      orderBy: { courseCode: "asc" },
     });
+    return this.processRatings(rawCourseData);
   }
 
-  async save(course: CourseEntity): Promise<CourseEntity> {
-    return await this.manager.save(CourseEntity, course);
+  async getCoursesById(courseCodes: string[]): Promise<Course[]> {
+    const rawCourseData = (await this.prisma.courses.findMany({
+      where: {
+        courseCode: {
+          in: courseCodes,
+        },
+      },
+    })) as courses[];
+    return this.processRatings(rawCourseData);
+  }
+
+  async getCourse(courseCode: string): Promise<Course | null> {
+    const course = (await this.prisma.courses.findUnique({
+      where: {
+        courseCode: courseCode,
+      },
+    })) as courses;
+    return this.createRatings(course.courseCode);
+  }
+
+  async save(course: Course): Promise<Course> {
+    const rawCourseData = (await this.prisma.courses.findUnique({
+      where: {
+        courseCode: course.courseCode,
+      },
+    })) as courses;
+    const newCourseData = await this.prisma.courses.upsert({
+      where: { courseCode: rawCourseData.courseCode },
+      update: { ...rawCourseData },
+      create: { ...rawCourseData },
+    });
+    return this.createRatings(newCourseData.courseCode);
   }
 }

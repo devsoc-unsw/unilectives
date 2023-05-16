@@ -6,10 +6,12 @@ import {
   getMockNewUser,
   getMockUser,
   getMockCourses,
+  getCourseEntity,
 } from "../utils/testData";
 import { EntityManager } from "typeorm/entity-manager/EntityManager";
 import { DataSource } from "typeorm";
 import { AuthService } from "../modules/Auth";
+import { CourseEntity } from "../entity/Course";
 
 describe("UserService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
@@ -70,6 +72,7 @@ describe("UserService", () => {
         .fn()
         .mockReturnValueOnce([])
         .mockReturnValueOnce([course]);
+      manager.save(CourseEntity, getCourseEntity());
       const result = await service.getUser(user.zid);
       expect(result.user).toEqual(user);
     });

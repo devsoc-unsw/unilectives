@@ -1,9 +1,4 @@
 import { getLogger } from "../utils/logger";
-import { CourseEntity } from "../entity/Course";
-import {
-  convertCourseEntityToInterface,
-  convertCourseInterfaceToEntity,
-} from "../converters/course.converter";
 import { HTTPError } from "../utils/errors";
 import { badRequest, internalServerError } from "../utils/constants";
 import { CourseRepository } from "../repositories/course.repository";
@@ -23,7 +18,7 @@ export class CourseService {
   ) {}
 
   async getCourses(): Promise<CoursesSuccessResponse | undefined> {
-    const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
+    const courses: Course = await this.courseRepository.getAllCourses();
     if (courses.length === 0) {
       this.logger.error("Database returned with no courses.");
       throw new HTTPError(internalServerError);
@@ -31,44 +26,41 @@ export class CourseService {
 
     this.logger.info(`Found ${courses.length} courses.`);
     return {
-      courses: courses.map(convertCourseEntityToInterface),
+      courses: courses,
     };
   }
 
   async getCoursesFromOffset(
     offset: number
   ): Promise<CoursesSuccessResponse | undefined> {
-    const courses: CourseEntity[] =
-      await this.courseRepository.getCoursesFromOffset(offset);
+    const courses: Course[] = await this.courseRepository.getCoursesFromOffset(
+      offset
+    );
     this.logger.info(`Found ${courses.length} courses.`);
     return {
-      courses: courses.map(convertCourseEntityToInterface),
+      courses: courses,
     };
   }
 
-  async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
+  async updateCourse(courseCode: Course): Promise<CourseBody | undefined> {
     let course = await this.courseRepository.getCourse(
-      updatedCourse.courseCode
+      courseCode.courseCode
     );
 
     if (!course) {
       this.logger.error(
-        `There is no course with courseCode ${updatedCourse.courseCode}.`
+        `There is no course with courseCode ${courseCode.courseCode}.`
       );
       throw new HTTPError(badRequest);
     }
 
-    const newCourseEntity: CourseEntity = convertCourseInterfaceToEntity({
-      ...course,
-      ...updatedCourse,
-    });
-    course = await this.courseRepository.save(newCourseEntity);
+    course = await this.courseRepository.save(course);
 
     this.logger.info(
-      `Successfully updated course with courseCode ${updatedCourse.courseCode}.`
+      `Successfully updated course with courseCode ${courseCode.courseCode}.`
     );
     return {
-      course: convertCourseEntityToInterface(course),
+      course: course,
     };
   }
 
@@ -113,7 +105,7 @@ export class CourseService {
       } for user with zID ${bookmarkDetails.zid}.`
     );
     return {
-      course: convertCourseEntityToInterface(course),
+      course: course,
     };
   }
 }
