@@ -19,7 +19,7 @@ export default class RedisClient {
   }
 
   async start(): Promise<void> {
-    this.redis.connect();
+    await this.redis.connect();
     this.logger.info("Redis connection established.");
   }
 
