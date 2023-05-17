@@ -3,7 +3,6 @@ import {
   FlagIcon,
   HandThumbUpIcon,
 } from "@heroicons/react/24/outline";
-import { format } from "date-fns";
 import CircleRating from "./CircleRating";
 import Rating from "./StarRating";
 import ReviewDescription from "./ReviewDescription";
@@ -31,7 +30,7 @@ export default function ReviewCard({ review }: { review: Review }) {
       {/* Title + Date */}
       <div className="flex items-center gap-2 flex-wrap justify-between">
         <h1 className="font-bold">{!review.title ? "-" : review.title}</h1>
-        <p>{format(new Date(review.updatedTimestamp), "dd/MM/yyyy")}</p>
+        <p>{new Date(review.createdTimestamp).toLocaleDateString()}</p>
       </div>
       {/* Rating + Author */}
       <div className="flex items-center gap-2 flex-wrap justify-between">

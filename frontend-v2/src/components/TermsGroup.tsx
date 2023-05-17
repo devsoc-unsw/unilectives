@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function TermsGroup({ terms }: { terms: number[] }) {
   // Map array to object
   const termsObj = terms.reduce(

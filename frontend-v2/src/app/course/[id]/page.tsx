@@ -2,31 +2,21 @@ import Image from "next/image";
 import icon from "../../../assets/icon.png";
 import waves from "../../../assets/waves.svg";
 import { LinkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { notFound } from "next/navigation";
-import { Suspense, use } from "react";
-import Link from "next/link";
+import { FormEvent, Suspense } from "react";
 import TermsGroup from "@/components/TermsGroup";
+import Link from "next/link";
 import StarRating from "@/components/StarRating";
 import DoughnutChart from "@/components/DoughnutChart";
+import { notFound } from "next/navigation";
 import ReviewCard, { Review } from "@/components/ReviewCard";
+import Searchbar from "@/components/SearchBar";
 
-type SearchbarEventTarget = EventTarget & {
-  query: {
-    value: string;
-  };
-};
-
-type ReviewProps = {
-  params?: any;
-};
-
-// Get course details
+/**
+ * Fetch course from backend based on the given id
+ */
 const getCourse = async (id: string) => {
   const response = await fetch(`http://localhost:3030/api/v1/courses`, {
     method: "GET",
-    next: {
-      revalidate: 10,
-    },
   });
 
   // Return undefined if status code is not 200
@@ -39,15 +29,14 @@ const getCourse = async (id: string) => {
   );
 };
 
-// Get reviews
+/**
+ * Fetch reviews from backend based on the given id
+ */
 const getReviews = async (id: string) => {
   const response = await fetch(
     `http://localhost:3030/api/v1/reviews/${id.toUpperCase()}`,
     {
       method: "GET",
-      next: {
-        revalidate: 10,
-      },
     }
   );
   // Return reviews
@@ -55,15 +44,18 @@ const getReviews = async (id: string) => {
   return result.reviews;
 };
 
-export default function ReviewPage({ params }: ReviewProps) {
-  // Get course
-  const course = use(getCourse(params.id));
+export default async function ReviewPage({
+  params,
+}: {
+  params: {
+    [key: string]: string;
+  };
+}) {
+  const course = await getCourse(params.id);
 
-  // Direct user to page not found if course doesn't exists
   if (!course) notFound();
 
-  // Get reviews
-  const reviews = use(getReviews(params.id));
+  const reviews = await getReviews(course.courseCode);
 
   return (
     <>
@@ -78,23 +70,7 @@ export default function ReviewPage({ params }: ReviewProps) {
             </h1>
           </div>
           {/* Search bar */}
-          <form
-            className="flex items-center gap-1 border border-black text-black rounded-2xl px-4 py-2 shadow-md w-1/2 xs:w-full"
-            name="review-search-bar"
-          >
-            {/* Search icon */}
-            <button type="submit">
-              <MagnifyingGlassIcon className="w-5 h-5 bg-transparent" />
-            </button>
-            {/* Input */}
-            <input
-              type="text"
-              name="query"
-              title="Search here..."
-              placeholder="Search here..."
-              className="w-full outline-none bg-transparent placeholder:text-black"
-            />
-          </form>
+          <Searchbar className="flex items-center gap-1 border border-black text-black rounded-2xl px-4 py-2 shadow-md w-1/2 xs:w-full" />
         </div>
         {/* Waves */}
         <Image
@@ -105,8 +81,8 @@ export default function ReviewPage({ params }: ReviewProps) {
       </div>
       {/* Course details */}
       <div className="flex gap-8 px-16 md:px-8 sm:px-4 md:flex-wrap">
-        <section className="space-y-4 w-full block md:static md:max-h-full sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-none">
-          <Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <section className="space-y-4 w-full block md:static md:max-h-full sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-none">
             <h1 className="text-6xl font-bold">{course.courseCode}</h1>
             <h2 className="text-3xl font-bold">{course.title}</h2>
             {/* Terms */}
@@ -163,16 +139,20 @@ export default function ReviewPage({ params }: ReviewProps) {
             </div>
             {/* Description */}
             <p>{course.description}</p>
-          </Suspense>
-        </section>
+          </section>
+        </Suspense>
         {/* Reviews */}
         <section className="space-y-4 w-full mb-8">
-          <Suspense>
-            {/* Review Heading */}
-            <h3 className="text-2xl font-bold">Reviews</h3>
-            {/* Reviews */}
+          {/* Review Heading */}
+          <h3 className="text-2xl font-bold">Reviews</h3>
+          {/* Dropdown */}
+          {/* Add Review button */}
+          {/* <Modal /> */}
+          {/* Switch */}
+          {/* Reviews */}
+          <Suspense fallback={<div>Loading...</div>}>
             {reviews.map((review: Review, index: number) => (
-              <ReviewCard review={review} />
+              <ReviewCard key={index} review={review} />
             ))}
           </Suspense>
         </section>
