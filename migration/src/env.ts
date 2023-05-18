@@ -1,6 +1,6 @@
-import { envsafe, port, str, url } from 'envsafe';
+import { envsafe, port, str, url } from "envsafe";
 
-export const env =  envsafe({
+export const env = envsafe({
   API_PORT: port({
     default: 8080,
   }),
@@ -12,11 +12,11 @@ export const env =  envsafe({
     choices: ["postgres", "mysql"],
   }),
   POSTGRESQL_PORT: port({
-    default:  5432,
-  }), 
+    default: 5432,
+  }),
   POSTGRESQL_HOST: str({
     default: "localhost",
-  }), 
+  }),
   POSTGRESQL_USER: str({
     default: "postgres",
   }),
@@ -24,13 +24,9 @@ export const env =  envsafe({
     default: "pass",
   }),
   POSTGRESQL_DATABASE: str({
-    default:  "mydb",
+    default: "mydb",
   }),
-  AUTH_DOMAIN: str({
-  }),
-  PROJECT_ID: str({
-  }),
-  STORAGE_BUCKET: str({
-  }),
+  AUTHDOMAIN: str(),
+  PROJECT_ID: str(),
+  STORAGE_BUCKET: str(),
 });
-
