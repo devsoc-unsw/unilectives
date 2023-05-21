@@ -20,14 +20,11 @@ export const env = envsafe({
     default: "postgres",
   }),
   POSTGRESQL_PASSWORD: str({
-    default: "pass",
+    default: "password",
   }),
   POSTGRESQL_DATABASE: str({
     default: "mydb",
   }),
-  AUTH_DOMAIN: str(),
-  PROJECT_ID: str(),
-  STORAGE_BUCKET: str(),
 });
 
 export default env;
