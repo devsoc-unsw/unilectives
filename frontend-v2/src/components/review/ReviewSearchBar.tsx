@@ -1,11 +1,21 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { InputHTMLAttributes } from "react";
+import { FormEvent } from "react";
 
-export default function Searchbar(props: InputHTMLAttributes<HTMLFormElement>) {
+export default function ReviewSearchbar() {
+  const handleOnSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    // TODO: submit query
+    console.log((event.target as HTMLFormElement).query.value);
+  };
+
   return (
-    <form name="review-search-bar" {...props}>
+    <form
+      name="review-search-bar"
+      className="flex items-center gap-1 border border-black text-black rounded-2xl px-4 py-2 shadow-md w-1/2 xs:w-full"
+      onSubmit={handleOnSubmit}
+    >
       {/* Search icon */}
       <button type="submit">
         <MagnifyingGlassIcon className="w-5 h-5 bg-transparent" />

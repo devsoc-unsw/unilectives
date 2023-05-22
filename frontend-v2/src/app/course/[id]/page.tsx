@@ -1,15 +1,15 @@
 import Image from "next/image";
 import icon from "../../../assets/icon.png";
 import waves from "../../../assets/waves.svg";
-import { LinkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { FormEvent, Suspense } from "react";
+import { LinkIcon } from "@heroicons/react/24/solid";
+import { Suspense } from "react";
 import TermsGroup from "@/components/TermsGroup";
 import Link from "next/link";
-import StarRating from "@/components/StarRating";
 import DoughnutChart from "@/components/DoughnutChart";
 import { notFound } from "next/navigation";
-import ReviewCard, { Review } from "@/components/ReviewCard";
-import Searchbar from "@/components/SearchBar";
+import ReviewsBar from "../../../components/review/ReviewsBar";
+import Rating from "@/components/Rating";
+import ReviewSearchbar from "@/components/review/ReviewSearchBar";
 
 /**
  * Fetch course from backend based on the given id
@@ -55,10 +55,12 @@ export default async function ReviewPage({
 
   if (!course) notFound();
 
+  console.log(course);
+
   const reviews = await getReviews(course.courseCode);
 
   return (
-    <>
+    <div className="isolate">
       {/* Header */}
       <div className="relative">
         <div className="flex flex-wrap justify-between gap-4 px-16 md:px-8 sm:px-4 py-8">
@@ -70,11 +72,11 @@ export default async function ReviewPage({
             </h1>
           </div>
           {/* Search bar */}
-          <Searchbar className="flex items-center gap-1 border border-black text-black rounded-2xl px-4 py-2 shadow-md w-1/2 xs:w-full" />
+          <ReviewSearchbar />
         </div>
         {/* Waves */}
         <Image
-          className="w-full absolute top-0 -z-10"
+          className="w-full max-h-24 absolute object-cover top-0 -z-10"
           src={waves}
           alt="Waves"
         />
@@ -86,12 +88,17 @@ export default async function ReviewPage({
             <h1 className="text-6xl font-bold">{course.courseCode}</h1>
             <h2 className="text-3xl font-bold">{course.title}</h2>
             {/* Terms */}
-            <TermsGroup terms={course.terms} />
+            <TermsGroup
+              className="py-1 px-2 rounded-full bg-unilectives-tags-pink font-bold text-black/50"
+              terms={course.terms}
+            />
             {/* Link to handbook */}
             <Link
               target="_blank"
               rel="noopener noreferrer"
-              href={`//www.handbook.unsw.edu.au/undergraduate/courses/2023/${course.courseCode}`}
+              href={`//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${
+                course.courseCode
+              }`}
               className="flex items-center w-fit text-unilectives-blue hover:underline flex-1"
             >
               <LinkIcon className="w-4 h-4" />
@@ -99,7 +106,9 @@ export default async function ReviewPage({
             </Link>
             {/* StarRating */}
             <div className="space-x-2">
-              <StarRating rating={course.rating} />
+              <div className="text-2xl inline">
+                <Rating type="star" color="purple" rating={course.rating} />
+              </div>
               {/* Number of reviews */}
               <span>
                 {/* Format number to their abbreviated string e.g 1000 to 1k, or 1000000 to 1M */}
@@ -112,51 +121,39 @@ export default async function ReviewPage({
             </div>
             {/* Doughnut Charts */}
             <div className="flex flex-wrap justify-around">
-              <div>
-                <DoughnutChart
-                  rating={course.enjoyability}
-                  width={90}
-                  strokeWidth={9}
-                />
-                <p className="text-center font-bold">Enjoyment</p>
-              </div>
-              <div>
-                <DoughnutChart
-                  rating={course.usefulness}
-                  width={90}
-                  strokeWidth={9}
-                />
-                <p className="text-center font-bold">Usefulness</p>
-              </div>
-              <div>
-                <DoughnutChart
-                  rating={course.manageability}
-                  width={90}
-                  strokeWidth={9}
-                />
-                <p className="text-center font-bold">Manageability</p>
-              </div>
+              {[
+                { metric: course.enjoyability, title: "Enjoyment" },
+                { metric: course.usefulness, title: "Usefulness" },
+                { metric: course.manageability, title: "Manageability" },
+              ].map((item, index) => (
+                <div key={index}>
+                  <DoughnutChart
+                    rating={item.metric}
+                    width={90}
+                    strokeWidth={9}
+                  />
+                  <p className="text-center font-bold">{item.title}</p>
+                </div>
+              ))}
             </div>
             {/* Description */}
-            <p>{course.description}</p>
+            <p className="whitespace-pre-line">{course.description}</p>
           </section>
         </Suspense>
         {/* Reviews */}
+        {/* Show reviews is separated as another client component "ReviewsBar"
+        so the review page can stay as a server side component to ensure server side
+        rendering */}
         <section className="space-y-4 w-full mb-8">
-          {/* Review Heading */}
-          <h3 className="text-2xl font-bold">Reviews</h3>
-          {/* Dropdown */}
-          {/* Add Review button */}
-          {/* <Modal /> */}
-          {/* Switch */}
-          {/* Reviews */}
           <Suspense fallback={<div>Loading...</div>}>
-            {reviews.map((review: Review, index: number) => (
-              <ReviewCard key={index} review={review} />
-            ))}
+            {reviews.length === 0 ? (
+              <div>No reviews yet</div>
+            ) : (
+              <ReviewsBar courseCode={course.courseCode} reviews={reviews} />
+            )}
           </Suspense>
         </section>
       </div>
-    </>
+    </div>
   );
 }

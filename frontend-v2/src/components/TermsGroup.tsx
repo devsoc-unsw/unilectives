@@ -1,4 +1,11 @@
-export default function TermsGroup({ terms }: { terms: number[] }) {
+"use client";
+
+import { HTMLAttributes } from "react";
+
+export default function TermsGroup({
+  terms,
+  ...props
+}: HTMLAttributes<HTMLSpanElement> & { terms: number[] }) {
   // Map array to object
   const termsObj = terms.reduce(
     (result: Record<string, boolean>, index: number) => {
@@ -11,26 +18,10 @@ export default function TermsGroup({ terms }: { terms: number[] }) {
 
   return (
     <div className="flex flex-wrap gap-2">
-      {termsObj.summer && (
-        <span className="bg-unilectives-tags text-xs py-1 px-2 rounded-full">
-          Summer
-        </span>
-      )}
-      {termsObj.term1 && (
-        <span className="bg-unilectives-tags text-xs py-1 px-2 rounded-full">
-          Term 1
-        </span>
-      )}
-      {termsObj.term2 && (
-        <span className="bg-unilectives-tags text-xs py-1 px-2 rounded-full">
-          Term 2
-        </span>
-      )}
-      {termsObj.term3 && (
-        <span className="bg-unilectives-tags text-xs py-1 px-2 rounded-full">
-          Term 3
-        </span>
-      )}
+      {termsObj.summer && <span {...props}>Summer</span>}
+      {termsObj.term1 && <span {...props}>Term 1</span>}
+      {termsObj.term2 && <span {...props}>Term 2</span>}
+      {termsObj.term3 && <span {...props}>Term 3</span>}
     </div>
   );
 }

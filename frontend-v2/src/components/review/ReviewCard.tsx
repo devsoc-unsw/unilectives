@@ -1,15 +1,14 @@
+"use client";
+
 import {
   BookmarkIcon,
   FlagIcon,
   HandThumbUpIcon,
 } from "@heroicons/react/24/outline";
-import CircleRating from "./CircleRating";
-import Rating from "./StarRating";
-import ReviewDescription from "./ReviewDescription";
+import Rating from "../Rating";
+import TruncatedDescription from "../TruncatedDescription";
 
 export type Review = {
-  reviewId: string;
-  courseCode: string;
   authorName: string;
   title: string;
   description: string;
@@ -25,8 +24,20 @@ export type Review = {
 };
 
 export default function ReviewCard({ review }: { review: Review }) {
+  const handleUpvotes = () => {
+    // TODO: Handle upvotes here (Do this when user session can already be handled)
+  };
+
+  const handleBookmark = () => {
+    // TODO: Handle bookmark here (Do this when user session can already be handled)
+  };
+
+  const handleFlag = () => {
+    // TODO: Handle when flag icon is clicked
+  };
+
   return (
-    <div className="px-10 py-5 space-y-2 shadow-card rounded-md">
+    <div className="px-10 py-5 space-y-2 shadow-review-card rounded-md bg-white isolate">
       {/* Title + Date */}
       <div className="flex items-center gap-2 flex-wrap justify-between">
         <h1 className="font-bold">{!review.title ? "-" : review.title}</h1>
@@ -35,7 +46,8 @@ export default function ReviewCard({ review }: { review: Review }) {
       {/* Rating + Author */}
       <div className="flex items-center gap-2 flex-wrap justify-between">
         <div>
-          Overall: <Rating rating={review.overallRating} />
+          Overall:{" "}
+          <Rating color="purple" type="star" rating={review.overallRating} />
         </div>
         <p className="text-unilectives-subheadings">{review.authorName}</p>
       </div>
@@ -51,30 +63,44 @@ export default function ReviewCard({ review }: { review: Review }) {
         {/* Enjoyability */}
         <div className="flex flex-col items-center">
           <p className="font-bold text-center">Enjoyment</p>
-          <CircleRating rating={review.enjoyability} />
+          <Rating color="blue" type="circle" rating={review.enjoyability} />
         </div>
         {/* Usefulness */}
         <div className="flex flex-col items-center">
           <p className="font-bold text-center">Usefulness</p>
-          <CircleRating rating={review.usefulness} />
+          <Rating color="blue" type="circle" rating={review.usefulness} />
         </div>
         {/* Manageability */}
         <div className="flex flex-col items-center">
           <p className="font-bold text-center">Manageability</p>
-          <CircleRating rating={review.manageability} />
+          <Rating color="blue" type="circle" rating={review.manageability} />
         </div>
       </div>
       {/* Description */}
-      <ReviewDescription content={review.description} maxCharacters={500} />
+      <TruncatedDescription content={review.description} maxCharacters={500} />
       {/* Icons */}
       <div className="flex justify-between">
-        <div className="flex items-center gap-1 hover:text-unilectives-blue cursor-pointer">
+        {/* Upvotes */}
+        <button
+          className="flex items-center gap-1 hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
+          onClick={handleUpvotes}
+        >
           <span>{review.upvotes.length}</span>
           <HandThumbUpIcon className="w-5 h-5" />
-        </div>
+        </button>
         <div className="flex gap-2">
-          <BookmarkIcon className="w-5 h-5 hover:text-unilectives-blue cursor-pointer" />
-          <FlagIcon className="w-5 h-5 hover:text-unilectives-blue cursor-pointer" />
+          <button
+            className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
+            onClick={handleBookmark}
+          >
+            <BookmarkIcon className="w-5 h-5" />
+          </button>
+          <button
+            className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
+            onClick={handleFlag}
+          >
+            <FlagIcon className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </div>

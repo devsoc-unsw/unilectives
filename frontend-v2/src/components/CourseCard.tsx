@@ -1,4 +1,6 @@
-import StarRating from "./StarRating";
+"use client";
+
+import Rating from "./Rating";
 import TermsGroup from "./TermsGroup";
 
 // Type for the course card component
@@ -23,9 +25,11 @@ export default function CourseCard({
       {/* Course courseCode + Ratings */}
       <div className="flex flex-wrap justify-between text-2xl">
         <h1 className="font-bold">{courseCode}</h1>
-        <div>
+        <div className="text-right">
           {/* StarRating */}
-          <StarRating rating={rating} />
+          <div className="text-2xl inline">
+            <Rating color="purple" type="star" rating={rating} />
+          </div>
           {/* Number of reviews */}
           <p className="text-xs text-unilectives-subheadings">
             {/* Format number to their abbreviated string e.g 1000 to 1k, or 1000000 to 1M */}
@@ -42,7 +46,10 @@ export default function CourseCard({
         {title}
       </p>
       {/* Terms */}
-      <TermsGroup terms={terms} />
+      <TermsGroup
+        className="text-xs py-1 px-2 rounded-full bg-unilectives-tags"
+        terms={terms}
+      />
     </div>
   );
 }

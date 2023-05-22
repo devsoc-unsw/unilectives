@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
-export default function ReviewDescription({
+export default function TruncatedDescription({
   content,
   maxCharacters,
 }: {
