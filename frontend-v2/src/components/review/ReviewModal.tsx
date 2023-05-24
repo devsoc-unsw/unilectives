@@ -5,12 +5,15 @@ import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { FormEvent, Fragment, useMemo, useState } from "react";
 import ReviewRatingInput from "./ReviewRatingInput";
+import Dropdown from "../Dropdown";
 
-type Metric = {
+type Inputs = {
   rating: number | null;
   enjoyability: number | null;
   usefulness: number | null;
   manageability: number | null;
+  termTaken: string | null;
+  grade: string | null;
 };
 
 export default function ReviewModal({ courseCode }: { courseCode: string }) {
@@ -18,25 +21,28 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   // States: Modal Inputs
-  const defaultMetrics = {
+  const defaultInputs = {
     rating: null,
     enjoyability: null,
     usefulness: null,
     manageability: null,
+    termTaken: null,
+    grade: null,
   };
-  const [metrics, setMetrics] = useState<Metric>(defaultMetrics);
-  const [termTaken, setTermTaken] = useState<string>("");
+  const [inputs, setInputs] = useState<Inputs>(defaultInputs);
 
   // Simple regex check for termTaken
-  const termTakenIsValid = /^[0-9]{2}(T[1-3]|S[1-2])$/.test(termTaken);
+  const termTakenIsValid = /^[0-9]{2}(T[1-3]|S[1-2])$/.test(
+    inputs.termTaken ?? ""
+  );
 
   // Check if ready to submit
   const readyToSubmit = useMemo(() => {
-    const { rating, enjoyability, usefulness, manageability } = metrics;
+    const { rating, enjoyability, usefulness, manageability } = inputs;
     return (
       rating && enjoyability && usefulness && manageability && termTakenIsValid
     );
-  }, [metrics, termTakenIsValid]);
+  }, [inputs, termTakenIsValid]);
 
   // Submit review
   const handleOnSubmit = (event: FormEvent) => {
@@ -47,7 +53,14 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
 
     // Get all values
     const target = event.target as HTMLFormElement;
-    const { rating, enjoyability, usefulness, manageability } = metrics;
+    const {
+      rating,
+      enjoyability,
+      usefulness,
+      manageability,
+      grade,
+      termTaken,
+    } = inputs;
 
     const overallRating =
       ((rating as number) +
@@ -62,6 +75,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
       title: target.reviewTitle.value,
       description: target.reviewDescription.value,
       courseCode,
+      grade,
       rating,
       termTaken,
       manageability,
@@ -73,9 +87,8 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
     // TODO: Submit review here (Do this when user session can already be handled)
     console.log(body);
 
-    // Reset metrics + term taken
-    setMetrics(defaultMetrics);
-    setTermTaken("");
+    // Reset inputs + term taken
+    setInputs(defaultInputs);
 
     closeModal();
   };
@@ -132,10 +145,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                   <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
                     {/* Modal title + close button */}
                     <div className="flex justify-between items-center">
-                      <Dialog.Title
-                        as="h1"
-                        className="text-2xl md:text-xl font-bold"
-                      >
+                      <Dialog.Title as="h1" className="text-2xl font-bold">
                         Submit a Review
                       </Dialog.Title>
                       <button onClick={closeModal}>
@@ -157,7 +167,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                       <form
                         name="submit-review"
                         id="submit-review"
-                        className="space-y-5 w-full"
+                        className="space-y-5 w-full flex flex-col"
                         onSubmit={handleOnSubmit}
                       >
                         <input
@@ -178,53 +188,52 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                             "- Overall enjoyability / interesting topics you found\n" +
                             "- How strongly you recommend it as an elective."
                           }
-                          rows={16}
-                          className="py-2 px-4 w-full border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input resize-none"
+                          className="py-2 px-4 w-full h-full md:h-96 border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input resize-none"
                         />
                       </form>
                       <div className="flex flex-col items-center justify-around gap-y-5 px-12 lg:px-4 md:px-0 md:items-start text-center md:text-left z-10">
                         {/* Overall rating + enjoyability + usefulness + manageability */}
                         {[
                           {
-                            defaultValue: metrics.rating,
+                            defaultValue: inputs.rating,
                             onChange: (value: number | null) => {
-                              setMetrics((prevMetrics: Metric) => {
-                                const newMetrics = { ...prevMetrics };
-                                newMetrics.rating = value;
-                                return newMetrics;
+                              setInputs((prevInputs: Inputs) => {
+                                const newInputs = { ...prevInputs };
+                                newInputs.rating = value;
+                                return newInputs;
                               });
                             },
                             title: "Overall Rating",
                           },
                           {
-                            defaultValue: metrics.enjoyability,
+                            defaultValue: inputs.enjoyability,
                             onChange: (value: number | null) => {
-                              setMetrics((prevMetrics: Metric) => {
-                                const newMetrics = { ...prevMetrics };
-                                newMetrics.enjoyability = value;
-                                return newMetrics;
+                              setInputs((prevInputs: Inputs) => {
+                                const newInputs = { ...prevInputs };
+                                newInputs.enjoyability = value;
+                                return newInputs;
                               });
                             },
                             title: "Enjoyment",
                           },
                           {
-                            defaultValue: metrics.usefulness,
+                            defaultValue: inputs.usefulness,
                             onChange: (value: number | null) => {
-                              setMetrics((prevMetrics: Metric) => {
-                                const newMetrics = { ...prevMetrics };
-                                newMetrics.usefulness = value;
-                                return newMetrics;
+                              setInputs((prevInputs: Inputs) => {
+                                const newInputs = { ...prevInputs };
+                                newInputs.usefulness = value;
+                                return newInputs;
                               });
                             },
                             title: "Usefulness",
                           },
                           {
-                            defaultValue: metrics.manageability,
+                            defaultValue: inputs.manageability,
                             onChange: (value: number | null) => {
-                              setMetrics((prevMetrics: Metric) => {
-                                const newMetrics = { ...prevMetrics };
-                                newMetrics.manageability = value;
-                                return newMetrics;
+                              setInputs((prevInputs: Inputs) => {
+                                const newInputs = { ...prevInputs };
+                                newInputs.manageability = value;
+                                return newInputs;
                               });
                             },
                             title: "Manageability",
@@ -262,15 +271,32 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                             );
                           }
                         )}
+                        {/* Grade */}
+                        <div className="w-[150px]">
+                          <h2 className="text-lg font-bold">Grade</h2>
+                          <Dropdown
+                            options={["HD", "DN", "CR", "PS", "FL", "UF"]}
+                            defaultValue={inputs.grade}
+                            placeholder="Grade"
+                            onChange={(value: string | null) => {
+                              setInputs((prevInputs: Inputs) => {
+                                const newInputs = { ...prevInputs };
+                                newInputs.grade = value;
+                                return newInputs;
+                              });
+                            }}
+                          />
+                        </div>
                         {/* Course Completion */}
                         <div className="w-[270px] md:w-full space-y-2">
-                          <label
-                            htmlFor="modal-course-completion"
-                            className="text-lg font-bold"
-                          >
-                            Course Completion
-                          </label>
-                          {/* TODO: Use dropdown and put all the valid terms as the options */}
+                          <h2>
+                            <label
+                              htmlFor="modal-course-completion"
+                              className="text-lg font-bold"
+                            >
+                              Course Completion
+                            </label>
+                          </h2>
                           <div className="w-full text-left">
                             <input
                               type="text"
@@ -279,9 +305,13 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                               placeholder="Course Completion (e.g. 18S1, 23T1)"
                               id="modal-course-completion"
                               form="submit-review"
-                              onChange={(event) =>
-                                setTermTaken(event.target.value)
-                              }
+                              onChange={(event) => {
+                                setInputs((prevInputs: Inputs) => {
+                                  const newInputs = { ...prevInputs };
+                                  newInputs.termTaken = event.target.value;
+                                  return newInputs;
+                                });
+                              }}
                               className="py-2 px-4 w-full border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input"
                             />
                           </div>

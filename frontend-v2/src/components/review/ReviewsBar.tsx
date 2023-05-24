@@ -60,7 +60,7 @@ export default function ReviewsBar({
       {/* Heading + Dropdown + Modal */}
       <div className="flex items-center flex-wrap gap-x-5 gap-y-2">
         <h3 className="text-2xl font-bold">Reviews</h3>
-        <div className="flex-1 min-w-[250px] max-w-[250px] z-10">
+        <div className="flex-1 min-w-[275px] max-w-[275px] z-10">
           <Dropdown
             options={[
               "Most Recent",
@@ -68,6 +68,7 @@ export default function ReviewsBar({
               "Highest Rating to Lowest Rating",
               "Lowest Rating to Highest Rating",
             ]}
+            defaultValue={selected}
             onChange={setSelected}
             placeholder="Sort by"
           />

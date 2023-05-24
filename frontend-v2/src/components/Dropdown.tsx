@@ -6,14 +6,16 @@ import { ChevronDownIcon } from "@heroicons/react/24/solid";
 
 export default function Dropdown({
   options,
+  defaultValue,
   onChange,
   placeholder,
 }: {
   options: string[];
+  defaultValue?: string | null;
   onChange?: (selected: string) => void;
   placeholder?: string;
 }) {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(defaultValue ?? "");
 
   // Handle dropdown value change
   const handleOnChange = useCallback(
@@ -45,7 +47,7 @@ export default function Dropdown({
           </span>
         </Listbox.Button>
         {/* Dropdown options */}
-        <Listbox.Options className="absolute max-h-60 w-full overflow-auto border border-unilectives-subheadings rounded-md bg-white shadow-dropdown border-t-0 rounded-t-none">
+        <Listbox.Options className="absolute max-h-[10.05rem] text-left w-full overflow-auto border border-unilectives-subheadings rounded-md bg-white shadow-dropdown border-t-0 rounded-t-none">
           {options.length === 0 ? (
             <Listbox.Option
               value=""
@@ -59,7 +61,7 @@ export default function Dropdown({
               <Listbox.Option
                 key={index}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 px-4 ${
+                  `relative cursor-pointer select-none py-2 px-4 ${
                     active ? "bg-unilectives-subheadings/20" : "bg-white"
                   }`
                 }

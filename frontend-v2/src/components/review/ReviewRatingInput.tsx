@@ -60,6 +60,7 @@ export default function ReviewRatingInput({
                 ? "text-unilectives-blue/25"
                 : "text-unilectives-purple/25"
             }`}
+            title={`Rating ${max - index}`}
           >
             <span className="sr-only">{index + 1} star(s)</span>
             {content}

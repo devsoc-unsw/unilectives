@@ -1,5 +1,4 @@
 import Image from "next/image";
-import icon from "../../../assets/icon.png";
 import waves from "../../../assets/waves.svg";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import { Suspense } from "react";
@@ -55,34 +54,25 @@ export default async function ReviewPage({
 
   if (!course) notFound();
 
-  console.log(course);
-
   const reviews = await getReviews(course.courseCode);
 
   return (
     <div className="isolate">
       {/* Header */}
       <div className="relative">
-        <div className="flex flex-wrap justify-between gap-4 px-16 md:px-8 sm:px-4 py-8">
-          {/* Icon */}
-          <div className="flex items-center gap-2">
-            <Image className="w-12" src={icon} alt="Uni-lectives" />
-            <h1 className="font-bold text-2xl text-unilectives-icon">
-              Uni-lectives
-            </h1>
-          </div>
+        <div className="w-1/2 ml-auto md:w-full pr-16 md:px-8 py-8">
           {/* Search bar */}
           <ReviewSearchbar />
         </div>
         {/* Waves */}
         <Image
-          className="w-full max-h-24 absolute object-cover top-0 -z-10"
+          className="w-full h-full absolute object-cover top-0 -z-10"
           src={waves}
           alt="Waves"
         />
       </div>
       {/* Course details */}
-      <div className="flex gap-8 px-16 md:px-8 sm:px-4 md:flex-wrap">
+      <div className="flex gap-8 pt-12 px-16 md:px-8 lg:pt-8 md:flex-wrap">
         <Suspense fallback={<div>Loading...</div>}>
           <section className="space-y-4 w-full block md:static md:max-h-full sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-none">
             <h1 className="text-6xl font-bold">{course.courseCode}</h1>
@@ -99,7 +89,7 @@ export default async function ReviewPage({
               href={`//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${
                 course.courseCode
               }`}
-              className="flex items-center w-fit text-unilectives-blue hover:underline flex-1"
+              className="flex items-center w-fit gap-1 text-unilectives-blue hover:underline flex-1"
             >
               <LinkIcon className="w-4 h-4" />
               {course.courseCode} Handbook Page

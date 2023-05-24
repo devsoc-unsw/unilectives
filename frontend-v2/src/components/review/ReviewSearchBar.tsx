@@ -13,7 +13,7 @@ export default function ReviewSearchbar() {
   return (
     <form
       name="review-search-bar"
-      className="flex items-center gap-1 border border-black text-black rounded-2xl px-4 py-2 shadow-md w-1/2 xs:w-full"
+      className="flex items-center gap-1 border border-white text-white rounded-2xl px-4 py-2"
       onSubmit={handleOnSubmit}
     >
       {/* Search icon */}
@@ -26,7 +26,7 @@ export default function ReviewSearchbar() {
         name="query"
         title="Search here..."
         placeholder="Search here..."
-        className="w-full outline-none bg-transparent placeholder:text-black"
+        className="w-full outline-none bg-transparent placeholder:text-white"
       />
     </form>
   );

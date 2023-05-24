@@ -1,14 +1,12 @@
 "use client";
 
-import {
-  BookmarkIcon,
-  FlagIcon,
-  HandThumbUpIcon,
-} from "@heroicons/react/24/outline";
+import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/react/24/outline";
 import Rating from "../Rating";
 import TruncatedDescription from "../TruncatedDescription";
+import ReportModal from "./ReportModal";
 
 export type Review = {
+  reviewId: string;
   authorName: string;
   title: string;
   description: string;
@@ -30,10 +28,6 @@ export default function ReviewCard({ review }: { review: Review }) {
 
   const handleBookmark = () => {
     // TODO: Handle bookmark here (Do this when user session can already be handled)
-  };
-
-  const handleFlag = () => {
-    // TODO: Handle when flag icon is clicked
   };
 
   return (
@@ -88,19 +82,16 @@ export default function ReviewCard({ review }: { review: Review }) {
           <span>{review.upvotes.length}</span>
           <HandThumbUpIcon className="w-5 h-5" />
         </button>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          {/* Bookmark */}
           <button
             className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
             onClick={handleBookmark}
           >
             <BookmarkIcon className="w-5 h-5" />
           </button>
-          <button
-            className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
-            onClick={handleFlag}
-          >
-            <FlagIcon className="w-5 h-5" />
-          </button>
+          {/* Flag */}
+          <ReportModal reviewId={review.reviewId} />
         </div>
       </div>
     </div>
