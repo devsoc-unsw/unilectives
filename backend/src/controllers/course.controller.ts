@@ -116,7 +116,7 @@ export class CourseController implements IController {
             const courseCode: string = req.params.courseCode;
             const result = await this.courseService.getCourse(courseCode);
             this.logger.info(
-              `Responding to client in GET /course/page/:courseCode/${courseCode}`
+              `Responding to client in GET /course/page/${courseCode}`
             );
             return res.status(200).json(result);
           } catch (err: any) {
