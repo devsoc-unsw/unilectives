@@ -45,6 +45,24 @@ export class CourseService {
       courses: courses.map(convertCourseEntityToInterface),
     };
   }
+  
+  async getCourse(courseCode: string): Promise<CourseBody | undefined> {
+    const course = await this.courseRepository.getCourse(courseCode);
+
+    if (!course) {
+      this.logger.error(
+        `There is no course with courseCode ${courseCode}.`
+      );
+      throw new HTTPError(badRequest);
+    }
+
+    this.logger.info(
+      `Found course with courseCode ${courseCode}.`
+    );
+    return {
+      course: convertCourseEntityToInterface(course),
+    };
+  }
 
   async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
     let course = await this.courseRepository.getCourse(
