@@ -1,0 +1,23 @@
+{
+  "name": "auth",
+  "version": "0.1.0",
+  "scripts": {
+    "migrate": "drizzle-kit generate:pg",
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run src/index.ts --production"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.26.1",
+    "elysia": "latest",
+    "envsafe": "^2.0.3",
+    "jose": "^4.14.4",
+    "pg": "^8.11.0",
+    "pino": "^8.14.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.10.1",
+    "bun-types": "latest",
+    "drizzle-kit": "^0.18.1"
+  },
+  "module": "src/index.js"
+}

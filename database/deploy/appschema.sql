@@ -3,13 +3,13 @@
 BEGIN;
 CREATE SCHEMA cselectives;
 
-CREATE TABLE cselectives.users (
-    zid                 text NOT NULL,
-    bookmarked_reviews  text[] NOT NULL,
-    bookmarked_courses  text[] NOT NULL,
-    is_admin            boolean NOT NULL,
-    CONSTRAINT pk_zid PRIMARY KEY ( zid )
-);
+-- CREATE TABLE cselectives.users (
+--     zid                 text NOT NULL,
+--     bookmarked_reviews  text[] NOT NULL,
+--     bookmarked_courses  text[] NOT NULL,
+--     is_admin            boolean NOT NULL,
+--     CONSTRAINT pk_zid PRIMARY KEY ( zid )
+-- );
 
 CREATE TABLE cselectives.courses (
     course_code        text NOT NULL,
@@ -127,14 +127,14 @@ CREATE TABLE cselectives.reports (
 --         4
 --     );
 
-INSERT INTO cselectives.users
-VALUES
-    (
-        'z5000000',
-        '{}',
-        '{"COMP1531"}',
-        FALSE
-    );
+-- INSERT INTO cselectives.users
+-- VALUES
+--     (
+--         'z5000000',
+--         '{}',
+--         '{"COMP1531"}',
+--         FALSE
+--     );
 
 -- INSERT INTO cselectives.reviews
 -- VALUES(
