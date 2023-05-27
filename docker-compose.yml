@@ -62,6 +62,7 @@ services:
     environment:
       PORT: 6969
       DB_CONN: postgresql://postgres:password@postgres:5432/mydb
+      ROLE_PASSWORD: cselectives-admin
     ports:
       - 6969:6969
     depends_on:
