@@ -24,7 +24,7 @@ export default class App {
     );
     server.onError(({ code, error, set }) => {
       if (error instanceof HTTPError) {
-        logger.error(`HTTP Error: ${error}`);
+        logger.error(`HTTP Error: ${error.status} - ${error.statusText}`);
         set.status = error.status;
         return error.statusText;
       }
@@ -60,7 +60,8 @@ export default class App {
     }
   }
 
-  run(port: number) {
+  async run(port: number, db: NodePgDatabase) {
+    await this.dbMigrate(db);
     this.app.listen(port);
   }
 
@@ -76,7 +77,7 @@ export default class App {
       logger.info("Migrations completed");
     } catch (err) {
       logger.error("Failed to run database migrations", err);
-      this.app.stop();
+      throw err;
     }
   }
 

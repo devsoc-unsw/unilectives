@@ -9,5 +9,8 @@ export const env = envsafe({
   }),
   JWT_SECRET: str({
     devDefault: "mysecretjwt"
+  }),
+  ROLE_PASSWORD: str({
+    devDefault: "cselectives-admin"
   })
 });

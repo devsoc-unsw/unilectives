@@ -5,6 +5,7 @@ import { logger } from "../utils/logger";
 import HTTPError from "../utils/error";
 import { env } from "../utils/env";
 import * as jose from "jose";
+import { NotFoundError } from "elysia";
 
 export default class AuthService {
   async login(body: { zid: string; password: string }) {
@@ -71,6 +72,12 @@ export default class AuthService {
       .set({ role })
       .where(eq(users.zid, zid))
       .returning();
+    if (result.length === 0) {
+      logger.error(
+        `No user with zid ${zid} found`
+      );
+      throw new NotFoundError();
+    }
     return result[0];
   }
 }
