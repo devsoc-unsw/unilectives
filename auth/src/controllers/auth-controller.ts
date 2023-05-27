@@ -31,7 +31,7 @@ export default class AuthController implements Controller {
           "/user/role",
           async ({ body, headers }) => {
             logger.info(`Received request for PUT /user/role`);
-            if (headers["authorization"] !== env.ROLE_PASSWORD) {
+            if (headers.authorization !== env.ROLE_PASSWORD) {
               throw new HTTPError(401, "Unauthorized");
             }
             return await this.authService.updateRole(body.zid, body.role);
@@ -40,6 +40,9 @@ export default class AuthController implements Controller {
             body: t.Object({
               zid: t.String(),
               role: t.Union([t.Literal("default"), t.Literal("admin")]),
+            }),
+            headers: t.Object({
+              authorization: t.String(),
             }),
           }
         );
