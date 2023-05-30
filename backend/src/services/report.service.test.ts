@@ -12,6 +12,7 @@ import { EntityManager, DataSource } from "typeorm";
 import { CreateReport, UpdateReportStatus } from "../api/schemas/report.schema";
 
 describe("ReportService", () => {
+  jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   let manager: EntityManager;
   let connection: DataSource;
 

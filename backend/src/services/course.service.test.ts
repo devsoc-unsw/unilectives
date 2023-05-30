@@ -11,6 +11,7 @@ import { CourseRepository } from "../repositories/course.repository";
 import { BookmarkCourse } from "../api/schemas/course.schema";
 
 describe("CourseService", () => {
+  jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   const courseRepository = {} as CourseRepository;
   const userRepository = {} as UserRepository;
   beforeEach(() => {

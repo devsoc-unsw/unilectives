@@ -21,7 +21,7 @@ Test Docker build locally:
 
 Start a local docker network:
 ```
-docker network create cselectives-network 
+docker network create cselectives-network
 ```
 
 First start the database:
