@@ -1,4 +1,4 @@
-import config from "config";
+import { env } from "./env";
 import Database from "./modules/Database";
 import { getLogger } from "./utils/logger";
 import { ExpressWrapper } from "./modules/ExpressWrapper";
@@ -57,7 +57,7 @@ export default class App {
   async start(): Promise<void> {
     this.logger.info("Starting up...");
     await this.db.start();
-    await this.ex.start(config.get("api.port"));
+    await this.ex.start(env.API_PORT);
     this.logger.info("Started HTTP Server and Database");
   }
 

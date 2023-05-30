@@ -25,6 +25,6 @@
     "strictPropertyInitialization": false,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "config/*"],
+  "include": ["src/**/*"],
   "exclude": ["src/**/*.test.ts"]
 }
