@@ -11,8 +11,8 @@ export default class RedisClient {
       maxRetriesPerRequest: 3,
       lazyConnect: true,
       host: env.REDIS_HOST,
-      username: env.REDIS_USER, 
-      password: env.REDIS_PASSWORD, 
+      username: env.REDIS_USER,
+      password: env.REDIS_PASSWORD,
     });
     this.redis.on("error", (err) => {
       this.logger.warn(`Redis error: ${err}`);
