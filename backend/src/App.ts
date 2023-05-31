@@ -1,4 +1,4 @@
-import config from "config";
+import { env } from "./env";
 import Database from "./modules/Database";
 import RedisClient from "./modules/redis";
 import { getLogger } from "./utils/logger";
@@ -61,7 +61,7 @@ export default class App {
     this.logger.info("Starting up...");
     await this.db.start();
     await this.redis.start();
-    await this.ex.start(config.get("api.port"));
+    await this.ex.start(env.API_PORT);
     this.logger.info("Started HTTP Server and Database");
   }
 

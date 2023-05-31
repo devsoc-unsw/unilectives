@@ -1,5 +1,6 @@
 import IORedis from "ioredis";
 import { getLogger } from "../utils/logger";
+import env from "../env";
 
 export default class RedisClient {
   private logger = getLogger();
@@ -9,9 +10,9 @@ export default class RedisClient {
     this.redis = new IORedis({
       maxRetriesPerRequest: 3,
       lazyConnect: true,
-      host: process.env.REDIS_HOST ?? "localhost",
-      username: "",
-      password: "",
+      host: env.REDIS_HOST,
+      username: env.REDIS_USER, 
+      password: env.REDIS_PASSWORD, 
     });
     this.redis.on("error", (err) => {
       this.logger.warn(`Redis error: ${err}`);
