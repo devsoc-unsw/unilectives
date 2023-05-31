@@ -6,6 +6,7 @@ import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import AuthService from "./services/auth-service";
 import AuthController from "./controllers/auth-controller";
 import HTTPError from "./utils/error";
+import cors from "@elysiajs/cors";
 
 export default class App {
   private app: Elysia<ElysiaInstance>;
@@ -17,6 +18,7 @@ export default class App {
 
   createServer() {
     const server = new Elysia();
+    server.use(cors());
     server.onStop((app) =>
       logger.info(
         `🦊 Server ${app.server?.hostname}:${app.server?.port} stopped`
@@ -26,7 +28,7 @@ export default class App {
       if (error instanceof HTTPError) {
         logger.error(`HTTP Error: ${error.status} - ${error.statusText}`);
         set.status = error.status;
-        return error.statusText;
+        return { error: error.statusText };
       }
 
       if (code === "NOT_FOUND") {
