@@ -40,7 +40,7 @@ services:
       context: ./migration
       dockerfile: Dockerfile
     environment:
-      AUTH_DOMAIN: ${AUTH_DOMAIN}
+      AUTHDOMAIN: ${AUTH_DOMAIN}
       PROJECT_ID: ${PROJECT_ID}
       STORAGE_BUCKET: ${STORAGE_BUCKET}
       NODE_ENV: production
@@ -50,6 +50,21 @@ services:
       POSTGRESQL_DATABASE: mydb
     ports:
       - 8080:8080
+    depends_on:
+      - database
+      - postgres
+
+  auth:
+    restart: unless-stopped
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    environment:
+      PORT: 6969
+      DB_CONN: postgresql://postgres:password@postgres:5432/mydb
+      ROLE_PASSWORD: cselectives-admin
+    ports:
+      - 6969:6969
     depends_on:
       - database
       - postgres
