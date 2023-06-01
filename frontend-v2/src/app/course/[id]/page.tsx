@@ -6,25 +6,26 @@ import TermsGroup from "@/components/TermsGroup";
 import Link from "next/link";
 import DoughnutChart from "@/components/DoughnutChart";
 import { notFound } from "next/navigation";
-import ReviewsBar from "../../../components/review/ReviewsBar";
+import ReviewsBar from "@/components/review/ReviewsBar";
 import Rating from "@/components/Rating";
 import ReviewSearchbar from "@/components/review/ReviewSearchBar";
+import { Course } from "@/types/api";
 
 /**
  * Fetch course from backend based on the given id
  */
 const getCourse = async (id: string) => {
-  const response = await fetch(`http://localhost:3030/api/v1/courses`, {
+  const res = await fetch(`http://localhost:3030/api/v1/courses`, {
     method: "GET",
   });
 
   // Return undefined if status code is not 200
-  if (response.status !== 200) return;
+  if (!res.ok) return;
 
   // Return course
-  const result = await response.json();
+  const result = await res.json();
   return result.courses.find(
-    (course: any) => course.courseCode === id.toUpperCase()
+    (course: Course) => course.courseCode === id.toUpperCase()
   );
 };
 
@@ -32,14 +33,14 @@ const getCourse = async (id: string) => {
  * Fetch reviews from backend based on the given id
  */
 const getReviews = async (id: string) => {
-  const response = await fetch(
+  const res = await fetch(
     `http://localhost:3030/api/v1/reviews/${id.toUpperCase()}`,
     {
       method: "GET",
     }
   );
   // Return reviews
-  const result = await response.json();
+  const result = await res.json();
   return result.reviews;
 };
 
@@ -75,8 +76,10 @@ export default async function ReviewPage({
       <div className="flex gap-8 pt-12 px-16 md:px-8 lg:pt-8 md:flex-wrap">
         <Suspense fallback={<div>Loading...</div>}>
           <section className="space-y-4 w-full block md:static md:max-h-full sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-none">
-            <h1 className="text-6xl font-bold">{course.courseCode}</h1>
-            <h2 className="text-3xl font-bold">{course.title}</h2>
+            <h1 className="text-6xl font-bold break-words">
+              {course.courseCode}
+            </h1>
+            <h2 className="text-3xl font-bold break-words">{course.title}</h2>
             {/* Terms */}
             <TermsGroup
               className="py-1 px-2 rounded-full bg-unilectives-tags-pink font-bold text-black/50"

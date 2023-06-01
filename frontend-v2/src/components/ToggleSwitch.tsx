@@ -19,7 +19,7 @@ export default function ToggleSwitch({
       onChange(!enabled);
     }
     setEnabled((prev) => !prev);
-  }, [enabled]);
+  }, [enabled, onChange]);
 
   return (
     <div className="flex items-center gap-2">

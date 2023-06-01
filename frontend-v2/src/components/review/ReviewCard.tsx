@@ -4,22 +4,8 @@ import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/react/24/outline";
 import Rating from "../Rating";
 import TruncatedDescription from "../TruncatedDescription";
 import ReportModal from "./ReportModal";
-
-export type Review = {
-  reviewId: string;
-  authorName: string;
-  title: string;
-  description: string;
-  grade: number;
-  termTaken: string;
-  createdTimestamp: string;
-  updatedTimestamp: string;
-  upvotes: string[];
-  manageability: number;
-  enjoyability: number;
-  usefulness: number;
-  overallRating: number;
-};
+import { Review } from "@/types/api";
+import { format } from "date-fns";
 
 export default function ReviewCard({ review }: { review: Review }) {
   const handleUpvotes = () => {
@@ -35,7 +21,7 @@ export default function ReviewCard({ review }: { review: Review }) {
       {/* Title + Date */}
       <div className="flex items-center gap-2 flex-wrap justify-between">
         <h1 className="font-bold">{!review.title ? "-" : review.title}</h1>
-        <p>{new Date(review.createdTimestamp).toLocaleDateString()}</p>
+        <p>{format(new Date(review.createdTimestamp), "dd/MM/yyyy")}</p>
       </div>
       {/* Rating + Author */}
       <div className="flex items-center gap-2 flex-wrap justify-between">

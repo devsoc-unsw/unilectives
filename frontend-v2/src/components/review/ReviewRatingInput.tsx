@@ -32,7 +32,7 @@ export default function ReviewRatingInput({
 
       return targetRating;
     },
-    [rating]
+    [onChange]
   );
 
   return (

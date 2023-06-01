@@ -1,5 +1,3 @@
-"use client";
-
 import Rating from "./Rating";
 import TermsGroup from "./TermsGroup";
 

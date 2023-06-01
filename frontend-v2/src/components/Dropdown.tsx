@@ -25,7 +25,7 @@ export default function Dropdown({
       }
       setSelected(value);
     },
-    [selected]
+    [onChange]
   );
 
   return (

@@ -29,22 +29,19 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
   };
 
   // Handle when radio input is changed
-  const handleRadioOnChange = useCallback(
-    (event: ChangeEvent) => {
-      setInput((prevInput: typeof input) => {
-        const newInput = { ...prevInput };
-        const target = event.target as HTMLInputElement;
-        if (target.id === "report-other") {
-          newInput.isOther = true;
-        } else {
-          newInput.isOther = false;
-        }
-        newInput.reason = target.value;
-        return newInput;
-      });
-    },
-    [input]
-  );
+  const handleRadioOnChange = useCallback((event: ChangeEvent) => {
+    setInput((prevInput: typeof input) => {
+      const newInput = { ...prevInput };
+      const target = event.target as HTMLInputElement;
+      if (target.id === "report-other") {
+        newInput.isOther = true;
+      } else {
+        newInput.isOther = false;
+      }
+      newInput.reason = target.value;
+      return newInput;
+    });
+  }, []);
 
   // Update reason when other reason is updated
   useEffect(() => {

@@ -4,7 +4,8 @@ import Dropdown from "@/components/Dropdown";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { useMemo, useState } from "react";
 import ReviewModal from "./ReviewModal";
-import ReviewCard, { Review } from "./ReviewCard";
+import ReviewCard from "./ReviewCard";
+import { Review } from "@/types/api";
 
 export default function ReviewsBar({
   reviews,
@@ -53,14 +54,14 @@ export default function ReviewsBar({
     setCurrentReviews(
       sortedReviews.filter((r: Review) => !!(r.title || r.description))
     );
-  }, [displayTextReview, selected]);
+  }, [displayTextReview, selected, reviews]);
 
   return (
     <div className="space-y-5 isolate">
       {/* Heading + Dropdown + Modal */}
       <div className="flex items-center flex-wrap gap-x-5 gap-y-2">
         <h3 className="text-2xl font-bold">Reviews</h3>
-        <div className="flex-1 min-w-[275px] max-w-[275px] z-10">
+        <div className="flex-1 min-w-[275px] max-w-[275px] xs:min-w-full z-10">
           <Dropdown
             options={[
               "Most Recent",

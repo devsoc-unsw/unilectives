@@ -1,5 +1,3 @@
-"use client";
-
 import { HTMLAttributes } from "react";
 
 export default function TermsGroup({
