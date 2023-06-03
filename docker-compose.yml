@@ -13,6 +13,7 @@ services:
       POSTGRESQL_USER: postgres
       POSTGRESQL_PASSWORD: password
       POSTGRESQL_DATABASE: mydb
+      REDIS_HOST: redis
       JWT_SECRET: secret
       DATABASE_URL: "postgresql://postgres:password@postgres:5432/mydb?schema=cselectives"
     ports:
@@ -20,6 +21,7 @@ services:
     depends_on:
       - database
       - postgres
+      - redis
 
   database:
     restart: on-failure
@@ -41,7 +43,7 @@ services:
       context: ./migration
       dockerfile: Dockerfile
     environment:
-      AUTH_DOMAIN: ${AUTH_DOMAIN}
+      AUTHDOMAIN: ${AUTH_DOMAIN}
       PROJECT_ID: ${PROJECT_ID}
       STORAGE_BUCKET: ${STORAGE_BUCKET}
       NODE_ENV: production
@@ -55,6 +57,21 @@ services:
       - database
       - postgres
 
+  auth:
+    restart: unless-stopped
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    environment:
+      PORT: 6969
+      DB_CONN: postgresql://postgres:password@postgres:5432/mydb
+      ROLE_PASSWORD: cselectives-admin
+    ports:
+      - 6969:6969
+    depends_on:
+      - database
+      - postgres
+
   postgres:
     image: postgres:14.6-alpine
     ports:
@@ -63,4 +80,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydb
+    restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
     restart: unless-stopped

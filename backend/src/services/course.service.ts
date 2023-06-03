@@ -3,6 +3,7 @@ import { HTTPError } from "../utils/errors";
 import { badRequest, internalServerError } from "../utils/constants";
 import { CourseRepository } from "../repositories/course.repository";
 import { UserRepository } from "../repositories/user.repository";
+import RedisClient from "../modules/redis";
 import {
   BookmarkCourse,
   Course,
@@ -14,7 +15,8 @@ export class CourseService {
   private logger = getLogger();
   constructor(
     private readonly courseRepository: CourseRepository,
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
+    private readonly redis: RedisClient
   ) {}
 
   async getCourses(): Promise<CoursesSuccessResponse | undefined> {
@@ -33,9 +35,16 @@ export class CourseService {
   async getCoursesFromOffset(
     offset: number
   ): Promise<CoursesSuccessResponse | undefined> {
-    const courses: Course[] = await this.courseRepository.getCoursesFromOffset(
-      offset
-    );
+    let courses = await this.redis.get<Course[]>(`courses:${offset}`);
+
+    if (!courses) {
+      this.logger.info(`Cache miss on courses:${offset}`);
+      courses = await this.courseRepository.getCoursesFromOffset(offset);
+      await this.redis.set(`courses:${offset}`, courses);
+    } else {
+      this.logger.info(`Cache hit on courses:${offset}`);
+    }
+
     this.logger.info(`Found ${courses.length} courses.`);
     return {
       courses: courses,

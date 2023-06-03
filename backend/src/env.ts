@@ -1,13 +1,12 @@
-import { envsafe, port, str, url } from "envsafe";
+import { envsafe, port, str } from "envsafe";
 
 export const env = envsafe({
   API_PORT: port({
-    default: 8080,
-  }),
-  CIRCLES_URL: url({
-    default: "https://circlesapi.csesoc.app",
+    devDefault: 3030,
+    default: 3030,
   }),
   DB_TYPE: str({
+    devDefault: "postgres",
     default: "postgres",
     choices: ["postgres", "mysql"],
   }),
@@ -26,7 +25,15 @@ export const env = envsafe({
   POSTGRESQL_DATABASE: str({
     default: "mydb",
   }),
-  AUTHDOMAIN: str(),
-  PROJECT_ID: str(),
-  STORAGE_BUCKET: str(),
+  REDIS_HOST: str({
+    devDefault: "localhost",
+  }),
+  REDIS_USER: str({
+    devDefault: "",
+  }),
+  REDIS_PASSWORD: str({
+    devDefault: "",
+  }),
 });
+
+export default env;

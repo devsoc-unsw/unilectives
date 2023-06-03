@@ -1,25 +1,24 @@
-import config from "config";
+import { env } from "../env";
 import { DataSource } from "typeorm";
 import { getLogger } from "../utils/logger";
 import { CourseEntity } from "../entity/Course";
 import { ReviewEntity } from "../entity/Review";
 import { UserEntity } from "../entity/User";
 import { ReportEntity } from "../entity/Report";
-import { IDatabaseConfig } from "IConfig";
 
 export default class Database {
   private logger = getLogger();
   private dbConnection: DataSource;
   constructor(readonly connectionName: string) {
-    const dbConfig: IDatabaseConfig = config.get("database");
     this.dbConnection = new DataSource({
+      type: env.DB_TYPE as "postgres" | "mysql",
       applicationName: this.connectionName,
       entities: [CourseEntity, UserEntity, ReportEntity, ReviewEntity],
-      ...dbConfig,
-      host: process.env.POSTGRESQL_HOST ?? dbConfig.host,
-      username: process.env.POSTGRESQL_USER ?? dbConfig.username,
-      password: process.env.POSTGRESQL_PASSWORD ?? dbConfig.password,
-      database: process.env.POSTGRESQL_DATABASE ?? dbConfig.database,
+      port: env.POSTGRESQL_PORT,
+      host: env.POSTGRESQL_HOST,
+      username: env.POSTGRESQL_USER,
+      password: env.POSTGRESQL_PASSWORD,
+      database: env.POSTGRESQL_DATABASE,
     });
   }
 

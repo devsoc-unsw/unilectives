@@ -1,5 +1,6 @@
-import config from "config";
+import { env } from "./env";
 import Database from "./modules/Database";
+import RedisClient from "./modules/redis";
 import { getLogger } from "./utils/logger";
 import { ExpressWrapper } from "./modules/ExpressWrapper";
 import { ReviewService } from "./services/review.service";
@@ -22,6 +23,7 @@ export default class App {
   private ex = new ExpressWrapper();
   private db = new Database("default");
   private prisma = new PrismaClient();
+  private redis = new RedisClient();
 
   // db manager
   private readonly manager = this.db.get().manager;
@@ -41,7 +43,8 @@ export default class App {
   // add services here, manager will be prisma once other services are migrated too
   private readonly courseService = new CourseService(
     this.courseRepository,
-    this.userRepository
+    this.userRepository,
+    this.redis
   );
   private readonly userService = new UserService(
     this.auth,
@@ -78,13 +81,15 @@ export default class App {
   async start(): Promise<void> {
     this.logger.info("Starting up...");
     await this.db.start();
-    await this.ex.start(config.get("api.port"));
+    await this.ex.start(env.get("api.port"));
     this.prisma.start;
+    await this.redis.start();
     this.logger.info("Started HTTP Server and Database");
   }
 
   async stop(): Promise<void> {
     await this.ex.stop();
+    await this.redis.stop();
     await this.db.stop();
     this.prisma.stop;
   }

@@ -9,17 +9,19 @@ import {
 import { UserRepository } from "../repositories/user.repository";
 import { CourseRepository } from "../repositories/course.repository";
 import { BookmarkCourse } from "../api/schemas/course.schema";
+import RedisClient from "../modules/redis";
 
 describe("CourseService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   const courseRepository = {} as CourseRepository;
   const userRepository = {} as UserRepository;
+  const redis = {} as RedisClient;
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
   });
   const courseService = () =>
-    new CourseService(courseRepository, userRepository);
+    new CourseService(courseRepository, userRepository, redis);
 
   describe("getCourses", () => {
     it("should throw HTTP 500 error if no courses in database", () => {
