@@ -3,26 +3,24 @@ import { UserEntity } from "../entity/User";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
 import { convertUserEntityToInterface } from "../converters/user.converter";
-import { EntityManager } from "typeorm";
 import { UserRepository } from "../repositories/user.repository";
 import { ReviewRepository } from "../repositories/review.repository";
 import { CourseRepository } from "../repositories/course.repository";
-import { ReviewEntity } from "../entity/Review";
 import { AuthService } from "../modules/Auth";
 import {
   UserSuccessResponse,
   UserTokenSuccessResponse,
 } from "../api/schemas/user.schema";
+import { reviews } from "@prisma/client";
 
 export class UserService {
   private logger = getLogger();
   constructor(
-    private readonly manager: EntityManager,
     private readonly authService: AuthService,
-    private readonly courseRepository: CourseRepository
+    private readonly courseRepository: CourseRepository,
+    private readonly userRepository: UserRepository,
+    private readonly reviewRepository: ReviewRepository
   ) {}
-  private userRepository = new UserRepository(this.manager);
-  private reviewRepository = new ReviewRepository(this.manager);
 
   async createUser(zid: string): Promise<UserTokenSuccessResponse> {
     const userExists = await this.userRepository.getUser(zid);
@@ -57,7 +55,7 @@ export class UserService {
     }
 
     // get user bookmarked reviews
-    const bookmarkedReviews: ReviewEntity[] =
+    const bookmarkedReviews: reviews[] =
       await this.reviewRepository.getReviewsById(userInfo.bookmarkedReviews);
     const filteredBookmarkedReviews = bookmarkedReviews.filter(
       (review) => review !== undefined

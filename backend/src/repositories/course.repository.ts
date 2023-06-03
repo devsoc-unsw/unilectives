@@ -1,9 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import {
-  Course,
-  CourseSchema,
-} from "../api/schemas/course.schema";
-import { courseFieldsWithRatings } from "../utils/constants";
+import { Course, CourseSchema } from "../api/schemas/course.schema";
 
 export class CourseRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -39,8 +35,8 @@ export class CourseRepository {
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC
       `) as any[];
-      const courses = rawCourses.map(course => CourseSchema.parse(course));
-      return courses;
+    const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    return courses;
   }
 
   async getCoursesFromOffset(offset: number): Promise<Course[]> {
@@ -79,7 +75,7 @@ export class CourseRepository {
   }
 
   async getCoursesById(courseCodes: string[]): Promise<Course[]> {
-    const courseCodesString = courseCodes.map(code => `'${code}'`).join(',');
+    const courseCodesString = courseCodes.map((code) => `'${code}'`).join(",");
 
     const rawCourses = (await this.prisma.$queryRaw`
     SELECT
@@ -112,12 +108,12 @@ export class CourseRepository {
     GROUP BY c.course_code
     ORDER BY "reviewCount" DESC;
     `) as any[];
-    const courses = rawCourses.map(course => CourseSchema.parse(course));
+    const courses = rawCourses.map((course) => CourseSchema.parse(course));
     return courses;
   }
 
   async getCourse(courseCode: string): Promise<Course | null> {
-    const rawCourse = (await this.prisma.$queryRaw`
+    const rawCourse = await this.prisma.$queryRaw`
     SELECT
     c.course_code AS "courseCode",
     c.archived,
@@ -147,7 +143,7 @@ export class CourseRepository {
     WHERE c.course_code = '${courseCode}'
     GROUP BY c.course_code
     ORDER BY "reviewCount" DESC;
-    `);
+    `;
     const course = CourseSchema.parse(rawCourse);
     return course;
   }

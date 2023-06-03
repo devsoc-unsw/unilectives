@@ -4,7 +4,6 @@ import { ReportEntity } from "../entity/Report";
 import { convertReportEntityToInterface } from "../converters/report.converter";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
-import { EntityManager } from "typeorm";
 import { ReviewRepository } from "../repositories/review.repository";
 import { UserRepository } from "../repositories/user.repository";
 import { UserEntity } from "../entity/User";
@@ -17,10 +16,11 @@ import {
 
 export class ReportService {
   private logger = getLogger();
-  constructor(private readonly manager: EntityManager) {}
-  private reportRepository = new ReportRepository(this.manager);
-  private reviewRepository = new ReviewRepository(this.manager);
-  private userRepository = new UserRepository(this.manager);
+  constructor(
+    private readonly reportRepository: ReportRepository,
+    private readonly reviewRepository: ReviewRepository,
+    private readonly userRepository: UserRepository
+  ) {}
 
   async getAllReports(): Promise<ReportsSuccessResponse> {
     const reports: ReportEntity[] = await this.reportRepository.getAllReports();

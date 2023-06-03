@@ -14,6 +14,7 @@ services:
       POSTGRESQL_PASSWORD: password
       POSTGRESQL_DATABASE: mydb
       JWT_SECRET: secret
+      DATABASE_URL: "postgresql://postgres:password@postgres:5432/mydb?schema=cselectives"
     ports:
       - 3030:3030
     depends_on:

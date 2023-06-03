@@ -30,10 +30,10 @@ export class ReviewEntity {
   title: string;
 
   @Column("text", { name: "description", nullable: true })
-  description: string;
+  description: string | null;
 
   @Column("integer", { name: "grade", nullable: true })
-  grade: number;
+  grade: number | null;
 
   @Column("text", { name: "term_taken", nullable: false })
   termTaken: string;

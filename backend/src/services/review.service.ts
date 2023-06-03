@@ -1,11 +1,9 @@
 import { ReviewRepository } from "../repositories/review.repository";
 import { getLogger } from "../utils/logger";
 import { ReviewEntity } from "../entity/Review";
-import { convertReviewEntityToInterface } from "../converters/review.converter";
 import { HTTPError } from "../utils/errors";
 import { internalServerError, badRequest } from "../utils/constants";
 import { UserRepository } from "../repositories/user.repository";
-import { EntityManager } from "typeorm";
 import {
   BookmarkReview,
   PostReviewRequestBody,
@@ -14,29 +12,32 @@ import {
   ReviewSuccessResponse,
   UpvoteReview,
 } from "../api/schemas/review.schema";
+import { reviews } from "@prisma/client";
 
 export class ReviewService {
   private logger = getLogger();
-  constructor(private readonly manager: EntityManager) {}
-  private reviewRepository = new ReviewRepository(this.manager);
-  private userRepository = new UserRepository(this.manager);
+  constructor(
+    private readonly reviewRepository: ReviewRepository,
+    private readonly userRepository: UserRepository
+  ) {}
 
   async getAllReviews(): Promise<ReviewsSuccessResponse | undefined> {
-    const reviews: ReviewEntity[] = await this.reviewRepository.getAllReviews();
+    const reviews: reviews[] = await this.reviewRepository.getAllReviews();
     if (reviews.length === 0) {
       this.logger.error("Database returned with no reviews.");
       throw new HTTPError(internalServerError);
     }
     return {
-      reviews: reviews.map(convertReviewEntityToInterface),
+      reviews: reviews,
     };
   }
 
   async getCourseReviews(
     courseCode: string
   ): Promise<ReviewsSuccessResponse | undefined> {
-    const reviews: ReviewEntity[] =
-      await this.reviewRepository.getCourseReviews(courseCode);
+    const reviews: reviews[] = await this.reviewRepository.getCourseReviews(
+      courseCode
+    );
     if (reviews.length === 0) {
       this.logger.error("Database returned with no reviews.");
       throw new HTTPError(internalServerError);
@@ -44,7 +45,7 @@ export class ReviewService {
     return {
       reviews: reviews.map((review) => {
         return {
-          ...convertReviewEntityToInterface(review),
+          ...review,
           courseCode,
         };
       }),
@@ -73,7 +74,7 @@ export class ReviewService {
 
     return {
       review: {
-        ...convertReviewEntityToInterface(review),
+        ...review,
         courseCode: reviewDetails.courseCode,
       },
     };
@@ -98,7 +99,7 @@ export class ReviewService {
     review = await this.reviewRepository.save(review);
 
     return {
-      review: convertReviewEntityToInterface(review),
+      review: review,
     };
   }
 
@@ -154,7 +155,7 @@ export class ReviewService {
       }.`
     );
     return {
-      review: convertReviewEntityToInterface(review),
+      review: review,
     };
   }
 
@@ -187,7 +188,7 @@ export class ReviewService {
     );
 
     return {
-      review: convertReviewEntityToInterface(review),
+      review: review,
     };
   }
 }

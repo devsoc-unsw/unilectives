@@ -14,6 +14,8 @@ import { AuthService } from "./modules/Auth";
 import { CourseRepository } from "./repositories/course.repository";
 import { UserRepository } from "./repositories/user.repository";
 import PrismaClient from "./modules/prisma";
+import { ReviewRepository } from "./repositories/review.repository";
+import { ReportRepository } from "./repositories/report.repository";
 
 export default class App {
   readonly logger = getLogger();
@@ -31,6 +33,10 @@ export default class App {
     this.prisma.getConnection()
   );
   private readonly userRepository = new UserRepository(this.manager);
+  private readonly reviewRepository = new ReviewRepository(
+    this.prisma.getConnection()
+  );
+  private readonly reportRepository = new ReportRepository(this.manager);
 
   // add services here, manager will be prisma once other services are migrated too
   private readonly courseService = new CourseService(
@@ -38,12 +44,20 @@ export default class App {
     this.userRepository
   );
   private readonly userService = new UserService(
-    this.manager,
     this.auth,
-    this.courseRepository
+    this.courseRepository,
+    this.userRepository,
+    this.reviewRepository
   );
-  private readonly reportService = new ReportService(this.manager);
-  private readonly reviewService = new ReviewService(this.manager);
+  private readonly reportService = new ReportService(
+    this.reportRepository,
+    this.reviewRepository,
+    this.userRepository
+  );
+  private readonly reviewService = new ReviewService(
+    this.reviewRepository,
+    this.userRepository
+  );
 
   constructor() {
     // add controllers here .. e.g.
@@ -72,6 +86,6 @@ export default class App {
   async stop(): Promise<void> {
     await this.ex.stop();
     await this.db.stop();
-    this.prisma.stop
+    this.prisma.stop;
   }
 }
