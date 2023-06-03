@@ -17,8 +17,8 @@
       "groupName": "react monorepo with types"
     },
     {
-      "matchUpdateTypes": ["patch"],
-      "groupName": "weekly patch updates",
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "weekly minor & patch updates",
       "schedule": ["before 5am every monday"]
     }
   ]
