@@ -6,6 +6,7 @@ import { HTTPError } from "../utils/errors";
 import { internalServerError, badRequest } from "../utils/constants";
 import { UserRepository } from "../repositories/user.repository";
 import { EntityManager } from "typeorm";
+import RedisClient from "../modules/redis";
 import {
   BookmarkReview,
   PostReviewRequestBody,
@@ -17,7 +18,10 @@ import {
 
 export class ReviewService {
   private logger = getLogger();
-  constructor(private readonly manager: EntityManager) {}
+  constructor(
+    private readonly manager: EntityManager,
+    private readonly redis: RedisClient
+  ) {}
   private reviewRepository = new ReviewRepository(this.manager);
   private userRepository = new UserRepository(this.manager);
 
@@ -35,12 +39,17 @@ export class ReviewService {
   async getCourseReviews(
     courseCode: string
   ): Promise<ReviewsSuccessResponse | undefined> {
-    const reviews: ReviewEntity[] =
-      await this.reviewRepository.getCourseReviews(courseCode);
-    if (reviews.length === 0) {
-      this.logger.error("Database returned with no reviews.");
-      throw new HTTPError(internalServerError);
+    let reviews = await this.redis.get<ReviewEntity[]>(`reviews:${courseCode}`);
+
+    if (!reviews) {
+      this.logger.info(`Cache miss on reviews:${courseCode}`);
+      reviews = await this.reviewRepository.getCourseReviews(courseCode);
+      await this.redis.set(`reviews:${courseCode}`, reviews);
+    } else {
+      this.logger.info(`Cache hit on reviews:${courseCode}`);
     }
+
+    this.logger.info(`Found ${reviews.length} reviews.`);
     return {
       reviews: reviews.map((review) => {
         return {
