@@ -17,6 +17,13 @@
       "groupName": "react monorepo with types"
     },
     {
+      "matchUpdateTypes": ["major"],
+      "automerge": true,
+      "matchPackageNames": ["vite", "@vitejs/plugin-react"],
+      "groupName": "vite & plugins",
+      "addLabels": ["deps: vite"]
+    },
+    {
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "weekly minor & patch updates",
       "schedule": ["before 5am every monday"]
