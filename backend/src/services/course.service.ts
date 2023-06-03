@@ -61,7 +61,7 @@ export class CourseService {
 
     this.logger.info(`Found course with courseCode ${courseCode}.`);
     return {
-      course: convertCourseEntityToInterface(course),
+      course: course,
     };
   }
 
@@ -72,7 +72,7 @@ export class CourseService {
 
     if (!course) {
       this.logger.error(
-        `There is no course with courseCode ${courseCode.courseCode}.`
+        `There is no course with courseCode ${updatedCourse.courseCode}.`
       );
       throw new HTTPError(badRequest);
     }
@@ -80,7 +80,7 @@ export class CourseService {
     course = await this.courseRepository.save(course);
 
     this.logger.info(
-      `Successfully updated course with courseCode ${courseCode.courseCode}.`
+      `Successfully updated course with courseCode ${updatedCourse.courseCode}.`
     );
     return {
       course: course,
