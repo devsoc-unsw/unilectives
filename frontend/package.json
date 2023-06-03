@@ -15,7 +15,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.5",
-    "@reduxjs/toolkit": "1.8.5",
+    "@reduxjs/toolkit": "1.9.5",
     "ky": "0.31.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
