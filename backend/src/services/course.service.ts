@@ -18,7 +18,7 @@ export class CourseService {
   ) {}
 
   async getCourses(): Promise<CoursesSuccessResponse | undefined> {
-    const courses: Course = await this.courseRepository.getAllCourses();
+    const courses = await this.courseRepository.getAllCourses();
     if (courses.length === 0) {
       this.logger.error("Database returned with no courses.");
       throw new HTTPError(internalServerError);
@@ -43,9 +43,7 @@ export class CourseService {
   }
 
   async updateCourse(courseCode: Course): Promise<CourseBody | undefined> {
-    let course = await this.courseRepository.getCourse(
-      courseCode.courseCode
-    );
+    let course = await this.courseRepository.getCourse(courseCode.courseCode);
 
     if (!course) {
       this.logger.error(

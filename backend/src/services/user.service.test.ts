@@ -6,23 +6,21 @@ import {
   getMockNewUser,
   getMockUser,
   getMockCourses,
-  getCourseEntity,
 } from "../utils/testData";
 import { EntityManager } from "typeorm/entity-manager/EntityManager";
-import { DataSource } from "typeorm";
 import { AuthService } from "../modules/Auth";
-import { CourseEntity } from "../entity/Course";
+import { CourseRepository } from "../repositories/course.repository";
 
 describe("UserService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   let manager: EntityManager;
   let auth: AuthService;
-  let connection: DataSource;
+  let courseRepository: CourseRepository;
 
   beforeEach(() => {
-    connection = new DataSource({ type: "postgres" });
-    manager = new EntityManager(connection);
+    manager = {} as EntityManager;
     auth = new AuthService();
+    courseRepository = {} as CourseRepository;
   });
 
   afterEach(() => {
@@ -30,7 +28,7 @@ describe("UserService", () => {
     jest.resetAllMocks();
   });
 
-  const userService = () => new UserService(manager, auth);
+  const userService = () => new UserService(manager, auth, courseRepository);
 
   describe("createUser", () => {
     it("should throw HTTP 400 error if could user exists in database", () => {
@@ -68,11 +66,8 @@ describe("UserService", () => {
       const user = getMockUser();
       const course = getMockCourses()[0];
       manager.findOneBy = jest.fn().mockReturnValue(entity);
-      manager.findBy = jest
-        .fn()
-        .mockReturnValueOnce([])
-        .mockReturnValueOnce([course]);
-      manager.save(CourseEntity, getCourseEntity());
+      courseRepository.getCoursesById = jest.fn().mockReturnValueOnce([course]);
+      manager.findBy = jest.fn().mockReturnValue([]);
       const result = await service.getUser(user.zid);
       expect(result.user).toEqual(user);
     });

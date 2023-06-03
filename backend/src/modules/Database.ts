@@ -6,21 +6,12 @@ import { ReviewEntity } from "../entity/Review";
 import { UserEntity } from "../entity/User";
 import { ReportEntity } from "../entity/Report";
 import { IDatabaseConfig } from "IConfig";
-import { PrismaClient } from "@prisma/client";
 
 export default class Database {
   private logger = getLogger();
   private dbConnection: DataSource;
-  private prismaConnection: PrismaClient;
   constructor(readonly connectionName: string) {
     const dbConfig: IDatabaseConfig = config.get("database");
-    this.prismaConnection = new PrismaClient({
-      datasources: {
-        db: {
-          url: process.env.DATABASE_URL,
-        },
-      },
-    });
     this.dbConnection = new DataSource({
       applicationName: this.connectionName,
       entities: [CourseEntity, UserEntity, ReportEntity, ReviewEntity],
@@ -36,13 +27,7 @@ export default class Database {
     return this.dbConnection;
   }
 
-  // will become primary get method as above once fully migrated
-  getPrisma() {
-    return this.prismaConnection;
-  }
-
   async start(): Promise<void> {
-    await this.prismaConnection.$connect();
     this.logger.info(
       `Started connection with connection name ${this.connectionName}`
     );
@@ -50,7 +35,6 @@ export default class Database {
 
   async stop(): Promise<void> {
     if (this.dbConnection.isInitialized) await this.dbConnection.destroy();
-    await this.prismaConnection.$disconnect();
     this.logger.info(
       `Stopped connection with connection name ${this.connectionName}`
     );

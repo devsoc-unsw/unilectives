@@ -13,23 +13,23 @@ import { ReportService } from "./services/report.service";
 import { AuthService } from "./modules/Auth";
 import { CourseRepository } from "./repositories/course.repository";
 import { UserRepository } from "./repositories/user.repository";
+import PrismaClient from "./modules/prisma";
 
 export default class App {
   readonly logger = getLogger();
   private ex = new ExpressWrapper();
   private db = new Database("default");
+  private prisma = new PrismaClient();
 
   // db manager
   private readonly manager = this.db.get().manager;
 
-  // prisma manager
-  private readonly prismaManager = this.db.getPrisma();
-
   // auth
   private readonly auth = new AuthService();
 
-  // repositories, manager will be prisma once other services are migrated too
-  private readonly courseRepository = new CourseRepository(this.manager);
+  private readonly courseRepository = new CourseRepository(
+    this.prisma.getConnection()
+  );
   private readonly userRepository = new UserRepository(this.manager);
 
   // add services here, manager will be prisma once other services are migrated too
@@ -37,7 +37,11 @@ export default class App {
     this.courseRepository,
     this.userRepository
   );
-  private readonly userService = new UserService(this.manager, this.auth);
+  private readonly userService = new UserService(
+    this.manager,
+    this.auth,
+    this.courseRepository
+  );
   private readonly reportService = new ReportService(this.manager);
   private readonly reviewService = new ReviewService(this.manager);
 
@@ -61,11 +65,13 @@ export default class App {
     this.logger.info("Starting up...");
     await this.db.start();
     await this.ex.start(config.get("api.port"));
+    this.prisma.start;
     this.logger.info("Started HTTP Server and Database");
   }
 
   async stop(): Promise<void> {
     await this.ex.stop();
     await this.db.stop();
+    this.prisma.stop
   }
 }

@@ -7,7 +7,6 @@ import { EntityManager } from "typeorm";
 import { UserRepository } from "../repositories/user.repository";
 import { ReviewRepository } from "../repositories/review.repository";
 import { CourseRepository } from "../repositories/course.repository";
-import { Course } from "../api/schemas/course.schema";
 import { ReviewEntity } from "../entity/Review";
 import { AuthService } from "../modules/Auth";
 import {
@@ -19,10 +18,10 @@ export class UserService {
   private logger = getLogger();
   constructor(
     private readonly manager: EntityManager,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly courseRepository: CourseRepository
   ) {}
   private userRepository = new UserRepository(this.manager);
-  private courseRepository = new CourseRepository(this.manager);
   private reviewRepository = new ReviewRepository(this.manager);
 
   async createUser(zid: string): Promise<UserTokenSuccessResponse> {
@@ -65,8 +64,9 @@ export class UserService {
     );
 
     // get user bookmarked courses
-    const bookmarkedCourses: Course[] =
-      await this.courseRepository.getCoursesById(userInfo.bookmarkedCourses);
+    const bookmarkedCourses = await this.courseRepository.getCoursesById(
+      userInfo.bookmarkedCourses
+    );
     const filteredBookmarkedCourses = bookmarkedCourses.filter(
       (course) => course !== undefined
     );

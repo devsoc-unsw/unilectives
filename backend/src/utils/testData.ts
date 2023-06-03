@@ -1,7 +1,6 @@
 import { Course } from "../api/schemas/course.schema";
 import { UserEntity } from "../entity/User";
 import { User } from "../api/schemas/user.schema";
-import { CourseEntity } from "../entity/Course";
 import { Report } from "../api/schemas/report.schema";
 import { ReportEntity } from "../entity/Report";
 import { ReviewEntity } from "../entity/Review";
@@ -28,11 +27,11 @@ export const getCourseEntity = (): Course => {
     title: "good course imo",
     uoc: 6,
     rating: 4,
-    reviewCount: 0,
-    overallRating: 0,
-    manageability: 0,
-    usefulness: 0,
-    enjoyability: 0,
+    reviewCount: 1,
+    overallRating: 4,
+    manageability: 4,
+    usefulness: 4,
+    enjoyability: 4,
   };
 };
 
@@ -58,11 +57,11 @@ export const getMockCourses = (): Course[] => {
       title: "good course imo",
       uoc: 6,
       rating: 4,
-      reviewCount: 0,
-      overallRating: 0,
-      manageability: 0,
-      usefulness: 0,
-      enjoyability: 0,
+      reviewCount: 1,
+      overallRating: 4,
+      manageability: 4,
+      usefulness: 4,
+      enjoyability: 4,
     },
     {
       courseCode: "COMP1531",
@@ -84,11 +83,11 @@ export const getMockCourses = (): Course[] => {
       title: "good course imo",
       uoc: 6,
       rating: 4,
-      reviewCount: 0,
-      overallRating: 0,
-      manageability: 0,
-      usefulness: 0,
-      enjoyability: 0,
+      reviewCount: 1,
+      overallRating: 4,
+      manageability: 4,
+      usefulness: 4,
+      enjoyability: 4,
     },
   ];
 };
@@ -128,11 +127,11 @@ export const getMockUser = (): User => {
         title: "good course imo",
         uoc: 6,
         rating: 4,
-        reviewCount: 0,
-        overallRating: 0,
-        manageability: 0,
-        usefulness: 0,
-        enjoyability: 0,
+        reviewCount: 1,
+        overallRating: 4,
+        manageability: 4,
+        usefulness: 4,
+        enjoyability: 4,
       },
     ],
     bookmarkedReviews: [],
