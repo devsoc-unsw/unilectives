@@ -135,4 +135,24 @@ describe("CourseService", () => {
       });
     });
   });
+
+  describe("getCourse", () => {
+    it("should throw HTTP 500 error if there is no course in database", () => {
+      const service = courseService();
+      courseRepository.getCourse = jest.fn().mockResolvedValue(undefined);
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getCourse("COMP1511")).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return course", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getCourse = jest.fn().mockResolvedValue(courses[0]);
+
+      expect(service.getCourse("COMP1511")).resolves.toEqual({
+        course: courses[0],
+      });
+    });
+  });
 });
