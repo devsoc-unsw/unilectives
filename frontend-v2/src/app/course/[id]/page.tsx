@@ -6,9 +6,9 @@ import TermsGroup from "@/components/TermsGroup";
 import Link from "next/link";
 import DoughnutChart from "@/components/DoughnutChart";
 import { notFound } from "next/navigation";
-import ReviewsBar from "@/components/review/ReviewsBar";
+import ReviewsBar from "@/components/Review/ReviewsBar";
 import Rating from "@/components/Rating";
-import ReviewSearchbar from "@/components/review/ReviewSearchBar";
+import ReviewSearchbar from "@/components/Review/ReviewSearchBar";
 import { Course } from "@/types/api";
 
 /**
