@@ -1,5 +1,6 @@
 import { env } from "./env";
 import Database from "./modules/Database";
+import RedisClient from "./modules/redis";
 import { getLogger } from "./utils/logger";
 import { ExpressWrapper } from "./modules/ExpressWrapper";
 import { ReviewService } from "./services/review.service";
@@ -18,6 +19,7 @@ export default class App {
   readonly logger = getLogger();
   private ex = new ExpressWrapper();
   private db = new Database("default");
+  private redis = new RedisClient();
 
   // db manager
   private readonly manager = this.db.get().manager;
@@ -32,7 +34,8 @@ export default class App {
   // add services here
   private readonly courseService = new CourseService(
     this.courseRepository,
-    this.userRepository
+    this.userRepository,
+    this.redis
   );
   private readonly userService = new UserService(this.manager, this.auth);
   private readonly reportService = new ReportService(this.manager);
@@ -57,12 +60,14 @@ export default class App {
   async start(): Promise<void> {
     this.logger.info("Starting up...");
     await this.db.start();
+    await this.redis.start();
     await this.ex.start(env.API_PORT);
     this.logger.info("Started HTTP Server and Database");
   }
 
   async stop(): Promise<void> {
     await this.ex.stop();
+    await this.redis.stop();
     await this.db.stop();
   }
 }

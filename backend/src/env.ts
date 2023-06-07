@@ -1,4 +1,4 @@
-import { envsafe, port, str, url } from "envsafe";
+import { envsafe, port, str } from "envsafe";
 
 export const env = envsafe({
   API_PORT: port({
@@ -24,6 +24,15 @@ export const env = envsafe({
   }),
   POSTGRESQL_DATABASE: str({
     default: "mydb",
+  }),
+  REDIS_HOST: str({
+    devDefault: "localhost",
+  }),
+  REDIS_USER: str({
+    devDefault: " ",
+  }),
+  REDIS_PASSWORD: str({
+    devDefault: " ",
   }),
 });
 

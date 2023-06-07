@@ -103,6 +103,29 @@ export class CourseController implements IController {
             return next(err);
           }
         }
+      )
+      .get(
+        "/course/:courseCode",
+        async (
+          req: Request<{ courseCode: string }, unknown>,
+          res: Response,
+          next: NextFunction
+        ) => {
+          this.logger.debug(`Received request in GET /course/:courseCode`);
+          try {
+            const courseCode: string = req.params.courseCode;
+            const result = await this.courseService.getCourse(courseCode);
+            this.logger.info(
+              `Responding to client in GET /course/${courseCode}`
+            );
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /course ${formatError(err)}`
+            );
+            return next(err);
+          }
+        }
       );
   }
 

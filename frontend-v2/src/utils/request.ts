@@ -1,69 +1,30 @@
-import ky, { Options } from "ky";
-
-/**
- * Fetch request to backend
- * @param url
- * @param method
- * @param options
- * @returns unknown
- */
 const request = async (
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE",
-  options?: Options
+  options?: Record<string, string>
 ) => {
+  const prefix = "/api/v1";
   const baseUrl =
-    process.env.NODE_ENV === "development" ? `http://localhost:3030${url}` : `http://cselectives.staging.csesoc.unsw.edu.au${url}`;
-
-  const additionalOptions: Options = {
-    timeout: 31000,
+    process.env.NODE_ENV !== "development" ? `http://cselectives.staging.csesoc.unsw.edu.au${prefix}${url}` : `http://localhost:3030${prefix}${url}`;
+  
+  const payload = method === "GET" ? {
     method,
-    retry: {
-      limit: 2,
-      statusCodes: [408, 413, 329],
-    },
-    cache: 'no-store'
-  };
-
-  try {
-    return await ky(baseUrl, { ...options, ...additionalOptions }).json();
-  } catch (err) {
-    throw err;
+  } : {
+    method,
+    body: JSON.stringify(options)
   }
+
+  return (await fetch(baseUrl, { ...payload, cache: 'no-store' })).json();
 };
 
-/**
- * Fetch GET endpoints from backend
- * @param url
- * @param options
- * @returns unknown
- */
-export const get = (url: string, options?: Options) =>
+export const get = (url: string, options?: Record<string, string>) =>
   request(url, "GET", options);
 
-/**
- * Fetch POST endpoints from backend
- * @param url
- * @param options
- * @returns unknown
- */
-export const post = (url: string, options?: Options) =>
+export const post = (url: string, options?: Record<string, string>) =>
   request(url, "POST", options);
 
-/**
- * Fetch PUT endpoints from backend
- * @param url
- * @param options
- * @returns unknown
- */
-export const put = (url: string, options?: Options) =>
+export const put = (url: string, options?: Record<string, string>) =>
   request(url, "PUT", options);
 
-/**
- * Fetch DELETE endpoints from backend
- * @param url
- * @param options
- * @returns unknown
- */
-export const del = (url: string, options?: Options) =>
+export const del = (url: string, options?: Record<string, string>) =>
   request(url, "DELETE", options);

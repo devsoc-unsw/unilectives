@@ -9,40 +9,8 @@ import { notFound } from "next/navigation";
 import ReviewsBar from "@/components/Review/ReviewsBar";
 import Rating from "@/components/Rating";
 import ReviewSearchbar from "@/components/Review/ReviewSearchBar";
-import { Course } from "@/types/api";
-
-/**
- * Fetch course from backend based on the given id
- */
-const getCourse = async (id: string) => {
-  const res = await fetch(`http://localhost:3030/api/v1/courses`, {
-    method: "GET",
-  });
-
-  // Return undefined if status code is not 200
-  if (!res.ok) return;
-
-  // Return course
-  const result = await res.json();
-  return result.courses.find(
-    (course: Course) => course.courseCode === id.toUpperCase()
-  );
-};
-
-/**
- * Fetch reviews from backend based on the given id
- */
-const getReviews = async (id: string) => {
-  const res = await fetch(
-    `http://localhost:3030/api/v1/reviews/${id.toUpperCase()}`,
-    {
-      method: "GET",
-    }
-  );
-  // Return reviews
-  const result = await res.json();
-  return result.reviews;
-};
+import { Course, Reviews } from "@/types/api";
+import { get } from "@/utils/request";
 
 export default async function ReviewPage({
   params,
@@ -51,11 +19,15 @@ export default async function ReviewPage({
     [key: string]: string;
   };
 }) {
-  const course = await getCourse(params.id);
+  const { course } = (await get(
+    `/course/${params.id.toUpperCase()}`
+  )) as Course;
 
   if (!course) notFound();
 
-  const reviews = await getReviews(course.courseCode);
+  const { reviews } = (await get(
+    `/reviews/${course.courseCode.toUpperCase()}`
+  )) as Reviews;
 
   return (
     <div className="isolate">
@@ -105,10 +77,12 @@ export default async function ReviewPage({
               {/* Number of reviews */}
               <span>
                 {/* Format number to their abbreviated string e.g 1000 to 1k, or 1000000 to 1M */}
-                {Intl.NumberFormat("en-US", {
-                  notation: "compact",
-                  maximumFractionDigits: 1,
-                }).format(course.reviewCount)}{" "}
+                {course.reviewCount
+                  ? Intl.NumberFormat("en-US", {
+                      notation: "compact",
+                      maximumFractionDigits: 1,
+                    }).format(course.reviewCount)
+                  : 0}{" "}
                 reviews
               </span>
             </div>
@@ -129,8 +103,16 @@ export default async function ReviewPage({
                 </div>
               ))}
             </div>
+            {/* Pre-requisites group */}
+            <div>
+              <h3 className="font-bold">Enrolment Rules</h3>
+              <p>{course.enrolmentRules}</p>
+            </div>
             {/* Description */}
-            <p className="whitespace-pre-line">{course.description}</p>
+            <div>
+              <h3 className="font-bold">Description</h3>
+              <p className="whitespace-pre-line">{course.description}</p>
+            </div>
           </section>
         </Suspense>
         {/* Reviews */}
@@ -139,10 +121,10 @@ export default async function ReviewPage({
         rendering */}
         <section className="space-y-4 w-full mb-8">
           <Suspense fallback={<div>Loading...</div>}>
-            {reviews.length === 0 ? (
-              <div>No reviews yet</div>
-            ) : (
+            {reviews && reviews.length !== 0 ? (
               <ReviewsBar courseCode={course.courseCode} reviews={reviews} />
+            ) : (
+              <div>No reviews yet</div>
             )}
           </Suspense>
         </section>

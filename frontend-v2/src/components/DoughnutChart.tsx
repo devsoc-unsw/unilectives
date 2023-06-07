@@ -8,9 +8,10 @@ export default function DoughnutChart({
   strokeWidth: number;
 }) {
   // Convert percentage to 1 decimal float
-  const percentage = parseFloat(
-    (((rating > 5 ? 5 : rating) / 5) * 100).toFixed(1)
-  );
+  const percentage =
+    rating && rating !== -1
+      ? parseFloat((((rating > 5 ? 5 : rating) / 5) * 100).toFixed(1))
+      : 0;
 
   // Get radius, dasharray and dashoffset values
   const radius = width / 2 - strokeWidth;
@@ -45,7 +46,9 @@ export default function DoughnutChart({
         ></circle>
       </svg>
       <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">
-        <span className="text-2xl font-bold">{rating.toFixed(1)}</span>
+        <span className="text-2xl font-bold">
+          {rating ? rating.toFixed(1) : 0}
+        </span>
         <span className="text-sm font-bold text-black/50">/ 5</span>
       </span>
     </div>

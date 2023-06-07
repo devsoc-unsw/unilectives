@@ -9,17 +9,19 @@ import {
 import { UserRepository } from "../repositories/user.repository";
 import { CourseRepository } from "../repositories/course.repository";
 import { BookmarkCourse } from "../api/schemas/course.schema";
+import RedisClient from "../modules/redis";
 
 describe("CourseService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   const courseRepository = {} as CourseRepository;
   const userRepository = {} as UserRepository;
+  const redis = {} as RedisClient;
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
   });
   const courseService = () =>
-    new CourseService(courseRepository, userRepository);
+    new CourseService(courseRepository, userRepository, redis);
 
   describe("getCourses", () => {
     it("should throw HTTP 500 error if no courses in database", () => {
@@ -129,6 +131,26 @@ describe("CourseService", () => {
         bookmark: false,
       };
       expect(service.bookmarkCourse(request)).resolves.toEqual({
+        course: courses[0],
+      });
+    });
+  });
+
+  describe("getCourse", () => {
+    it("should throw HTTP 500 error if there is no course in database", () => {
+      const service = courseService();
+      courseRepository.getCourse = jest.fn().mockResolvedValue(undefined);
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getCourse("COMP1511")).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return course", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getCourse = jest.fn().mockResolvedValue(courses[0]);
+
+      expect(service.getCourse("COMP1511")).resolves.toEqual({
         course: courses[0],
       });
     });
