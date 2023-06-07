@@ -52,7 +52,7 @@ Then backend server:
 ```
 cd ../backend
 docker build -t cselectives-api .
-docker run --network cselectives-network --name cselectives-api -e POSTGRESQL_HOST=cselectives-db -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=password -e POSTGRESQL_DATABASE=mydb -e REDIS_HOST=cselectives-cache -e REDIS_USER="" -e REDIS_PASSWORD="" -e -p 3030:3030 cselectives-api
+docker run --network cselectives-network --name cselectives-api -e POSTGRESQL_HOST=cselectives-db -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=password -e POSTGRESQL_DATABASE=mydb -e REDIS_HOST=cselectives-cache -e REDIS_USER="test" -e REDIS_PASSWORD="test" -p 3030:3030 cselectives-api
 ```
 
 ## Running

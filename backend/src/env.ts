@@ -29,10 +29,10 @@ export const env = envsafe({
     devDefault: "localhost",
   }),
   REDIS_USER: str({
-    devDefault: " ",
+    devDefault: "test",
   }),
   REDIS_PASSWORD: str({
-    devDefault: " ",
+    devDefault: "test",
   }),
 });
 
