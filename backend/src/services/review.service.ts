@@ -6,6 +6,7 @@ import { HTTPError } from "../utils/errors";
 import { internalServerError, badRequest } from "../utils/constants";
 import { UserRepository } from "../repositories/user.repository";
 import { EntityManager } from "typeorm";
+import RedisClient from "../modules/redis";
 import {
   BookmarkReview,
   PostReviewRequestBody,
@@ -17,7 +18,10 @@ import {
 
 export class ReviewService {
   private logger = getLogger();
-  constructor(private readonly manager: EntityManager) {}
+  constructor(
+    private readonly manager: EntityManager,
+    private readonly redis: RedisClient
+  ) { }
   private reviewRepository = new ReviewRepository(this.manager);
   private userRepository = new UserRepository(this.manager);
 
@@ -70,6 +74,10 @@ export class ReviewService {
     reviewEntity.overallRating = reviewDetails.overallRating;
 
     const review = await this.reviewRepository.save(reviewEntity);
+
+    let reviews = await this.redis.get<ReviewEntity[]>(`reviews:${reviewDetails.courseCode}`);
+    reviews = await this.reviewRepository.getCourseReviews(reviewDetails.courseCode);
+    await this.redis.set(`reviews:${reviewDetails.courseCode}`, reviews);
 
     return {
       review: {
@@ -147,11 +155,8 @@ export class ReviewService {
     user = await this.userRepository.saveUser(user);
 
     this.logger.info(
-      `Successfully ${
-        reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
-      } review with reviewId ${reviewDetails.reviewId} for user with zID ${
-        reviewDetails.zid
-      }.`
+      `Successfully ${reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
+      } review with reviewId ${reviewDetails.reviewId} for user with zID ${reviewDetails.zid}.`
     );
     return {
       review: convertReviewEntityToInterface(review),
@@ -179,11 +184,8 @@ export class ReviewService {
     review = await this.reviewRepository.save(review);
 
     this.logger.info(
-      `Successfully ${
-        upvoteDetails.upvote ? "upvoted" : "removed upvote from"
-      } review with reviewId ${upvoteDetails.reviewId} for user with zID ${
-        upvoteDetails.zid
-      }.`
+      `Successfully ${upvoteDetails.upvote ? "upvoted" : "removed upvote from"
+      } review with reviewId ${upvoteDetails.reviewId} for user with zID ${upvoteDetails.zid}.`
     );
 
     return {

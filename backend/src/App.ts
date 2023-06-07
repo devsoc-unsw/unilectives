@@ -39,7 +39,7 @@ export default class App {
   );
   private readonly userService = new UserService(this.manager, this.auth);
   private readonly reportService = new ReportService(this.manager);
-  private readonly reviewService = new ReviewService(this.manager);
+  private readonly reviewService = new ReviewService(this.manager, this.redis);
 
   constructor() {
     // add controllers here .. e.g.
