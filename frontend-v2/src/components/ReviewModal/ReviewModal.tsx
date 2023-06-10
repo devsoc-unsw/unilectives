@@ -4,8 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { FormEvent, Fragment, useMemo, useState } from "react";
-import ReviewRatingInput from "./ReviewRatingInput";
-import Dropdown from "../Dropdown";
+import ReviewRatingInput from "../ReviewRatingInput/ReviewRatingInput";
+import Dropdown from "../Dropdown/Dropdown";
 
 type Inputs = {
   rating: number | null;

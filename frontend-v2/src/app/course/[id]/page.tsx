@@ -2,14 +2,14 @@ import Image from "next/image";
 import waves from "../../../assets/waves.svg";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import { Suspense } from "react";
-import TermsGroup from "@/components/TermsGroup";
+import TermsGroup from "@/components/TermsGroup/TermsGroup";
 import Link from "next/link";
-import DoughnutChart from "@/components/DoughnutChart";
+import DoughnutChart from "@/components/DoughnutChart/DoughnutChart";
 import { notFound } from "next/navigation";
-import ReviewsBar from "@/components/Review/ReviewsBar";
-import Rating from "@/components/Rating";
-import ReviewSearchbar from "@/components/Review/ReviewSearchBar";
-import { Course, Reviews } from "@/types/api";
+import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
+import Rating from "@/components/Rating/Rating";
+import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
+import { ICourse, Reviews } from "@/types/api";
 import { get } from "@/utils/request";
 
 export default async function ReviewPage({
@@ -21,7 +21,7 @@ export default async function ReviewPage({
 }) {
   const { course } = (await get(
     `/course/${params.id.toUpperCase()}`
-  )) as Course;
+  )) as ICourse;
 
   if (!course) notFound();
 

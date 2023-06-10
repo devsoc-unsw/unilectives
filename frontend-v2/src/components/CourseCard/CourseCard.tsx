@@ -1,5 +1,5 @@
-import Rating from "./Rating";
-import TermsGroup from "./TermsGroup";
+import Rating from "../Rating/Rating";
+import TermsGroup from "../TermsGroup/TermsGroup";
 
 // Type for the course card component
 type CourseCardProps = {
@@ -19,7 +19,7 @@ export default function CourseCard({
   terms,
 }: CourseCardProps) {
   return (
-    <div className="box-border px-6 py-7 bg-unilectives-card shadow-card rounded-xl space-y-2 cursor-pointer">
+    <div className="box-border px-6 py-7 bg-unilectives-card hover:bg-gray-100 shadow-lg rounded-xl space-y-2 cursor-pointer">
       {/* Course courseCode + Ratings */}
       <div className="flex flex-wrap justify-between text-2xl">
         <h1 className="font-bold">{courseCode}</h1>
@@ -30,7 +30,6 @@ export default function CourseCard({
           </div>
           {/* Number of reviews */}
           <p className="text-xs text-unilectives-subheadings">
-            {/* Format number to their abbreviated string e.g 1000 to 1k, or 1000000 to 1M */}
             {Intl.NumberFormat("en-US", {
               notation: "compact",
               maximumFractionDigits: 1,

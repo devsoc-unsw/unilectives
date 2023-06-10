@@ -1,10 +1,10 @@
 "use client";
 
-import Dropdown from "@/components/Dropdown";
-import ToggleSwitch from "@/components/ToggleSwitch";
+import Dropdown from "../Dropdown/Dropdown";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { useMemo, useState } from "react";
-import ReviewModal from "./ReviewModal";
-import ReviewCard from "./ReviewCard";
+import ReviewModal from "../ReviewModal/ReviewModal";
+import ReviewCard from "../ReviewCard/ReviewCard";
 import { Review } from "@/types/api";
 
 export default function ReviewsBar({

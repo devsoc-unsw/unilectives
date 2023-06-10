@@ -1,9 +1,9 @@
 "use client";
 
 import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/react/24/outline";
-import Rating from "../Rating";
-import TruncatedDescription from "../TruncatedDescription";
-import ReportModal from "./ReportModal";
+import Rating from "../Rating/Rating";
+import TruncatedDescription from "../TruncatedDescription/TruncatedDescription";
+import ReportModal from "../ReportModal/ReportModal";
 import { Review } from "@/types/api";
 import { format } from "date-fns";
 
