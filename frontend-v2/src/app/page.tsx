@@ -8,9 +8,6 @@ const getCourse = async () => {
   // TODO: change url and migrate to common fetcher
   const response = await fetch(`http://localhost:3030/api/v1/courses`, {
     method: "GET",
-    next: {
-      revalidate: 10,
-    },
   });
   if (!response.ok) return;
   const res = await response.json();
@@ -60,7 +57,7 @@ export default async function Home() {
         <SearchBar />
         {/* Course cards */}
         <div className="grid grid-rows-1 grid-cols-1 lg:grid-rows-3 lg:grid-cols-3 gap-12 mt-10 w-5/6 items-center">
-          {courses.length == 0 ? (
+          {!courses ? (   
             <p className="text-sm text-gray-800">No courses found</p>
           ) : (
             courses.map((c: Course, index: number) => (
