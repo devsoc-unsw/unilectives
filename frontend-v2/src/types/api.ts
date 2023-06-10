@@ -49,3 +49,11 @@ export type Course = {
   usefulness: number;
   enjoyability: number;
 };
+
+export type ICourse = {
+  course: Course;
+}
+
+export type Courses = {
+  courses: Course[];
+}
