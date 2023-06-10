@@ -104,11 +104,14 @@ export default async function ReviewPage({
               ))}
             </div>
             {/* Pre-requisites group */}
-            <div>
-              <h3 className="font-bold">Enrolment Rules</h3>
-              <p>{course.enrolmentRules}</p>
-            </div>
-            {/* Description */}
+            {course.enrolmentRules ? (
+              <div>
+                <h3 className="font-bold">Enrolment Rules</h3>
+                <p>{course.enrolmentRules}</p>
+              </div>
+            ) : (
+              <div></div>
+            )}
             <div>
               <h3 className="font-bold">Description</h3>
               <p className="whitespace-pre-line">{course.description}</p>
