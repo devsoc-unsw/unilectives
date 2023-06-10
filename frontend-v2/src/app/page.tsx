@@ -35,7 +35,6 @@ export default async function Home() {
               Your one-stop shop for UNSW course and elective reviews.
             </p>
           </div>
-          {/* TODO: fix this shit */}
           <div className="flex items-center">
             <button className="px-5 py-3 rounded-lg bg-unilectives-button items-center drop-shadow justify-center text-white text-xs sm:text-xs">
               Add a Review
