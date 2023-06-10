@@ -12,10 +12,6 @@ module.exports = {
       '2xl': { 'min': '1536px' },
     },
     extend: {
-      backgroundColor: {
-        'unilectives-blue1': '#1279F2',
-        'unilectives-blue2': '#4B94EB'
-      },
       colors: {
         'unilectives-blue': '#1279F2',
         'unilectives-headings': '#202020',
