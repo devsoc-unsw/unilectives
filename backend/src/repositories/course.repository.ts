@@ -132,7 +132,7 @@ export class CourseRepository {
     });
   }
 
-  async getCourse(courseCode: string): Promise<CourseEntity | null> {
+  async getCourse(courseCode: string): Promise<CourseEntity> {
     return await this.manager.findOneBy(CourseEntity, {
       courseCode,
     });
