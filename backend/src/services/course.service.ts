@@ -57,7 +57,9 @@ export class CourseService {
   }
 
   async getCourse(courseCode: string): Promise<CourseBody | undefined> {
-    const cacheCourse = await this.redis.get<CourseEntity>(`course:${courseCode}`);
+    const cacheCourse = await this.redis.get<CourseEntity>(
+      `course:${courseCode}`
+    );
     let course: CourseEntity | null;
 
     if (!cacheCourse) {
