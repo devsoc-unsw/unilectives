@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "TT Commons Pro Variable";
+    src: url("../assets/TT_Commons_Pro_Variable.woff2") format("woff2");
+  }
+}
