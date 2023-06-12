@@ -68,7 +68,7 @@ export class CourseService {
       }
       await this.redis.set(`course:${courseCode}`, course);
     } else {
-      this.logger.info(`Cache hit on course:$courseCode`);
+      this.logger.info(`Cache hit on course:${courseCode}`);
     }
 
     this.logger.info(`Found course with courseCode ${courseCode}.`);
