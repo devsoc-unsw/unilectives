@@ -1,13 +1,8 @@
 import Image from "next/image";
 import SearchBar from "@/components/SearchBar/SearchBar";
-import CourseCard from "@/components/CourseCard/CourseCard";
-import { Courses, Course } from "@/types/api";
-import Link from "next/link";
-import { get } from "@/utils/request";
+import CourseCards from "@/components/CourseCards/CourseCards";
 
 export default async function Home() {
-  const response = (await get("/courses")) as Courses;
-  const courses = response.courses;
   return (
     <div className="mb-20">
       {/* Navbar */}
@@ -46,24 +41,7 @@ export default async function Home() {
       <div className="flex flex-col justify-center items-center mt-10">
         <SearchBar />
         {/* Course cards */}
-        <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
-          {courses ? (
-            courses.map((c: Course, index: number) => (
-              <Link href={`/course/${c.courseCode}`} key={index}>
-                <CourseCard
-                  title={c.title}
-                  courseCode={c.courseCode}
-                  rating={c.rating}
-                  reviewCount={c.reviewCount}
-                  terms={c.terms}
-                />
-              </Link>
-            ))
-          ) : (
-            <p className="text-sm text-center text-gray-800">No courses found</p>
-          )}
-        </div>
-        {/* TODO: Pagination / scrollbar */}
+        <CourseCards />
       </div>
     </div>
   );
