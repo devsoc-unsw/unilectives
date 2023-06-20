@@ -1,6 +1,7 @@
 import { HTTPError } from "../utils/errors";
 import { badRequest, internalServerError } from "../utils/constants";
 import { ReviewService } from "./review.service";
+import RedisClient from "../modules/redis";
 import {
   getUserEntity,
   getReviewEntity,
@@ -18,10 +19,12 @@ describe("ReviewService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   let manager: EntityManager;
   let connection: DataSource;
+  let redis: RedisClient;
 
   beforeEach(() => {
     connection = new DataSource({ type: "postgres" });
     manager = new EntityManager(connection);
+    redis = new RedisClient();
   });
 
   afterEach(() => {
@@ -29,7 +32,7 @@ describe("ReviewService", () => {
     jest.resetAllMocks();
   });
 
-  const reviewService = () => new ReviewService(manager);
+  const reviewService = () => new ReviewService(manager, redis);
   const date = new Date();
 
   describe("getAllReviews", () => {

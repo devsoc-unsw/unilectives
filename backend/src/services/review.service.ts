@@ -6,6 +6,7 @@ import { HTTPError } from "../utils/errors";
 import { internalServerError, badRequest } from "../utils/constants";
 import { UserRepository } from "../repositories/user.repository";
 import { EntityManager } from "typeorm";
+import RedisClient from "../modules/redis";
 import {
   BookmarkReview,
   PostReviewRequestBody,
@@ -17,7 +18,10 @@ import {
 
 export class ReviewService {
   private logger = getLogger();
-  constructor(private readonly manager: EntityManager) {}
+  constructor(
+    private readonly manager: EntityManager,
+    private readonly redis: RedisClient
+  ) {}
   private reviewRepository = new ReviewRepository(this.manager);
   private userRepository = new UserRepository(this.manager);
 
@@ -70,6 +74,14 @@ export class ReviewService {
     reviewEntity.overallRating = reviewDetails.overallRating;
 
     const review = await this.reviewRepository.save(reviewEntity);
+
+    let reviews = await this.redis.get<ReviewEntity[]>(
+      `reviews:${reviewDetails.courseCode}`
+    );
+    reviews = await this.reviewRepository.getCourseReviews(
+      reviewDetails.courseCode
+    );
+    await this.redis.set(`reviews:${reviewDetails.courseCode}`, reviews);
 
     return {
       review: {
