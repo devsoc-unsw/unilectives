@@ -13,6 +13,8 @@ services:
       POSTGRESQL_USER: postgres
       POSTGRESQL_PASSWORD: password
       POSTGRESQL_DATABASE: mydb
+      REDIS_USER: "reduser"
+      REDIS_PASSWORD: "redpass"
       REDIS_HOST: redis
       JWT_SECRET: secret
     ports:
