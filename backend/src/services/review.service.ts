@@ -80,10 +80,7 @@ export class ReviewService {
 
     const review = await this.reviewRepository.save(reviewEntity);
 
-    let reviews = await this.redis.get<ReviewEntity[]>(
-      `reviews:${reviewDetails.courseCode}`
-    );
-    reviews = await this.reviewRepository.getCourseReviews(
+    const reviews = await this.reviewRepository.getCourseReviews(
       reviewDetails.courseCode
     );
     await this.redis.set(`reviews:${reviewDetails.courseCode}`, reviews);
