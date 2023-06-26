@@ -16,6 +16,9 @@ sqitch deploy db:pg://postgres:password@0.0.0.0:5432/mydb
 ```
 # Start DragonflyDB (redis):
 docker run --rm -d --name cselectives-cache -p 6379:6379 --ulimit memlock=-1 docker.dragonflydb.io/dragonflydb/dragonfly
+
+# If on Windows and DragonflyDB doesn't work, then run redis via:
+docker run -itd -p 6379:6379 --name redis redis
 ```
 
 ```

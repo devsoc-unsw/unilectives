@@ -57,11 +57,22 @@ export class CourseService {
   }
 
   async getCourse(courseCode: string): Promise<CourseBody | undefined> {
-    const course = await this.courseRepository.getCourse(courseCode);
+    const cacheCourse = await this.redis.get<CourseEntity>(
+      `course:${courseCode}`
+    );
+    let course: CourseEntity | null;
 
-    if (!course) {
-      this.logger.error(`There is no course with courseCode ${courseCode}.`);
-      throw new HTTPError(badRequest);
+    if (!cacheCourse) {
+      this.logger.info(`Cache miss on course:${courseCode}`);
+      course = await this.courseRepository.getCourse(courseCode);
+      if (!course) {
+        this.logger.error(`There is no course with courseCode ${courseCode}.`);
+        throw new HTTPError(badRequest);
+      }
+      await this.redis.set(`course:${courseCode}`, course);
+    } else {
+      this.logger.info(`Cache hit on course:${courseCode}`);
+      course = cacheCourse;
     }
 
     this.logger.info(`Found course with courseCode ${courseCode}.`);

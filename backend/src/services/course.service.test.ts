@@ -15,7 +15,7 @@ describe("CourseService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   const courseRepository = {} as CourseRepository;
   const userRepository = {} as UserRepository;
-  const redis = {} as RedisClient;
+  const redis = new RedisClient() as RedisClient;
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
