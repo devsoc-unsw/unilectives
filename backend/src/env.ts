@@ -29,10 +29,12 @@ export const env = envsafe({
     devDefault: "localhost",
   }),
   REDIS_USER: str({
-    devDefault: " ",
+    allowEmpty: process.env.NODE_ENV !== "production",
+    devDefault: "",
   }),
   REDIS_PASSWORD: str({
-    devDefault: " ",
+    allowEmpty: process.env.NODE_ENV !== "production",
+    devDefault: "",
   }),
 });
 
