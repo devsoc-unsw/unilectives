@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import CourseCard from "@/components/CourseCard/CourseCard";
+import SortDropdown from "@/components/SortDropdown/SortDropdown";
 import { Courses, Course } from "@/types/api";
 import Link from "next/link";
 import { get } from "@/utils/request";
@@ -45,6 +46,16 @@ export default async function Home() {
       {/* Course Section */}
       <div className="flex flex-col justify-center items-center mt-10">
         <SearchBar />
+        <div className="mt-4">
+          <SortDropdown
+            courses={courses}
+            courseCode=""
+            title=""
+            rating={0}
+            reviewCount={0}
+            terms={[]}
+          />
+        </div>
         {/* Course cards */}
         <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
           {courses ? (
@@ -65,6 +76,6 @@ export default async function Home() {
         </div>
         {/* TODO: Pagination / scrollbar */}
       </div>
-    </div>
+    </div >
   );
 }
