@@ -1,3 +1,5 @@
+"use client";
+
 import Dropdown from "../Dropdown/Dropdown";
 import { useMemo, useState } from "react";
 import CourseCard from "../CourseCard/CourseCard";
@@ -63,8 +65,8 @@ export default function SortDropdown({
     }, [selected, courses]);
 
     return (
-        <div className="space-y-2 isolate">
-            <div className="flex-1 min-w-[275px] max-w-[275px] xs:min-w-full z-10">
+        <div className="space-y-5 isolate w-full">
+            <div className="flex-1 min-w-[150px] max-w-[200px] xs:min-w-full z-10">
                 <Dropdown
                     options={[
                         "Alphabetical (A-Z)",
@@ -79,17 +81,18 @@ export default function SortDropdown({
                     placeholder="Sort by"
                 />
             </div>
-
-            {currentCourses.map((course) => (
-                <CourseCard
-                    key={course.courseCode}
-                    courseCode={course.courseCode}
-                    title={course.title}
-                    rating={course.rating}
-                    reviewCount={course.reviewCount}
-                    terms={course.terms}
-                />
-            ))}
+            <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-full items-center">
+                {currentCourses.map((course) => (
+                    <CourseCard
+                        key={course.courseCode}
+                        courseCode={course.courseCode}
+                        title={course.title}
+                        rating={course.rating}
+                        reviewCount={course.reviewCount}
+                        terms={course.terms}
+                    />
+                ))}
+            </div>
         </div>
     );
 }
