@@ -46,7 +46,7 @@ export default async function Home() {
       {/* Course Section */}
       <div className="flex flex-col justify-center items-center mt-10">
         <SearchBar />
-        <div className="mt-4">
+        <div className="mt-4 w-5/6">
           <SortDropdown
             courses={courses}
             courseCode=""
