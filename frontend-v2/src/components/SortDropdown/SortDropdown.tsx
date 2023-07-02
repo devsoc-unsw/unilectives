@@ -23,6 +23,7 @@ export default function SortDropdown({
     // States
     const [currentCourses, setCurrentCourses] = useState(courses);
     const [selected, setSelected] = useState("");
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
 
     // Change course sorting based on dropdown
     useMemo(() => {
@@ -60,9 +61,11 @@ export default function SortDropdown({
                 );
                 break;
         }
-
+        if (!isDropdownOpen) {
+            return setCurrentCourses(sortedCourses);
+        }
         setCurrentCourses(sortedCourses);
-    }, [selected, courses]);
+    }, [isDropdownOpen, selected, courses]);
 
     return (
         <div className="space-y-5 isolate w-full">
