@@ -137,11 +137,7 @@ export class CourseController implements IController {
           this.logger.debug(`Received request in GET /course/search/:searchTerm`);
           try {
             const searchTerm: string = req.params.searchTerm;
-            
-            // search logic, call course service method
-            // log stuff
-
-            const result = null;
+            const result = await this.courseService.searchCourse(searchTerm);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
