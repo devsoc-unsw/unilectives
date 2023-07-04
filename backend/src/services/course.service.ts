@@ -81,6 +81,14 @@ export class CourseService {
     };
   }
 
+  async searchCourse(searchTerm: string): Promise<CoursesSuccessResponse | undefined> {
+    const courses = await this.courseRepository.searchCourse(searchTerm);
+    this.logger.info(`Found ${courses.length} courses.`);
+    return {
+      courses: courses.map(convertCourseEntityToInterface),
+    };
+  }
+
   async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
     let course = await this.courseRepository.getCourse(
       updatedCourse.courseCode
