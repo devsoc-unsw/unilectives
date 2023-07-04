@@ -50,6 +50,18 @@ export type Course = {
   enjoyability: number;
 };
 
+export type ReportStatus = "UNSEEN" | "SEEN" | "REMOVED" | "SETTLED";
+
+export type Report = {
+  reportId: string;
+  review: Review;
+  zid: string;
+  status: ReportStatus;
+  reason: string;
+  createdTimestamp: Date;
+  updatedTimestamp: Date;
+}
+
 export type ICourse = {
   course: Course;
 }
