@@ -26,9 +26,9 @@ export default async function AdminDashboard() {
 					priority
 				/>
 			{/* Dashboard Main Container */}
-			<div className="flex flex-col mx-20 p-12 gap-6">
+			<div className="flex flex-col ml-20 p-12 gap-6 lg:p-6">
 				{/* Search bar; Client Side */}
-				<div className="w-1/3 ml-auto md:w-full md:px-8">
+				<div className="w-1/3 ml-auto md:w-full">
 					<AdminSearchBar />
 				</div>
 				{/* Hero Text; Server Side */}

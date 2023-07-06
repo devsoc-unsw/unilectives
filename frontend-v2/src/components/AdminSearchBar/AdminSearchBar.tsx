@@ -3,7 +3,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { FormEvent } from "react";
 
-export default function ReviewSearchbar() {
+export default function AdminSearchBar() {
   const handleOnSubmit = (event: FormEvent) => {
     event.preventDefault();
     // TODO: submit query
@@ -12,8 +12,8 @@ export default function ReviewSearchbar() {
 
   return (
     <form
-      name="review-search-bar"
-      className="flex items-center gap-1 border border-white text-white rounded-2xl px-2 py-2"
+      name="admin-search-bar"
+      className="flex items-center gap-1 border border-white text-white md:border-unilectives-blue md:text-unilectives-blue rounded-2xl px-2 py-2"
       onSubmit={handleOnSubmit}
     >
       {/* Search icon */}
@@ -26,7 +26,7 @@ export default function ReviewSearchbar() {
         name="query"
         title="Search reviews and reports..."
         placeholder="Search reviews and reports..."
-        className="w-full outline-none bg-transparent placeholder:text-white"
+        className="w-full outline-none bg-transparent placeholder:text-white md:placeholder:text-unilectives-blue"
       />
     </form>
   );
