@@ -62,6 +62,10 @@ export type Report = {
   updatedTimestamp: Date;
 }
 
+export type Reports = {
+  reports: Report[];
+}
+
 export type ICourse = {
   course: Course;
 }

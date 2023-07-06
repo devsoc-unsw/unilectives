@@ -18,25 +18,25 @@ export default function AdminSidebar() {
       <div className="flex flex-col h-full w-full justify-between border-t-2 border-gray-200">
         {/* Review Options */}
         <div className="flex flex-col gap-3 items-center py-3">
-          <div className="h-12 w-12 hover:bg-slate-200 ">
+          <div className="h-12 w-12 hover:bg-slate-200 rounded-xl">
             <BookOpenIcon className="w-12 h-12 p-3 bg-transparent"/>
           </div>
-          <div className="h-12 w-12 hover:bg-slate-200">
+          <div className="h-12 w-12 hover:bg-slate-200 rounded-xl">
             <PencilSquareIcon className="w-12 h-12 p-3 bg-transparent"/>
           </div>
-          <div className="h-12 w-12 hover:bg-slate-200">
+          <div className="h-12 w-12 hover:bg-slate-200 rounded-xl">
             <ShieldCheckIcon className="w-12 h-12 p-3 bg-transparent"/>
           </div>
         </div>
         {/* Account Options */}
         <div className="flex flex-col gap-3 py-2 items-center">
-          <div className="h-12 w-12 hover:bg-slate-200 rounded-full">
+          <div className="h-12 w-12 hover:bg-slate-200 rounded-xl">
             <UserCircleIcon className="w-12 h-12 p-3 bg-transparent"/>
           </div>
-          <div className="h-12 w-12 hover:bg-slate-200 rounded-full">
+          <div className="h-12 w-12 hover:bg-slate-200 rounded-xl">
             <MoonIcon className="w-12 h-12 p-3 bg-transparent"/>
           </div>
-          <div className="h-12 w-12 hover:bg-slate-200">
+          <div className="h-12 w-12 hover:bg-slate-200 rounded-xl">
             <ArrowRightOnRectangleIcon className="w-12 h-12 p-3 bg-transparent"/>
           </div>
         </div>

@@ -2,12 +2,15 @@ import Image from "next/image";
 import AdminSidebar from "@/components/AdminSidebar/AdminSidebar";
 import AdminSearchBar from "@/components/AdminSearchBar/AdminSearchBar";
 import AdminMainInterface from "@/components/AdminMainInterface/AdminMainInterface";
-import { Report } from "@/types/api";
+import { Reports, Reviews } from "@/types/api";
 import { get } from "@/utils/request";
 
 // Interactive = client-side; un-interactive = server-side
 export default async function AdminDashboard() {
-	// const response = (await get("/reports"))
+	const responseRep = (await get("/reports")) as Reports;
+	const responseRev = (await get ("/reviews")) as Reviews;
+	const reports = responseRep.reports;
+	const reviews = responseRev.reviews;
 	return (
 		<div className="isolate">
 			{/* Sidebar; Server Side; TO-DO: Add links to icon (see: course cards)*/}
@@ -32,7 +35,10 @@ export default async function AdminDashboard() {
 				<p className="font-bold text-2xl">Admin Dashboard</p>
 				<p>Welcome to the Admin Dashboard.</p>
 				{/* Review and Report Cards */}
-				<AdminMainInterface />
+				<AdminMainInterface 
+					reviews={reviews}
+					reports={reports}
+				/>
 			</div>
 		</div>
 	);
