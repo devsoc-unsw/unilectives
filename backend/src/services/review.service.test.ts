@@ -67,6 +67,8 @@ describe("ReviewService", () => {
   describe("postReview", () => {
     it("should resolve and post a new review", async () => {
       const service = reviewService();
+      const reviews = getMockCOMP2521Reviews();
+      manager.find = jest.fn().mockReturnValue(reviews);
       const reviewEntity = getReviewEntity(date);
       const review = getMockReviews(date)[0];
 
