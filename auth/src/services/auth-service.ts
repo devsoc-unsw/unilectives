@@ -24,6 +24,8 @@ export default class AuthService {
     return { token };
   }
 
+  // hello who are you and are you still a valid way to be verifying
+  // for our future unsw oauth, i dont think so but im scared to remove u
   async verify(zid: string, zpass: string) {
     const res = await fetch("https://verify.csesoc.unsw.edu.au/v1", {
       method: "POST",

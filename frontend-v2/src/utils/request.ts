@@ -5,7 +5,7 @@ const request = async (
 ) => {
   const prefix = "/api/v1";
   const baseUrl =
-    process.env.NODE_ENV !== "development" ? `http://cselectives.staging.csesoc.unsw.edu.au${prefix}${url}` : `http://localhost:3030${prefix}${url}`;
+    process.env.NODE_ENV !== "development" ? `http://cselectives.staging.csesoc.unsw.edu.au${prefix}${url}` : `http://127.0.0.1:3030${prefix}${url}`;
   
   const payload = method === "GET" ? {
     method,

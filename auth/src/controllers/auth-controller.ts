@@ -45,6 +45,20 @@ export default class AuthController implements Controller {
               authorization: t.String(),
             }),
           }
+        )
+        .post(
+          "/verify",
+          async ({ body }) => {
+            logger.info(`Received request for POST /verify`);
+            console.log("body.zid = " + body.zid);
+            return { message: "please work bro :(" };
+          },
+          {
+            body: t.Object({
+              zid: t.String(),
+              password: t.String(),
+            }),
+          }
         );
   }
 }
