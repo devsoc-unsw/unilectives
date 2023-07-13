@@ -63,3 +63,34 @@ export const convertCourseInterfaceToEntity = (
     reviewsIds: [],
   };
 };
+
+export const convertRawCourseToInterface = (
+  rawCourse
+): Course => {
+  return {
+    courseCode: rawCourse.course_code,
+    archived: rawCourse.archived,
+    attributes: rawCourse.attributes,
+    calendar: rawCourse.calendar,
+    campus: rawCourse.campus,
+    description: rawCourse.description,
+    enrolmentRules: rawCourse.enrolment_rules,
+    equivalents: rawCourse.equivalents,
+    exclusions: rawCourse.exclusions,
+    faculty: rawCourse.faculty,
+    fieldOfEducation: rawCourse.field_of_education,
+    genEd: rawCourse.gen_ed,
+    level: rawCourse.level,
+    school: rawCourse.school,
+    studyLevel: rawCourse.study_level,
+    terms: rawCourse.terms,
+    title: rawCourse.title,
+    uoc: rawCourse.uoc,
+    rating: rawCourse.avg_overall_rating,
+    overallRating: rawCourse.avg_overall_rating,
+    manageability: rawCourse.avg_manageability,
+    usefulness: rawCourse.avg_usefulness,
+    enjoyability: rawCourse.avg_enjoyability,
+    reviewCount: rawCourse.review_count,
+  };
+}
