@@ -1,6 +1,7 @@
 import { HTTPError } from "../utils/errors";
 import { badRequest, internalServerError } from "../utils/constants";
 import { ReviewService } from "./review.service";
+import RedisClient from "../modules/redis";
 import {
   getUserEntity,
   getReviewEntity,
@@ -19,6 +20,7 @@ describe("ReviewService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
   const userRepository = {} as UserRepository;
   const reviewRepository = {} as ReviewRepository;
+  const redis = {} as RedisClient;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -26,7 +28,7 @@ describe("ReviewService", () => {
   });
 
   const reviewService = () =>
-    new ReviewService(reviewRepository, userRepository);
+    new ReviewService(redis, reviewRepository, userRepository);
   const date = new Date();
 
   describe("getAllReviews", () => {
@@ -53,6 +55,8 @@ describe("ReviewService", () => {
       const service = reviewService();
       const reviews = getMockCOMP2521Reviews();
       reviewRepository.getCourseReviews = jest.fn().mockReturnValue(reviews);
+      redis.get = jest.fn().mockReturnValue(null);
+      redis.set = jest.fn().mockReturnValue(null);
       expect(service.getCourseReviews("COMP2521")).resolves.toEqual({
         reviews,
       });
@@ -62,6 +66,7 @@ describe("ReviewService", () => {
   describe("postReview", () => {
     it("should resolve and post a new review", async () => {
       const service = reviewService();
+      const reviews = getMockCOMP2521Reviews();
       const reviewEntity = getReviewEntity(date);
       const review = getMockReviews(date)[0];
 
@@ -79,10 +84,7 @@ describe("ReviewService", () => {
         overallRating: 5,
       };
 
-      // manager.findOneBy = jest
-      //   .fn()
-      //   .mockReturnValueOnce(null)
-      //   .mockReturnValueOnce(reviewEntity);
+      redis.set = jest.fn().mockReturnValue(null);
       reviewRepository.save = jest.fn().mockReturnValue(reviewEntity);
 
       expect(service.postReview(reviewRequest)).resolves.toEqual({

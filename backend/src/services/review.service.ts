@@ -1,9 +1,9 @@
 import { ReviewRepository } from "../repositories/review.repository";
 import { getLogger } from "../utils/logger";
-import { ReviewEntity } from "../entity/Review";
 import { HTTPError } from "../utils/errors";
 import { internalServerError, badRequest } from "../utils/constants";
 import { UserRepository } from "../repositories/user.repository";
+import RedisClient from "../modules/redis";
 import {
   BookmarkReview,
   PostReviewRequestBody,
@@ -17,6 +17,7 @@ import { reviews } from "@prisma/client";
 export class ReviewService {
   private logger = getLogger();
   constructor(
+    private readonly redis: RedisClient,
     private readonly reviewRepository: ReviewRepository,
     private readonly userRepository: UserRepository
   ) {}
@@ -35,13 +36,21 @@ export class ReviewService {
   async getCourseReviews(
     courseCode: string
   ): Promise<ReviewsSuccessResponse | undefined> {
-    const reviews: reviews[] = await this.reviewRepository.getCourseReviews(
-      courseCode
-    );
+    let reviews = await this.redis.get<reviews[]>(`reviews:${courseCode}`);
+
+    if (!reviews) {
+      this.logger.info(`Cache miss on reviews:${courseCode}`);
+      reviews = await this.reviewRepository.getCourseReviews(courseCode);
+      await this.redis.set(`reviews:${courseCode}`, reviews);
+    } else {
+      this.logger.info(`Cache hit on reviews:${courseCode}`);
+    }
+
     if (reviews.length === 0) {
       this.logger.error("Database returned with no reviews.");
       throw new HTTPError(internalServerError);
     }
+    this.logger.info(`Found ${reviews.length} reviews.`);
     return {
       reviews: reviews.map((review) => {
         return {
@@ -56,21 +65,26 @@ export class ReviewService {
     reviewDetails: PostReviewRequestBody
   ): Promise<ReviewSuccessResponse | undefined> {
     // Convert reviewDetails to a reviewEntity
-    const reviewEntity = new ReviewEntity();
-    reviewEntity.zid = reviewDetails.zid;
-    reviewEntity.courseCode = reviewDetails.courseCode;
-    reviewEntity.authorName = reviewDetails.authorName;
-    reviewEntity.title = reviewDetails.title;
-    reviewEntity.description = reviewDetails.description;
-    reviewEntity.grade = reviewDetails.grade;
-    reviewEntity.termTaken = reviewDetails.termTaken;
-    reviewEntity.upvotes = [];
-    reviewEntity.manageability = reviewDetails.manageability;
-    reviewEntity.usefulness = reviewDetails.usefulness;
-    reviewEntity.enjoyability = reviewDetails.enjoyability;
-    reviewEntity.overallRating = reviewDetails.overallRating;
+    const reviewEntity: PostReviewRequestBody = {
+      zid: reviewDetails.zid,
+      courseCode: reviewDetails.courseCode,
+      authorName: reviewDetails.authorName,
+      title: reviewDetails.title,
+      description: reviewDetails.description,
+      grade: reviewDetails.grade,
+      termTaken: reviewDetails.termTaken,
+      manageability: reviewDetails.manageability,
+      usefulness: reviewDetails.usefulness,
+      enjoyability: reviewDetails.enjoyability,
+      overallRating: reviewDetails.overallRating,
+    };
 
     const review = await this.reviewRepository.save(reviewEntity);
+
+    const reviews = await this.reviewRepository.getCourseReviews(
+      reviewDetails.courseCode
+    );
+    await this.redis.set(`reviews:${reviewDetails.courseCode}`, reviews);
 
     return {
       review: {
@@ -135,10 +149,7 @@ export class ReviewService {
     }
 
     if (reviewDetails.bookmark) {
-      user.bookmarkedReviews = [
-        ...user.bookmarkedReviews,
-        reviewDetails.reviewId,
-      ];
+      user.bookmarkedReviews.push(review.reviewId);
     } else {
       user.bookmarkedReviews.filter(
         (review) => review !== reviewDetails.reviewId

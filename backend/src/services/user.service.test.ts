@@ -12,6 +12,7 @@ import { AuthService } from "../modules/Auth";
 import { CourseRepository } from "../repositories/course.repository";
 import { UserRepository } from "../repositories/user.repository";
 import { ReviewRepository } from "../repositories/review.repository";
+import { ReportRepository } from "../repositories/report.repository";
 
 describe("UserService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
@@ -20,6 +21,7 @@ describe("UserService", () => {
   const courseRepository = {} as CourseRepository;
   const userRepository = {} as UserRepository;
   const reviewRepository = {} as ReviewRepository;
+  const reportRepository = {} as ReportRepository;
 
   beforeEach(() => {
     manager = {} as EntityManager;
@@ -28,8 +30,7 @@ describe("UserService", () => {
     jest.resetAllMocks();
   });
 
-  const userService = () =>
-    new UserService(auth, courseRepository, userRepository, reviewRepository);
+  const userService = () => new UserService(auth, userRepository);
 
   describe("createUser", () => {
     it("should throw HTTP 400 error if could user exists in database", () => {
@@ -40,7 +41,7 @@ describe("UserService", () => {
       userRepository.getUser = jest.fn().mockReturnValue(entity);
 
       const errorResult = new HTTPError(badRequest);
-      expect(service.createUser(user.zid)).rejects.toThrow(errorResult);
+      expect(service.saveUser(user.zid)).rejects.toThrow(errorResult);
     });
 
     it("should resolve and return new created user", async () => {
@@ -51,7 +52,7 @@ describe("UserService", () => {
       userRepository.getUser = jest.fn().mockReturnValue(null);
       userRepository.saveUser = jest.fn().mockReturnValue(entity);
 
-      const result = await service.createUser(user.zid);
+      const result = await service.saveUser(user.zid);
       expect(result.user).toEqual(user);
     });
   });

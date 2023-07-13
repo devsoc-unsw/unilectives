@@ -29,11 +29,16 @@ export const env = envsafe({
     devDefault: "localhost",
   }),
   REDIS_USER: str({
+    allowEmpty: true,
     devDefault: "",
   }),
   REDIS_PASSWORD: str({
+    allowEmpty: true,
     devDefault: "",
   }),
+  DATABASE_URL: str({
+    devDefault: "postgresql://postgres:password@0.0.0.0:5432/mydb?schema=cselectives"
+  })
 });
 
 export default env;

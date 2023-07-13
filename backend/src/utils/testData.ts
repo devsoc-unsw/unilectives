@@ -1,9 +1,9 @@
 import { Course } from "../api/schemas/course.schema";
-import { UserEntity } from "../entity/User";
+// import { UserEntity } from "../entity/User";
 import { User } from "../api/schemas/user.schema";
 import { Report } from "../api/schemas/report.schema";
-import { ReportEntity } from "../entity/Report";
-import { ReviewEntity } from "../entity/Review";
+// import { ReportEntity } from "../entity/Report";
+// import { ReviewEntity } from "../entity/Review";
 import { Review } from "../api/schemas/review.schema";
 
 export const getCourseEntity = (): Course => {
@@ -26,7 +26,6 @@ export const getCourseEntity = (): Course => {
     terms: [1, 2, 3],
     title: "good course imo",
     uoc: 6,
-    rating: 4,
     reviewCount: 1,
     overallRating: 4,
     manageability: 4,
@@ -56,7 +55,6 @@ export const getMockCourses = (): Course[] => {
       terms: [1, 2, 3],
       title: "good course imo",
       uoc: 6,
-      rating: 4,
       reviewCount: 1,
       overallRating: 4,
       manageability: 4,
@@ -82,7 +80,6 @@ export const getMockCourses = (): Course[] => {
       terms: [1, 2, 3],
       title: "good course imo",
       uoc: 6,
-      rating: 4,
       reviewCount: 1,
       overallRating: 4,
       manageability: 4,
@@ -106,34 +103,7 @@ export const getMockNewUser = (): User => {
 export const getMockUser = (): User => {
   return {
     zid: "z5555555",
-    bookmarkedCourses: [
-      {
-        courseCode: "COMP1511",
-        archived: false,
-        attributes: ["yeet"],
-        calendar: "cal-123",
-        campus: "Kensington",
-        description: "rip chee",
-        enrolmentRules: "idk",
-        equivalents: ["COMP1911"],
-        exclusions: ["COMP1010"],
-        faculty: "CSE",
-        fieldOfEducation: "ugrad",
-        genEd: true,
-        level: 1,
-        school: "CSE",
-        studyLevel: "ugrad",
-        terms: [1, 2, 3],
-        title: "good course imo",
-        uoc: 6,
-        rating: 4,
-        reviewCount: 1,
-        overallRating: 4,
-        manageability: 4,
-        usefulness: 4,
-        enjoyability: 4,
-      },
-    ],
+    bookmarkedCourses: ["COMP1511"],
     bookmarkedReviews: [],
     isAdmin: false,
     reports: [],
@@ -141,7 +111,7 @@ export const getMockUser = (): User => {
   };
 };
 
-export const getUserEntity = (): UserEntity => {
+export const getUserEntity = (): User => {
   return {
     zid: "z5555555",
     bookmarkedCourses: ["COMP1511"],
@@ -152,10 +122,10 @@ export const getUserEntity = (): UserEntity => {
   };
 };
 
-export const getReportEntity = (date = new Date()): ReportEntity => {
+export const getReportEntity = (date = new Date()): Report => {
   return {
     reportId: "REPORT1",
-    review: getReviewEntity(),
+    reviews: getReviewEntity(),
     zid: "z5555555",
     reason: "Nothing makes sense",
     status: "UNSEEN",
@@ -168,7 +138,7 @@ export const getMockReports = (date = new Date()): Report[] => {
   return [
     {
       reportId: "REPORT1",
-      review: getMockReview(date),
+      reviews: getMockReview(date),
       zid: "z5555555",
       reason: "Nothing makes sense",
       status: "UNSEEN",
@@ -177,7 +147,7 @@ export const getMockReports = (date = new Date()): Report[] => {
     },
     {
       reportId: "REPORT2",
-      review: getMockReview(date),
+      reviews: getMockReview(date),
       zid: "z5000000",
       reason: "There were rude words in the review!",
       status: "UNSEEN",
@@ -207,7 +177,7 @@ export const getMockReview = (date = new Date()): Review => {
   };
 };
 
-export const getReviewEntity = (date = new Date()): ReviewEntity => {
+export const getReviewEntity = (date = new Date()): Review => {
   return {
     reviewId: "REVIEW1",
     zid: "z5555555",

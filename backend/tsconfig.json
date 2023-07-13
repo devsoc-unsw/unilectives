@@ -28,8 +28,6 @@
   "include": [
     "src/**/*",
     "config/*",
-    "../../.temp/course.converter.test.ts",
-    "../../.temp/course.converter.ts"
   ],
   "exclude": ["src/**/*.test.ts"]
 }

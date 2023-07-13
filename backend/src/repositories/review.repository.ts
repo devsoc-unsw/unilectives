@@ -1,4 +1,5 @@
 import { PrismaClient, reviews } from "@prisma/client";
+import { PostReviewRequestBody } from "../api/schemas/review.schema";
 
 export class ReviewRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -15,7 +16,7 @@ export class ReviewRepository {
     });
   }
 
-  async save(review: reviews): Promise<reviews> {
+  async save(review: PostReviewRequestBody): Promise<reviews> {
     return await this.prisma.reviews.create({
       data: {
         ...review,

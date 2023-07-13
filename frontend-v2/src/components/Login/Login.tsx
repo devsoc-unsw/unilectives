@@ -13,15 +13,15 @@ export default function Login() {
     e.preventDefault();
     setError("");
     if (zid === "") {
-      setError("zid not provided")
+      setError("zid not provided");
       return;
-    } 
+    }
     if (password === "") {
-      setError("Password not provided")
+      setError("Password not provided");
       return;
     }
     if (!zid.startsWith("z")) {
-      setError("zid should begin with z")
+      setError("zid should begin with z");
       return;
     }
     try {

@@ -1,5 +1,6 @@
 import { PrismaClient as Connection } from "@prisma/client";
 import { getLogger } from "../utils/logger";
+import env from "../env";
 
 export default class PrismaClient {
   private logger = getLogger();
@@ -10,7 +11,7 @@ export default class PrismaClient {
       // log: ["query"],
       datasources: {
         db: {
-          url: process.env.DATABASE_URL,
+          url: env.DATABASE_URL,
         },
       },
     });

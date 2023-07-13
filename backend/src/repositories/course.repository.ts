@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Course, CourseSchema } from "../api/schemas/course.schema";
+import { Course, CourseSchema, UpdateCourse } from "../api/schemas/course.schema";
 
 export class CourseRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -113,7 +113,7 @@ export class CourseRepository {
   }
 
   async getCourse(courseCode: string): Promise<Course | null> {
-    const rawCourse = await this.prisma.$queryRaw`
+    const rawCourse = await this.prisma.$queryRawUnsafe(`
     SELECT
     c.course_code AS "courseCode",
     c.archived,
@@ -143,19 +143,17 @@ export class CourseRepository {
     WHERE c.course_code = '${courseCode}'
     GROUP BY c.course_code
     ORDER BY "reviewCount" DESC;
-    `;
-    const course = CourseSchema.parse(rawCourse);
+    `) as any[];
+    const course = CourseSchema.parse(rawCourse[0]);
     return course;
   }
 
   async save(course: Course): Promise<Course> {
-    const newCourseData = await this.prisma.courses.upsert({
+    const newCourseData = await this.prisma.courses.update({
       where: { courseCode: course.courseCode },
-      update: { ...course },
-      create: { ...course },
+      data: { ...course }
     });
-    const updatedCourse = this.getCourse(course.courseCode);
-    const newCourse = CourseSchema.parse(updatedCourse);
+    const newCourse = CourseSchema.parse(newCourseData);
     return newCourse;
   }
 }

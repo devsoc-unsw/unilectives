@@ -44,7 +44,7 @@ describe("ReportService", () => {
       const entity = getReportEntity();
       const report = getMockReports()[0];
       const reportRequest: CreateReport = {
-        reviewId: report.review.reviewId,
+        reviewId: report.reviews.reviewId,
         reason: report.reason,
         zid: report.zid,
       };
@@ -60,7 +60,7 @@ describe("ReportService", () => {
       const service = reportService();
       const report = getMockReports()[0];
       const reportRequest: CreateReport = {
-        reviewId: report.review.reviewId,
+        reviewId: report.reviews.reviewId,
         reason: report.reason,
         zid: report.zid,
       };
@@ -81,7 +81,7 @@ describe("ReportService", () => {
       const reviewEntity = getReviewEntity();
       const review = getMockReview();
       const reportRequest: CreateReport = {
-        reviewId: report.review.reviewId,
+        reviewId: report.reviews.reviewId,
         reason: report.reason,
         zid: report.zid,
       };
@@ -90,13 +90,13 @@ describe("ReportService", () => {
         .fn()
         .mockReturnValue(null);
       reviewRepository.getReview = jest.fn().mockReturnValue(reviewEntity);
-      reportRepository.saveReport = jest.fn().mockReturnValue(reportEntity);
+      reportRepository.newReport = jest.fn().mockReturnValue(reportEntity);
 
       const reportResult = await service.createReport(reportRequest);
       expect(reportResult.report.status).toEqual("UNSEEN");
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);
-      expect(reportResult.report.review).toEqual({
+      expect(reportResult.report.reviews).toEqual({
         ...review,
         createdTimestamp: expect.any(Date),
         updatedTimestamp: expect.any(Date),
@@ -178,7 +178,7 @@ describe("ReportService", () => {
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);
       expect({
-        ...reportResult.report.review,
+        ...reportResult.report.reviews,
         updatedTimestamp: date,
         createdTimestamp: date,
       }).toEqual(review);

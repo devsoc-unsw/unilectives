@@ -31,7 +31,7 @@ export class UserController implements IController {
             req.body
           );
           try {
-            const result = await this.userService.createUser(zid);
+            const result = await this.userService.saveUser(zid);
             this.logger.info(`Responding to client in /user/register`);
             return res.status(200).json(result);
           } catch (err: any) {
