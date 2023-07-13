@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="en" className="font-custom">
       <body>
         <Navbar />
-        <div className="ml-20">{children}</div>
+        <div className="ml-72">{children}</div>
       </body>
     </html>
   );
