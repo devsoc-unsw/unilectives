@@ -37,8 +37,9 @@ export const env = envsafe({
     devDefault: "",
   }),
   DATABASE_URL: str({
-    devDefault: "postgresql://postgres:password@0.0.0.0:5432/mydb?schema=cselectives"
-  })
+    devDefault:
+      "postgresql://postgres:password@0.0.0.0:5432/mydb?schema=cselectives",
+  }),
 });
 
 export default env;
