@@ -17,6 +17,7 @@ export class CourseRepository {
       ])
       .leftJoin("c.reviews", "r")
       .groupBy("c.course_code")
+      .addGroupBy("c.archived")
       .addGroupBy("c.attributes")
       .addGroupBy("c.calendar")
       .addGroupBy("c.campus")
@@ -37,6 +38,7 @@ export class CourseRepository {
     return rawCourses.map((rawCourse) => {
       const course = new CourseEntity();
       course.courseCode = rawCourse.course_code;
+      course.archived = rawCourse.archived;
       course.attributes = rawCourse.attributes;
       course.calendar = rawCourse.calendar;
       course.campus = rawCourse.campus;
@@ -76,6 +78,7 @@ export class CourseRepository {
       ])
       .leftJoin("c.reviews", "r")
       .groupBy("c.course_code")
+      .addGroupBy("c.archived")
       .addGroupBy("c.attributes")
       .addGroupBy("c.calendar")
       .addGroupBy("c.campus")
@@ -100,6 +103,7 @@ export class CourseRepository {
     return rawCourses.map((rawCourse) => {
       const course = new CourseEntity();
       course.courseCode = rawCourse.course_code;
+      course.archived = rawCourse.archived;
       course.attributes = rawCourse.attributes;
       course.calendar = rawCourse.calendar;
       course.campus = rawCourse.campus;
@@ -151,6 +155,7 @@ export class CourseRepository {
       ])
       .leftJoin("c.reviews", "r")
       .groupBy("c.course_code")
+      .addGroupBy("c.archived")
       .addGroupBy("c.attributes")
       .addGroupBy("c.calendar")
       .addGroupBy("c.campus")
@@ -178,6 +183,7 @@ export class CourseRepository {
     return rawCourses.map((rawCourse) => {
       const course = new CourseEntity();
       course.courseCode = rawCourse.course_code;
+      course.archived = rawCourse.archived;
       course.attributes = rawCourse.attributes;
       course.calendar = rawCourse.calendar;
       course.campus = rawCourse.campus;
