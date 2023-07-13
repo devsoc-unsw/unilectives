@@ -1,4 +1,5 @@
 import "./globals.css";
+import Navbar from "@/components/Navbar/Navbar";
 
 export const metadata = {
   title: "uni-lectives",
@@ -12,7 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="font-custom">
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        <div className="ml-20">{children}</div>
+      </body>
     </html>
   );
 }
