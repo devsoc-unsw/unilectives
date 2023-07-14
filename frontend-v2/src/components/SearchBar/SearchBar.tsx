@@ -1,13 +1,16 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
-export default function SearchBar() {
+export default function SearchBar({ onChange }: { onChange: (newSearchTerm: string) => void }) {
+  const [searchText, setSearchText] = useState("");
+
+  // TODO: clean up searchText before lifting the state up
   const handleOnSubmit = (event: FormEvent) => {
     event.preventDefault();
-    // TODO: submit query
-    console.log((event.target as HTMLFormElement).query.value);
+    setSearchText((event.target as HTMLFormElement).query.value);
+    onChange((event.target as HTMLFormElement).query.value);
   };
 
   return (

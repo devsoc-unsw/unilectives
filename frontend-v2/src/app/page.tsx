@@ -1,6 +1,5 @@
 import Image from "next/image";
-import SearchBar from "@/components/SearchBar/SearchBar";
-import CoursesList from "@/components/CoursesList/CoursesList";
+import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 
 export default async function Home() {
   return (
@@ -39,10 +38,8 @@ export default async function Home() {
       </div>
       {/* Course Section */}
       <div className="flex flex-col justify-center items-center mt-10">
-        <SearchBar />
-        {/* Course cards */}
-        <CoursesList />
+        <LandingPageContent />
       </div>
-    </div>
+     </div> 
   );
 }
