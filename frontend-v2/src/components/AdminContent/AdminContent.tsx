@@ -16,23 +16,25 @@ export default function AdminContent({
 	reviews,
 	reports
 }: AdminContentProps) {
-	const [object, setObject] = useState<'review' | 'report'>('review');
+	const [object, setObject] = useState<'review' | 'report'>('report');
 	const [gridView, setGridView] = useState(false);
 	const [sort, setSort] = useState('');
+	const [page, setPage] = useState(0);
+	const elementsPerPage = 6;
 
 	return (
 		<div className="flex flex-col gap-6">
-			{/* Reviews and Reports Tab */}
+			{/* Reviews or Reports Tab */}
 			<div className="flex flex-row w-full h-9 gap-8 border-b border-slate-300">
 				<button
-					className={object === 'review' ? "font-bold text-unilectives-purple border-b-2 border-unilectives-purple" : ""}
-					onClick={() => setObject('review')}>
-						Reviews
-				</button>
-				<button 
 					className={object === 'report' ? "font-bold text-unilectives-purple border-b-2 border-unilectives-purple" : ""}
 					onClick={() => setObject('report')}>
 						Reports
+				</button>
+				<button 
+					className={object === 'review' ? "font-bold text-unilectives-purple border-b-2 border-unilectives-purple" : ""}
+					onClick={() => setObject('review')}>
+						Reviews
 				</button>
 			</div>
 			{/* Sort and View Options */}
@@ -58,7 +60,7 @@ export default function AdminContent({
 			{/* Card Grid */}
 			<div className={gridView ? "grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-6 w-full items-center" : "flex flex-col gap-3 rounded-md shadow-review-card justify-center"}>
 				{object === 'report' ? (reports ? (
-					reports.map((r: Report, index: number) => (
+					reports.slice(page * elementsPerPage, (page + 1) * elementsPerPage).map((r: Report, index: number) => (
 						<ReportCard
 							report={r}
 							gridView={gridView} 
@@ -69,7 +71,7 @@ export default function AdminContent({
 						No reports found
 					</p>
 				)) : (reviews ? (
-					reviews.map((r: Review, index: number) => (
+					reviews.slice(page * elementsPerPage, (page + 1) * elementsPerPage).map((r: Review, index: number) => (
 						<ReviewCard
 							review={r}
 						/>
