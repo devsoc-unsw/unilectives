@@ -23,6 +23,20 @@ export type Reviews = {
   reviews: Review[];
 };
 
+export type Report = {
+  reportId: string;
+  review: Review;
+  zid: string;
+  status: "UNSEEN" | "SEEN" | "REMOVED" | "SETTLED";
+  reason: string;
+  createdTimeStamp: Date;
+  updatedTimeStamp: Date;
+}
+
+export type Reports = {
+  reports: Report[];
+}
+
 export type Course = {
   courseCode: string;
   archived: boolean;
