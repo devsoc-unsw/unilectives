@@ -23,14 +23,18 @@ export type Reviews = {
   reviews: Review[];
 };
 
+export type ReportStatus = {
+  status: "UNSEEN" | "SEEN" | "REMOVED" | "SETTLED";
+}
+
 export type Report = {
   reportId: string;
   review: Review;
   zid: string;
-  status: "UNSEEN" | "SEEN" | "REMOVED" | "SETTLED";
+  status: ReportStatus;
   reason: string;
-  createdTimeStamp: Date;
-  updatedTimeStamp: Date;
+  createdTimestamp: Date;
+  updatedTimestamp: Date;
 }
 
 export type Reports = {
