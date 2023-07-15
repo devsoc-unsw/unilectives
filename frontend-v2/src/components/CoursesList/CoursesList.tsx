@@ -5,7 +5,7 @@ import CourseCard from "../CourseCard/CourseCard";
 import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
 
-export default function CoursesList({ searchTerm }: { searchTerm: string }) {
+export default function CoursesList() {
   // Refs
   const courseFinishedRef = useRef(false);
   const indexRef = useRef(0);

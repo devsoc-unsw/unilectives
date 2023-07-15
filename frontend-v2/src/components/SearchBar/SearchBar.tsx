@@ -6,7 +6,9 @@ import { FormEvent, useEffect, useState } from "react";
 export default function SearchBar({ onChange }: { onChange: (newSearchTerm: string) => void }) {
   const [searchText, setSearchText] = useState("");
 
-  // TODO: clean up searchText before lifting the state up
+  // TODO: clean up searchText before lifting the state up (e.g. trailing spaces, converting spaces to %20)
+  // TODO: make it so that onChange is called on new keystrokes (not submission)
+  // TODO: aborting inital characters entered
   const handleOnSubmit = (event: FormEvent) => {
     event.preventDefault();
     setSearchText((event.target as HTMLFormElement).query.value);
