@@ -14,7 +14,7 @@ export default function LandingPageContent() {
 
   return (
     <div className="flex flex-col justify-center items-center w-full"> 
-      <SearchBar onChange={handleStateChange}/>
+      <SearchBar onSearchChange={handleStateChange}/>
       {searchTerm === "" ? <CoursesList /> : <SearchResults searchTerm={searchTerm}/>}
     </div>
   );
