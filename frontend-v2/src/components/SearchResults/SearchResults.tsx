@@ -7,6 +7,8 @@ import { get } from "@/utils/request";
 
 export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
   // TODO: frontend pagination
+  // TODO: aborting inital characters entered
+  // TODO: fix (on backend) sorting of courses results from search
 
   // States
   const [allCourses, setAllCourses] = useState<Course[]>([]);
