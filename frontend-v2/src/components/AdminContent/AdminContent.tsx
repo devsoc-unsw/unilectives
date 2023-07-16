@@ -2,25 +2,28 @@
 
 import React, { useState } from 'react';
 import { Report, Review } from "@/types/api";
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import Dropdown from "@/components/Dropdown/Dropdown";
 import ReportCard from "@/components/ReportCard/ReportCard";
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import BinarySwitch from "@/components/BinarySwitch/BinarySwitch";
 
 type AdminContentProps = {
-	reviews: Review[];
 	reports: Report[];
+	reviews: Review[];
 }
 
 export default function AdminContent({
+	reports,
 	reviews,
-	reports
 }: AdminContentProps) {
-	const [object, setObject] = useState<'review' | 'report'>('report');
+	const [object, setObject] = useState<'report' | 'review'>('report');
 	const [gridView, setGridView] = useState(false);
 	const [sort, setSort] = useState('');
-	const [page, setPage] = useState(0);
+	const [reportPage, setReportPage] = useState(0);
+	const [reviewPage, setReviewPage] = useState(0);
 	const elementsPerPage = 6;
+	const pagesPerPage = 7;
 
 	return (
 		<div className="flex flex-col gap-6">
@@ -58,9 +61,9 @@ export default function AdminContent({
 				</div>
 			</div>
 			{/* Card Grid */}
-			<div className={gridView ? "grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-6 w-full items-center" : "flex flex-col gap-3 rounded-md shadow-review-card justify-center"}>
+			<div className={gridView ? "grid grid-rows-2 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-6 w-full items-center" : "flex flex-col gap-3 rounded-md shadow-review-card justify-center"}>
 				{object === 'report' ? (reports ? (
-					reports.slice(page * elementsPerPage, (page + 1) * elementsPerPage).map((r: Report, index: number) => (
+					reports.slice(reportPage * elementsPerPage, (reportPage + 1) * elementsPerPage).map((r: Report, index: number) => (
 						<ReportCard
 							report={r}
 							gridView={gridView} 
@@ -71,7 +74,7 @@ export default function AdminContent({
 						No reports found
 					</p>
 				)) : (reviews ? (
-					reviews.slice(page * elementsPerPage, (page + 1) * elementsPerPage).map((r: Review, index: number) => (
+					reviews.slice(reviewPage * elementsPerPage, (reviewPage + 1) * elementsPerPage).map((r: Review, index: number) => (
 						<ReviewCard
 							review={r}
 						/>
@@ -81,6 +84,34 @@ export default function AdminContent({
 						No reviews found
 					</p>
 				))}
+			</div>
+			{/* Pagination UI */}
+			<div className="flex flex-row gap-4 justify-center h-full">
+			<ChevronLeftIcon 
+				onClick={() => object === 'report' ? setReportPage(reportPage > 0 ? reportPage - 1 : reportPage) : setReviewPage(reviewPage > 0 ? reviewPage - 1 : reviewPage)}
+				className="w-5 h-5 hover:scale-125 hover:text-black rounded-full"
+			/>
+			{object === 'report' ? (
+				Array.from({length: Math.ceil(reports.length/elementsPerPage)}, (_, i) => i + 1).slice(Math.floor(reportPage/pagesPerPage) * pagesPerPage - (Math.floor(reportPage/pagesPerPage) > 0 ? 1 : 0), Math.floor(reportPage/pagesPerPage) * pagesPerPage + pagesPerPage + 1).map((n) => (
+					<button onClick={() => setReportPage(n-1)}>
+						<span className={`inline-flex w-5 h-5 p-3 rounded-full items-center justify-center ${(reportPage+1)===n ? "bg-unilectives-purple text-white" : "text-slate-500 hover:bg-slate-200"}`}>
+							{n}
+						</span>
+					</button>
+				))
+			) : (
+				Array.from({length: Math.ceil(reviews.length/elementsPerPage)}, (_, i) => i + 1).slice(Math.floor(reviewPage/pagesPerPage) * pagesPerPage - (Math.floor(reviewPage/pagesPerPage) > 0 ? 1 : 0), Math.floor(reviewPage/pagesPerPage) * pagesPerPage + pagesPerPage + 1).map((n) => (
+					<button onClick={() => setReviewPage(n-1)}>
+						<span className={`inline-flex w-5 h-5 p-3 rounded-full items-center justify-center ${(reviewPage+1)===n ? "bg-unilectives-purple text-white" : "text-slate-500 hover:bg-slate-200"}`}>
+							{n}
+						</span>
+					</button>
+				))
+			)}
+			<ChevronRightIcon 
+				onClick={() => object === 'report' ? (setReportPage(reportPage < Math.ceil(reports.length/elementsPerPage) - 1 ? reportPage + 1 : reportPage)) : setReviewPage(reviewPage < Math.ceil(reviews.length/elementsPerPage) - 1 ? reviewPage + 1 : reviewPage)}
+				className="w-5 h-5 hover:scale-125 hover:text-black rounded-full"
+			/>
 			</div>
 		</div>
     );

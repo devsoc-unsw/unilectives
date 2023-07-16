@@ -16,12 +16,12 @@ export default async function () {
 					layout="responsive"
 					priority
 				/>
-			<div className="absolute top-20 flex flex-col w-full p-12 gap-6">
+			<div className="absolute top-16 flex flex-col w-full p-12 gap-6">
 				<p className="font-bold text-3xl">Dashboard</p>
 				<p>Welcome to the admin dashboard!</p>
 				<AdminContent
-					reviews={reviews}
 					reports={reports}
+					reviews={reviews}
 				/>
 			</div>
 		</div>
