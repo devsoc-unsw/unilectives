@@ -44,7 +44,7 @@ describe("ReportService", () => {
       const entity = getReportEntity();
       const report = getMockReports()[0];
       const reportRequest: CreateReport = {
-        reviewId: report.reviews.reviewId,
+        reviewId: report.review.reviewId,
         reason: report.reason,
         zid: report.zid,
       };
@@ -60,7 +60,7 @@ describe("ReportService", () => {
       const service = reportService();
       const report = getMockReports()[0];
       const reportRequest: CreateReport = {
-        reviewId: report.reviews.reviewId,
+        reviewId: report.review.reviewId,
         reason: report.reason,
         zid: report.zid,
       };
@@ -81,7 +81,7 @@ describe("ReportService", () => {
       const reviewEntity = getReviewEntity();
       const review = getMockReview();
       const reportRequest: CreateReport = {
-        reviewId: report.reviews.reviewId,
+        reviewId: report.review.reviewId,
         reason: report.reason,
         zid: report.zid,
       };
@@ -96,7 +96,7 @@ describe("ReportService", () => {
       expect(reportResult.report.status).toEqual("UNSEEN");
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);
-      expect(reportResult.report.reviews).toEqual({
+      expect(reportResult.report.review).toEqual({
         ...review,
         createdTimestamp: expect.any(Date),
         updatedTimestamp: expect.any(Date),
@@ -178,7 +178,7 @@ describe("ReportService", () => {
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);
       expect({
-        ...reportResult.report.reviews,
+        ...reportResult.report.review,
         updatedTimestamp: date,
         createdTimestamp: date,
       }).toEqual(review);

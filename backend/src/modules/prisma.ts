@@ -8,7 +8,7 @@ export default class PrismaClient {
 
   constructor() {
     this.connection = new Connection({
-      // log: ["query"],
+      log: process.env.NODE_ENV !== "production" ? [] : ["query"],
       datasources: {
         db: {
           url: env.DATABASE_URL,
