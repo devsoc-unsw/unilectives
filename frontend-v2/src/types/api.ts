@@ -51,10 +51,20 @@ export type Course = {
   enjoyability: number;
 };
 
-export type ICourse = {
-  course: Course;
-}
-
 export type Courses = {
   courses: Course[];
+}
+
+export type Report = {
+  reportId: string,
+  review: Review,
+  zid: string,
+  status: "UNSEEN"| "SEEN"| "REMOVED"| "SETTLED",
+  reason: string,
+  createdTimestamp: string,
+  updatedTimestamp: string,
+}
+
+export type Reports = {
+  reports: Report[]
 }

@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
 import Rating from "@/components/Rating/Rating";
 import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
-import { ICourse, Reviews } from "@/types/api";
+import { Course, Reviews } from "@/types/api";
 import { get } from "@/utils/request";
 import ReviewModal from "@/components/ReviewModal/ReviewModal";
 
@@ -20,9 +20,9 @@ export default async function ReviewPage({
     [key: string]: string;
   };
 }) {
-  const { course } = (await get(
-    `/course/${params.id.toUpperCase()}`
-  )) as ICourse;
+  const { course } = (await get(`/course/${params.id.toUpperCase()}`)) as {
+    course: Course;
+  };
 
   if (!course) notFound();
 

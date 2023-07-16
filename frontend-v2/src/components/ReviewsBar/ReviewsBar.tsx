@@ -27,7 +27,7 @@ export default function ReviewsBar({
       case "Most Recent":
         sortedReviews.sort(
           (r1: Review, r2: Review) =>
-            Date.parse(r2.createdTimestamp) - Date.parse(r2.createdTimestamp)
+            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp)
         );
         break;
       case "Most Recently Taken":

@@ -2,7 +2,7 @@ import Image from "next/image";
 import waves from "../../../assets/navbar.svg";
 import { notFound } from "next/navigation";
 import { get } from "@/utils/request";
-import UserReviews from "@/components/UserReviews/UserReviews";
+import UserReviews from "@/components/UserPageContent/UserPageContent";
 
 export default async function UserPage({
   params,
@@ -25,7 +25,11 @@ export default async function UserPage({
       </div>
       <section className="py-24 px-16 md:px-8 lg:py-16 space-y-5">
         <h1 className="font-bold text-3xl">{user.zid}</h1>
-        <UserReviews reviews={user.reviews} />
+        <UserReviews
+          reviews={user.reviews}
+          reports={user.reports}
+          courses={user.bookmarkedCourses}
+        />
       </section>
     </div>
   );
