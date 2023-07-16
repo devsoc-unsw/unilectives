@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import TruncatedDescription from "@/components/TruncatedDescription/TruncatedDescription";
 import Dropdown from "@/components/Dropdown/Dropdown";
 
-export default function ReviewCard({ report, gridView }: { report: Report, gridView: boolean }) {
+export default function ReportCard({ report, gridView }: { report: Report, gridView: boolean }) {
 	const setState = (chosenState: string) => {
 		// To-do: use api route to set state
 		console.log(chosenState);

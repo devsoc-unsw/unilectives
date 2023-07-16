@@ -33,8 +33,8 @@ export type Report = {
   zid: string;
   status: ReportStatus;
   reason: string;
-  createdTimestamp: Date;
-  updatedTimestamp: Date;
+  createdTimestamp: string;
+  updatedTimestamp: string;
 }
 
 export type Reports = {
