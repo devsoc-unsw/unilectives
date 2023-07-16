@@ -5,6 +5,7 @@ export type ApiError = {
 
 export type Review = {
   reviewId: string;
+  courseCode: string;
   authorName: string;
   title: string;
   description: string;

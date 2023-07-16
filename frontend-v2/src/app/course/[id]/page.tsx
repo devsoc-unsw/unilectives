@@ -11,6 +11,7 @@ import Rating from "@/components/Rating/Rating";
 import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
 import { ICourse, Reviews } from "@/types/api";
 import { get } from "@/utils/request";
+import ReviewModal from "@/components/ReviewModal/ReviewModal";
 
 export default async function ReviewPage({
   params,
@@ -127,7 +128,11 @@ export default async function ReviewPage({
             {reviews && reviews.length !== 0 ? (
               <ReviewsBar courseCode={course.courseCode} reviews={reviews} />
             ) : (
-              <div>No reviews yet</div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-bold">Reviews</h3>
+                <ReviewModal courseCode={course.courseCode} />
+                <p className="text-black/50">No reviews yet</p>
+              </div>
             )}
           </Suspense>
         </section>
