@@ -65,7 +65,7 @@ model reviews {
   usefulness        Float
   enjoyability      Float
   overallRating     Float       @map("overall_rating")
-  reportes           reports[]
+  reports           reports[]
   courses           courses     @relation(fields: [courseCode], references: [courseCode], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
   users             users       @relation(fields: [zid], references: [zid], onDelete: NoAction, onUpdate: NoAction, map: "fk_zid")
 }

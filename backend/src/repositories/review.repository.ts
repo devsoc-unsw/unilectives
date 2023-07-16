@@ -11,7 +11,7 @@ export class ReviewRepository {
   async getCourseReviews(courseCode: string): Promise<reviews[]> {
     return await this.prisma.reviews.findMany({
       where: {
-        courseCode: courseCode,
+        courseCode,
       },
     });
   }
