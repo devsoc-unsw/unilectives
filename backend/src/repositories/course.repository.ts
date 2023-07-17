@@ -175,10 +175,11 @@ export class CourseRepository {
       .where("c.course_code ILIKE :searchTerm", { searchTerm: `%${searchTerm}%` })
       .orWhere("c.title ILIKE :searchTerm", { searchTerm: `%${searchTerm}%` })
       .orderBy(`CASE 
-                  WHEN c.course_code ILIKE '${searchTerm}' THEN 1
-                  WHEN c.title ILIKE '${searchTerm}' THEN 2
+                  WHEN c.course_code ILIKE '%${searchTerm}%' THEN 1
+                  WHEN c.title ILIKE '%${searchTerm}%' THEN 2
                   ELSE 3
                 END`)
+      .addOrderBy("review_count", "DESC")
       .getRawMany();
     return rawCourses.map((rawCourse) => {
       const course = new CourseEntity();
