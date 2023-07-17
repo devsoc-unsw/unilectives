@@ -1,12 +1,15 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useCallback } from "react";
+import debounce from "lodash/debounce";
 
 export default function SearchBar({ onSearchChange }: { onSearchChange: (newSearchTerm: string) => void }) {
-  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onSearchChange(event.target.value.trim().replaceAll(" ", "%20"));
-  }
+  const handleOnChange = useCallback(
+    debounce((event: ChangeEvent<HTMLInputElement>) => {
+      onSearchChange(event.target.value.trim().replaceAll(" ", "%20"));
+    }, 200), []
+  );
 
   return (
     <div
