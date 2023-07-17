@@ -6,30 +6,79 @@ import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
 
 export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
-  // TODO: frontend pagination
   // TODO: aborting inital characters entered
-  // TODO: fix (on backend) sorting of courses results from search
+
+  // Refs
+  const courseFinishedRef = useRef(false);
+  const indexRef = useRef(0);
+  const allCoursesRef = useRef<Course[]>([]);
 
   // States
-  const [allCourses, setAllCourses] = useState<Course[]>([]);
+  const [displayCourses, setDisplayCourses] = useState<Course[]>([]);
+
+  // Load more courses
+  const loadMore = (index: number) => {
+    // If user scroll position is not in the end
+    if (window.innerHeight + window.pageYOffset < document.body.offsetHeight)
+      return;
+
+    try {
+      if (courseFinishedRef.current) {
+        return;
+      }
+      const courses = allCoursesRef.current.splice(index, index + 25);
+      if (!courses.length) {
+        courseFinishedRef.current = true;
+        return;
+      }
+      // Add courses
+      setDisplayCourses((prev) => [...prev, ...courses]);
+    } catch (err) {
+      // TODO
+    }
+  };
 
   useEffect(() => {
-    const searchCourses = async () => {
+    const getSearchResults = async () => {
       try {
         const { courses } = (await get(`/course/search/${searchTerm}`)) as Courses;
-        courses.length = 25;
-        setAllCourses(courses);
+        allCoursesRef.current = courses;
       } catch (err) {
-        // TODO: catch error (account for abort logic)
+        // TODO
+      }
+      loadOnScroll();
+    };
+
+    // Load courses on scroll
+    const loadOnScroll = () => {
+      if (
+        window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
+        !courseFinishedRef.current
+      ) {
+        loadMore(indexRef.current);
+        indexRef.current += 25;
       }
     };
-    searchCourses();
-  }, [searchTerm])
+
+    courseFinishedRef.current = false;
+    indexRef.current = 0;
+    allCoursesRef.current = [];
+    setDisplayCourses([]);
+
+    // Get all courses from search
+    getSearchResults();
+
+    // Load on scroll
+    window.addEventListener("scroll", loadOnScroll);
+
+    // Clean up
+    return () => window.removeEventListener("scroll", loadOnScroll);
+  }, [searchTerm]);
 
   return (
     <>
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
-        {allCourses.map((c: Course, index: number) => (
+        {displayCourses.map((c: Course, index: number) => (
           <a href={`/course/${c.courseCode}`} key={index}>
             <CourseCard
               title={c.title}
