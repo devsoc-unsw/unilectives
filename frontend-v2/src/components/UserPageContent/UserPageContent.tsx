@@ -4,21 +4,26 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { Course, Report, Review, Reviews } from "@/types/api";
 import UserReviews from "../UserReviews/UserReviews";
 import UserReports from "../UserReports/UserReports";
+import UserCourses from "../UserCourses/UserCourses";
+import Dropdown from "../Dropdown/Dropdown";
+import Pagination from "../Pagination/Pagination";
 
 export default function UserPageContent({
   reviews,
   reports,
+  bookmarked,
   courses,
 }: {
   reviews: Review[];
   reports: Report[];
+  bookmarked: Review[];
   courses: Course[];
 }) {
   // Refs
   const currentTabRef = useRef("My reviews");
   // States
   const [tabs, setTabs] = useState<{
-    [key: string]: { current: boolean; data: Report[] | Review[] };
+    [key: string]: { current: boolean; data: Report[] | Review[] | Course[] };
   }>({
     "My reviews": {
       current: true,
@@ -30,11 +35,11 @@ export default function UserPageContent({
     },
     Bookmarked: {
       current: false,
-      data: [],
+      data: bookmarked as Review[],
     },
     Courses: {
       current: false,
-      data: [],
+      data: courses as Course[],
     },
   });
 
@@ -53,9 +58,17 @@ export default function UserPageContent({
   );
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 isolate">
       {/* Tabs */}
-      <div className="flex flex-wrap gap-4">
+      <div className="hidden sm:block [&>*]:z-10">
+        <Dropdown
+          options={Object.keys(tabs)}
+          defaultValue={currentTabRef.current}
+          onChange={switchTabs}
+        />
+      </div>
+      <hr className="hidden sm:block"></hr>
+      <div className="sm:hidden flex flex-wrap gap-4">
         {Object.keys(tabs).map((key: string) => (
           <button
             key={key}
@@ -84,7 +97,7 @@ export default function UserPageContent({
       )}
       {/* Courses */}
       {tabs["Courses"].current && (
-        <UserReviews reviews={tabs["Courses"].data as Review[]} />
+        <UserCourses courses={tabs["Courses"].data as Course[]} />
       )}
     </div>
   );

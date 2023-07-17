@@ -2,20 +2,23 @@
 
 import { Review, Reviews } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Rating from "../Rating/Rating";
 import {
   ArrowSmallUpIcon,
   BookmarkIcon,
-  PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import EditReviewModal from "../EditReviewModal/EditReviewModal";
+import Pagination from "../Pagination/Pagination";
 
 export default function UserReviews({ reviews }: Reviews) {
   const [currentReviews, setCurrentReviews] = useState(reviews);
   const [selected, setSelected] = useState("");
   const [cardView, setCardView] = useState(true);
+  const [page, setPage] = useState(1);
+  const itemPerPage = 9;
 
   // Change review sorting based on dropdown
   useMemo(() => {
@@ -50,7 +53,7 @@ export default function UserReviews({ reviews }: Reviews) {
   }, [selected, reviews]);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 isolate">
       <div className="flex flex-wrap items-center gap-5 justify-between">
         {/* Review order */}
         <div className="min-w-[275px] max-w-[275px] sm:min-w-full [&>*]:z-10">
@@ -83,85 +86,91 @@ export default function UserReviews({ reviews }: Reviews) {
       {/* List view */}
       {!cardView && (
         <div>
-          {currentReviews.map((review: Review, index: number) => (
-            <div className="flex justify-between items-center gap-2 sm:flex-wrap border border-transparent border-b-black px-4 py-4">
-              <div className="flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2">
-                {/* Title */}
-                <h1 className="font-bold text-xl">
-                  {/* TODO: Change when prisma migration is done */}
-                  {(review.courseCode as any).courseCode}
-                </h1>
-                {/* Description */}
-                <p className="text-unilectives-headings w-full truncate">
-                  {review.description}
-                </p>
+          {currentReviews
+            .slice((page - 1) * itemPerPage, page * itemPerPage)
+            .map((review: Review, index: number) => (
+              <div className="flex justify-between items-center gap-2 sm:flex-wrap border border-transparent border-b-black/25 px-4 py-4">
+                <div className="flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2">
+                  {/* Title */}
+                  <h1 className="font-bold text-xl">
+                    {/* TODO: Change when prisma migration is done */}
+                    {/* {review.courseCode} */}
+                    COMP1511
+                  </h1>
+                  {/* Description */}
+                  <p className="text-unilectives-headings w-full truncate">
+                    {review.description}
+                  </p>
+                </div>
+                {/* Icons */}
+                <div className="flex flex-1 flex-wrap gap-5 justify-end">
+                  <button className="duration-100 hover:text-unilectives-blue">
+                    <ArrowSmallUpIcon className="w-6 h-6 inline-block" />
+                  </button>
+                  <button className="duration-100 hover:text-unilectives-blue">
+                    <BookmarkIcon className="w-6 h-6 inline-block" />
+                  </button>
+                  <EditReviewModal review={review} />
+                  <button className="duration-100 hover:text-red-500">
+                    <TrashIcon className="w-6 h-6 inline-block" />
+                  </button>
+                </div>
               </div>
-              {/* Icons */}
-              <div className="flex flex-1 flex-wrap gap-5 justify-end sm:justify-start">
-                <button>
-                  <ArrowSmallUpIcon className="w-6 h-6 inline-block" />
-                </button>
-                <button>
-                  <BookmarkIcon className="w-6 h-6 inline-block" />
-                </button>
-                <button>
-                  <PencilSquareIcon className="w-6 h-6 inline-block" />
-                </button>
-                <button>
-                  <TrashIcon className="w-6 h-6 inline-block" />
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
       {/* Card view */}
       {cardView && (
         <div className="grid grid-cols-3 lg:grid-cols-1 gap-12">
-          {currentReviews.map((review: Review, index: number) => (
-            <div className="box-border isolate px-6 py-7 bg-unilectives-card shadow-lg rounded-xl space-y-4">
-              {/* Course courseCode + Ratings */}
-              <div className="flex flex-wrap justify-between text-2xl">
-                <h1 className="font-bold block truncate">
-                  {/* TODO: Change when prisma migration is done */}
-                  {(review.courseCode as any).courseCode}
-                </h1>
-                <div className="text-right">
-                  {/* StarRating */}
-                  <div className="text-2xl inline">
-                    <Rating
-                      color="purple"
-                      type="star"
-                      rating={review.overallRating}
-                    />
+          {currentReviews
+            .slice((page - 1) * itemPerPage, page * itemPerPage)
+            .map((review: Review, index: number) => (
+              <div className="box-border isolate px-6 py-7 bg-unilectives-card shadow-lg rounded-xl space-y-4">
+                {/* Course courseCode + Ratings */}
+                <div className="flex flex-wrap justify-between text-2xl">
+                  <h1 className="font-bold block truncate">
+                    {/* TODO: Change when prisma migration is done */}
+                    {/* {review.courseCode} */}
+                    COMP1511
+                  </h1>
+                  <div className="text-right">
+                    {/* StarRating */}
+                    <div className="text-2xl inline">
+                      <Rating
+                        color="purple"
+                        type="star"
+                        rating={review.overallRating}
+                      />
+                    </div>
                   </div>
                 </div>
+                {/* Description */}
+                <p className="text-unilectives-headings break-all line-clamp-3 h-[4.5rem]">
+                  {review.description}
+                </p>
+                {/* Icons */}
+                <div className="flex flex-wrap ml-auto gap-5 w-fit">
+                  <button className="duration-100 hover:text-unilectives-blue">
+                    <ArrowSmallUpIcon className="w-6 h-6 inline-block" />
+                  </button>
+                  <button className="duration-100 hover:text-unilectives-blue">
+                    <BookmarkIcon className="w-6 h-6 inline-block" />
+                  </button>
+                  <EditReviewModal review={review} />
+                  <button className="duration-100 hover:text-red-500">
+                    <TrashIcon className="w-6 h-6 inline-block" />
+                  </button>
+                </div>
               </div>
-              {/* Description */}
-              <p className="text-unilectives-headings break-all line-clamp-3 h-[4.5rem]">
-                {review.description}
-              </p>
-              {/* Icons */}
-              <div className="flex flex-wrap ml-auto gap-5 w-fit">
-                <button>
-                  <ArrowSmallUpIcon className="w-6 h-6 inline-block" />
-                </button>
-                <button>
-                  <BookmarkIcon className="w-6 h-6 inline-block" />
-                </button>
-                <button>
-                  <PencilSquareIcon className="w-6 h-6 inline-block" />
-                </button>
-                <button>
-                  <TrashIcon className="w-6 h-6 inline-block" />
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
       {/* Pagination */}
-      <div></div>
+      <Pagination
+        totalItems={reviews.length}
+        itemPerPage={itemPerPage}
+        onPageChange={(page: number) => setPage(page)}
+      />
     </div>
   );
 }

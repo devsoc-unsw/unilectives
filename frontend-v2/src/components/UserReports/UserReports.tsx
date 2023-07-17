@@ -13,30 +13,28 @@ type STATUS = {
 
 export default function UserReports({ reports }: Reports) {
   const [currentReports, setCurrentReports] = useState(reports);
-  const [selected, setSelected] = useState<STATUS>({
-    UNSEEN: false,
-    SEEN: false,
-    REMOVED: false,
-    SETTLED: false,
+  const [currentStatus, setSelected] = useState<STATUS>({
+    UNSEEN: true,
+    SEEN: true,
+    REMOVED: true,
+    SETTLED: true,
   });
 
-  // Change review sorting based on dropdown
+  // Change review filter based on checkboxes
   useMemo(() => {
     const sortedReports = [...reports];
-    sortedReports.filter((r: Report) =>
-      Object.entries(selected)
-        .filter(([key, value]) => value)
-        .map(([key, value]) => key)
-        .includes(r.status)
-    );
-    console.log(selected);
+    const currentReportFilters = Object.entries(currentStatus)
+      .filter(([key, value]) => value)
+      .map(([key, value]) => key);
     setCurrentReports(
-      sortedReports.sort(
-        (r1: Report, r2: Report) =>
-          Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp)
-      )
+      sortedReports
+        .filter((r: Report) => currentReportFilters.includes(r.status))
+        .sort(
+          (r1: Report, r2: Report) =>
+            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp)
+        )
     );
-  }, [selected, reports]);
+  }, [currentStatus, reports]);
 
   // Handle checkbox on change
   const handleOnChange = useCallback(
@@ -51,18 +49,46 @@ export default function UserReports({ reports }: Reports) {
         return newStatus;
       });
     },
-    [selected]
+    [currentStatus]
   );
+
+  // Color based on statuses
+  const statusTextColor = (status: keyof STATUS) => {
+    switch (status) {
+      case "UNSEEN":
+        return "text-blue-500";
+      case "SEEN":
+        return "text-orange-500";
+      case "REMOVED":
+        return "text-red-500";
+      case "SETTLED":
+        return "text-green-500";
+    }
+  };
+
+  const statusBorderColor = (status: keyof STATUS) => {
+    switch (status) {
+      case "UNSEEN":
+        return "border-blue-500";
+      case "SEEN":
+        return "border-orange-500";
+      case "REMOVED":
+        return "border-red-500";
+      case "SETTLED":
+        return "border-green-500";
+    }
+  };
 
   return (
     <div className="space-y-5">
       {/* Filter report */}
       <form name="status-checkbox" className="flex flex-wrap gap-4">
-        {["Unseen", "Seen", "Removed", "Settled"].map((status: string) => (
+        {Object.keys(currentStatus).map((status: string) => (
           <div key={status} className="space-x-2">
             <input
               type="checkbox"
               value={status}
+              checked={currentStatus[status as keyof STATUS]}
               id={`status-checkbox-${status.toLowerCase()}`}
               onChange={(event) =>
                 handleOnChange(
@@ -85,10 +111,10 @@ export default function UserReports({ reports }: Reports) {
         {currentReports.map((report: Report) => (
           <div className="box-border isolate px-6 py-7 bg-unilectives-card shadow-lg rounded-xl space-y-4">
             {/* Course courseCode + Ratings */}
-            <div className="flex flex-wrap justify-between text-2xl">
-              <h1 className="font-bold block truncate">
-                {/* TODO: Change when prisma migration is done */}
-                {report.review.courseCode}
+            <div className="flex gap-2 text-xl">
+              <span className={`${statusTextColor(report.status)}`}>●</span>
+              <h1 className="font-bold break-all">
+                Report <span className="text-black/50">#{report.reportId}</span>
               </h1>
             </div>
             {/* Description */}
@@ -96,11 +122,13 @@ export default function UserReports({ reports }: Reports) {
               {report.reason}
             </p>
             {/* Icons */}
-            <div className="flex flex-wrap ml-auto gap-5 w-fit">
-              <button>
-                <PencilSquareIcon className="w-6 h-6 inline-block" />
-              </button>
-            </div>
+            <span
+              className={`py-1 px-4 rounded-full font-bold ${statusTextColor(
+                report.status
+              )} border ${statusBorderColor(report.status)}`}
+            >
+              {report.status}
+            </span>
           </div>
         ))}
       </div>
