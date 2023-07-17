@@ -71,7 +71,7 @@ export default function AdminContent({
 				</div>
 			</div>
 			{/* Card Grid */}
-			<div className={gridView ? "grid grid-rows-2 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-6 w-full items-center" : "flex flex-col gap-3 rounded-md justify-center"}>
+			<div className={gridView ? "grid grid-rows-2 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-6 w-full items-center" : "flex flex-col rounded-md justify-center"}>
 				{object === 'report' ? (reports ? (
 					reports
 					.sort((a,b) => compare(a,b))

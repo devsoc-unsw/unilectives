@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
@@ -14,7 +13,7 @@ export default function CollapseMenu({
 	contentMaxCharacters?: number | null
 }) {	
 	return (
-		<Disclosure>
+		<Disclosure as="div">
       <Disclosure.Button className="flex flex-row justify-between items-center py-2 px-4 border border-gray-400 rounded-lg">
         <span className="font-bold">{preview}</span>
 				<ChevronDownIcon className="h-4 w-4 text-gray-700" />
