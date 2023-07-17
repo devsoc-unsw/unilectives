@@ -19,12 +19,12 @@ export default function AdminContent({
 }: AdminContentProps) {
 	const [object, setObject] = useState<'report' | 'review'>('report');
 	const [gridView, setGridView] = useState(false);
-	const [sort, setSort] = useState("None");
-	const sortOptions = ["None", "Oldest", "Newest"];
+	const [sort, setSort] = useState("Newest");
+	const sortOptions = ["Oldest", "Newest"];
 	function compare(a: Report | Review, b: Report | Review) {
-		if (sort === sortOptions[1]) {
+		if (sort === sortOptions[0]) {
 			return new Date(a.createdTimestamp).getTime() - new Date(b.createdTimestamp).getTime();
-		} else if (sort === sortOptions[2]) { 
+		} else if (sort === sortOptions[1]) { 
 			return new Date(b.createdTimestamp).getTime() - new Date(a.createdTimestamp).getTime();
 		} else {
 			return 0;
@@ -52,11 +52,11 @@ export default function AdminContent({
 			</div>
 			{/* Sort and View Options */}
 			<div className="flex flex-row items-center justify-between w-full">
-				<div className="w-1/6 z-50">
+				<div className="w-1/6 z-10">
 					<Dropdown
 						options={sortOptions}
 						onChange={(selected) => setSort(selected)}
-						placeholder="Sort By"
+						placeholder="Sort By: Newest"
 					/>
 				</div>
 				<div className="flex flex-row items-center gap-2">
@@ -71,7 +71,7 @@ export default function AdminContent({
 				</div>
 			</div>
 			{/* Card Grid */}
-			<div className={gridView ? "grid grid-rows-2 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-6 w-full items-center" : "flex flex-col gap-3 rounded-md shadow-review-card justify-center"}>
+			<div className={gridView ? "grid grid-rows-2 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-6 w-full items-center" : "flex flex-col gap-3 rounded-md justify-center"}>
 				{object === 'report' ? (reports ? (
 					reports
 					.sort((a,b) => compare(a,b))
