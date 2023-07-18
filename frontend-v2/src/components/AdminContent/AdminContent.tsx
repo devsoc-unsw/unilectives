@@ -33,7 +33,7 @@ export default function AdminContent({
   const [reportPage, setReportPage] = useState(0);
   const [reviewPage, setReviewPage] = useState(0);
   const elementsPerPage = 6;
-  const pagesPerPage = 7;
+  const pagesPerPage = 5;
 
   return (
     <div className="flex flex-col gap-6">
@@ -51,8 +51,8 @@ export default function AdminContent({
         </button>
       </div>
       {/* Sort and View Options */}
-      <div className="flex flex-row items-center justify-between w-full">
-        <div className="w-1/6 z-10">
+      <div className="flex flex-row items-center justify-between w-full xs:flex-col xs:gap-3">
+        <div className="w-1/3 z-10 xs:w-full">
           <Dropdown
             options={sortOptions}
             onChange={(selected) => setSort(selected)}
@@ -93,6 +93,7 @@ export default function AdminContent({
             .slice(reviewPage * elementsPerPage, (reviewPage + 1) * elementsPerPage)
             .map((r: Review, index: number) => (
               <ReviewCard
+                key={index}
                 review={r}
               />
             ))
