@@ -2,7 +2,7 @@
 
 import { Course, Courses } from "@/types/api";
 import CourseCard from "../CourseCard/CourseCard";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
 
 export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
@@ -24,14 +24,21 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
     if (courseFinishedRef.current) {
       return;
     }
+
     const courses = allCoursesRef.current.splice(index, index + 25);
     if (!courses.length) {
       courseFinishedRef.current = true;
       return;
     }
-    // Add courses
     setDisplayCourses((prev) => [...prev, ...courses]);
   };
+
+  const resetCourses = useCallback(() => {
+    courseFinishedRef.current = false;
+    indexRef.current = 0;
+    allCoursesRef.current = [];
+    setDisplayCourses([]);
+  }, []);
 
   useEffect(() => {
     const getSearchResults = async () => {
@@ -44,7 +51,6 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
       loadOnScroll();
     };
 
-    // Load courses on scroll
     const loadOnScroll = () => {
       if (
         window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
@@ -55,18 +61,12 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
       }
     };
 
-    courseFinishedRef.current = false;
-    indexRef.current = 0;
-    allCoursesRef.current = [];
-    setDisplayCourses([]);
-
-    // Get all courses from search
+    // update courses
+    resetCourses();
     getSearchResults();
 
-    // Load on scroll
+    // scroll listener
     window.addEventListener("scroll", loadOnScroll);
-
-    // Clean up
     return () => window.removeEventListener("scroll", loadOnScroll);
   }, [searchTerm]);
 
