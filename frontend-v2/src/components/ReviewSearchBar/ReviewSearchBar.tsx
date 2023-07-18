@@ -10,11 +10,22 @@ export default function ReviewSearchbar() {
   // States
   const [searchTerm, setSearchTerm] = useState("");
   const [allCourses, setAllCourses] = useState<Course[]>([]);
+  const [focused, setFocused] = useState(false);
 
   const handleOnChange = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value.trim().replaceAll(" ", "%20"));
     }, 300), []
+  );
+
+  const handleOnFocus = useCallback(() => {
+    setFocused(true);
+  }, []);
+
+  const handleOnBlur = useCallback(
+    debounce(() => {
+      setFocused(false);
+    }, 50), []
   );
 
   useEffect(() => {
@@ -46,10 +57,12 @@ export default function ReviewSearchbar() {
           placeholder="Search here..."
           className="w-full outline-none bg-transparent placeholder:text-white"
           onChange={handleOnChange}
+          onBlur={handleOnBlur}
+          onFocus={handleOnFocus}
         />
       </div>
       {/* Dropdown for search results */}
-      {searchTerm && allCourses.length ?
+      {searchTerm && allCourses.length && focused ?
         <div className="absolute z-10 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border border-black w-full max-h-52 overflow-y-auto no-scrollbar">
           <div className="py-1">
             {allCourses.map((course: Course) => (
