@@ -6,8 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
 
 export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
-  // TODO: aborting inital characters entered
-
   // Refs
   const courseFinishedRef = useRef(false);
   const indexRef = useRef(0);
@@ -19,23 +17,20 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
   // Load more courses
   const loadMore = (index: number) => {
     // If user scroll position is not in the end
-    if (window.innerHeight + window.pageYOffset < document.body.offsetHeight)
+    if (window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
       return;
-
-    try {
-      if (courseFinishedRef.current) {
-        return;
-      }
-      const courses = allCoursesRef.current.splice(index, index + 25);
-      if (!courses.length) {
-        courseFinishedRef.current = true;
-        return;
-      }
-      // Add courses
-      setDisplayCourses((prev) => [...prev, ...courses]);
-    } catch (err) {
-      // TODO
     }
+
+    if (courseFinishedRef.current) {
+      return;
+    }
+    const courses = allCoursesRef.current.splice(index, index + 25);
+    if (!courses.length) {
+      courseFinishedRef.current = true;
+      return;
+    }
+    // Add courses
+    setDisplayCourses((prev) => [...prev, ...courses]);
   };
 
   useEffect(() => {
@@ -44,7 +39,7 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
         const { courses } = (await get(`/course/search/${searchTerm}`)) as Courses;
         allCoursesRef.current = courses;
       } catch (err) {
-        // TODO
+        allCoursesRef.current = [];
       }
       loadOnScroll();
     };
