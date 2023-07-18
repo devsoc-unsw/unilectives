@@ -8,12 +8,11 @@ import ReviewRatingInput from "../ReviewRatingInput/ReviewRatingInput";
 import Dropdown from "../Dropdown/Dropdown";
 
 type Inputs = {
-  rating: number | null;
+  overallRating: number | null;
   enjoyability: number | null;
   usefulness: number | null;
   manageability: number | null;
   termTaken: string | null;
-  grade: string | null;
 };
 
 export default function ReviewModal({ courseCode }: { courseCode: string }) {
@@ -22,12 +21,11 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
 
   // States: Modal Inputs
   const defaultInputs = {
-    rating: null,
+    overallRating: null,
     enjoyability: null,
     usefulness: null,
     manageability: null,
     termTaken: null,
-    grade: null,
   };
   const [inputs, setInputs] = useState<Inputs>(defaultInputs);
 
@@ -38,9 +36,13 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
 
   // Check if ready to submit
   const readyToSubmit = useMemo(() => {
-    const { rating, enjoyability, usefulness, manageability } = inputs;
+    const { overallRating, enjoyability, usefulness, manageability } = inputs;
     return (
-      rating && enjoyability && usefulness && manageability && termTakenIsValid
+      overallRating &&
+      enjoyability &&
+      usefulness &&
+      manageability &&
+      termTakenIsValid
     );
   }, [inputs, termTakenIsValid]);
 
@@ -54,20 +56,12 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
     // Get all values
     const target = event.target as HTMLFormElement;
     const {
-      rating,
+      overallRating,
       enjoyability,
       usefulness,
       manageability,
-      grade,
       termTaken,
     } = inputs;
-
-    const overallRating =
-      ((rating as number) +
-        (manageability as number) +
-        (usefulness as number) +
-        (enjoyability as number)) /
-      4;
 
     const body = {
       zid: "",
@@ -75,13 +69,12 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
       title: target.reviewTitle.value,
       description: target.reviewDescription.value,
       courseCode,
-      grade,
-      rating,
+      grade: target.reviewGrade.value ? Number(target.reviewGrade.value) : null,
+      overallRating,
       termTaken,
       manageability,
       usefulness,
       enjoyability,
-      overallRating,
     };
 
     // TODO: Submit review here (Do this when user session can already be handled)
@@ -192,14 +185,14 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                         />
                       </form>
                       <div className="flex flex-col items-center justify-around gap-y-5 px-12 lg:px-4 md:px-0 md:items-start text-center md:text-left z-10">
-                        {/* Overall rating + enjoyability + usefulness + manageability */}
+                        {/* overallRating + enjoyability + usefulness + manageability */}
                         {[
                           {
-                            defaultValue: inputs.rating,
+                            defaultValue: inputs.overallRating,
                             onChange: (value: number | null) => {
                               setInputs((prevInputs: Inputs) => {
                                 const newInputs = { ...prevInputs };
-                                newInputs.rating = value;
+                                newInputs.overallRating = value;
                                 return newInputs;
                               });
                             },
@@ -272,19 +265,23 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                           }
                         )}
                         {/* Grade */}
-                        <div className="w-[150px]">
-                          <h2 className="text-lg font-bold">Grade</h2>
-                          <Dropdown
-                            options={["HD", "DN", "CR", "PS", "FL", "UF"]}
-                            defaultValue={inputs.grade}
+                        <div>
+                          <h2>
+                            <label
+                              htmlFor="modal-grade"
+                              className="text-lg font-bold"
+                            >
+                              Grade
+                            </label>
+                          </h2>
+                          <input
+                            name="reviewGrade"
+                            type="number"
+                            min={0}
+                            max={100}
+                            form="submit-review"
                             placeholder="Grade"
-                            onChange={(value: string | null) => {
-                              setInputs((prevInputs: Inputs) => {
-                                const newInputs = { ...prevInputs };
-                                newInputs.grade = value;
-                                return newInputs;
-                              });
-                            }}
+                            className="py-2 px-2 border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input"
                           />
                         </div>
                         {/* Course Completion */}

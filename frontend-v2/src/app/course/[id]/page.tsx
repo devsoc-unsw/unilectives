@@ -73,7 +73,11 @@ export default async function ReviewPage({
             {/* StarRating */}
             <div className="space-x-2">
               <div className="text-2xl inline">
-                <Rating type="star" color="purple" rating={course.rating} />
+                <Rating
+                  type="star"
+                  color="purple"
+                  overallRating={course.overallRating}
+                />
               </div>
               {/* Number of reviews */}
               <span>
@@ -96,7 +100,7 @@ export default async function ReviewPage({
               ].map((item, index) => (
                 <div key={index}>
                   <DoughnutChart
-                    rating={item.metric}
+                    overallRating={item.metric}
                     width={90}
                     strokeWidth={9}
                   />

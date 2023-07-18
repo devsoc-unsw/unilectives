@@ -5,7 +5,7 @@ import TermsGroup from "../TermsGroup/TermsGroup";
 type CourseCardProps = {
   courseCode: string;
   title: string;
-  rating: number;
+  overallRating: number;
   reviewCount: number;
   terms: number[];
 };
@@ -14,7 +14,7 @@ type CourseCardProps = {
 export default function CourseCard({
   courseCode,
   title,
-  rating,
+  overallRating,
   reviewCount,
   terms,
 }: CourseCardProps) {
@@ -26,7 +26,7 @@ export default function CourseCard({
         <div className="text-right">
           {/* StarRating */}
           <div className="text-2xl inline">
-            <Rating color="purple" type="star" rating={rating} />
+            <Rating color="purple" type="star" overallRating={overallRating} />
           </div>
           {/* Number of reviews */}
           <p className="text-xs text-unilectives-subheadings">

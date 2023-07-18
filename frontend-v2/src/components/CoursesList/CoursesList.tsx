@@ -69,7 +69,7 @@ export default function CoursesList() {
             <CourseCard
               title={c.title}
               courseCode={c.courseCode}
-              rating={c.rating}
+              overallRating={c.overallRating}
               reviewCount={c.reviewCount}
               terms={c.terms}
             />

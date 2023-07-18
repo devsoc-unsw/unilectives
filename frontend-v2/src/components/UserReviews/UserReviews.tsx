@@ -47,9 +47,7 @@ export default function UserReviews({ reviews }: Reviews) {
         break;
     }
 
-    setCurrentReviews(
-      sortedReviews.filter((r: Review) => !!(r.title || r.description))
-    );
+    setCurrentReviews(sortedReviews);
   }, [selected, reviews]);
 
   return (
@@ -99,7 +97,7 @@ export default function UserReviews({ reviews }: Reviews) {
                   </h1>
                   {/* Description */}
                   <p className="text-unilectives-headings w-full truncate">
-                    {review.description}
+                    {!review.description ? "-" : review.description}
                   </p>
                 </div>
                 {/* Icons */}
@@ -139,14 +137,14 @@ export default function UserReviews({ reviews }: Reviews) {
                       <Rating
                         color="purple"
                         type="star"
-                        rating={review.overallRating}
+                        overallRating={review.overallRating}
                       />
                     </div>
                   </div>
                 </div>
                 {/* Description */}
                 <p className="text-unilectives-headings break-all line-clamp-3 h-[4.5rem]">
-                  {review.description}
+                  {!review.description ? "-" : review.description}
                 </p>
                 {/* Icons */}
                 <div className="flex flex-wrap ml-auto gap-5 w-fit">

@@ -43,7 +43,6 @@ export type Course = {
   terms: number[];
   title: string;
   uoc: number;
-  rating: number;
   reviewCount: number;
   overallRating: number;
   manageability: number;

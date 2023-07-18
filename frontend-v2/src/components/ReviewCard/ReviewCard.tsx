@@ -27,7 +27,11 @@ export default function ReviewCard({ review }: { review: Review }) {
       <div className="flex items-center gap-2 flex-wrap justify-between">
         <div>
           Overall:{" "}
-          <Rating color="purple" type="star" rating={review.overallRating} />
+          <Rating
+            color="purple"
+            type="star"
+            overallRating={review.overallRating}
+          />
         </div>
         <p className="text-unilectives-subheadings">{review.authorName}</p>
       </div>
@@ -43,17 +47,29 @@ export default function ReviewCard({ review }: { review: Review }) {
         {/* Enjoyability */}
         <div className="flex flex-col items-center">
           <p className="font-bold text-center">Enjoyment</p>
-          <Rating color="blue" type="circle" rating={review.enjoyability} />
+          <Rating
+            color="blue"
+            type="circle"
+            overallRating={review.enjoyability}
+          />
         </div>
         {/* Usefulness */}
         <div className="flex flex-col items-center">
           <p className="font-bold text-center">Usefulness</p>
-          <Rating color="blue" type="circle" rating={review.usefulness} />
+          <Rating
+            color="blue"
+            type="circle"
+            overallRating={review.usefulness}
+          />
         </div>
         {/* Manageability */}
         <div className="flex flex-col items-center">
           <p className="font-bold text-center">Manageability</p>
-          <Rating color="blue" type="circle" rating={review.manageability} />
+          <Rating
+            color="blue"
+            type="circle"
+            overallRating={review.manageability}
+          />
         </div>
       </div>
       {/* Description */}
