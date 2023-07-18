@@ -8,6 +8,7 @@ export default function SearchBar({ onSearchChange }: { onSearchChange: (newSear
   const handleOnChange = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
       onSearchChange(event.target.value.trim().replaceAll(" ", "%20"));
+      console.log(`new search term: ${event.target.value.trim().replaceAll(" ", "%20")}`);
     }, 200), []
   );
 
@@ -24,7 +25,6 @@ export default function SearchBar({ onSearchChange }: { onSearchChange: (newSear
         className="w-full py-2 px-3 text-sm text-unilectives-search focus:outline-none placeholder-unilectives-search font-medium"
         placeholder="Search for a course e.g. COMP1511"
         onChange={handleOnChange}
-        autoFocus
       />
     </div>
   );
