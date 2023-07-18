@@ -70,7 +70,7 @@ const PostReviewRequestBodySchema = z
 
 export type PostReviewRequestBody = z.infer<typeof PostReviewRequestBodySchema>;
 
-const PutReviewRequestBodySchema = z
+export const PutReviewRequestBodySchema = z
   .object({
     authorName: z.string(),
     grade: z.number(),
