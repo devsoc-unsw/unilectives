@@ -105,7 +105,10 @@ export default function UserReviews({ reviews }: Reviews) {
           {currentReviews
             .slice((page - 1) * itemPerPage, page * itemPerPage)
             .map((review: Review, index: number) => (
-              <div className="flex justify-between items-center gap-2 sm:flex-wrap border border-transparent border-b-black/25 px-4 py-4">
+              <div
+                key={index}
+                className="flex justify-between items-center gap-2 sm:flex-wrap border border-transparent border-b-black/25 px-4 py-4"
+              >
                 <div className="flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2">
                   {/* Title */}
                   <h1 className="font-bold text-xl">
@@ -145,7 +148,10 @@ export default function UserReviews({ reviews }: Reviews) {
           {currentReviews
             .slice((page - 1) * itemPerPage, page * itemPerPage)
             .map((review: Review, index: number) => (
-              <div className="box-border isolate px-6 py-7 bg-unilectives-card shadow-lg rounded-xl space-y-4">
+              <div
+                key={index}
+                className="box-border isolate px-6 py-7 bg-unilectives-card shadow-lg rounded-xl space-y-4"
+              >
                 {/* Course courseCode + Ratings */}
                 <div className="flex flex-wrap justify-between text-2xl">
                   <h1 className="font-bold block truncate">

@@ -137,8 +137,11 @@ export default function UserReports({ reports }: Reports) {
       <div className="grid grid-cols-3 lg:grid-cols-1 gap-12">
         {currentReports
           .slice((page - 1) * itemPerPage, page * itemPerPage)
-          .map((report: Report) => (
-            <div className="box-border isolate px-6 py-7 bg-unilectives-card shadow-lg rounded-xl space-y-4">
+          .map((report: Report, index: number) => (
+            <div
+              key={index}
+              className="box-border isolate px-6 py-7 bg-unilectives-card shadow-lg rounded-xl space-y-4"
+            >
               {/* Course courseCode + Ratings */}
               <div className="flex gap-2 text-xl">
                 <span className={`${statusTextColor(report.status)}`}>●</span>

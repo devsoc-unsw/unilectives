@@ -26,13 +26,10 @@ export default function Pagination({
     () => Math.ceil(totalItems / itemPerPage),
     [totalItems, itemPerPage]
   );
-  const leftNeighbours = useMemo(
-    () => currentPageRef.current - 1,
-    [currentPageRef.current]
-  );
+  const leftNeighbours = currentPageRef.current - 1;
   const rightNeighbours = useMemo(
     () => pageCount - currentPageRef.current,
-    [currentPageRef.current, pageCount]
+    [pageCount]
   );
 
   // Make middle range based on page count and neighbours
