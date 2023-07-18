@@ -15,9 +15,7 @@ export default function SearchBar({ onSearchChange }: { onSearchChange: (newSear
     <div
       className="flex w-5/6 items-center bg-white rounded border-2 border-unilectives-search"
     >
-      <button type="submit">
-        <MagnifyingGlassIcon className="w-6 h-6 text-unilectives-search mx-2" />
-      </button>
+      <MagnifyingGlassIcon className="w-6 h-6 text-unilectives-search mx-2" />
       <input
         type="text"
         name="query"
