@@ -4,19 +4,20 @@ import Dropdown from "../Dropdown/Dropdown";
 import { useMemo, useState } from "react";
 import CourseCard from "../CourseCard/CourseCard";
 import { Course } from "@/types/api";
+import Link from "next/link";
 
 export default function SortDropdown({
     courses,
     courseCode,
     title,
-    rating,
+    overallRating,
     reviewCount,
     terms,
 }: {
     courses: Course[];
     courseCode: string;
     title: string;
-    rating: number;
+    overallRating: number;
     reviewCount: number;
     terms: number[];
 }) {
@@ -36,8 +37,8 @@ export default function SortDropdown({
                 );
                 break;
             case "Alphabetical (Z-A)":
-                sortedCourses.sort(
-                    (c1: Course, c2: Course) => c2.title.localeCompare(c1.title)
+                sortedCourses.sort((c1: Course, c2: Course) =>
+                    c2.title.localeCompare(c1.title)
                 );
                 break;
             case "Overall Rating":
@@ -85,15 +86,16 @@ export default function SortDropdown({
                 />
             </div>
             <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-full items-center">
-                {currentCourses.map((course) => (
-                    <CourseCard
-                        key={course.courseCode}
-                        courseCode={course.courseCode}
-                        title={course.title}
-                        rating={course.rating}
-                        reviewCount={course.reviewCount}
-                        terms={course.terms}
-                    />
+                {currentCourses.map((course: Course, index: number) => (
+                    <Link href={`/course/${course.courseCode}`} key={index}>
+                        <CourseCard
+                            courseCode={course.courseCode}
+                            title={course.title}
+                            rating={course.rating}
+                            reviewCount={course.reviewCount}
+                            terms={course.terms}
+                        />
+                    </Link>
                 ))}
             </div>
         </div>

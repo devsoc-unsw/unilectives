@@ -1,21 +1,14 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 import { FormEvent, useState } from "react";
 import FilterSelection from "../FilterSelection/FilterSelection";
 
 export default function SearchBar() {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-
   const handleOnSubmit = (event: FormEvent) => {
     event.preventDefault();
     // TODO: submit query
     console.log((event.target as HTMLFormElement).query.value);
-  };
-
-  const handleFilterClick = () => {
-    setIsFilterOpen(true);
   };
 
   return (
@@ -31,14 +24,7 @@ export default function SearchBar() {
           placeholder="Search for a course e.g. COMP1511"
         />
       </form>
-      <button
-        className={`p-2 bg-transparent`}
-        onClick={handleFilterClick}
-      >
-        <AdjustmentsVerticalIcon className="w-6 h-6 text-unilectives-search" />
-      </button>
-      {/* Filter selection */}
-      {isFilterOpen && <FilterSelection onClose={() => setIsFilterOpen(false)} />}
+      <FilterSelection />
     </div>
   );
 }
