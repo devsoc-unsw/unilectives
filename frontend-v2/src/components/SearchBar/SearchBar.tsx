@@ -8,7 +8,6 @@ export default function SearchBar({ onSearchChange }: { onSearchChange: (newSear
   const handleOnChange = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
       onSearchChange(event.target.value.trim().replaceAll(" ", "%20"));
-      console.log(`new search term: ${event.target.value.trim().replaceAll(" ", "%20")}`);
     }, 300), []
   );
 
