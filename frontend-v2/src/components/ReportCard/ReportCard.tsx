@@ -30,13 +30,17 @@ export default function ReportCard({ report, gridView }: { report: Report, gridV
         className={`flex w-full rounded-lg border-b-2 border-slate-200 ${gridView ? "flex-col gap-4 p-8" : "flex-row justify-between items-center p-2 xs:flex-col xs:gap-2 xs:justify-center"}`}
       >
         {/* Title */}
-        <h1 className="font-bold">● Report #{report.reportId}</h1>
+        <h1 className="font-bold">● Report &nbsp;
+          <span className="text-slate-700">
+            #{report.reportId}
+          </span>
+        </h1>
         {/* Body for List View */}
         {!gridView &&
           // Actions
           <div className="flex flex-row items-center gap-4 justify-between xs:gap-2 xs:w-full">
             {/* Status */}
-            <div onClick={(e) => e.stopPropagation()} className="z-10">
+            <div onClick={(e) => e.stopPropagation()}>
               <Dropdown
                 options={["Unseen", "Seen", "Removed", "Settled"]}
                 defaultValue={"Unseen"}
@@ -76,7 +80,7 @@ export default function ReportCard({ report, gridView }: { report: Report, gridV
         {gridView &&
           <div className="inline-flex justify-between items-center w-full">
             {/* Status */}
-            <div onClick={(e) => e.stopPropagation()} className="w-2/3 z-10 xs:w-1/2">
+            <div onClick={(e) => e.stopPropagation()} className="w-1/3 lg:w-2/3 xs:w-1/2">
               <Dropdown
                 options={["Unseen", "Seen", "Removed", "Settled"]}
                 defaultValue={"Unseen"}

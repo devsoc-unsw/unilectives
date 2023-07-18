@@ -52,7 +52,7 @@ export default function AdminContent({
       </div>
       {/* Sort and View Options */}
       <div className="flex flex-row items-center justify-between w-full xs:flex-col xs:gap-3">
-        <div className="w-1/3 z-10 xs:w-full">
+        <div className="w-1/5 lg:w-1/3 xs:w-full">
           <Dropdown
             options={sortOptions}
             onChange={(selected) => setSort(selected)}
@@ -119,13 +119,13 @@ export default function AdminContent({
           ))
         ) : (
           Array.from({ length: Math.ceil(reviews.length / elementsPerPage) }, (_, i) => i + 1)
-            .slice(Math.floor(reviewPage / pagesPerPage) * pagesPerPage - (Math.floor(reviewPage / pagesPerPage) > 0 ? 1 : 0), Math.floor(reviewPage / pagesPerPage) * pagesPerPage + pagesPerPage + 1).map((n, index) => (
-              <button key={index} onClick={() => setReviewPage(n - 1)}>
-                <span className={`inline-flex w-5 h-5 p-3 rounded-full items-center justify-center ${(reviewPage + 1) === n ? "bg-unilectives-purple text-white" : "text-slate-500 hover:bg-slate-200"}`}>
-                  {n}
-                </span>
-              </button>
-            ))
+          .slice(Math.floor(reviewPage / pagesPerPage) * pagesPerPage - (Math.floor(reviewPage / pagesPerPage) > 0 ? 1 : 0), Math.floor(reviewPage / pagesPerPage) * pagesPerPage + pagesPerPage + 1).map((n, index) => (
+            <button key={index} onClick={() => setReviewPage(n - 1)}>
+              <span className={`inline-flex w-5 h-5 p-3 rounded-full items-center justify-center ${(reviewPage + 1) === n ? "bg-unilectives-purple text-white" : "text-slate-500 hover:bg-slate-200"}`}>
+                {n}
+              </span>
+            </button>
+          ))
         )}
         <ChevronRightIcon
           onClick={() => object === 'report' ? (setReportPage(reportPage < Math.ceil(reports.length / elementsPerPage) - 1 ? reportPage + 1 : reportPage)) : setReviewPage(reviewPage < Math.ceil(reviews.length / elementsPerPage) - 1 ? reviewPage + 1 : reviewPage)}

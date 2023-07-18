@@ -47,7 +47,7 @@ export default function Dropdown({
           </span>
         </Listbox.Button>
         {/* Dropdown options */}
-        <Listbox.Options className="absolute max-h-[10.05rem] text-left w-full overflow-auto border border-unilectives-subheadings rounded-md bg-white shadow-dropdown border-t-0 rounded-t-none">
+        <Listbox.Options className="absolute z-10 max-h-[10.05rem] text-left w-full overflow-auto border border-unilectives-subheadings rounded-md bg-white shadow-dropdown border-t-0 rounded-t-none">
           {options.length === 0 ? (
             <Listbox.Option
               value=""
