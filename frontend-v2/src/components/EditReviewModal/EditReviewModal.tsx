@@ -7,6 +7,7 @@ import { FormEvent, Fragment, useState } from "react";
 import Link from "next/link";
 import Rating from "../Rating/Rating";
 import TruncatedDescription from "../TruncatedDescription/TruncatedDescription";
+import { put } from "@/utils/request";
 
 export default function EditReviewModal({ review }: { review: Review }) {
   // States
@@ -22,8 +23,8 @@ export default function EditReviewModal({ review }: { review: Review }) {
     setIsOpen(true);
   };
 
-  // Submit review
-  const handleOnSubmit = (event: FormEvent) => {
+  // Edit review
+  const handleOnSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     // Get all values
@@ -34,8 +35,7 @@ export default function EditReviewModal({ review }: { review: Review }) {
       grade: target.reviewGrade.value ? Number(target.reviewGrade.value) : null,
     };
 
-    // TODO: Submit review here (Do this when user session can already be handled)
-    console.log(body);
+    await put(`/reviews/${review.reviewId}`, body);
 
     closeModal();
   };
@@ -157,7 +157,7 @@ export default function EditReviewModal({ review }: { review: Review }) {
                           name="displayAnonymous"
                           form="edit-review"
                           className="w-4 h-4"
-                          checked={review.authorName === "Anonymous"}
+                          defaultChecked={review.authorName === "Anonymous"}
                         />
                       </div>
                       <div className="flex flex-wrap gap-5 justify-between items-center">

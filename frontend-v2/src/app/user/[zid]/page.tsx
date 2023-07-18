@@ -26,7 +26,6 @@ export default async function UserPage({
         <UserPageContent
           reviews={user.reviews}
           reports={user.reports}
-          courses={user.bookmarkedCourses}
           bookmarked={user.bookmarkedReviews}
         />
       </section>

@@ -1,23 +1,19 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Course, Report, Review, Reviews } from "@/types/api";
 import UserReviews from "../UserReviews/UserReviews";
 import UserReports from "../UserReports/UserReports";
-import UserCourses from "../UserCourses/UserCourses";
 import Dropdown from "../Dropdown/Dropdown";
-import Pagination from "../Pagination/Pagination";
 
 export default function UserPageContent({
   reviews,
   reports,
   bookmarked,
-  courses,
 }: {
   reviews: Review[];
   reports: Report[];
   bookmarked: Review[];
-  courses: Course[];
 }) {
   // Refs
   const currentTabRef = useRef("My reviews");
@@ -36,10 +32,6 @@ export default function UserPageContent({
     Bookmarked: {
       current: false,
       data: bookmarked as Review[],
-    },
-    Courses: {
-      current: false,
-      data: courses as Course[],
     },
   });
 
@@ -94,10 +86,6 @@ export default function UserPageContent({
       {/* Bookmarked */}
       {tabs["Bookmarked"].current && (
         <UserReviews reviews={tabs["Bookmarked"].data as Review[]} />
-      )}
-      {/* Courses */}
-      {tabs["Courses"].current && (
-        <UserCourses courses={tabs["Courses"].data as Course[]} />
       )}
     </div>
   );

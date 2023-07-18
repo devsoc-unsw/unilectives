@@ -3,8 +3,8 @@ import { headers } from "next/dist/client/components/headers";
 const request = async (
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE",
-  options?: Record<string, string>,
-  headers?: Record<string, string>
+  options?: Record<string, any>,
+  headers?: Record<string, any>
 ) => {
   const prefix = "/api/v1";
   const baseUrl =
@@ -28,14 +28,14 @@ const request = async (
   return (await fetch(baseUrl, { ...payload, cache: 'no-store' })).json();
 };
 
-export const get = (url: string, options?: Record<string, string>, headers?: Record<string, string>) =>
+export const get = (url: string, options?: Record<string, any>, headers?: Record<string, any>) =>
   request(url, "GET", options, headers);
 
-export const post = (url: string, options?: Record<string, string>, headers?: Record<string, string>) =>
+export const post = (url: string, options?: Record<string, any>, headers?: Record<string, any>) =>
   request(url, "POST", options, headers);
 
-export const put = (url: string, options?: Record<string, string>, headers?: Record<string, string>) =>
+export const put = (url: string, options?: Record<string, any>, headers?: Record<string, any>) =>
   request(url, "PUT", options, headers);
 
-export const del = (url: string, options?: Record<string, string>, headers?: Record<string, string>) =>
+export const del = (url: string, options?: Record<string, any>, headers?: Record<string, any>) =>
   request(url, "DELETE", options, headers);

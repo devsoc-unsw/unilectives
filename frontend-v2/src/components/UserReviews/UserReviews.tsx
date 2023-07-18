@@ -2,16 +2,13 @@
 
 import { Review, Reviews } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Rating from "../Rating/Rating";
-import {
-  ArrowSmallUpIcon,
-  BookmarkIcon,
-  TrashIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowSmallUpIcon, BookmarkIcon } from "@heroicons/react/24/outline";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import EditReviewModal from "../EditReviewModal/EditReviewModal";
 import Pagination from "../Pagination/Pagination";
+import RemoveReviewModal from "../RemoveReviewModal/RemoveReviewModal";
 
 export default function UserReviews({ reviews }: Reviews) {
   const [currentReviews, setCurrentReviews] = useState(reviews);
@@ -49,6 +46,27 @@ export default function UserReviews({ reviews }: Reviews) {
 
     setCurrentReviews(sortedReviews);
   }, [selected, reviews]);
+
+  // Bookmark review
+  const bookmarkReview = async (review: Review) => {
+    // TODO: do this when auth is done
+    const body = {
+      reviewId: review.reviewId,
+      zid: "",
+      bookmark: true,
+    };
+    console.log(body);
+  };
+
+  const upvoteReview = async (review: Review) => {
+    // TODO: do this when auth is done
+    const body = {
+      reviewId: review.reviewId,
+      zid: "",
+      upvote: true,
+    };
+    console.log(body);
+  };
 
   return (
     <div className="space-y-5 isolate">
@@ -103,15 +121,19 @@ export default function UserReviews({ reviews }: Reviews) {
                 {/* Icons */}
                 <div className="flex flex-1 flex-wrap gap-5 justify-end">
                   <button className="duration-100 hover:text-unilectives-blue">
-                    <ArrowSmallUpIcon className="w-6 h-6 inline-block" />
+                    <ArrowSmallUpIcon
+                      onClick={() => upvoteReview(review)}
+                      className="w-6 h-6 inline-block"
+                    />
                   </button>
                   <button className="duration-100 hover:text-unilectives-blue">
-                    <BookmarkIcon className="w-6 h-6 inline-block" />
+                    <BookmarkIcon
+                      onClick={() => bookmarkReview(review)}
+                      className="w-6 h-6 inline-block"
+                    />
                   </button>
                   <EditReviewModal review={review} />
-                  <button className="duration-100 hover:text-red-500">
-                    <TrashIcon className="w-6 h-6 inline-block" />
-                  </button>
+                  <RemoveReviewModal review={review} />
                 </div>
               </div>
             ))}
@@ -149,15 +171,19 @@ export default function UserReviews({ reviews }: Reviews) {
                 {/* Icons */}
                 <div className="flex flex-wrap ml-auto gap-5 w-fit">
                   <button className="duration-100 hover:text-unilectives-blue">
-                    <ArrowSmallUpIcon className="w-6 h-6 inline-block" />
+                    <ArrowSmallUpIcon
+                      onClick={() => upvoteReview(review)}
+                      className="w-6 h-6 inline-block"
+                    />
                   </button>
                   <button className="duration-100 hover:text-unilectives-blue">
-                    <BookmarkIcon className="w-6 h-6 inline-block" />
+                    <BookmarkIcon
+                      onClick={() => bookmarkReview(review)}
+                      className="w-6 h-6 inline-block"
+                    />
                   </button>
                   <EditReviewModal review={review} />
-                  <button className="duration-100 hover:text-red-500">
-                    <TrashIcon className="w-6 h-6 inline-block" />
-                  </button>
+                  <RemoveReviewModal review={review} />
                 </div>
               </div>
             ))}
