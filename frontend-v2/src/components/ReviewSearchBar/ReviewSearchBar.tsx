@@ -33,7 +33,7 @@ export default function ReviewSearchbar() {
       try {
         if (searchTerm) {
           const { courses } = (await get(`/course/search/${searchTerm}`)) as Courses;
-          setAllCourses(courses.slice(0, 25));
+          setAllCourses(courses.slice(0, 50));
         } else {
           setAllCourses([]);
         }
@@ -63,7 +63,7 @@ export default function ReviewSearchbar() {
       </div>
       {/* Dropdown for search results */}
       {searchTerm && allCourses.length && focused ?
-        <div className="absolute z-10 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border border-black w-full max-h-52 overflow-y-auto no-scrollbar">
+        <div className="absolute z-10 mt-2 rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border border-black w-full max-h-52 overflow-y-auto no-scrollbar">
           <div className="py-1">
             {allCourses.map((course: Course) => (
               <a href={`/course/${course.courseCode}`} className="hover:bg-gray-200 text-gray-700 block px-4 py-2 text-sm" key={course.courseCode}>{course.courseCode} - {course.title}</a>
