@@ -25,7 +25,7 @@ export default function ReviewSearchbar() {
   const handleOnBlur = useCallback(
     debounce(() => {
       setFocused(false);
-    }, 50), []
+    }, 100), []
   );
 
   useEffect(() => {
@@ -56,6 +56,7 @@ export default function ReviewSearchbar() {
           title="Search for a course..."
           placeholder="Search here..."
           className="w-full outline-none bg-transparent placeholder:text-white"
+          autoComplete="off"
           onChange={handleOnChange}
           onBlur={handleOnBlur}
           onFocus={handleOnFocus}
@@ -63,10 +64,10 @@ export default function ReviewSearchbar() {
       </div>
       {/* Dropdown for search results */}
       {searchTerm && allCourses.length && focused ?
-        <div className="absolute z-10 mt-2 rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border border-black w-full max-h-52 overflow-y-auto no-scrollbar">
+        <div className="absolute z-10 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full max-h-52 overflow-y-auto no-scrollbar">
           <div className="py-1">
             {allCourses.map((course: Course) => (
-              <a href={`/course/${course.courseCode}`} className="hover:bg-gray-200 text-gray-700 block px-4 py-2 text-sm" key={course.courseCode}>{course.courseCode} - {course.title}</a>
+              <a href={`/course/${course.courseCode}`} className="hover:bg-gray-200 text-gray-700 font-bold block px-4 py-2 text-sm" key={course.courseCode}>{course.courseCode} - {course.title}</a>
             ))}
           </div>
         </div>
