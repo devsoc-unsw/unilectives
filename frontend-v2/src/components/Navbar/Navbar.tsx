@@ -15,7 +15,7 @@ export default function Navbar() {
     <>
       {/* Collapsed View */}
       {collapsed ? (
-        <div className="fixed flex flex-col w-20 h-screen gap-4 p-4 bg-gray-50 z-50">
+        <div className="fixed flex flex-col items-center w-20 h-screen gap-4 p-4 bg-gray-50 z-50 xs:p-2 xs:w-15 xs:gap-2">
           {/* Logo */}
           <div className="flex items-center justify-between h-10 p-2">
             <Link href="/">
@@ -29,7 +29,7 @@ export default function Navbar() {
             </Link>
           </div>
           {/* Navbar Container */}
-          <div className="flex flex-col h-full w-full justify-between border-t-2 border-gray-200">
+          <div className="flex flex-col h-full w-full items-center justify-between border-t-2 border-gray-200">
             {/* Top Section */}
             <div className="flex flex-col gap-3 items-left py-3">
               {/* Browse Courses */}
