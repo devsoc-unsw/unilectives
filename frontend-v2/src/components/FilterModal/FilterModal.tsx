@@ -63,7 +63,6 @@ export default function FilterModal({
                                 >
                                     <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
                                         {/* Modal content */}
-                                        {/* TODO: Make this as one component */}
                                         <FilterSelection />
                                     </Dialog.Panel>
                                 </Transition.Child>
