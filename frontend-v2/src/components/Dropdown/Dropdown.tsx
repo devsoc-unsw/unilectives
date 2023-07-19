@@ -9,11 +9,13 @@ export default function Dropdown({
   defaultValue,
   onChange,
   placeholder,
+  manualChange
 }: {
   options: string[];
   defaultValue?: string | null;
   onChange?: (selected: string) => void;
   placeholder?: string;
+  manualChange?: boolean;
 }) {
   const [selected, setSelected] = useState(defaultValue ?? "");
 
@@ -23,7 +25,9 @@ export default function Dropdown({
       if (onChange) {
         onChange(value);
       }
-      setSelected(value);
+      if (manualChange === undefined) {
+        setSelected(value);
+      }
     },
     [onChange]
   );

@@ -9,6 +9,8 @@ const validationMiddleware =
   (req: Request, res: Response, next: NextFunction): void => {
     const result = schema.safeParse(req[property]);
     if (!result.success) {
+      console.log(result.error);
+      console.log(req.body)
       logger.info(
         `Invalid request was made - Error: ${
           result.error.issues[0].message

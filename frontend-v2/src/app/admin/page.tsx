@@ -6,6 +6,7 @@ import AdminContent from "@/components/AdminContent/AdminContent";
 export default async function () {
 	const { reviews } = (await get('/reviews')) as Reviews;
 	const { reports } = (await get('/reports')) as Reports;
+  console.log("updated");
 	return (
 		<div>
 			<Image

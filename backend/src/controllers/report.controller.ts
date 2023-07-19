@@ -75,7 +75,7 @@ export class ReportController implements IController {
           try {
             const request = req.body;
             const result = await this.reportService.updateReport(request);
-            this.logger.info(`Responding to client in /reports`);
+            this.logger.info(`Responding to client in PUT /reports`);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(

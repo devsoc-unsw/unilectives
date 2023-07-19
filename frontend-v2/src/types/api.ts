@@ -23,9 +23,7 @@ export type Reviews = {
   reviews: Review[];
 };
 
-export type ReportStatus = {
-  status: "UNSEEN" | "SEEN" | "REMOVED" | "SETTLED";
-}
+export type ReportStatus = "UNSEEN" | "SEEN" | "REMOVED" | "SETTLED";
 
 export type Report = {
   reportId: string;
@@ -39,6 +37,12 @@ export type Report = {
 
 export type Reports = {
   reports: Report[];
+}
+
+export type UpdateReportStatusSchema = {
+  reportId: string;
+  zid: string;
+  status: ReportStatus;
 }
 
 export type Course = {

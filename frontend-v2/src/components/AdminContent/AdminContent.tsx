@@ -52,7 +52,7 @@ export default function AdminContent({
       </div>
       {/* Sort and View Options */}
       <div className="flex flex-row items-center justify-between w-full xs:flex-col xs:gap-3">
-        <div className="w-1/5 lg:w-1/3 xs:w-full">
+        <div className="w-1/5 lg:w-1/3 md:w-1/3 sm:w-3/5 xs:w-full">
           <Dropdown
             options={sortOptions}
             onChange={(selected) => setSort(selected)}
@@ -104,7 +104,7 @@ export default function AdminContent({
         ))}
       </div>
       {/* Pagination UI */}
-      <div className="flex flex-row gap-4 justify-center h-full">
+      <div className="flex flex-row gap-4 justify-center h-full items-center">
         <ChevronLeftIcon
           onClick={() => object === 'report' ? setReportPage(reportPage > 0 ? reportPage - 1 : reportPage) : setReviewPage(reviewPage > 0 ? reviewPage - 1 : reviewPage)}
           className="w-5 h-5 hover:scale-125 hover:text-black rounded-full"

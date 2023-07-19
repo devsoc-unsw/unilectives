@@ -3,6 +3,7 @@
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import { Report } from "@/types/api";
 
 export default function DeleteModal({
   group,
@@ -10,8 +11,8 @@ export default function DeleteModal({
   onDelete
 } : {
   group: string;
-  item: string;
-  onDelete: (item: string) => void;
+  item: Report;
+  onDelete: (item: Report) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,17 +57,17 @@ export default function DeleteModal({
                   </Dialog.Title>
                   <hr className="border-black/25"></hr>
                   <h2 className="text-lg">
-                    Are you sure you want to delete {group.charAt(0).toUpperCase() + group.slice(1)} #{item}?
+                    Are you sure you want to delete {group.charAt(0).toUpperCase() + group.slice(1)} #{item.reportId}?
                   </h2>
                   <div className="flex flex-row justify-between">
                     <button
                       onClick={() => setIsOpen(false)}
-                      className="bg-slate-400 text-white font-semibold py-2 px-4 rounded-md">
+                      className="bg-slate-400 text-white font-semibold py-2 px-4 rounded-md hover:scale-105">
                       Cancel
                     </button>
                     <button
-                      onClick={() => onDelete(item)}
-                      className="bg-unilectives-button text-white font-semibold py-2 px-4 rounded-md"
+                      onClick={() => {onDelete(item); setIsOpen(false);}}
+                      className="bg-unilectives-button text-white font-semibold py-2 px-4 rounded-md hover:scale-105"
                     >
                       Delete
                     </button>
