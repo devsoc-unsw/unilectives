@@ -1,14 +1,18 @@
 "use client";
 
-import TabOption from "./FilterComponent/TabOption";
-import CheckboxGrid from "./FilterComponent/CheckboxGrid";
-import Checkbox from "./FilterComponent/Checkbox";
-import ControlButton from "./FilterComponent/ControlButton";
+import FilterSelection from "./FilterComponent/FilterSelection";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
+import { Course } from "@/types/api";
 
-export default function FilterSelection() {
+export default function FilterModal({
+    courses,
+    onChange,
+}: {
+    courses: Course[];
+    onChange: (courses: Course[]) => void;
+}) {
     // States
     const [isOpen, setIsOpen] = useState(false);
 
@@ -28,7 +32,7 @@ export default function FilterSelection() {
             <div className="isolate">
                 {/* Add Review button */}
                 <button onClick={openModal}>
-                    <AdjustmentsVerticalIcon className="w-6 h-6 text-unilectives-search" />
+                    <AdjustmentsVerticalIcon className="mt-1 mr-2 w-6 h-6 text-unilectives-search" />
                 </button>
 
                 <Transition appear show={isOpen} as={Fragment}>
@@ -57,12 +61,10 @@ export default function FilterSelection() {
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95"
                                 >
-                                    <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
+                                    <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
                                         {/* Modal content */}
-                                        <TabOption />
-                                        <CheckboxGrid />
-                                        <Checkbox />
-                                        <ControlButton />
+                                        {/* TODO: Make this as one component */}
+                                        <FilterSelection />
                                     </Dialog.Panel>
                                 </Transition.Child>
                             </div>

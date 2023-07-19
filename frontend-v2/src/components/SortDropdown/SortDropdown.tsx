@@ -6,21 +6,7 @@ import CourseCard from "../CourseCard/CourseCard";
 import { Course } from "@/types/api";
 import Link from "next/link";
 
-export default function SortDropdown({
-    courses,
-    courseCode,
-    title,
-    overallRating,
-    reviewCount,
-    terms,
-}: {
-    courses: Course[];
-    courseCode: string;
-    title: string;
-    overallRating: number;
-    reviewCount: number;
-    terms: number[];
-}) {
+export default function SortDropdown({ courses }: { courses: Course[] }) {
     // States
     const [currentCourses, setCurrentCourses] = useState(courses);
     const [selected, setSelected] = useState("");
