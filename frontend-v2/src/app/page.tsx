@@ -47,11 +47,6 @@ export default async function Home() {
         <div className="mt-4 w-5/6">
           <SortDropdown
             courses={courses}
-            courseCode=""
-            title=""
-            overallRating={0}
-            reviewCount={0}
-            terms={[]}
           />
         </div>
         {/* TODO: Pagination / scrollbar */}
