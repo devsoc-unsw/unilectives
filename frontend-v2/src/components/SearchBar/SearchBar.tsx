@@ -2,7 +2,6 @@
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { FormEvent, useState } from "react";
-import FilterModal from "../FilterModal/FilterModal";
 
 export default function SearchBar() {
   const handleOnSubmit = (event: FormEvent) => {
@@ -24,7 +23,6 @@ export default function SearchBar() {
           placeholder="Search for a course e.g. COMP1511"
         />
       </form>
-      <FilterModal />
     </div>
   );
 }
