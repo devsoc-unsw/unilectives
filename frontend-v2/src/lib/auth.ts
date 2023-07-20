@@ -1,11 +1,40 @@
 import { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: "1234",// id where?
-      clientSecret: "asdf" // :( this is so sad
-    }),
+    {
+      id: "csesoc",
+      name: "csesoc-auth",
+      type: "oauth",
+      idToken: true,
+      wellKnown: process.env.AUTH_WELL_KNOWN,
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      authorization: { params: { scope: "openid" } },
+      profile(profile) {
+        console.log("profile: ", profile);
+        return {
+          id: profile.sub,
+          accessToken: "",
+        };
+      },
+    },
   ],
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user, account }) {
+      if (user) {
+        token.zid = user.id;
+        token.accessToken = account?.access_token;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.name = token.zid;
+        session.user.accessToken = token.accessToken;
+      }
+      return session;
+    },
+  },
 };
