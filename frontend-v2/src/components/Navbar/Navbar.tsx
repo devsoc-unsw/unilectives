@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import logo from "../../../public/uni-lectives.svg";
 import { BookOpenIcon, PencilSquareIcon, ShieldCheckIcon, UserCircleIcon, BarsArrowDownIcon, BarsArrowUpIcon, MoonIcon, ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import Tooltip from "@/components/Tooltip/Tooltip";
@@ -18,7 +17,7 @@ export default function Navbar() {
         <div className="fixed flex flex-col items-center w-20 h-screen gap-4 p-4 bg-gray-50 z-50 xs:p-2 xs:w-15 xs:gap-2">
           {/* Logo */}
           <div className="flex items-center justify-between h-10 p-2">
-            <Link href="/">
+            <a href="/">
               <Image
                 src={logo}
                 width={33}
@@ -26,7 +25,7 @@ export default function Navbar() {
                 alt="logo"
                 priority
               />
-            </Link>
+            </a>
           </div>
           {/* Navbar Container */}
           <div className="flex flex-col h-full w-full items-center justify-between border-t-2 border-gray-200">
@@ -35,25 +34,25 @@ export default function Navbar() {
               {/* Browse Courses */}
               <Tooltip
                 children={
-                <Link className="hover:bg-slate-200 rounded-xl" href="/">
+                <a className="hover:bg-slate-200 rounded-xl" href="/">
                   <BookOpenIcon className="w-12 h-12 p-3" />
-                </Link>}
+                </a>}
                 tooltip={"Browse Courses"}
               />
               {/* My Reviews */}
               <Tooltip 
                 children={
-                  <Link className="hover:bg-slate-200 rounded-xl" href="/user/zid">
+                  <a className="hover:bg-slate-200 rounded-xl" href="/user/zid">
                     <PencilSquareIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
-                  </Link>}
+                  </a>}
                 tooltip={"My Reviews"}
               />
               {/* Terms and Conditions */}
               <Tooltip 
                 children={
-                  <Link className="hover:bg-slate-200 rounded-xl" href="/terms-and-conditions">
+                  <a className="hover:bg-slate-200 rounded-xl" href="/terms-and-conditions">
                     <ShieldCheckIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
-                  </Link>}
+                  </a>}
                 tooltip={"Terms and Conditions"}
               />
             </div>
@@ -63,9 +62,9 @@ export default function Navbar() {
                 {/* My Account */}
                 <Tooltip 
                   children={
-                    <Link className="hover:bg-slate-200 rounded-xl" href="user/zid">
+                    <a className="hover:bg-slate-200 rounded-xl" href="user/zid">
                       <UserCircleIcon className="w-12 h-12 p-3" />
-                    </Link>}
+                    </a>}
                   tooltip={"My Account"}
                 />
                 {/* Enlarge */}
@@ -101,7 +100,7 @@ export default function Navbar() {
         <div className="fixed flex flex-col w-72 h-screen gap-4 p-4 bg-gray-50 z-50">
           {/* Logo */}
           <div className="flex flex-row items-center justify-between h-10 p-2">
-            <Link href="/">
+            <a href="/">
               <Image
                 src={logo}
                 width={33}
@@ -109,7 +108,7 @@ export default function Navbar() {
                 alt="logo"
                 priority
               />
-            </Link>
+            </a>
             <p className="text-xl font-semibold">Uni-lectives</p>
             <BarsArrowDownIcon onClick={() => setCollapsed(true)} className="w-12 h-12 p-3 rotate-90 hover:bg-slate-200 rounded-xl" />
           </div>
@@ -117,26 +116,26 @@ export default function Navbar() {
           <div className="flex flex-col h-full w-full justify-between border-t-2 border-gray-200">
             {/* Review Options */}
             <div className="flex flex-col gap-3 items-left py-3">
-              <Link className="flex flex-row items-center hover:bg-slate-200 rounded-xl" href="/">
+              <a className="flex flex-row items-center hover:bg-slate-200 rounded-xl" href="/">
                 <BookOpenIcon className="w-12 h-12 p-3" />
                 <span>Browse Courses</span>
-              </Link>
-              <Link className="flex flex-row items-center hover:bg-slate-200 rounded-xl" href="/user/zid">
+              </a>
+              <a className="flex flex-row items-center hover:bg-slate-200 rounded-xl" href="/user/zid">
                 <PencilSquareIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
                 <span>My Reviews</span>
-              </Link>
-              <Link className="flex flex-row items-center hover:bg-slate-200 rounded-xl" href="/terms-and-conditions">
+              </a>
+              <a className="flex flex-row items-center hover:bg-slate-200 rounded-xl" href="/terms-and-conditions">
                 <ShieldCheckIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
                 <span>Terms and Conditions</span>
-              </Link>
+              </a>
             </div>
             {/* Account Options */}
             <div className="flex flex-col gap-3 py-2 items-left">
               <div className="flex flex-row justify-between gap-2">
-                <Link className="flex flex-row w-full items-center hover:bg-slate-200 rounded-xl" href="user/zid">
+                <a className="flex flex-row w-full items-center hover:bg-slate-200 rounded-xl" href="user/zid">
                   <UserCircleIcon className="w-12 h-12 p-3" />
                   <span>Darian Lee</span>
-                </Link>
+                </a>
                 <MoonIcon title="Dark Mode" className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
               </div>
               <a
