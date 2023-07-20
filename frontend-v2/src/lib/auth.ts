@@ -12,7 +12,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.CLIENT_SECRET,
       authorization: { params: { scope: "openid" } },
       profile(profile) {
-        console.log("profile: ", profile);
         return {
           id: profile.sub,
           accessToken: "",
