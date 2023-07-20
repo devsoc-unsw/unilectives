@@ -1,12 +1,10 @@
 import Image from "next/image";
 import SearchBar from "@/components/SearchBar/SearchBar";
-import SortDropdown from "@/components/SortDropdown/SortDropdown";
-import { Courses, Course } from "@/types/api";
-import { get } from "@/utils/request";
+import CoursesList from "@/components/CoursesList/CoursesList";
 
 export default async function Home() {
-  const response = (await get("/courses")) as Courses;
-  const courses = response.courses;
+  // const response = (await get("/courses")) as Courses;
+  // const courses = response.courses;
   return (
     <div className="mb-20">
       {/* Navbar */}
@@ -41,16 +39,12 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      {/* Course Section + Sorting */}
+      {/* Course Section */}
       <div className="flex flex-col justify-center items-center mt-10">
         <SearchBar />
-        <div className="mt-4 w-5/6">
-          <SortDropdown
-            courses={courses}
-          />
-        </div>
-        {/* TODO: Pagination / scrollbar */}
+        {/* Sortable Course cards */}
+        <CoursesList />
       </div>
-    </div >
+    </div>
   );
 }
