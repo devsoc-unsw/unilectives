@@ -3,8 +3,6 @@ import SearchBar from "@/components/SearchBar/SearchBar";
 import CoursesList from "@/components/CoursesList/CoursesList";
 
 export default async function Home() {
-  // const response = (await get("/courses")) as Courses;
-  // const courses = response.courses;
   return (
     <div className="mb-20">
       {/* Navbar */}
