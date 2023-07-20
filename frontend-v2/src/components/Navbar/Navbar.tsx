@@ -32,66 +32,52 @@ export default function Navbar() {
             {/* Top Section */}
             <div className="flex flex-col gap-3 items-left py-3">
               {/* Browse Courses */}
-              <Tooltip
-                children={
+              <Tooltip tooltip={"Browse Courses"}>
                 <a className="hover:bg-slate-200 rounded-xl" href="/">
                   <BookOpenIcon className="w-12 h-12 p-3" />
-                </a>}
-                tooltip={"Browse Courses"}
-              />
+                </a>
+              </Tooltip>
               {/* My Reviews */}
-              <Tooltip 
-                children={
-                  <a className="hover:bg-slate-200 rounded-xl" href="/user/zid">
-                    <PencilSquareIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
-                  </a>}
-                tooltip={"My Reviews"}
-              />
+              <Tooltip tooltip={"My Reviews"}>
+                <a className="hover:bg-slate-200 rounded-xl" href="/user/zid">
+                  <PencilSquareIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
+                </a>
+              </Tooltip>
               {/* Terms and Conditions */}
-              <Tooltip 
-                children={
-                  <a className="hover:bg-slate-200 rounded-xl" href="/terms-and-conditions">
-                    <ShieldCheckIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
-                  </a>}
-                tooltip={"Terms and Conditions"}
-              />
+              <Tooltip tooltip={"Terms and Conditions"}>
+                <a className="hover:bg-slate-200 rounded-xl" href="/terms-and-conditions">
+                  <ShieldCheckIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
+                </a>
+              </Tooltip>
             </div>
             {/* Bottom Section */}
             <div className="flex flex-col gap-3 py-2 items-left">
               <div className="flex flex-col justify-between gap-2">
                 {/* My Account */}
-                <Tooltip 
-                  children={
-                    <a className="hover:bg-slate-200 rounded-xl" href="user/zid">
-                      <UserCircleIcon className="w-12 h-12 p-3" />
-                    </a>}
-                  tooltip={"My Account"}
-                />
+                <Tooltip tooltip={"My Account"}>
+                  <a className="hover:bg-slate-200 rounded-xl" href="user/zid">
+                    <UserCircleIcon className="w-12 h-12 p-3" />
+                  </a>
+                </Tooltip>
                 {/* Enlarge */}
-                <Tooltip 
-                  children={
-                    <BarsArrowUpIcon onClick={() => setCollapsed(false)} className="w-12 h-12 p-3 rotate-90 hover:bg-slate-200 rounded-xl" />}
-                  tooltip={"Expand"}
-                />
+                <Tooltip tooltip={"Expand"}>
+                  <BarsArrowUpIcon onClick={() => setCollapsed(false)} className="w-12 h-12 p-3 rotate-90 hover:bg-slate-200 rounded-xl" />
+                </Tooltip>
                 {/* Dark Mode */}
-                <Tooltip 
-                  children={
-                    <MoonIcon title="Dark Mode" className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />}
-                  tooltip={"Dark Mode"}
-                />
+                <Tooltip tooltip={"Dark Mode"}>
+                  <MoonIcon title="Dark Mode" className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
+                </Tooltip>
               </div>
               {/* Logout Button */}
-              <Tooltip
-                children={
+              <Tooltip tooltip={doLogout ? "Are you sure?" : "Logout"}>
                 <a
                   href={doLogout ? "/logout" : "#"}
                   onClick={(e) => { setDoLogout(true); if (!doLogout) { e.preventDefault() } }}
                   onMouseLeave={() => setDoLogout(false)}
                   className={`flex flex-row items-center justify-center rounded-xl gap-2 ${doLogout ? "hover:text-red-600 hover:bg-red-100" : "hover:bg-slate-200"}`}>
                   <ArrowRightOnRectangleIcon className="w-6 h-12 py-3" />
-                </a>}
-                tooltip={doLogout ? "Are you sure?" : "Logout"}
-              />
+                </a>
+              </Tooltip>
             </div>
           </div>
         </div>
