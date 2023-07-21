@@ -45,17 +45,16 @@ export default function ReviewSearchbar() {
   }, [searchTerm]);
 
   return (
-    <div className="relative items-center gap-1 border border-white text-white rounded-2xl px-4 py-2">
-      <div className="flex flex-row">
+    <div className="relative border border-white text-white rounded-2xl py-2">
+      <div className="flex flex-row px-3">
         {/* Search icon */}
-        <MagnifyingGlassIcon className="w-5 h-5 my-1 mr-1 bg-transparent" />
+        <MagnifyingGlassIcon className="w-5 h-5 my-1 bg-transparent" />
         {/* Input */}
         <input
           type="text"
           name="query"
-          title="Search for a course..."
-          placeholder="Search here..."
-          className="w-full outline-none bg-transparent placeholder:text-white"
+          placeholder="Search for a course here..."
+          className="w-full mx-1 outline-none bg-transparent placeholder:text-white"
           autoComplete="off"
           onChange={handleOnChange}
           onBlur={handleOnBlur}
@@ -64,7 +63,7 @@ export default function ReviewSearchbar() {
       </div>
       {/* Dropdown for search results */}
       {searchTerm && allCourses.length && focused ?
-        <div className="absolute z-10 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full max-h-52 overflow-y-auto no-scrollbar">
+        <div className="absolute z-10 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full max-h-52 overflow-y-scroll no-scrollbar">
           <div className="py-1">
             {allCourses.map((course: Course) => (
               <a href={`/course/${course.courseCode}`} className="hover:bg-gray-200 text-gray-700 font-bold block px-4 py-2 text-sm" key={course.courseCode}>{course.courseCode} - {course.title}</a>
