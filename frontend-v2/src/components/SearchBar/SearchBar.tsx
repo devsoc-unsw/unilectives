@@ -21,6 +21,7 @@ export default function SearchBar({ onSearchChange }: { onSearchChange: (newSear
         name="query"
         className="w-full py-2 px-3 text-sm text-unilectives-search focus:outline-none placeholder-unilectives-search font-medium"
         placeholder="Search for a course e.g. COMP1511"
+        autoComplete="off"
         onChange={handleOnChange}
       />
     </div>
