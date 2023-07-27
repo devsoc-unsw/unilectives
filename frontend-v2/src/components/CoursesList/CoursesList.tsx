@@ -4,8 +4,8 @@ import { Course, Courses } from "@/types/api";
 import CourseCard from "../CourseCard/CourseCard";
 import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
-import Dropdown from "../Dropdown/Dropdown";
 import { sortCourses } from "@/utils/sortCourses";
+import SortDropdown from "../SortDropdown/SortDropdown";
 
 export default function CoursesList() {
   // Refs
@@ -67,25 +67,7 @@ export default function CoursesList() {
   return (
     <>
       {/* SortDropdown Bar */}
-      <div className="mt-4 w-5/6">
-        <div className="space-y-5 isolate w-full">
-          <div className="flex-1 min-w-[150px] max-w-[200px] xs:min-w-full z-10">
-            <Dropdown
-              options={[
-                "Alphabetical (A-Z)",
-                "Alphabetical (Z-A)",
-                "Overall Rating",
-                "Enjoyability",
-                "Usefulness",
-                "Manageability",
-              ]}
-              defaultValue={selected}
-              onChange={setSelected}
-              placeholder="Sort by"
-            />
-          </div>
-        </div>
-      </div>
+      <SortDropdown selected={selected} setSelected={setSelected} />
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
         {sortCourses(currentCourses, selected).map((c: Course, index: number) => (
           <a href={`/course/${c.courseCode}`} key={index}>

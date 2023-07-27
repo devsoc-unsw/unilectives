@@ -1,7 +1,7 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 
 export default function SearchBar() {
   const handleOnSubmit = (event: FormEvent) => {
