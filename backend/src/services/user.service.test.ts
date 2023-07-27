@@ -7,7 +7,6 @@ import {
   getMockUser,
   getMockCourses,
 } from "../utils/testData";
-import { EntityManager } from "typeorm/entity-manager/EntityManager";
 import { AuthService } from "../modules/Auth";
 import { CourseRepository } from "../repositories/course.repository";
 import { UserRepository } from "../repositories/user.repository";
@@ -16,7 +15,6 @@ import { ReportRepository } from "../repositories/report.repository";
 
 describe("UserService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
-  let manager: EntityManager;
   let auth: AuthService;
   const courseRepository = {} as CourseRepository;
   const userRepository = {} as UserRepository;
@@ -24,7 +22,6 @@ describe("UserService", () => {
   const reportRepository = {} as ReportRepository;
 
   beforeEach(() => {
-    manager = {} as EntityManager;
     auth = new AuthService();
     jest.clearAllMocks();
     jest.resetAllMocks();
@@ -79,7 +76,6 @@ describe("UserService", () => {
       courseRepository.getCoursesById = jest.fn().mockReturnValue([]);
 
       courseRepository.getCoursesById = jest.fn().mockReturnValueOnce([course]);
-      manager.findBy = jest.fn().mockReturnValue([]);
       const result = await service.getUser(user.zid);
       expect(result.user).toEqual(user);
     });
