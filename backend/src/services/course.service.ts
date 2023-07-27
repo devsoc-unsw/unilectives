@@ -3,6 +3,7 @@ import { CourseEntity } from "../entity/Course";
 import {
   convertCourseEntityToInterface,
   convertCourseInterfaceToEntity,
+  convertRawCourseToInterface,
 } from "../converters/course.converter";
 import { HTTPError } from "../utils/errors";
 import { badRequest, internalServerError } from "../utils/constants";
@@ -15,6 +16,7 @@ import {
   CourseBody,
   CoursesSuccessResponse,
 } from "../api/schemas/course.schema";
+import { IRawCourse } from "IApiResponses";
 
 export class CourseService {
   private logger = getLogger();
@@ -82,7 +84,7 @@ export class CourseService {
   }
 
   async searchCourse(searchTerm: string): Promise<CoursesSuccessResponse | undefined> {
-    let courses = await this.redis.get<CourseEntity[]>(`searchCourses:${searchTerm}`);    
+    let courses = await this.redis.get<IRawCourse[]>(`searchCourses:${searchTerm}`);    
 
     if (!courses) {
       this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
@@ -94,7 +96,7 @@ export class CourseService {
 
     this.logger.info(`Found ${courses.length} courses.`);
     return {
-      courses: courses.map(convertCourseEntityToInterface),
+      courses: courses.map(convertRawCourseToInterface),
     };
   }
 

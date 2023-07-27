@@ -1,3 +1,4 @@
+import { IRawCourse } from "IApiResponses";
 import { CourseEntity } from "../entity/Course";
 import { EntityManager, In } from "typeorm";
 
@@ -142,7 +143,7 @@ export class CourseRepository {
     });
   }
 
-  async searchCourse(searchTerm: string): Promise<CourseEntity[]> {
+  async searchCourse(searchTerm: string): Promise<IRawCourse[]> {
     const rawCourses = await this.manager
       .createQueryBuilder(CourseEntity, "c")
       .select([
@@ -181,34 +182,7 @@ export class CourseRepository {
                 END`)
       .addOrderBy("review_count", "DESC")
       .getRawMany();
-    return rawCourses.map((rawCourse) => {
-      const course = new CourseEntity();
-      course.courseCode = rawCourse.course_code;
-      course.archived = rawCourse.archived;
-      course.attributes = rawCourse.attributes;
-      course.calendar = rawCourse.calendar;
-      course.campus = rawCourse.campus;
-      course.description = rawCourse.description;
-      course.enrolmentRules = rawCourse.enrolment_rules;
-      course.equivalents = rawCourse.equivalents;
-      course.exclusions = rawCourse.exclusions;
-      course.faculty = rawCourse.faculty;
-      course.fieldOfEducation = rawCourse.field_of_education;
-      course.genEd = rawCourse.gen_ed;
-      course.level = rawCourse.level;
-      course.school = rawCourse.school;
-      course.studyLevel = rawCourse.study_level;
-      course.terms = rawCourse.terms;
-      course.title = rawCourse.title;
-      course.uoc = rawCourse.uoc;
-      course.rating = rawCourse.avg_overall_rating;
-      course.overallRating = rawCourse.avg_overall_rating;
-      course.manageability = rawCourse.avg_manageability;
-      course.usefulness = rawCourse.avg_usefulness;
-      course.enjoyability = rawCourse.avg_enjoyability;
-      course.reviewCount = +rawCourse.review_count;
-      return course;
-    });
+    return rawCourses;
   }
 
   async save(course: CourseEntity): Promise<CourseEntity> {

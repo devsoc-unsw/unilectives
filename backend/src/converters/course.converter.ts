@@ -1,3 +1,4 @@
+import { IRawCourse } from "IApiResponses";
 import { Course } from "../api/schemas/course.schema";
 import { CourseEntity } from "../entity/Course";
 
@@ -65,7 +66,7 @@ export const convertCourseInterfaceToEntity = (
 };
 
 export const convertRawCourseToInterface = (
-  rawCourse
+  rawCourse: IRawCourse
 ): Course => {
   return {
     courseCode: rawCourse.course_code,
