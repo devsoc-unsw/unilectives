@@ -30,21 +30,22 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
       courseFinishedRef.current = true;
       return;
     }
+    
     setDisplayCourses((prev) => [...prev, ...courses]);
   };
 
-  const resetCourses = useCallback(() => {
+  const resetCourses = () => {
     courseFinishedRef.current = false;
     indexRef.current = 0;
     allCoursesRef.current = [];
-    setDisplayCourses([]);
-  }, []);
+  };
 
   useEffect(() => {
     const getSearchResults = async () => {
       try {
         const { courses } = (await get(`/course/search/${searchTerm}`)) as Courses;
         allCoursesRef.current = courses;
+        setDisplayCourses(allCoursesRef.current.splice(0, 25));
       } catch (err) {
         allCoursesRef.current = [];
       }
