@@ -16,7 +16,6 @@ export class CourseController implements IController {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";
-
   constructor(private readonly courseService: CourseService) {
     this.router = this.setupRoutes();
   }
@@ -122,6 +121,29 @@ export class CourseController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /course ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .delete(
+        "/cached/:key",
+        async (
+          req: Request<{ key: string }, unknown>,
+          res: Response,
+          next: NextFunction,
+        ) => {
+          this.logger.debug(`Received request in DELETE /cached/:key`);
+          try {
+            const key: string = req.params.key;
+            const result = await this.courseService.flushKey(key);
+            this.logger.info(`Responding to client in DELETE /cached/${key}`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to DELETE /cached/:key ${formatError(
                 err,
               )}`,
             );

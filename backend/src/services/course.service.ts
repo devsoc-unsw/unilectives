@@ -140,4 +140,8 @@ export class CourseService {
       course: course,
     };
   }
+
+  async flushKey(key: string) {
+    await this.redis.del(key);
+  }
 }

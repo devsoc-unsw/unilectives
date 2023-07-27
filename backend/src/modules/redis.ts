@@ -46,4 +46,14 @@ export default class RedisClient {
       throw err;
     }
   }
+
+  async del(key: string): Promise<void> {
+    try {
+      await this.redis.del(key);
+      this.logger.info(`Flushed cache key ${key}`);
+    } catch (err) {
+      this.logger.error(`Failed to flush key ${key} from redis: ${err}`);
+      throw err;
+    }
+  }
 }
