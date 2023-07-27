@@ -29,4 +29,4 @@ RUN npx prisma generate
 
 EXPOSE 3030
 
-CMD ["sh", "-c", "DATABASE_URL=postgresql://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@${POSTGRESQL_HOST}:5432/${POSTGRESQL_DATABASE}?schema=cselectives npm start"]
+CMD ["sh", "-c", "DATABASE_URL=postgresql://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@${POSTGRESQL_HOST}:5432/${POSTGRESQL_DATABASE}?schema=unilectives npm start"]

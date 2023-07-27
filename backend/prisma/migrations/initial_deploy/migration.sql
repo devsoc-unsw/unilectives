@@ -70,7 +70,7 @@ CREATE TABLE "users" (
     CONSTRAINT "pk_zid" PRIMARY KEY ("zid")
 );
 
-INSERT INTO cselectives.users
+INSERT INTO unilectives.users
 VALUES
     (
         'z5000000',

@@ -1,7 +1,7 @@
 import { PrimaryColumn, Column, Entity, OneToMany } from "typeorm";
 import { ReviewEntity } from "./Review";
 
-@Entity({ name: "users", schema: "cselectives" })
+@Entity({ name: "users", schema: "unilectives" })
 export class UserEntity {
   @PrimaryColumn("text", { name: "zid" })
   zid: string;
