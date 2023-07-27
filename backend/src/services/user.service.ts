@@ -13,7 +13,7 @@ export class UserService {
   private logger = getLogger();
   constructor(
     private readonly authService: AuthService,
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
   ) {}
 
   async saveUser(zid: string): Promise<UserTokenSuccessResponse> {

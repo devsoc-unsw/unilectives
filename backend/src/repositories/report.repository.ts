@@ -34,7 +34,7 @@ export class ReportRepository {
 
   async getReportByUserAndReview(
     zid: string,
-    reviewId: string
+    reviewId: string,
   ): Promise<Report | null> {
     const rawReport = await this.prisma.reports.findFirst({
       where: {

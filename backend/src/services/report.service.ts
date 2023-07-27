@@ -16,7 +16,7 @@ export class ReportService {
   constructor(
     private readonly reportRepository: ReportRepository,
     private readonly reviewRepository: ReviewRepository,
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
   ) {}
 
   async getAllReports(): Promise<ReportsSuccessResponse> {
@@ -27,19 +27,19 @@ export class ReportService {
   }
 
   async createReport(
-    reportDetails: CreateReport
+    reportDetails: CreateReport,
   ): Promise<ReportSuccessResponse> {
     const { reviewId, zid, reason } = reportDetails;
 
     // check if user already created a report for the review
     const reportExists = await this.reportRepository.getReportByUserAndReview(
       zid,
-      reviewId
+      reviewId,
     );
 
     if (reportExists) {
       this.logger.error(
-        `Database already has report for user ${zid} and review ${reviewId}`
+        `Database already has report for user ${zid} and review ${reviewId}`,
       );
       throw new HTTPError(badRequest);
     }
@@ -65,7 +65,7 @@ export class ReportService {
   }
 
   async updateReport(
-    reportDetails: UpdateReportStatus
+    reportDetails: UpdateReportStatus,
   ): Promise<ReportSuccessResponse> {
     const { reportId, zid, status } = reportDetails;
 
@@ -78,7 +78,7 @@ export class ReportService {
     const user = await this.userRepository.getUser(zid);
     if (!user || user.isAdmin === false) {
       this.logger.error(
-        `User with zid ${zid} does not exist or does not have permission to update report status`
+        `User with zid ${zid} does not exist or does not have permission to update report status`,
       );
       throw new HTTPError(badRequest);
     }

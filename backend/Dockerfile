@@ -11,7 +11,7 @@ RUN npx prisma generate
 
 COPY . .
 
-RUN npm run build:container
+RUN npm run build
 
 
 # Grab the latest Node base image
@@ -29,4 +29,4 @@ RUN npx prisma generate
 
 EXPOSE 3030
 
-CMD ["npm", "start"]
+CMD ["sh", "-c", "DATABASE_URL=postgresql://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@${POSTGRESQL_HOST}:5432/${POSTGRESQL_DATABASE}?schema=cselectives npm start"]

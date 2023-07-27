@@ -7,7 +7,7 @@ const CommonReviewSchema = z
       z.object({
         widgetType: z.string().regex(/ARTICLE/),
         articleId: z.string().uuid(),
-      })
+      }),
     ),
   })
   .strict();

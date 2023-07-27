@@ -27,37 +27,37 @@ export default class App {
   private readonly auth = new AuthService();
 
   private readonly courseRepository = new CourseRepository(
-    this.prisma.getConnection()
+    this.prisma.getConnection(),
   );
   private readonly userRepository = new UserRepository(
-    this.prisma.getConnection()
+    this.prisma.getConnection(),
   );
   private readonly reviewRepository = new ReviewRepository(
-    this.prisma.getConnection()
+    this.prisma.getConnection(),
   );
   private readonly reportRepository = new ReportRepository(
-    this.prisma.getConnection()
+    this.prisma.getConnection(),
   );
 
   // add services here, manager will be prisma once other services are migrated too
   private readonly courseService = new CourseService(
     this.courseRepository,
     this.userRepository,
-    this.redis
+    this.redis,
   );
   private readonly userService = new UserService(
     this.auth,
-    this.userRepository
+    this.userRepository,
   );
   private readonly reportService = new ReportService(
     this.reportRepository,
     this.reviewRepository,
-    this.userRepository
+    this.userRepository,
   );
   private readonly reviewService = new ReviewService(
     this.redis,
     this.reviewRepository,
-    this.userRepository
+    this.userRepository,
   );
 
   constructor() {
@@ -72,7 +72,7 @@ export default class App {
       reviewController,
       courseController,
       userController,
-      reportController
+      reportController,
     );
   }
 

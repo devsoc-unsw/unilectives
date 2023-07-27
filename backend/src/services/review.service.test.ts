@@ -102,7 +102,7 @@ describe("ReviewService", () => {
 
       const errorResult = new HTTPError(badRequest);
       expect(service.updateReview(review, review.reviewId)).rejects.toThrow(
-        errorResult
+        errorResult,
       );
     });
 
@@ -120,7 +120,7 @@ describe("ReviewService", () => {
       reviewRepository.save = jest.fn().mockReturnValue(reviewEntity);
 
       expect(
-        service.updateReview(reviewRequest, reviewEntity.reviewId)
+        service.updateReview(reviewRequest, reviewEntity.reviewId),
       ).resolves.toEqual({
         review: review,
       });

@@ -19,7 +19,7 @@ export class ReviewService {
   constructor(
     private readonly redis: RedisClient,
     private readonly reviewRepository: ReviewRepository,
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
   ) {}
 
   async getAllReviews(): Promise<ReviewsSuccessResponse | undefined> {
@@ -34,7 +34,7 @@ export class ReviewService {
   }
 
   async getCourseReviews(
-    courseCode: string
+    courseCode: string,
   ): Promise<ReviewsSuccessResponse | undefined> {
     let reviews = await this.redis.get<reviews[]>(`reviews:${courseCode}`);
 
@@ -62,7 +62,7 @@ export class ReviewService {
   }
 
   async postReview(
-    reviewDetails: PostReviewRequestBody
+    reviewDetails: PostReviewRequestBody,
   ): Promise<ReviewSuccessResponse | undefined> {
     // Convert reviewDetails to a reviewEntity
     const reviewEntity: PostReviewRequestBody = {
@@ -82,7 +82,7 @@ export class ReviewService {
     const review = await this.reviewRepository.save(reviewEntity);
 
     const reviews = await this.reviewRepository.getCourseReviews(
-      reviewDetails.courseCode
+      reviewDetails.courseCode,
     );
     await this.redis.set(`reviews:${reviewDetails.courseCode}`, reviews);
 
@@ -96,7 +96,7 @@ export class ReviewService {
 
   async updateReview(
     updatedReviewDetails: PutReviewRequestBody,
-    reviewId: string
+    reviewId: string,
   ): Promise<ReviewSuccessResponse | undefined> {
     // Get review entity by review id
     let review = await this.reviewRepository.getReview(reviewId);
@@ -128,15 +128,15 @@ export class ReviewService {
   }
 
   async bookmarkReview(
-    reviewDetails: BookmarkReview
+    reviewDetails: BookmarkReview,
   ): Promise<ReviewSuccessResponse | undefined> {
     const review = await this.reviewRepository.getReview(
-      reviewDetails.reviewId
+      reviewDetails.reviewId,
     );
 
     if (!review) {
       this.logger.error(
-        `There is no course with courseCode ${reviewDetails.reviewId}.`
+        `There is no course with courseCode ${reviewDetails.reviewId}.`,
       );
       throw new HTTPError(badRequest);
     }
@@ -152,7 +152,7 @@ export class ReviewService {
       user.bookmarkedReviews.push(review.reviewId);
     } else {
       user.bookmarkedReviews.filter(
-        (review) => review !== reviewDetails.reviewId
+        (review) => review !== reviewDetails.reviewId,
       );
     }
 
@@ -163,7 +163,7 @@ export class ReviewService {
         reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
       } review with reviewId ${reviewDetails.reviewId} for user with zID ${
         reviewDetails.zid
-      }.`
+      }.`,
     );
     return {
       review: review,
@@ -171,13 +171,13 @@ export class ReviewService {
   }
 
   async upvoteReview(
-    upvoteDetails: UpvoteReview
+    upvoteDetails: UpvoteReview,
   ): Promise<ReviewSuccessResponse | undefined> {
     let review = await this.reviewRepository.getReview(upvoteDetails.reviewId);
 
     if (!review) {
       this.logger.error(
-        `There is no review with reviewId ${upvoteDetails.reviewId}.`
+        `There is no review with reviewId ${upvoteDetails.reviewId}.`,
       );
       throw new HTTPError(badRequest);
     }
@@ -195,7 +195,7 @@ export class ReviewService {
         upvoteDetails.upvote ? "upvoted" : "removed upvote from"
       } review with reviewId ${upvoteDetails.reviewId} for user with zID ${
         upvoteDetails.zid
-      }.`
+      }.`,
     );
 
     return {
