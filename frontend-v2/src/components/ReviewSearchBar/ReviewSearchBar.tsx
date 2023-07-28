@@ -1,17 +1,22 @@
 "use client";
 import { Course, Courses } from "@/types/api";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { debounce } from "lodash";
+import { debounce, set } from "lodash";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { get } from "@/utils/request";
 
 export default function ReviewSearchbar() {
-  // States
   const [searchTerm, setSearchTerm] = useState("");
   const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [focused, setFocused] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleOnChange = useCallback(
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(true);
+    updateSearchTerm(event);
+  }
+
+  const updateSearchTerm = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value.trim().replaceAll(" ", "%20"));
     }, 300), []
@@ -37,6 +42,7 @@ export default function ReviewSearchbar() {
       } catch (err) {
         console.log(`error fetching courses from /course/search/${searchTerm}`);
       }
+      setIsLoading(false);
     };
     getSearchResults();
   }, [searchTerm]);
@@ -59,7 +65,7 @@ export default function ReviewSearchbar() {
         />
       </div>
       {/* Dropdown for search results */}
-      {searchTerm && allCourses.length && focused ?
+      {searchTerm && allCourses.length && focused && !isLoading ?
         <div
           className="absolute z-10 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full max-h-52 overflow-y-scroll no-scrollbar"
           onMouseDown={(e) => e.preventDefault()}
@@ -70,6 +76,11 @@ export default function ReviewSearchbar() {
             ))}
           </div>
         </div>
+      : undefined}
+      {isLoading && !allCourses.length ?
+      <div className="absolute z-10 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full">
+        <p className="text-gray-700 font-bold block px-4 py-2 text-sm">Loading...</p>
+      </div>
       : undefined}
     </div>
   );
