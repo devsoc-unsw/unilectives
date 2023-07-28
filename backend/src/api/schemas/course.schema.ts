@@ -85,3 +85,5 @@ const CoursesSuccessResponseSchema = z
 export type CoursesSuccessResponse = z.infer<
   typeof CoursesSuccessResponseSchema
 >;
+
+export const CourseCodeSchema = z.string().regex(/^[A-Za-z]{4}\d{4}$/);

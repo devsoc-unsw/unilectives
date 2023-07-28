@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import {
   Course,
+  CourseCodeSchema,
   CourseSchema,
-  UpdateCourse,
 } from "../api/schemas/course.schema";
 
 export class CourseRepository {
@@ -117,6 +117,7 @@ export class CourseRepository {
   }
 
   async getCourse(courseCode: string): Promise<Course | null> {
+    CourseCodeSchema.parse(courseCode);
     const rawCourse = (await this.prisma.$queryRawUnsafe(`
     SELECT
     c.course_code AS "courseCode",
