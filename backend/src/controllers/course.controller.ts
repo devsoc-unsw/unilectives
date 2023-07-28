@@ -127,6 +127,28 @@ export class CourseController implements IController {
             );
             return next(err);
           }
+        }
+      )
+      .get(
+        "/course/search/:searchTerm",
+        async(
+          req: Request<{ searchTerm: string }, unknown>,
+          res: Response,
+          next: NextFunction
+        ) => {
+          this.logger.debug(`Received request in GET /course/search/:searchTerm`);
+          try {
+            const searchTerm: string = req.params.searchTerm;
+            const result = await this.courseService.searchCourse(searchTerm);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /course/search ${formatError(
+                err
+              )}`
+            );
+            return next(err);
+          }
         },
       )
       .delete(

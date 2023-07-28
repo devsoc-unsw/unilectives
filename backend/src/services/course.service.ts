@@ -27,9 +27,7 @@ export class CourseService {
     }
 
     this.logger.info(`Found ${courses.length} courses.`);
-    return {
-      courses: courses,
-    };
+    return { courses };
   }
 
   async getCoursesFromOffset(
@@ -46,9 +44,7 @@ export class CourseService {
     }
 
     this.logger.info(`Found ${courses.length} courses.`);
-    return {
-      courses: courses,
-    };
+    return { courses };
   }
 
   async getCourse(courseCode: string): Promise<CourseBody | undefined> {
@@ -69,9 +65,22 @@ export class CourseService {
     }
 
     this.logger.info(`Found course with courseCode ${courseCode}.`);
-    return {
-      course: course,
-    };
+    return { course };
+  }
+
+  async searchCourse(searchTerm: string): Promise<CoursesSuccessResponse | undefined> {
+    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);    
+
+    if (!courses) {
+      this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
+      courses = await this.courseRepository.searchCourse(searchTerm);
+      await this.redis.set(`searchCourses:${searchTerm}`, courses);
+    } else {
+      this.logger.info(`Cache hit on searchCourses:${searchTerm}`);
+    }
+
+    this.logger.info(`Found ${courses.length} courses.`);
+    return { courses };
   }
 
   async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
@@ -91,9 +100,7 @@ export class CourseService {
     this.logger.info(
       `Successfully updated course with courseCode ${updatedCourse.courseCode}.`,
     );
-    return {
-      course: course,
-    };
+    return { course };
   }
 
   async bookmarkCourse(
@@ -136,9 +143,7 @@ export class CourseService {
         bookmarkDetails.courseCode
       } for user with zID ${bookmarkDetails.zid}.`,
     );
-    return {
-      course: course,
-    };
+    return { course };
   }
 
   async flushKey(key: string) {
