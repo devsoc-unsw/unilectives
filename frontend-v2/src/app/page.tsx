@@ -40,6 +40,6 @@ export default async function Home() {
       <div className="flex flex-col justify-center items-center mt-10">
         <LandingPageContent />
       </div>
-     </div> 
+    </div> 
   );
 }
