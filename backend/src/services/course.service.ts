@@ -27,9 +27,7 @@ export class CourseService {
     }
 
     this.logger.info(`Found ${courses.length} courses.`);
-    return {
-      courses: courses,
-    };
+    return { courses };
   }
 
   async getCoursesFromOffset(
@@ -46,9 +44,7 @@ export class CourseService {
     }
 
     this.logger.info(`Found ${courses.length} courses.`);
-    return {
-      courses: courses,
-    };
+    return { courses };
   }
 
   async getCourse(courseCode: string): Promise<CourseBody | undefined> {
@@ -86,9 +82,7 @@ export class CourseService {
     }
 
     this.logger.info(`Found ${courses.length} courses.`);
-    return {
-      courses: courses,
-    };
+    return { courses };
   }
 
   async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
