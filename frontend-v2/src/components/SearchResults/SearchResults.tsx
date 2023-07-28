@@ -18,6 +18,7 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
   const loadMore = (index: number) => {
     // If user scroll position is not in the end
     if (window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+      console.log("still at top");
       return;
     }
 
@@ -25,16 +26,22 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
       return;
     }
 
-    const courses = allCoursesRef.current.splice(index, index + 25);
+    const courses = allCoursesRef.current.slice(index, index + 25);
+    console.log(`courses splice length: ${courses.length}`);
     if (!courses.length) {
       courseFinishedRef.current = true;
       return;
     }
     
     setDisplayCourses((prev) => [...prev, ...courses]);
+    console.log('loadmore called');
   };
 
-  const resetCourses = () => {
+  useEffect(() => {
+    console.log(displayCourses);
+  }, [displayCourses]);
+
+  const resetRefs = () => {
     courseFinishedRef.current = false;
     indexRef.current = 0;
     allCoursesRef.current = [];
@@ -45,11 +52,11 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
       try {
         const { courses } = (await get(`/course/search/${searchTerm}`)) as Courses;
         allCoursesRef.current = courses;
-        setDisplayCourses(allCoursesRef.current.splice(0, 25));
+        setDisplayCourses(allCoursesRef.current.slice(0, 25));
+        indexRef.current += 25;
       } catch (err) {
         allCoursesRef.current = [];
       }
-      loadOnScroll();
     };
 
     const loadOnScroll = () => {
@@ -63,7 +70,7 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
     };
 
     // update courses
-    resetCourses();
+    resetRefs();
     getSearchResults();
 
     // scroll listener
