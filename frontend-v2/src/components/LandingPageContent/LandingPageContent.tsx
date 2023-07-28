@@ -1,9 +1,8 @@
 "use client"
 
 import SearchBar from "@/components/SearchBar/SearchBar";
-import CoursesList from "@/components/CoursesList/CoursesList";
 import { useState } from "react";
-import SearchResults from "../SearchResults/SearchResults";
+import CoursesList from "../CoursesList/CoursesList";
 
 export default function LandingPageContent() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -15,7 +14,7 @@ export default function LandingPageContent() {
   return (
     <div className="flex flex-col justify-center items-center w-full"> 
       <SearchBar onSearchChange={handleStateChange}/>
-      {searchTerm === "" ? <CoursesList /> : <SearchResults searchTerm={searchTerm}/>}
+      <CoursesList searchTerm={searchTerm}/>
     </div>
   );
 }

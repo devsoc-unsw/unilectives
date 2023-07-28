@@ -5,42 +5,76 @@ import CourseCard from "../CourseCard/CourseCard";
 import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
 
-export default function CoursesList() {
+export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
   // Refs
   const courseFinishedRef = useRef(false);
   const indexRef = useRef(0);
+  const allCoursesRef = useRef<Course[]>([]);
 
   // States
-  const [allCourses, setAllCourses] = useState<Course[]>([]);
-  const [noMoreCourses, setNoMoreCourses] = useState(false);
-
-  // Constants
-  const currentCourses = allCourses.flatMap((course) => course);
+  const [displayCourses, setDisplayCourses] = useState<Course[]>([]);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   // Load more courses
   const loadMore = async (index: number) => {
     // If user scroll position is not in the end
-    if (window.innerHeight + window.pageYOffset < document.body.offsetHeight)
+    if (window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
       return;
-
-    try {
-      if (courseFinishedRef.current) return;
-      // Get courses from offset
-      const { courses } = (await get(`/courses?offset=${index}`)) as Courses;
-      // All courses has been loaded
-      if (!courses.length) {
-        courseFinishedRef.current = true;
-        return;
-      }
-      // Add courses
-      setAllCourses((prev) => [...prev, ...courses]);
-    } catch (err) {
-      setNoMoreCourses(true);
     }
+
+    if (courseFinishedRef.current) {
+      return;
+    }
+
+    let fetchedCourses: Course[] = [];
+    if (searchTerm === "") {
+      // default courses
+      const { courses } = (await get(`/courses?offset=${index}`)) as Courses;
+      fetchedCourses = courses;
+    } else {
+      // searched courses
+      fetchedCourses = allCoursesRef.current.slice(index, index + 25);
+    }
+
+    if (!fetchedCourses.length) {
+      courseFinishedRef.current = true;
+      return;
+    }
+    
+    setDisplayCourses((prev) => [...prev, ...fetchedCourses]);
   };
 
+
   useEffect(() => {
-    // Load courses on scroll
+    const resetRefs = () => {
+      courseFinishedRef.current = false;
+      indexRef.current = 0;
+      allCoursesRef.current = [];
+    };
+
+    const getSearchResults = async () => {
+      try {
+        const { courses } = (await get(`/course/search/${searchTerm}`)) as Courses;
+        allCoursesRef.current = courses;
+      } catch (err) {
+        allCoursesRef.current = [];
+      }
+      setDisplayCourses(allCoursesRef.current.slice(0, 25));
+      indexRef.current += 25;
+      setInitialLoading(false);
+    };
+
+    const getDefaultResults = async () => {
+      try {
+        const { courses } = (await get(`/courses?offset=0`)) as Courses;
+        setDisplayCourses(courses);
+        indexRef.current += 25;
+      } catch (err) {
+        setDisplayCourses([]);
+      }
+      setInitialLoading(false);
+    }
+
     const loadOnScroll = () => {
       if (
         window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
@@ -51,20 +85,23 @@ export default function CoursesList() {
       }
     };
 
-    // Initial load
-    loadOnScroll();
+    // update courses
+    resetRefs();
+    if (searchTerm === "") {
+      getDefaultResults();
+    } else {
+      getSearchResults();
+    }
 
-    // Load on scroll
+    // scroll listener
     window.addEventListener("scroll", loadOnScroll);
-
-    // Clean up
     return () => window.removeEventListener("scroll", loadOnScroll);
-  }, []);
+  }, [searchTerm]);
 
   return (
     <>
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
-        {currentCourses.map((c: Course, index: number) => (
+        {displayCourses.map((c: Course, index: number) => (
           <a href={`/course/${c.courseCode}`} key={index}>
             <CourseCard
               title={c.title}
@@ -75,9 +112,10 @@ export default function CoursesList() {
             />
           </a>
         ))}
-        {noMoreCourses && (
-          <p className="text-center opacity-25">No more courses</p>
-        )}
+        {!initialLoading 
+          ? <p className="text-center opacity-25">No more courses</p>
+          : <p className="text-center opacity-25">Loading courses...</p>
+        }
       </div>
     </>
   );
