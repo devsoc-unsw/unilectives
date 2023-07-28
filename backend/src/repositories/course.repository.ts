@@ -4,7 +4,6 @@ import {
   CourseSchema,
   UpdateCourse,
 } from "../api/schemas/course.schema";
-import { getLogger } from "../utils/logger";
 
 export class CourseRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -154,7 +153,6 @@ export class CourseRepository {
   }
 
   async searchCourse(searchTerm: string): Promise<Course[]> {
-    const logger = getLogger();
     const searchQuery = `%${searchTerm}%`;
     const rawCourses = (await this.prisma.$queryRaw`
       SELECT
@@ -195,8 +193,6 @@ export class CourseRepository {
         c.course_code;
       `) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
-    logger.info(`rawCourses: ${rawCourses.length}`);
-    logger.info(`courses: ${courses.length}`);
     return courses;
   }
 
