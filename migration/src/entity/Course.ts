@@ -1,7 +1,7 @@
 import { PrimaryColumn, Column, Entity, OneToMany, RelationId } from "typeorm";
 import { ReviewEntity } from "./Review";
 
-@Entity({ name: "courses", schema: "cselectives" })
+@Entity({ name: "courses", schema: "unilectives" })
 export class CourseEntity {
   @PrimaryColumn("text", { name: "course_code" })
   courseCode: string;

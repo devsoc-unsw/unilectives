@@ -6,7 +6,7 @@ import { CreateUser } from "../schemas/user.schema";
 export const verifyToken = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const secret = process.env.JWT_SECRET as string;
   const tokenArray = req.headers["authorization"]?.split(" ");
