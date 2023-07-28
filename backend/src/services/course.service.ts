@@ -65,9 +65,7 @@ export class CourseService {
     }
 
     this.logger.info(`Found course with courseCode ${courseCode}.`);
-    return {
-      course: course,
-    };
+    return { course };
   }
 
   async searchCourse(searchTerm: string): Promise<CoursesSuccessResponse | undefined> {
@@ -102,9 +100,7 @@ export class CourseService {
     this.logger.info(
       `Successfully updated course with courseCode ${updatedCourse.courseCode}.`,
     );
-    return {
-      course: course,
-    };
+    return { course };
   }
 
   async bookmarkCourse(
@@ -147,9 +143,7 @@ export class CourseService {
         bookmarkDetails.courseCode
       } for user with zID ${bookmarkDetails.zid}.`,
     );
-    return {
-      course: course,
-    };
+    return { course };
   }
 
   async flushKey(key: string) {
