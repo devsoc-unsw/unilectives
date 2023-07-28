@@ -1,5 +1,4 @@
 "use client";
-
 import { Course, Courses } from "@/types/api";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { debounce } from "lodash";
@@ -18,15 +17,13 @@ export default function ReviewSearchbar() {
     }, 300), []
   );
 
-  const handleOnFocus = useCallback(() => {
+  const handleOnFocus = () => {
     setFocused(true);
-  }, []);
+  };
 
-  const handleOnBlur = useCallback(
-    debounce(() => {
-      setFocused(false);
-    }, 100), []
-  );
+  const handleOnBlur = () => {
+    setFocused(false);
+  }
 
   useEffect(() => {
     const getSearchResults = async () => {
@@ -63,7 +60,10 @@ export default function ReviewSearchbar() {
       </div>
       {/* Dropdown for search results */}
       {searchTerm && allCourses.length && focused ?
-        <div className="absolute z-10 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full max-h-52 overflow-y-scroll no-scrollbar">
+        <div
+          className="absolute z-10 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full max-h-52 overflow-y-scroll no-scrollbar"
+          onMouseDown={(e) => e.preventDefault()}
+        >
           <div className="py-1">
             {allCourses.map((course: Course) => (
               <a href={`/course/${course.courseCode}`} className="hover:bg-gray-200 text-gray-700 font-bold block px-4 py-2 text-sm" key={course.courseCode}>{course.courseCode} - {course.title}</a>
