@@ -16,6 +16,7 @@ export class CourseController implements IController {
   private readonly logger = getLogger();
   private readonly router: Router;
   private readonly prefix = "/api/v1";
+
   constructor(private readonly courseService: CourseService) {
     this.router = this.setupRoutes();
   }
