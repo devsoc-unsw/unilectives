@@ -15,17 +15,18 @@ export type TokenData = z.infer<typeof TokenDataSchema>;
 export const CreateUserSchema = z
   .object({
     zid: z.string(),
+    isAdmin: z.boolean(),
   })
   .strict();
 
 export type CreateUser = z.infer<typeof CreateUserSchema>;
 
-const UserSchema = z
+export const UserSchema = z
   .object({
     zid: z.string(),
     isAdmin: z.boolean(),
-    bookmarkedCourses: z.array(CourseSchema),
-    bookmarkedReviews: z.array(ReviewSchema),
+    bookmarkedCourses: z.array(z.string()),
+    bookmarkedReviews: z.array(z.string()),
     reports: z.array(ReportSchema),
     reviews: z.array(ReviewSchema),
   })

@@ -23,26 +23,26 @@ export class UserController implements IController {
         async (
           req: Request<Record<string, never>, unknown, CreateUser>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           const { zid } = req.body;
           this.logger.debug(
             `Received POST request in /user/register`,
-            req.body
+            req.body,
           );
           try {
-            const result = await this.userService.createUser(zid);
+            const result = await this.userService.saveUser(zid);
             this.logger.info(`Responding to client in /user/register`);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to POST /user/register ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .post(
         "/user/login",
@@ -50,7 +50,7 @@ export class UserController implements IController {
         async (
           req: Request<Record<string, never>, unknown, CreateUser>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           const { zid } = req.body;
           this.logger.debug(`Received POST request in /user/login`, req.body);
@@ -61,12 +61,12 @@ export class UserController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to POST /user/login ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .get(
         "/user/:zid",
@@ -74,7 +74,7 @@ export class UserController implements IController {
         async (
           req: Request<{ zid: string }, unknown>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           const { zid } = req.params;
           this.logger.debug(`Received GET request in /user`, req.params);
@@ -84,11 +84,11 @@ export class UserController implements IController {
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /user ${formatError(err)}`
+              `An error occurred when trying to GET /user ${formatError(err)}`,
             );
             return next(err);
           }
-        }
+        },
       );
   }
 

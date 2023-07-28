@@ -1,191 +1,211 @@
-import { IRawCourse } from "IApiResponses";
-import { CourseEntity } from "../entity/Course";
-import { EntityManager, In } from "typeorm";
+import { PrismaClient } from "@prisma/client";
+import {
+  Course,
+  CourseSchema,
+  UpdateCourse,
+} from "../api/schemas/course.schema";
+import { getLogger } from "../utils/logger";
 
 export class CourseRepository {
-  constructor(private readonly manager: EntityManager) {}
+  constructor(private readonly prisma: PrismaClient) {}
 
-  async getAllCourses(): Promise<CourseEntity[]> {
-    const rawCourses = await this.manager
-      .createQueryBuilder(CourseEntity, "c")
-      .select([
-        "c.*",
-        "AVG(r.overall_rating) AS avg_overall_rating",
-        "AVG(r.manageability) AS avg_manageability",
-        "AVG(r.usefulness) AS avg_usefulness",
-        "AVG(r.enjoyability) AS avg_enjoyability",
-        "COUNT(r.review_id) AS review_count",
-      ])
-      .leftJoin("c.reviews", "r")
-      .groupBy("c.course_code")
-      .addGroupBy("c.archived")
-      .addGroupBy("c.attributes")
-      .addGroupBy("c.calendar")
-      .addGroupBy("c.campus")
-      .addGroupBy("c.description")
-      .addGroupBy("c.enrolment_rules")
-      .addGroupBy("c.equivalents")
-      .addGroupBy("c.exclusions")
-      .addGroupBy("c.faculty")
-      .addGroupBy("c.field_of_education")
-      .addGroupBy("c.gen_ed")
-      .addGroupBy("c.level")
-      .addGroupBy("c.school")
-      .addGroupBy("c.study_level")
-      .addGroupBy("c.terms")
-      .addGroupBy("c.title")
-      .addGroupBy("c.uoc")
-      .getRawMany();
-    return rawCourses.map((rawCourse) => {
-      const course = new CourseEntity();
-      course.courseCode = rawCourse.course_code;
-      course.archived = rawCourse.archived;
-      course.attributes = rawCourse.attributes;
-      course.calendar = rawCourse.calendar;
-      course.campus = rawCourse.campus;
-      course.description = rawCourse.description;
-      course.enrolmentRules = rawCourse.enrolment_rules;
-      course.equivalents = rawCourse.equivalents;
-      course.exclusions = rawCourse.exclusions;
-      course.faculty = rawCourse.faculty;
-      course.fieldOfEducation = rawCourse.field_of_education;
-      course.genEd = rawCourse.gen_ed;
-      course.level = rawCourse.level;
-      course.school = rawCourse.school;
-      course.studyLevel = rawCourse.study_level;
-      course.terms = rawCourse.terms;
-      course.title = rawCourse.title;
-      course.uoc = rawCourse.uoc;
-      course.rating = rawCourse.avg_overall_rating;
-      course.overallRating = rawCourse.avg_overall_rating;
-      course.manageability = rawCourse.avg_manageability;
-      course.usefulness = rawCourse.avg_usefulness;
-      course.enjoyability = rawCourse.avg_enjoyability;
-      course.reviewCount = +rawCourse.review_count;
-      return course;
+  async getAllCourses(): Promise<Course[]> {
+    const rawCourses = (await this.prisma.$queryRaw`
+      SELECT
+      c.course_code AS "courseCode",
+      c.archived,
+      c.attributes,
+      c.calendar,
+      c.campus,
+      c.description,
+      c.enrolment_rules AS "enrolmentRules",
+      c.equivalents,
+      c.exclusions,
+      c.faculty,
+      c.field_of_education AS "fieldOfEducation",
+      c.gen_ed AS "genEd",
+      c.level,
+      c.school,
+      c.study_level AS "studyLevel",
+      c.terms,
+      c.title,
+      c.uoc,
+      AVG(r.overall_rating) AS "overallRating",
+      AVG(r.manageability) AS "manageability",
+      AVG(r.usefulness) AS "usefulness",
+      AVG(r.enjoyability) AS "enjoyability",
+      CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
+      FROM courses c
+      LEFT JOIN reviews r ON c.course_code = r.course_code
+      GROUP BY c.course_code
+      ORDER BY "reviewCount" DESC
+      `) as any[];
+    const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    return courses;
+  }
+
+  async getCoursesFromOffset(offset: number): Promise<Course[]> {
+    const courses = (await this.prisma.$queryRaw`
+    SELECT
+    c.course_code AS "courseCode",
+    c.archived,
+    c.attributes,
+    c.calendar,
+    c.campus,
+    c.description,
+    c.enrolment_rules AS "enrolmentRules",
+    c.equivalents,
+    c.exclusions,
+    c.faculty,
+    c.field_of_education AS "fieldOfEducation",
+    c.gen_ed AS "genEd",
+    c.level,
+    c.school,
+    c.study_level AS "studyLevel",
+    c.terms,
+    c.title,
+    c.uoc,
+    AVG(r.overall_rating) AS "overallRating",
+    AVG(r.manageability) AS "manageability",
+    AVG(r.usefulness) AS "usefulness",
+    AVG(r.enjoyability) AS "enjoyability",
+    CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
+    FROM courses c
+    LEFT JOIN reviews r ON c.course_code = r.course_code
+    GROUP BY c.course_code
+    ORDER BY "reviewCount" DESC
+    LIMIT 25 OFFSET ${offset};
+    `) as any[];
+    return courses;
+  }
+
+  async getCoursesById(courseCodes: string[]): Promise<Course[]> {
+    const courseCodesString = courseCodes.map((code) => `'${code}'`).join(",");
+
+    const rawCourses = (await this.prisma.$queryRaw`
+    SELECT
+    c.course_code AS "courseCode",
+    c.archived,
+    c.attributes,
+    c.calendar,
+    c.campus,
+    c.description,
+    c.enrolment_rules AS "enrolmentRules",
+    c.equivalents,
+    c.exclusions,
+    c.faculty,
+    c.field_of_education AS "fieldOfEducation",
+    c.gen_ed AS "genEd",
+    c.level,
+    c.school,
+    c.study_level AS "studyLevel",
+    c.terms,
+    c.title,
+    c.uoc,
+    AVG(r.overall_rating) AS "overallRating",
+    AVG(r.manageability) AS "manageability",
+    AVG(r.usefulness) AS "usefulness",
+    AVG(r.enjoyability) AS "enjoyability",
+    CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
+    FROM courses c
+    LEFT JOIN reviews r ON c.course_code = r.course_code
+    WHERE c.course_code IN (${courseCodesString})
+    GROUP BY c.course_code
+    ORDER BY "reviewCount" DESC;
+    `) as any[];
+    const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    return courses;
+  }
+
+  async getCourse(courseCode: string): Promise<Course | null> {
+    const rawCourse = (await this.prisma.$queryRawUnsafe(`
+    SELECT
+    c.course_code AS "courseCode",
+    c.archived,
+    c.attributes,
+    c.calendar,
+    c.campus,
+    c.description,
+    c.enrolment_rules AS "enrolmentRules",
+    c.equivalents,
+    c.exclusions,
+    c.faculty,
+    c.field_of_education AS "fieldOfEducation",
+    c.gen_ed AS "genEd",
+    c.level,
+    c.school,
+    c.study_level AS "studyLevel",
+    c.terms,
+    c.title,
+    c.uoc,
+    AVG(r.overall_rating) AS "overallRating",
+    AVG(r.manageability) AS "manageability",
+    AVG(r.usefulness) AS "usefulness",
+    AVG(r.enjoyability) AS "enjoyability",
+    CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
+    FROM courses c
+    LEFT JOIN reviews r ON c.course_code = r.course_code
+    WHERE c.course_code = '${courseCode}'
+    GROUP BY c.course_code
+    ORDER BY "reviewCount" DESC;
+    `)) as any[];
+    const course = CourseSchema.parse(rawCourse[0]);
+    return course;
+  }
+
+  async searchCourse(searchTerm: string): Promise<Course[]> {
+    const logger = getLogger();
+    const searchQuery = `%${searchTerm}%`;
+    const rawCourses = (await this.prisma.$queryRaw`
+      SELECT
+      c.course_code AS "courseCode",
+      c.archived,
+      c.attributes,
+      c.calendar,
+      c.campus,
+      c.description,
+      c.enrolment_rules AS "enrolmentRules",
+      c.equivalents,
+      c.exclusions,
+      c.faculty,
+      c.field_of_education AS "fieldOfEducation",
+      c.gen_ed AS "genEd",
+      c.level,
+      c.school,
+      c.study_level AS "studyLevel",
+      c.terms,
+      c.title,
+      c.uoc,
+      AVG(r.overall_rating) AS "overallRating",
+      AVG(r.manageability) AS "manageability",
+      AVG(r.usefulness) AS "usefulness",
+      AVG(r.enjoyability) AS "enjoyability",
+      CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
+      FROM courses c
+      LEFT JOIN reviews r ON c.course_code = r.course_code
+      WHERE c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}
+      GROUP BY c.course_code
+      ORDER BY 
+        CASE 
+          WHEN c.course_code ILIKE ${searchQuery} THEN 1
+          WHEN c.title ILIKE ${searchQuery} THEN 2
+          ELSE 3
+        END,
+        CAST(COUNT(r.review_id) AS INT) DESC,
+        c.course_code;
+      `) as any[];
+    const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    logger.info(`rawCourses: ${rawCourses.length}`);
+    logger.info(`courses: ${courses.length}`);
+    return courses;
+  }
+
+  async save(course: Course): Promise<Course> {
+    const newCourseData = await this.prisma.courses.update({
+      where: { courseCode: course.courseCode },
+      data: { ...course },
     });
-  }
-
-  async getCoursesFromOffset(offset: number): Promise<CourseEntity[]> {
-    const rawCourses = await this.manager
-      .createQueryBuilder(CourseEntity, "c")
-      .select([
-        "c.*",
-        "AVG(r.overall_rating) AS avg_overall_rating",
-        "AVG(r.manageability) AS avg_manageability",
-        "AVG(r.usefulness) AS avg_usefulness",
-        "AVG(r.enjoyability) AS avg_enjoyability",
-        "COUNT(r.review_id) AS review_count",
-      ])
-      .leftJoin("c.reviews", "r")
-      .groupBy("c.course_code")
-      .addGroupBy("c.archived")
-      .addGroupBy("c.attributes")
-      .addGroupBy("c.calendar")
-      .addGroupBy("c.campus")
-      .addGroupBy("c.description")
-      .addGroupBy("c.enrolment_rules")
-      .addGroupBy("c.equivalents")
-      .addGroupBy("c.exclusions")
-      .addGroupBy("c.faculty")
-      .addGroupBy("c.field_of_education")
-      .addGroupBy("c.gen_ed")
-      .addGroupBy("c.level")
-      .addGroupBy("c.school")
-      .addGroupBy("c.study_level")
-      .addGroupBy("c.terms")
-      .addGroupBy("c.title")
-      .addGroupBy("c.uoc")
-      .orderBy("review_count", "DESC")
-      .addOrderBy("c.course_code")
-      .limit(25)
-      .offset(offset)
-      .getRawMany();
-    return rawCourses.map((rawCourse) => {
-      const course = new CourseEntity();
-      course.courseCode = rawCourse.course_code;
-      course.archived = rawCourse.archived;
-      course.attributes = rawCourse.attributes;
-      course.calendar = rawCourse.calendar;
-      course.campus = rawCourse.campus;
-      course.description = rawCourse.description;
-      course.enrolmentRules = rawCourse.enrolment_rules;
-      course.equivalents = rawCourse.equivalents;
-      course.exclusions = rawCourse.exclusions;
-      course.faculty = rawCourse.faculty;
-      course.fieldOfEducation = rawCourse.field_of_education;
-      course.genEd = rawCourse.gen_ed;
-      course.level = rawCourse.level;
-      course.school = rawCourse.school;
-      course.studyLevel = rawCourse.study_level;
-      course.terms = rawCourse.terms;
-      course.title = rawCourse.title;
-      course.uoc = rawCourse.uoc;
-      course.rating = rawCourse.avg_overall_rating;
-      course.overallRating = rawCourse.avg_overall_rating;
-      course.manageability = rawCourse.avg_manageability;
-      course.usefulness = rawCourse.avg_usefulness;
-      course.enjoyability = rawCourse.avg_enjoyability;
-      course.reviewCount = +rawCourse.review_count;
-      return course;
-    });
-  }
-
-  async getCoursesById(courseCodes: string[]): Promise<CourseEntity[]> {
-    return await this.manager.findBy(CourseEntity, {
-      courseCode: In(courseCodes),
-    });
-  }
-
-  async getCourse(courseCode: string): Promise<CourseEntity | null> {
-    return await this.manager.findOneBy(CourseEntity, {
-      courseCode,
-    });
-  }
-
-  async searchCourse(searchTerm: string): Promise<IRawCourse[]> {
-    const rawCourses = await this.manager
-      .createQueryBuilder(CourseEntity, "c")
-      .select([
-        "c.*",
-        "AVG(r.overall_rating) AS avg_overall_rating",
-        "AVG(r.manageability) AS avg_manageability",
-        "AVG(r.usefulness) AS avg_usefulness",
-        "AVG(r.enjoyability) AS avg_enjoyability",
-        "COUNT(r.review_id) AS review_count",
-      ])
-      .leftJoin("c.reviews", "r")
-      .groupBy("c.course_code")
-      .addGroupBy("c.archived")
-      .addGroupBy("c.attributes")
-      .addGroupBy("c.calendar")
-      .addGroupBy("c.campus")
-      .addGroupBy("c.description")
-      .addGroupBy("c.enrolment_rules")
-      .addGroupBy("c.equivalents")
-      .addGroupBy("c.exclusions")
-      .addGroupBy("c.faculty")
-      .addGroupBy("c.field_of_education")
-      .addGroupBy("c.gen_ed")
-      .addGroupBy("c.level")
-      .addGroupBy("c.school")
-      .addGroupBy("c.study_level")
-      .addGroupBy("c.terms")
-      .addGroupBy("c.title")
-      .addGroupBy("c.uoc")
-      .where("c.course_code ILIKE :searchTerm", { searchTerm: `%${searchTerm}%` })
-      .orWhere("c.title ILIKE :searchTerm", { searchTerm: `%${searchTerm}%` })
-      .orderBy(`CASE 
-                  WHEN c.course_code ILIKE '%${searchTerm}%' THEN 1
-                  WHEN c.title ILIKE '%${searchTerm}%' THEN 2
-                  ELSE 3
-                END`)
-      .addOrderBy("review_count", "DESC")
-      .getRawMany();
-    return rawCourses;
-  }
-
-  async save(course: CourseEntity): Promise<CourseEntity> {
-    return await this.manager.save(CourseEntity, course);
+    const newCourse = CourseSchema.parse(newCourseData);
+    return newCourse;
   }
 }

@@ -58,12 +58,11 @@ export const CourseSchema = z
     terms: z.number().array(),
     title: z.string(),
     uoc: z.number(),
-    rating: z.number(),
     reviewCount: z.number(),
-    overallRating: z.number(),
-    manageability: z.number(),
-    usefulness: z.number(),
-    enjoyability: z.number(),
+    overallRating: z.number().nullable(),
+    manageability: z.number().nullable(),
+    usefulness: z.number().nullable(),
+    enjoyability: z.number().nullable(),
   })
   .strict();
 
