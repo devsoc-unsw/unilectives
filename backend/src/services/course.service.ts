@@ -83,23 +83,6 @@ export class CourseService {
     return { courses };
   }
 
-  async searchCourse(searchTerm: string): Promise<CoursesSuccessResponse | undefined> {
-    let courses = await this.redis.get<CourseEntity[]>(`searchCourses:${searchTerm}`);    
-
-    if (!courses) {
-      this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
-      courses = await this.courseRepository.searchCourse(searchTerm);
-      await this.redis.set(`searchCourses:${searchTerm}`, courses);
-    } else {
-      this.logger.info(`Cache hit on searchCourses:${searchTerm}`);
-    }
-
-    this.logger.info(`Found ${courses.length} courses.`);
-    return {
-      courses: courses.map(convertCourseEntityToInterface),
-    };
-  }
-
   async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
     let course = await this.courseRepository.getCourse(
       updatedCourse.courseCode,
