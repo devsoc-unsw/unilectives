@@ -117,8 +117,8 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
           </a>
         ))}
         {!initialLoading 
-          ? <p className="text-center opacity-25">No more courses</p>
-          : <p className="text-center opacity-25">Loading courses...</p>
+          ? <p className="text-center opacity-50">No more courses</p>
+          : <p className="text-center opacity-50">Loading courses...</p>
         }
       </div>
     </>
