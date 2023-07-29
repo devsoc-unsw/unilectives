@@ -1,33 +1,42 @@
-import { unauthorizedError } from "../../utils/constants";
 import { Request, Response, NextFunction } from "express";
-import * as jwt from "jsonwebtoken";
-import { CreateUser } from "../schemas/user.schema";
+import { getLogger } from "../../utils/logger";
+
+const logger = getLogger();
 
 export const verifyToken = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const secret = process.env.JWT_SECRET as string;
-  const tokenArray = req.headers["authorization"]?.split(" ");
+  const token = req.header;
+  const response = await fetch("https://id.csesoc.unsw.edu.au/userinfo", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  if (!tokenArray || tokenArray[0] !== "Bearer" || tokenArray.length !== 2) {
-    return res
-      .status(unauthorizedError.errorCode)
-      .json({ message: "A bearer token is required for authentication" });
+  if (!response.ok) {
+    if (response.status === 401) {
+      return res.status(401).json({ message: "unauthorised" });
+    }
+    let errorMessage = response.statusText;
+
+    try {
+      const json = (await response.json()) as { error: string };
+      errorMessage = json.error;
+    } catch (err) {}
+
+    logger.error(
+      `Verify error ${response.status} - ${response.statusText}: ${errorMessage}`
+    );
+    return res.status(response.status).json({ message: "unauthorised" });
   }
 
-  try {
-    jwt.verify(tokenArray[1], secret) as CreateUser;
-  } catch (err: any) {
-    if (err.name === "TokenExpiredError") {
-      return res
-        .status(unauthorizedError.errorCode)
-        .json({ message: "Expired token" });
-    }
-    return res
-      .status(unauthorizedError.errorCode)
-      .json({ message: "Invalid Token" });
+  const json = await response.json();
+  const tokenZid = json.sub;
+  if (tokenZid !== req.headers.zid) {
+    return res.status(401).json({ message: "unauthorised" });
   }
   return next();
 };

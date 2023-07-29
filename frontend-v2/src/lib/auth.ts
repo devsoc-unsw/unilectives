@@ -11,10 +11,10 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
       authorization: { params: { scope: "openid" } },
-      profile(profile) {
+      profile(profile, token) {
         return {
           id: profile.sub,
-          accessToken: "",
+          accessToken: token.access_token,
         };
       },
     },

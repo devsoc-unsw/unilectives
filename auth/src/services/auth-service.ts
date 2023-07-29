@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+// import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { users } from "../db/schema";
 import { logger } from "../utils/logger";
@@ -6,12 +6,14 @@ import HTTPError from "../utils/error";
 import { env } from "../utils/env";
 import * as jose from "jose";
 import { NotFoundError } from "elysia";
+import { eq } from "drizzle-orm";
 
 export default class AuthService {
   async login(body: { zid: string; password: string }) {
     let user = undefined;
     const { zid, password } = body;
-    const displayName = await this.verify(zid, password);
+    // const displayName = await this.verify(zid, password);
+    const displayName = "lol this shouldnt even exist anymore";
     const result = await db.select().from(users).where(eq(users.zid, zid));
     if (result.length === 0) {
       user = await this.createUser(displayName, zid);
@@ -24,15 +26,12 @@ export default class AuthService {
     return { token };
   }
 
-  // hello who are you and are you still a valid way to be verifying
-  // for our future unsw oauth, i dont think so but im scared to remove u
-  async verify(zid: string, zpass: string) {
-    const res = await fetch("https://verify.csesoc.unsw.edu.au/v1", {
+  async verify(token: string) {
+    const res = await fetch("https://id.csesoc.unsw.edu.au/userinfo", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ zid, zpass }),
     });
 
     if (!res.ok) {
@@ -48,8 +47,9 @@ export default class AuthService {
       throw new HTTPError(res.status, errorMessage);
     }
 
-    const json = (await res.json()) as { displayName: string };
-    return json.displayName;
+    const json = await res.json();
+    console.log(json)
+    return json;
   }
 
   async createUser(name: string, zid: string) {
@@ -75,9 +75,7 @@ export default class AuthService {
       .where(eq(users.zid, zid))
       .returning();
     if (result.length === 0) {
-      logger.error(
-        `No user with zid ${zid} found`
-      );
+      logger.error(`No user with zid ${zid} found`);
       throw new NotFoundError();
     }
     return result[0];
