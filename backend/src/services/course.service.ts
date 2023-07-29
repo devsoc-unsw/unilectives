@@ -1,9 +1,4 @@
 import { getLogger } from "../utils/logger";
-import { CourseEntity } from "../entity/Course";
-import {
-  convertCourseEntityToInterface,
-  convertCourseInterfaceToEntity,
-} from "../converters/course.converter";
 import { HTTPError } from "../utils/errors";
 import { badRequest, internalServerError } from "../utils/constants";
 import { CourseRepository } from "../repositories/course.repository";
@@ -21,26 +16,24 @@ export class CourseService {
   constructor(
     private readonly courseRepository: CourseRepository,
     private readonly userRepository: UserRepository,
-    private readonly redis: RedisClient
+    private readonly redis: RedisClient,
   ) {}
 
   async getCourses(): Promise<CoursesSuccessResponse | undefined> {
-    const courses: CourseEntity[] = await this.courseRepository.getAllCourses();
+    const courses = await this.courseRepository.getAllCourses();
     if (courses.length === 0) {
       this.logger.error("Database returned with no courses.");
       throw new HTTPError(internalServerError);
     }
 
     this.logger.info(`Found ${courses.length} courses.`);
-    return {
-      courses: courses.map(convertCourseEntityToInterface),
-    };
+    return { courses };
   }
 
   async getCoursesFromOffset(
-    offset: number
+    offset: number,
   ): Promise<CoursesSuccessResponse | undefined> {
-    let courses = await this.redis.get<CourseEntity[]>(`courses:${offset}`);
+    let courses = await this.redis.get<Course[]>(`courses:${offset}`);
 
     if (!courses) {
       this.logger.info(`Cache miss on courses:${offset}`);
@@ -51,16 +44,12 @@ export class CourseService {
     }
 
     this.logger.info(`Found ${courses.length} courses.`);
-    return {
-      courses: courses.map(convertCourseEntityToInterface),
-    };
+    return { courses };
   }
 
   async getCourse(courseCode: string): Promise<CourseBody | undefined> {
-    const cacheCourse = await this.redis.get<CourseEntity>(
-      `course:${courseCode}`
-    );
-    let course: CourseEntity | null;
+    const cacheCourse = await this.redis.get<Course>(`course:${courseCode}`);
+    let course: Course | null;
 
     if (!cacheCourse) {
       this.logger.info(`Cache miss on course:${courseCode}`);
@@ -76,47 +65,54 @@ export class CourseService {
     }
 
     this.logger.info(`Found course with courseCode ${courseCode}.`);
-    return {
-      course: convertCourseEntityToInterface(course),
-    };
+    return { course };
+  }
+
+  async searchCourse(searchTerm: string): Promise<CoursesSuccessResponse | undefined> {
+    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);    
+
+    if (!courses) {
+      this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
+      courses = await this.courseRepository.searchCourse(searchTerm);
+      await this.redis.set(`searchCourses:${searchTerm}`, courses);
+    } else {
+      this.logger.info(`Cache hit on searchCourses:${searchTerm}`);
+    }
+
+    this.logger.info(`Found ${courses.length} courses.`);
+    return { courses };
   }
 
   async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
     let course = await this.courseRepository.getCourse(
-      updatedCourse.courseCode
+      updatedCourse.courseCode,
     );
 
     if (!course) {
       this.logger.error(
-        `There is no course with courseCode ${updatedCourse.courseCode}.`
+        `There is no course with courseCode ${updatedCourse.courseCode}.`,
       );
       throw new HTTPError(badRequest);
     }
 
-    const newCourseEntity: CourseEntity = convertCourseInterfaceToEntity({
-      ...course,
-      ...updatedCourse,
-    });
-    course = await this.courseRepository.save(newCourseEntity);
+    course = await this.courseRepository.save(course);
 
     this.logger.info(
-      `Successfully updated course with courseCode ${updatedCourse.courseCode}.`
+      `Successfully updated course with courseCode ${updatedCourse.courseCode}.`,
     );
-    return {
-      course: convertCourseEntityToInterface(course),
-    };
+    return { course };
   }
 
   async bookmarkCourse(
-    bookmarkDetails: BookmarkCourse
+    bookmarkDetails: BookmarkCourse,
   ): Promise<CourseBody | undefined> {
     const course = await this.courseRepository.getCourse(
-      bookmarkDetails.courseCode
+      bookmarkDetails.courseCode,
     );
 
     if (!course) {
       this.logger.error(
-        `There is no course with courseCode ${bookmarkDetails.courseCode}.`
+        `There is no course with courseCode ${bookmarkDetails.courseCode}.`,
       );
       throw new HTTPError(badRequest);
     }
@@ -134,7 +130,7 @@ export class CourseService {
       ];
     } else {
       user.bookmarkedCourses.filter(
-        (course) => course !== bookmarkDetails.courseCode
+        (course) => course !== bookmarkDetails.courseCode,
       );
     }
 
@@ -145,10 +141,12 @@ export class CourseService {
         bookmarkDetails.bookmark ? "bookmarked" : "removed bookmarked"
       } course with courseCode ${
         bookmarkDetails.courseCode
-      } for user with zID ${bookmarkDetails.zid}.`
+      } for user with zID ${bookmarkDetails.zid}.`,
     );
-    return {
-      course: convertCourseEntityToInterface(course),
-    };
+    return { course };
+  }
+
+  async flushKey(key: string) {
+    await this.redis.del(key);
   }
 }

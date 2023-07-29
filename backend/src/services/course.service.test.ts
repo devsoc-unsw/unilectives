@@ -43,6 +43,27 @@ describe("CourseService", () => {
     });
   });
 
+  describe("searchCourses", () => {
+    it("should return empty list", () => {
+      const service = courseService();
+      courseRepository.searchCourse = jest.fn().mockResolvedValue([]);
+
+      expect(service.searchCourse("xddddddd")).resolves.toEqual({
+        courses: []
+      });
+    })
+
+    it("should return one course", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.searchCourse = jest.fn().mockResolvedValue(courses);
+
+      expect(service.searchCourse("comp1511")).resolves.toEqual({
+        courses,
+      });
+    })
+  });
+
   describe("updateCourse", () => {
     it("should throw HTTP 400 error if no courses in database", () => {
       const service = courseService();

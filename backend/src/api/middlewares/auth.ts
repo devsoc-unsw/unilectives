@@ -6,7 +6,7 @@ const logger = getLogger();
 export const verifyToken = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const token = req.header;
   const response = await fetch("https://id.csesoc.unsw.edu.au/userinfo", {
