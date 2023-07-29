@@ -110,7 +110,7 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
             <CourseCard
               title={c.title}
               courseCode={c.courseCode}
-              rating={c.rating}
+              rating={c.overallRating}
               reviewCount={c.reviewCount}
               terms={c.terms}
             />
