@@ -12,10 +12,10 @@ export default function ReviewSearchbarDropdown({
     <>
       {allCourses.length && !loading ?
         <div
-          className="absolute z-10 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full max-h-52 overflow-y-scroll no-scrollbar"
+          className="absolute z-10 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full max-h-52 overflow-y-auto no-scrollbar"
           onMouseDown={(e) => e.preventDefault()}
         >
-          <div className="py-1">
+          <div>
             {allCourses.map((course: Course) => (
               <a
                 href={`/course/${course.courseCode}`}
