@@ -1,15 +1,23 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { ChangeEvent, useCallback } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import debounce from "lodash/debounce";
 
 export default function SearchBar({ onSearchChange }: { onSearchChange: (newSearchTerm: string) => void }) {
+  const [initialLoading, setInitialLoading] = useState(true);
+
   const handleOnChange = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
       onSearchChange(event.target.value.trim().replaceAll(" ", "%20"));
     }, 300), []
   );
+
+  useEffect(() => {
+    setTimeout(() => {
+      setInitialLoading(false);
+    }, 500)
+  }, []);
 
   return (
     <div
@@ -23,6 +31,7 @@ export default function SearchBar({ onSearchChange }: { onSearchChange: (newSear
         placeholder="Search for a course e.g. COMP1511"
         autoComplete="off"
         onChange={handleOnChange}
+        disabled={initialLoading}
       />
     </div>
   );

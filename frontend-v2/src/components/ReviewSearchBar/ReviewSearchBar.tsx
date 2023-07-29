@@ -11,6 +11,7 @@ export default function ReviewSearchbar() {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [focused, setFocused] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value !== "") {
@@ -50,6 +51,12 @@ export default function ReviewSearchbar() {
     getSearchResults();
   }, [searchTerm]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setInitialLoading(false);
+    }, 500)
+  }, []);
+
   return (
     <div className="relative border border-white text-white rounded-2xl py-2">
       <div className="flex flex-row px-3">
@@ -65,6 +72,7 @@ export default function ReviewSearchbar() {
           onChange={handleOnChange}
           onBlur={handleOnBlur}
           onFocus={handleOnFocus}
+          disabled={initialLoading}
         />
       </div>
       {searchTerm && focused ?
