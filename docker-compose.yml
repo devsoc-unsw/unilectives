@@ -72,3 +72,14 @@ services:
     ports:
       - "6379:6379"
     restart: unless-stopped
+
+  frontend:
+    restart: unless-stopped
+    build:
+      context: ./frontend-v2
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+      - migration
