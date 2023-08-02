@@ -5,16 +5,21 @@ const request = async (
 ) => {
   const prefix = "/api/v1";
   const baseUrl =
-    process.env.NODE_ENV !== "development" ? `http://cselectives.staging.csesoc.unsw.edu.au${prefix}${url}` : `http://localhost:3030${prefix}${url}`;
-  
-  const payload = method === "GET" ? {
-    method,
-  } : {
-    method,
-    body: JSON.stringify(options)
-  }
+    process.env.NODE_ENV !== "development"
+      ? `https://cselectives.staging.csesoc.unsw.edu.au${prefix}${url}`
+      : `http://localhost:3030${prefix}${url}`;
 
-  return (await fetch(baseUrl, { ...payload, cache: 'no-store' })).json();
+  const payload =
+    method === "GET"
+      ? {
+          method,
+        }
+      : {
+          method,
+          body: JSON.stringify(options),
+        };
+
+  return (await fetch(baseUrl, { ...payload, cache: "no-store" })).json();
 };
 
 export const get = (url: string, options?: Record<string, string>) =>

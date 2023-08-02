@@ -60,7 +60,7 @@ export class ExpressWrapper {
       this.logger.info("Stopped HTTP Server");
     } catch (err: any) {
       this.logger.warn(
-        `Error when trying to stop HTTP Server ${formatError(err)}`
+        `Error when trying to stop HTTP Server ${formatError(err)}`,
       );
     }
   }

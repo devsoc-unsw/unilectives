@@ -36,39 +36,39 @@ export class ReviewController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /reviews ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .get(
         "/reviews/:courseCode",
         async (
           req: Request<{ courseCode: string }, unknown>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug(`Received request in /reviews/:courseCode`);
           try {
             const courseCode: string = req.params.courseCode;
             const result = await this.reviewService.getCourseReviews(
-              courseCode
+              courseCode,
             );
             this.logger.info(
-              `Responding to client in GET /reviews/${courseCode}`
+              `Responding to client in GET /reviews/${courseCode}`,
             );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /reviews ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .post(
         "/reviews",
@@ -76,7 +76,7 @@ export class ReviewController implements IController {
         async (
           req: Request<Record<string, never>, unknown, PostReviewRequestBody>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug("Received request in POST /reviews");
           try {
@@ -88,12 +88,12 @@ export class ReviewController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to POST /reviews ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .put(
         "/reviews/:reviewId",
@@ -101,7 +101,7 @@ export class ReviewController implements IController {
         async (
           req: Request<{ reviewId: string }, unknown, PutReviewRequestBody>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           const { reviewId } = req.params;
           this.logger.debug(`Received request in PUT /reviews/${reviewId}`);
@@ -110,28 +110,28 @@ export class ReviewController implements IController {
             if (!updatedReviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.updateReview(
               updatedReviewDetails,
-              reviewId
+              reviewId,
             );
             this.logger.info(
-              `Responding to client in PUT /reviews/${reviewId}`
+              `Responding to client in PUT /reviews/${reviewId}`,
             );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to POST /reviews ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .delete(
         "/reviews/:reviewId",
         async (
           req: Request<{ reviewId: string }, unknown>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           const { reviewId } = req.params;
           this.logger.debug(`Received request in DELETE /reviews/${reviewId}`);
@@ -139,18 +139,18 @@ export class ReviewController implements IController {
             const reviewId: string = req.params.reviewId;
             const result = await this.reviewService.deleteReview(reviewId);
             this.logger.info(
-              `Responding to client in DELETE /reviews/${reviewId}`
+              `Responding to client in DELETE /reviews/${reviewId}`,
             );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to DELETE /reviews ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .post(
         "/reviews/bookmark",
@@ -158,26 +158,26 @@ export class ReviewController implements IController {
         async (
           req: Request<Record<string, never>, unknown, BookmarkReview>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug(`Received request in POST /reviews/bookmark`);
           try {
             const reviewDetails = req.body;
             if (!reviewDetails) throw new HTTPError(badRequest);
             const result = await this.reviewService.bookmarkReview(
-              reviewDetails
+              reviewDetails,
             );
             this.logger.info(`Responding to client in POST /reviews/bookmark`);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to POST /reviews/bookmark ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .post(
         "/reviews/upvote",
@@ -185,7 +185,7 @@ export class ReviewController implements IController {
         async (
           req: Request<Record<string, never>, unknown, UpvoteReview>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug(`Received request in POST /reviews/upvote`);
           try {
@@ -196,12 +196,12 @@ export class ReviewController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to POST /reviews/upvote ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       );
   }
 

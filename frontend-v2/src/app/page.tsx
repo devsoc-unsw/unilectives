@@ -40,7 +40,7 @@ export default async function Home() {
       {/* Course Section */}
       <div className="flex flex-col justify-center items-center mt-10">
         <SearchBar />
-        {/* Course cards */}
+        {/* Sortable Course cards */}
         <CoursesList />
       </div>
     </div>

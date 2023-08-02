@@ -13,30 +13,16 @@ services:
       POSTGRESQL_USER: postgres
       POSTGRESQL_PASSWORD: password
       POSTGRESQL_DATABASE: mydb
-      REDIS_USER: " "
-      REDIS_PASSWORD: " "
+      REDIS_USER: ""
+      REDIS_PASSWORD: ""
       REDIS_HOST: redis
       JWT_SECRET: secret
+      DATABASE_URL: "postgresql://postgres:password@postgres:5432/mydb?schema=cselectives"
     ports:
       - 3030:3030
     depends_on:
-      - database
       - postgres
       - redis
-
-  database:
-    restart: on-failure
-    build:
-      context: ./database
-      dockerfile: Dockerfile
-    environment:
-      POSTGRESQL_PORT: 5432
-      POSTGRESQL_HOST: postgres
-      POSTGRESQL_USER: postgres
-      POSTGRESQL_PASSWORD: password
-      POSTGRESQL_DATABASE: mydb
-    depends_on:
-      - postgres
 
   migration:
     restart: unless-stopped
@@ -44,7 +30,7 @@ services:
       context: ./migration
       dockerfile: Dockerfile
     environment:
-      AUTHDOMAIN: ${AUTH_DOMAIN}
+      AUTHDOMAIN: ${AUTHDOMAIN}
       PROJECT_ID: ${PROJECT_ID}
       STORAGE_BUCKET: ${STORAGE_BUCKET}
       NODE_ENV: production
@@ -55,7 +41,6 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - database
       - postgres
 
   auth:
@@ -70,7 +55,6 @@ services:
     ports:
       - 6969:6969
     depends_on:
-      - database
       - postgres
 
   postgres:
