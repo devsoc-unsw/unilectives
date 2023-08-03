@@ -8,7 +8,6 @@ type LoginButtonProps = {
 };
 
 export default function LoginButton({ session }: LoginButtonProps) {
-  // const [showWindow, setShowWindow] = useState(false);
 
   if (session === null) {
     return (
@@ -19,9 +18,6 @@ export default function LoginButton({ session }: LoginButtonProps) {
         >
           Log In
         </button>
-        {/* {showWindow && (
-          <LoginWindow session={session} onClose={() => setShowWindow(false)} />
-        )} */}
       </div>
     );
   } else {
