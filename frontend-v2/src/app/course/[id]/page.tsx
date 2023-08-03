@@ -10,7 +10,9 @@ import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
 import Rating from "@/components/Rating/Rating";
 import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
 import { ICourse, Reviews } from "@/types/api";
-import { get } from "@/utils/request";
+import { get, validatedReq } from "@/utils/request";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export default async function ReviewPage({
   params,
@@ -19,8 +21,14 @@ export default async function ReviewPage({
     [key: string]: string;
   };
 }) {
-  const { course } = (await get(
-    `/course/${params.id.toUpperCase()}`
+  // const { course } = (await get(
+  //   `/course/${params.id.toUpperCase()}`
+  // )) as ICourse;
+  const session = await getServerSession(authOptions)
+  const { course } = (await validatedReq("GET",
+    `/course/${params.id.toUpperCase()}`,
+    `${session?.user?.accessToken}`,
+    `${session?.user?.name}`
   )) as ICourse;
 
   if (!course) notFound();

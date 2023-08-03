@@ -2,6 +2,8 @@ import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
 import { IController } from "../interfaces/IController";
 import { CourseService } from "../services/course.service";
+import verifyToken from "../api/middlewares/auth";
+
 import {
   BookmarkCourseSchema,
   UpdateCourseSchema,
