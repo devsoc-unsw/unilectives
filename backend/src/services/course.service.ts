@@ -68,8 +68,10 @@ export class CourseService {
     return { course };
   }
 
-  async searchCourse(searchTerm: string): Promise<CoursesSuccessResponse | undefined> {
-    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);    
+  async searchCourse(
+    searchTerm: string,
+  ): Promise<CoursesSuccessResponse | undefined> {
+    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
 
     if (!courses) {
       this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
