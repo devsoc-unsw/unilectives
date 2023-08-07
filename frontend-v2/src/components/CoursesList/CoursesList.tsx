@@ -4,6 +4,8 @@ import { Course, Courses } from "@/types/api";
 import CourseCard from "../CourseCard/CourseCard";
 import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
+import { sortCourses } from "@/utils/sortCourses";
+import SortDropdown from "../SortDropdown/SortDropdown";
 
 export default function CoursesList() {
   // Refs
@@ -13,6 +15,7 @@ export default function CoursesList() {
   // States
   const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [noMoreCourses, setNoMoreCourses] = useState(false);
+  const [selected, setSelected] = useState("");
 
   // Constants
   const currentCourses = allCourses.flatMap((course) => course);
@@ -63,8 +66,10 @@ export default function CoursesList() {
 
   return (
     <>
+      {/* SortDropdown Bar */}
+      <SortDropdown selected={selected} setSelected={setSelected} />
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
-        {currentCourses.map((c: Course, index: number) => (
+        {sortCourses(currentCourses, selected).map((c: Course, index: number) => (
           <a href={`/course/${c.courseCode}`} key={index}>
             <CourseCard
               title={c.title}
