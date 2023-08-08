@@ -9,7 +9,7 @@ export type Review = {
   authorName: string;
   title: string;
   description: string;
-  grade: number;
+  grade: number | null;
   termTaken: string;
   createdTimestamp: string;
   updatedTimestamp: string;

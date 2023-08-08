@@ -1,5 +1,3 @@
-import { headers } from "next/dist/client/components/headers";
-
 const request = async (
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE",

@@ -52,7 +52,7 @@ export default function UserPageContent({
   return (
     <div className="space-y-5 isolate">
       {/* Tabs */}
-      <div className="hidden sm:block [&>*]:z-10">
+      <div className="hidden sm:block [&>*]:z-20">
         <Dropdown
           options={Object.keys(tabs)}
           defaultValue={currentTabRef.current}

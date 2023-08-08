@@ -6,7 +6,13 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 import { del } from "@/utils/request";
 
-export default function RemoveReviewModal({ review }: { review: Review }) {
+export default function RemoveReviewModal({
+  review,
+  setDeleted,
+}: {
+  review: Review;
+  setDeleted: (reviewId: string) => void;
+}) {
   // States
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,6 +29,7 @@ export default function RemoveReviewModal({ review }: { review: Review }) {
   // Remove review
   const removeReview = async () => {
     await del(`/reviews/${review.reviewId}`);
+    setDeleted(review.reviewId);
     closeModal();
   };
 

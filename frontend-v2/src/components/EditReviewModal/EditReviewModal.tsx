@@ -9,7 +9,17 @@ import Rating from "../Rating/Rating";
 import TruncatedDescription from "../TruncatedDescription/TruncatedDescription";
 import { put } from "@/utils/request";
 
-export default function EditReviewModal({ review }: { review: Review }) {
+export default function EditReviewModal({
+  review,
+  setEdited,
+}: {
+  review: Review;
+  setEdited: (detail: {
+    reviewId: string;
+    authorName: string;
+    grade: number | null;
+  }) => void;
+}) {
   // States
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,6 +46,12 @@ export default function EditReviewModal({ review }: { review: Review }) {
     };
 
     await put(`/reviews/${review.reviewId}`, body);
+
+    setEdited({
+      reviewId: review.reviewId,
+      authorName: body.authorName,
+      grade: body.grade,
+    });
 
     closeModal();
   };
@@ -90,9 +106,7 @@ export default function EditReviewModal({ review }: { review: Review }) {
                     </div>
                     <hr className="border-black/25" />
                     {/* Description */}
-                    {/* TODO: Change when prisma migration is done */}
-                    {/* <h2 className="text-2xl font-bold">{review.courseCode}</h2> */}
-                    <h2 className="text-2xl font-bold">COMP1511</h2>
+                    <h2 className="text-2xl font-bold">{review.courseCode}</h2>
                     <div className="text-2xl">
                       <Rating
                         color="purple"
@@ -134,7 +148,9 @@ export default function EditReviewModal({ review }: { review: Review }) {
                             type="number"
                             min={0}
                             max={100}
-                            defaultValue={review.grade}
+                            defaultValue={
+                              review.grade ? review.grade : undefined
+                            }
                             form="edit-review"
                             placeholder="Grade"
                             className="py-2 px-2 border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input"

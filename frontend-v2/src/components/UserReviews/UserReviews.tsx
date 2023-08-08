@@ -2,7 +2,7 @@
 
 import { Review, Reviews } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Rating from "../Rating/Rating";
 import { ArrowSmallUpIcon, BookmarkIcon } from "@heroicons/react/24/outline";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
@@ -14,6 +14,12 @@ export default function UserReviews({ reviews }: Reviews) {
   const [currentReviews, setCurrentReviews] = useState(reviews);
   const [selected, setSelected] = useState("");
   const [cardView, setCardView] = useState(true);
+  const [deleted, setDeleted] = useState<string>();
+  const [edited, setEdited] = useState<{
+    reviewId: string;
+    authorName: string;
+    grade: number | null;
+  }>();
   const [page, setPage] = useState(1);
   const itemPerPage = 9;
 
@@ -68,6 +74,29 @@ export default function UserReviews({ reviews }: Reviews) {
     console.log(body);
   };
 
+  useEffect(() => {
+    if (!deleted) return;
+    // Optimistic UI update for deleting a review
+    const newReviews = currentReviews.filter(
+      (review) => review.reviewId !== deleted
+    );
+    setCurrentReviews(newReviews);
+  }, [deleted]);
+
+  useEffect(() => {
+    if (!edited) return;
+    // Optimistic UI update for deleting a review
+    const newReviews = [...currentReviews];
+    const target = newReviews.find(
+      (review) => review.reviewId === edited.reviewId
+    );
+    if (!target) return;
+    target.authorName = edited.authorName;
+    target.grade = edited.grade;
+    console.log(newReviews);
+    setCurrentReviews(newReviews);
+  }, [edited]);
+
   return (
     <div className="space-y-5 isolate">
       <div className="flex flex-wrap items-center gap-5 justify-between">
@@ -111,11 +140,7 @@ export default function UserReviews({ reviews }: Reviews) {
               >
                 <div className="flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2">
                   {/* Title */}
-                  <h1 className="font-bold text-xl">
-                    {/* TODO: Change when prisma migration is done */}
-                    {/* {review.courseCode} */}
-                    COMP1511
-                  </h1>
+                  <h1 className="font-bold text-xl">{review.courseCode}</h1>
                   {/* Description */}
                   <p className="text-unilectives-headings w-full truncate">
                     {!review.description ? "-" : review.description}
@@ -135,8 +160,8 @@ export default function UserReviews({ reviews }: Reviews) {
                       className="w-6 h-6 inline-block"
                     />
                   </button>
-                  <EditReviewModal review={review} />
-                  <RemoveReviewModal review={review} />
+                  <EditReviewModal review={review} setEdited={setEdited} />
+                  <RemoveReviewModal review={review} setDeleted={setDeleted} />
                 </div>
               </div>
             ))}
@@ -155,9 +180,7 @@ export default function UserReviews({ reviews }: Reviews) {
                 {/* Course courseCode + Ratings */}
                 <div className="flex flex-wrap justify-between text-2xl">
                   <h1 className="font-bold block truncate">
-                    {/* TODO: Change when prisma migration is done */}
-                    {/* {review.courseCode} */}
-                    COMP1511
+                    {review.courseCode}
                   </h1>
                   <div className="text-right">
                     {/* StarRating */}
@@ -188,8 +211,8 @@ export default function UserReviews({ reviews }: Reviews) {
                       className="w-6 h-6 inline-block"
                     />
                   </button>
-                  <EditReviewModal review={review} />
-                  <RemoveReviewModal review={review} />
+                  <EditReviewModal review={review} setEdited={setEdited} />
+                  <RemoveReviewModal review={review} setDeleted={setDeleted} />
                 </div>
               </div>
             ))}
