@@ -280,7 +280,7 @@ export default function FilterSelection({
                         <Tab.List className="flex sm:flex-wrap justify-center flex-grow">
                             <Tab
                                 className={({ selected }) =>
-                                    `flex items-center justify-center w-full sm:rounded-none rounded-l-full py-1 px-4 text-sm font-medium leading-5 text-black focus:outline-none hover:bg-gray-200 hover:text-black border border-unilectives-search ${selected ? "bg-gray-200 text-black" : ""
+                                    `flex items-center justify-center w-full sm:rounded-full rounded-l-full py-1 px-4 text-sm font-medium leading-5 text-black focus:outline-none hover:bg-gray-200 hover:text-black border border-unilectives-search ${selected ? "bg-gray-200 text-black" : ""
                                     }`
                                 }
                                 onClick={() => handleLevelSelect("Undergraduate")}
@@ -290,7 +290,7 @@ export default function FilterSelection({
                             </Tab>
                             <Tab
                                 className={({ selected }) =>
-                                    `flex items-center justify-center w-full sm:rounded-none py-1 px-6 text-sm font-medium leading-5 text-black focus:outline-none hover:bg-gray-200 hover:text-black border border-unilectives-search ${selected ? "bg-gray-200 text-black" : ""
+                                    `flex items-center justify-center w-full sm:rounded-full py-1 px-6 text-sm font-medium leading-5 text-black focus:outline-none hover:bg-gray-200 hover:text-black border border-unilectives-search ${selected ? "bg-gray-200 text-black" : ""
                                     }`
                                 }
                                 onClick={() => handleLevelSelect("Postgraduate")}
@@ -300,7 +300,7 @@ export default function FilterSelection({
                             </Tab>
                             <Tab
                                 className={({ selected }) =>
-                                    `flex items-center justify-center w-full sm:rounded-none rounded-r-full py-1 px-4 text-sm font-medium leading-5 text-black focus:outline-none hover:bg-gray-200 hover:text-black border border-unilectives-search ${selected ? "bg-gray-200 text-black" : ""
+                                    `flex items-center justify-center w-full sm:rounded-full rounded-r-full py-1 px-4 text-sm font-medium leading-5 text-black focus:outline-none hover:bg-gray-200 hover:text-black border border-unilectives-search ${selected ? "bg-gray-200 text-black" : ""
                                     }`
                                 }
                                 onClick={() => handleLevelSelect("Research")}
@@ -418,14 +418,14 @@ export default function FilterSelection({
                                         ))}
                                     </ul>
                                 ) : (
-                                    <div className="flex justify-center items-center h-full flex-grow">
+                                    <div className="flex justify-center items-center h-full flex-grow text-center">
                                         <p className="text-gray-500">
                                             No schools found for the selected faculty
                                         </p>
                                     </div>
                                 )
                             ) : (
-                                <div className="flex justify-center items-center h-full flex-grow">
+                                <div className="flex justify-center items-center h-full flex-grow text-center">
                                     <p className="text-gray-500">Please select a faculty first</p>
                                 </div>
                             )}
@@ -440,7 +440,7 @@ export default function FilterSelection({
                     <h2 className="font-semibold">Term Offering</h2>
                     <div className="grid grid-cols-3 gap-4 text-black py-2">
                         {/* First Grid */}
-                        <div className="text-base">
+                        <div className="text-base sm:col-span-2">
                             <div>
                                 <input
                                     type="checkbox"
@@ -456,7 +456,7 @@ export default function FilterSelection({
                                     <input
                                         type="checkbox"
                                         id={`term${index}`}
-                                        className="mr-4" f
+                                        className="mr-4"
                                         checked={isChecked}
                                         onChange={(event) => handleTermCheckboxChange(index, event)}
                                     />
@@ -466,7 +466,7 @@ export default function FilterSelection({
                         </div>
 
                         {/* Second Grid */}
-                        <div className="text-base">
+                        <div className="text-base sm:col-span-2">
                             <div>
                                 <input
                                     type="checkbox"
@@ -486,13 +486,13 @@ export default function FilterSelection({
                                         checked={isChecked}
                                         onChange={(event) => handleHexasemesterCheckboxChange(index, event)}
                                     />
-                                    <label htmlFor={`hexasemester${index}`}>Hexasemester {index + 1}</label>
+                                    <label htmlFor={`hexasemester${index}`} >Hexasemester {index + 1}</label>
                                 </div>
                             ))}
                         </div>
 
                         {/* Third Grid */}
-                        <div className="text-base">
+                        <div className="text-base sm:col-span-2">
                             <div>
                                 <input
                                     type="checkbox"

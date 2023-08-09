@@ -4,6 +4,7 @@ import FilterSelection from "./FilterSelection/FilterSelection";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 import { Course } from "@/types/api";
 
 export default function FilterModal({
@@ -69,6 +70,13 @@ export default function FilterModal({
                                     leaveTo="opacity-0 scale-95"
                                 >
                                     <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
+                                        {/* Close button */}
+                                        <button
+                                            onClick={closeModal}
+                                            className="absolute top-2 right-2 p-2 text-gray-600 hover:text-gray-800"
+                                        >
+                                            <XCircleIcon className="w-6 h-6" />
+                                        </button>
                                         {/* Modal content */}
                                         <FilterSelection courses={courses} onChange={handleCourseChange} />
                                     </Dialog.Panel>
