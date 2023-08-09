@@ -4,9 +4,9 @@ import {
   CourseCodeSchema,
   CourseSchema,
 } from "../api/schemas/course.schema";
-
+import { SearchFilterCriteria } from "SearchFilterCriteria";
 export class CourseRepository {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaClient) { }
 
   async getAllCourses(): Promise<Course[]> {
     const rawCourses = (await this.prisma.$queryRaw`
@@ -193,6 +193,74 @@ export class CourseRepository {
         CAST(COUNT(r.review_id) AS INT) DESC,
         c.course_code;
       `) as any[];
+    const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    return courses;
+  }
+
+  async searchCoursesByCriteria(criteria: SearchFilterCriteria): Promise<Course[]> {
+    const {
+      studyLevel,
+      isGenEd,
+      selectedFaculty,
+      termCheckboxes,
+      hexasemesterCheckboxes,
+      semesterCheckboxes,
+    } = criteria;
+
+    const queryParams: any[] = [];
+    let queryConditions = '';
+
+    if (studyLevel) {
+      queryConditions += `c.study_level = ?`;
+      queryParams.push(studyLevel);
+    }
+
+    if (isGenEd) {
+      if (queryConditions) queryConditions += ' AND ';
+      queryConditions += `c.gen_ed = TRUE`;
+    }
+
+    if (selectedFaculty) {
+      if (queryConditions) queryConditions += ' AND ';
+      queryConditions += `c.faculty = ?`;
+      queryParams.push(selectedFaculty);
+    }
+
+    // Handle other checkbox conditions here
+    const theQuery = `
+      SELECT
+      c.course_code AS "courseCode",
+      c.archived,
+      c.attributes,
+      c.calendar,
+      c.campus,
+      c.description,
+      c.enrolment_rules AS "enrolmentRules",
+      c.equivalents,
+      c.exclusions,
+      c.faculty,
+      c.field_of_education AS "fieldOfEducation",
+      c.gen_ed AS "genEd",
+      c.level,
+      c.school,
+      c.study_level AS "studyLevel",
+      c.terms,
+      c.title,
+      c.uoc,
+      AVG(r.overall_rating) AS "overallRating",
+      AVG(r.manageability) AS "manageability",
+      AVG(r.usefulness) AS "usefulness",
+      AVG(r.enjoyability) AS "enjoyability",
+      CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
+      FROM courses c
+      LEFT JOIN reviews r ON c.course_code = r.course_code
+      WHERE ${queryConditions}
+      GROUP BY c.course_code
+      ORDER BY "reviewCount" DESC
+    `;
+
+    const rawCourses = (await this.prisma.$queryRaw(theQuery, queryParams)) as any[];
+
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
     return courses;
   }

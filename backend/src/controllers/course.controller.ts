@@ -11,6 +11,7 @@ import {
 import validationMiddleware from "../api/middlewares/validation";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
+import { boolean, string } from "zod";
 
 export class CourseController implements IController {
   private readonly logger = getLogger();
@@ -131,7 +132,7 @@ export class CourseController implements IController {
       )
       .get(
         "/course/search/:searchTerm",
-        async(
+        async (
           req: Request<{ searchTerm: string }, unknown>,
           res: Response,
           next: NextFunction
@@ -140,6 +141,45 @@ export class CourseController implements IController {
           try {
             const searchTerm: string = req.params.searchTerm;
             const result = await this.courseService.searchCourse(searchTerm);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /course/search ${formatError(
+                err
+              )}`
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
+        "/course/filter",
+        async (
+          req: Request,
+          res: Response,
+          next: NextFunction
+        ) => {
+          this.logger.debug(`Received request in GET /course/search/:searchTerm`);
+          try {
+            const {
+              searchStudyLevel,
+              searchIsGenEd,
+              searchFaculty,
+              searchIsTerm,
+              searchIsHexasemester,
+              searchIsSemester,
+            } = req.params;
+
+            const searchFilterCriteria = {
+              studyLevel: searchStudyLevel as string,
+              isGenEd: searchIsGenEd === 'true',
+              selectedFaculty: searchFaculty as string | null,
+              termCheckboxes: searchIsTerm.map((value: string) => value === 'true'),
+              hexasemesterCheckboxes: searchIsHexasemester.map((value: string) => value === 'true'),
+              semesterCheckboxes: searchIsSemester.map((value: string) => value === 'true'),
+            };
+
+            const result = await this.courseService.searchCourseCriteria(searchFilterCriteria);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(

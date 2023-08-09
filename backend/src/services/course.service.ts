@@ -4,6 +4,7 @@ import { badRequest, internalServerError } from "../utils/constants";
 import { CourseRepository } from "../repositories/course.repository";
 import { UserRepository } from "../repositories/user.repository";
 import RedisClient from "../modules/redis";
+import { SearchFilterCriteria } from "SearchFilterCriteria";
 import {
   BookmarkCourse,
   Course,
@@ -17,7 +18,7 @@ export class CourseService {
     private readonly courseRepository: CourseRepository,
     private readonly userRepository: UserRepository,
     private readonly redis: RedisClient,
-  ) {}
+  ) { }
 
   async getCourses(): Promise<CoursesSuccessResponse | undefined> {
     const courses = await this.courseRepository.getAllCourses();
@@ -69,7 +70,7 @@ export class CourseService {
   }
 
   async searchCourse(searchTerm: string): Promise<CoursesSuccessResponse | undefined> {
-    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);    
+    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
 
     if (!courses) {
       this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
@@ -77,6 +78,26 @@ export class CourseService {
       await this.redis.set(`searchCourses:${searchTerm}`, courses);
     } else {
       this.logger.info(`Cache hit on searchCourses:${searchTerm}`);
+    }
+
+    this.logger.info(`Found ${courses.length} courses.`);
+    return { courses };
+  }
+
+  async searchCourseCriteria(criteria: SearchFilterCriteria): Promise<CoursesSuccessResponse | undefined> {
+    // Construct a cache key based on the filter criteria
+    const cacheKey = JSON.stringify(criteria);
+
+    let courses = await this.redis.get<Course[]>(`searchCoursesCriteria:${cacheKey}`);
+
+    if (!courses) {
+      this.logger.info(`Cache miss on searchCoursesCriteria:${cacheKey}`);
+      // Call repository function passing the filter criteria
+      courses = await this.courseRepository.searchCoursesByCriteria(criteria);
+
+      await this.redis.set(`searchCoursesCriteria:${cacheKey}`, courses);
+    } else {
+      this.logger.info(`Cache hit on searchCoursesCriteria:${cacheKey}`);
     }
 
     this.logger.info(`Found ${courses.length} courses.`);
@@ -137,10 +158,8 @@ export class CourseService {
     user = await this.userRepository.saveUser(user);
 
     this.logger.info(
-      `Successfully ${
-        bookmarkDetails.bookmark ? "bookmarked" : "removed bookmarked"
-      } course with courseCode ${
-        bookmarkDetails.courseCode
+      `Successfully ${bookmarkDetails.bookmark ? "bookmarked" : "removed bookmarked"
+      } course with courseCode ${bookmarkDetails.courseCode
       } for user with zID ${bookmarkDetails.zid}.`,
     );
     return { course };
