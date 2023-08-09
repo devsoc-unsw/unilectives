@@ -184,8 +184,8 @@ export class CourseRepository {
       LEFT JOIN reviews r ON c.course_code = r.course_code
       WHERE c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}
       GROUP BY c.course_code
-      ORDER BY 
-        CASE 
+      ORDER BY
+        CASE
           WHEN c.course_code ILIKE ${searchQuery} THEN 1
           WHEN c.title ILIKE ${searchQuery} THEN 2
           ELSE 3
