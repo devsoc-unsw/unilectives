@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { PlayIcon } from "@heroicons/react/24/solid";
 
 type TooltipProps = {
   children: ReactNode;
@@ -12,7 +11,7 @@ export default function Tooltip({ children, tooltip }: TooltipProps) {
       {children}
       {tooltip && (
         <div className="
-          scale-0 group-hover:scale-100 transition-width ease delay-100
+          scale-0 group-hover:scale-100
           absolute left-full top-1/2 transform -translate-y-1/2 ml-1
           whitespace-nowrap"
         >
