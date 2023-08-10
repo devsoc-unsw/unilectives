@@ -152,7 +152,7 @@ export class ReviewService {
       );
     }
 
-    user = await this.userRepository.updateUser({zid: user.zid, bookmarkedReviews: user.bookmarkedReviews});
+    await this.userRepository.updateUser({zid: user.zid, bookmarkedReviews: user.bookmarkedReviews});
     
     this.logger.info(
       `Successfully ${

@@ -27,7 +27,7 @@ describe("UserService", () => {
     jest.resetAllMocks();
   });
 
-  const userService = () => new UserService(auth, userRepository);
+  const userService = () => new UserService(auth, userRepository, reviewRepository);
 
   describe("createUser", () => {
     it("should throw HTTP 400 error if could user exists in database", () => {

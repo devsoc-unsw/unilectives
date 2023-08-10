@@ -136,7 +136,7 @@ export class CourseService {
       );
     }
 
-    user = await this.userRepository.saveUser(user);
+    await this.userRepository.saveUser(user);
 
     this.logger.info(
       `Successfully ${

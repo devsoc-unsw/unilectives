@@ -64,10 +64,4 @@ export class UserService {
       },
     };
   }
-
-  async loginUser(zid: string): Promise<UserTokenSuccessResponse> {
-    const token = this.authService.createToken(zid);
-    const { user } = await this.getUser(zid);
-    return { user, token };
-  }
 }

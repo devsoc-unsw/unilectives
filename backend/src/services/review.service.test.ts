@@ -99,6 +99,7 @@ describe("ReviewService", () => {
       const review = getMockReviews()[0];
 
       reviewRepository.getReview = jest.fn().mockReturnValue(undefined);
+      reviewRepository.update = jest.fn().mockReturnValue(undefined);
 
       const errorResult = new HTTPError(badRequest);
       expect(service.updateReview(review, review.reviewId)).rejects.toThrow(
@@ -117,7 +118,7 @@ describe("ReviewService", () => {
       };
 
       reviewRepository.getReview = jest.fn().mockReturnValue(reviewEntity);
-      reviewRepository.save = jest.fn().mockReturnValue(reviewEntity);
+      reviewRepository.update = jest.fn().mockReturnValue(reviewEntity);
 
       expect(
         service.updateReview(reviewRequest, reviewEntity.reviewId),
@@ -180,7 +181,7 @@ describe("ReviewService", () => {
 
       reviewRepository.getReview = jest.fn().mockReturnValue(reviews[0]);
       userRepository.getUser = jest.fn().mockReturnValue(user);
-      userRepository.saveUser = jest.fn().mockReturnValue(user);
+      userRepository.updateUser = jest.fn().mockReturnValue(user);
 
       const request: BookmarkReview = {
         reviewId: reviews[0].reviewId,
@@ -200,7 +201,7 @@ describe("ReviewService", () => {
 
       reviewRepository.getReview = jest.fn().mockReturnValue(reviews[0]);
       userRepository.getUser = jest.fn().mockReturnValue(user);
-      userRepository.saveUser = jest.fn().mockReturnValue(user);
+      userRepository.updateUser = jest.fn().mockReturnValue(user);
 
       const request: BookmarkReview = {
         reviewId: reviews[0].reviewId,
