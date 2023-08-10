@@ -1,13 +1,21 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import FilterModal from "../FilterModal/FilterModal";
+import { Course } from "@/types/api";
 
-export default function SearchBar() {
+export default function SearchBar({ courses }: { courses: Course[] }) {
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses);
   const handleOnSubmit = (event: FormEvent) => {
     event.preventDefault();
     // TODO: submit query
     console.log((event.target as HTMLFormElement).query.value);
+  };
+  const handleCourseChange = (updatedCourses: Course[]) => {
+    // Handle the updated courses here
+    console.log("Updated Courses: ", updatedCourses);
+    setFilteredCourses(updatedCourses);
   };
 
   return (
@@ -23,6 +31,7 @@ export default function SearchBar() {
           placeholder="Search for a course e.g. COMP1511"
         />
       </form>
+      <FilterModal courses={courses} onChange={handleCourseChange} />
     </div>
   );
 }
