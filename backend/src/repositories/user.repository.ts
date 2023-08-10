@@ -4,17 +4,20 @@ import { CreateUser, User, UserSchema } from "../api/schemas/user.schema";
 export class UserRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async getUser(zid: string): Promise<User | null> {
+  async getUser(zid: string) {
     const rawUser = await this.prisma.users.findFirst({
       where: {
         zid: zid,
       },
+      include: {
+        reports: true,
+        reviews: true,
+      }
     });
-    const user = UserSchema.parse(rawUser);
-    return user;
+    return rawUser;
   }
 
-  async saveUser(user: CreateUser): Promise<User> {
+  async saveUser(user: CreateUser) {
     const rawUser = await this.prisma.users.upsert({
       where: {
         zid: user.zid,
@@ -22,7 +25,21 @@ export class UserRepository {
       update: user,
       create: user,
     });
-    const savedUser = UserSchema.parse(rawUser);
-    return savedUser;
+    return rawUser;
+  }
+
+  async updateUser(user: {
+    zid: string;
+    bookmarkedReviews: string[]
+  }) {
+    const updatedUser = await this.prisma.users.update({
+      where:{
+        zid: user.zid,
+      },
+      data: {
+        bookmarkedReviews: user.bookmarkedReviews,
+      }
+    })
+    return updatedUser;
   }
 }

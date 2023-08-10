@@ -6,14 +6,28 @@ import TruncatedDescription from "../TruncatedDescription/TruncatedDescription";
 import ReportModal from "../ReportModal/ReportModal";
 import { Review } from "@/types/api";
 import { format } from "date-fns";
+import { post } from "@/utils/request";
+import { useSession } from "next-auth/react";
 
 export default function ReviewCard({ review }: { review: Review }) {
-  const handleUpvotes = () => {
-    // TODO: Handle upvotes here (Do this when user session can already be handled)
+  const { data: session, status } = useSession();
+
+  const handleUpvotes = async () => {
+    const body = {
+      reviewId: review.reviewId,
+      zid: session?.user?.id,
+      upvote: true,
+    };
+    await post("/reviews/upvote", body);
   };
 
-  const handleBookmark = () => {
-    // TODO: Handle bookmark here (Do this when user session can already be handled)
+  const handleBookmark = async () => {
+    const body = {
+      reviewId: review.reviewId,
+      zid: session?.user?.id,
+      bookmark: true,
+    };
+    await post("/reviews/bookmark", body);
   };
 
   return (

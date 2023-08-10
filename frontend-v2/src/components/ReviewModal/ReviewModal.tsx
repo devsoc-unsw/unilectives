@@ -5,7 +5,8 @@ import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { FormEvent, Fragment, useMemo, useState } from "react";
 import ReviewRatingInput from "../ReviewRatingInput/ReviewRatingInput";
-import Dropdown from "../Dropdown/Dropdown";
+import { post } from "@/utils/request";
+import { useSession } from "next-auth/react";
 
 type Inputs = {
   overallRating: number | null;
@@ -17,6 +18,7 @@ type Inputs = {
 
 export default function ReviewModal({ courseCode }: { courseCode: string }) {
   // States
+  const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
   // States: Modal Inputs
@@ -47,11 +49,11 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
   }, [inputs, termTakenIsValid]);
 
   // Submit review
-  const handleOnSubmit = (event: FormEvent) => {
+  const handleOnSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     // Return if not ready to submit
-    if (!readyToSubmit) return;
+    if (!readyToSubmit || status !== "authenticated") return;
 
     // Get all values
     const target = event.target as HTMLFormElement;
@@ -64,8 +66,10 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
     } = inputs;
 
     const body = {
-      zid: "",
-      authorName: target.displayAnonymous.checked ? "Anonymous" : "",
+      zid: session?.user?.id,
+      authorName: target.displayAnonymous.checked
+        ? "Anonymous"
+        : session.user?.name,
       title: target.reviewTitle.value,
       description: target.reviewDescription.value,
       courseCode,
@@ -77,8 +81,8 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
       enjoyability,
     };
 
-    // TODO: Submit review here (Do this when user session can already be handled)
-    console.log(body);
+    // Submit review
+    await post("/reviews", body);
 
     // Reset inputs + term taken
     setInputs(defaultInputs);

@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
 import { IController } from "../interfaces/IController";
 import { CourseService } from "../services/course.service";
+
 import {
   BookmarkCourseSchema,
   UpdateCourseSchema,
@@ -127,16 +128,18 @@ export class CourseController implements IController {
             );
             return next(err);
           }
-        }
+        },
       )
       .get(
         "/course/search/:searchTerm",
-        async(
+        async (
           req: Request<{ searchTerm: string }, unknown>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
-          this.logger.debug(`Received request in GET /course/search/:searchTerm`);
+          this.logger.debug(
+            `Received request in GET /course/search/:searchTerm`,
+          );
           try {
             const searchTerm: string = req.params.searchTerm;
             const result = await this.courseService.searchCourse(searchTerm);
@@ -144,8 +147,8 @@ export class CourseController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /course/search ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }

@@ -1,12 +1,22 @@
 import Image from "next/image";
 import SearchBar from "@/components/SearchBar/SearchBar";
+import { Courses } from "@/types/api";
+import { get } from "@/utils/request";
+import LoginButton from "@/components/LoginButton/LoginButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import CoursesList from "@/components/CoursesList/CoursesList";
 
 export default async function Home() {
+  const response = (await get("/courses")) as Courses;
+  const courses = response.courses;
+  const session = await getServerSession(authOptions);
+
   return (
     <div className="mb-20">
       {/* Navbar */}
-      <div className="flex">
+      <div>
+        <LoginButton session={session} />
         <Image
           src="navbar.svg"
           width={1000}

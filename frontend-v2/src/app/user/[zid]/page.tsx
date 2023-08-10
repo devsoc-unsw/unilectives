@@ -1,8 +1,10 @@
 import Image from "next/image";
 import waves from "../../../assets/navbar.svg";
 import { notFound } from "next/navigation";
-import { get } from "@/utils/request";
+import { validatedReq } from "@/utils/request";
 import UserPageContent from "@/components/UserPageContent/UserPageContent";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export default async function UserPage({
   params,
@@ -11,9 +13,18 @@ export default async function UserPage({
     [key: string]: string;
   };
 }) {
-  const { user } = await get(`/user/${params.zid}`);
+  const session = await getServerSession(authOptions);
 
-  if (!user) notFound();
+  const { user } = await validatedReq(
+    "GET",
+    `/user/${params.zid}`,
+    session?.user?.accessToken ?? "",
+    params.zid
+  );
+
+  if (!user || session?.user?.id !== params.zid) notFound();
+
+  console.log(user);
 
   return (
     <div className="isolate relative">

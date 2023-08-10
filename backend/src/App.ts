@@ -48,6 +48,7 @@ export default class App {
   private readonly userService = new UserService(
     this.auth,
     this.userRepository,
+    this.reviewRepository
   );
   private readonly reportService = new ReportService(
     this.reportRepository,

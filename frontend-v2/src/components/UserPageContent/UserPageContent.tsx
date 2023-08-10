@@ -5,6 +5,7 @@ import { Course, Report, Review, Reviews } from "@/types/api";
 import UserReviews from "../UserReviews/UserReviews";
 import UserReports from "../UserReports/UserReports";
 import Dropdown from "../Dropdown/Dropdown";
+import UserBookmarkedReviews from "../UserBookmarkedReviews/UserBookmarkedReviews";
 
 export default function UserPageContent({
   reviews,
@@ -77,7 +78,10 @@ export default function UserPageContent({
       </div>
       {/* My reviews */}
       {tabs["My reviews"].current && (
-        <UserReviews reviews={tabs["My reviews"].data as Review[]} />
+        <UserReviews
+          reviews={tabs["My reviews"].data as Review[]}
+          bookmarked={bookmarked}
+        />
       )}
       {/* My reports */}
       {tabs["My reports"].current && (
@@ -85,7 +89,7 @@ export default function UserPageContent({
       )}
       {/* Bookmarked */}
       {tabs["Bookmarked"].current && (
-        <UserReviews reviews={tabs["Bookmarked"].data as Review[]} />
+        <UserBookmarkedReviews reviews={tabs["Bookmarked"].data as Review[]} />
       )}
     </div>
   );

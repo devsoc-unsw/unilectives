@@ -106,11 +106,7 @@ export class ReviewService {
       throw new HTTPError(badRequest);
     }
 
-    // Convert reviewDetails to a reviewEntity
-    review.authorName = updatedReviewDetails.authorName;
-    review.grade = updatedReviewDetails.grade;
-
-    review = await this.reviewRepository.save(review);
+    review = await this.reviewRepository.update({...updatedReviewDetails, reviewId});
 
     return {
       review: review,
@@ -151,13 +147,13 @@ export class ReviewService {
     if (reviewDetails.bookmark) {
       user.bookmarkedReviews.push(review.reviewId);
     } else {
-      user.bookmarkedReviews.filter(
+      user.bookmarkedReviews = user.bookmarkedReviews.filter(
         (review) => review !== reviewDetails.reviewId,
       );
     }
 
-    user = await this.userRepository.saveUser(user);
-
+    user = await this.userRepository.updateUser({zid: user.zid, bookmarkedReviews: user.bookmarkedReviews});
+    
     this.logger.info(
       `Successfully ${
         reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
@@ -172,7 +168,7 @@ export class ReviewService {
 
   async upvoteReview(
     upvoteDetails: UpvoteReview,
-  ): Promise<ReviewSuccessResponse | undefined> {
+  ) {
     let review = await this.reviewRepository.getReview(upvoteDetails.reviewId);
 
     if (!review) {

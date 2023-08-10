@@ -51,7 +51,9 @@ export default function ReviewsBar({
       return setCurrentReviews(sortedReviews);
     }
 
-    setCurrentReviews(sortedReviews);
+    setCurrentReviews(
+      sortedReviews.filter((r: Review) => !!(r.title || r.description))
+    );
   }, [displayTextReview, selected, reviews]);
 
   return (

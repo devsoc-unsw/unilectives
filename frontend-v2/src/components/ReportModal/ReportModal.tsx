@@ -1,10 +1,16 @@
+import { authOptions } from "@/lib/auth";
+import { AlertContext } from "@/lib/snackbar-context";
+import { post } from "@/utils/request";
 import { Dialog, Transition } from "@headlessui/react";
 import { FlagIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import {
   ChangeEvent,
   FormEvent,
   Fragment,
   useCallback,
+  useContext,
   useEffect,
   useState,
 } from "react";
@@ -17,6 +23,8 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
     reason: "",
   });
   const [otherReason, setOtherReason] = useState("");
+  const { data: session, status } = useSession();
+  const { setAlert } = useContext(AlertContext);
 
   // function to close modal
   const closeModal = () => {
@@ -53,14 +61,24 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
   }, [otherReason]);
 
   // handle on submit
-  const handleOnSubmit = (event: FormEvent) => {
+  const handleOnSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    // TODO: Submit report here (Do this when user session can already be handled)
-    console.log({
+
+    closeModal();
+
+    const body = {
       reviewId,
-      zid: "",
+      zid: session?.user?.id,
       reason: input.reason,
-    });
+    };
+
+    const res = await post("/reports", body);
+
+    setAlert(
+      res.errorCode === 400
+        ? "You have already reported this review."
+        : "Try again later"
+    );
   };
 
   return (

@@ -28,7 +28,7 @@ export class ReportService {
 
   async createReport(
     reportDetails: CreateReport,
-  ): Promise<ReportSuccessResponse> {
+  ) {
     const { reviewId, zid, reason } = reportDetails;
 
     // check if user already created a report for the review
@@ -51,7 +51,6 @@ export class ReportService {
     }
 
     const newReport = {
-      review: review,
       zid: zid,
       reason: reason,
       reviewId: reviewId,

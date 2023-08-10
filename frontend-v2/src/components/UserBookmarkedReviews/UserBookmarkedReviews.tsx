@@ -4,29 +4,18 @@ import { Review, Reviews } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
 import { useEffect, useMemo, useState } from "react";
 import Rating from "../Rating/Rating";
-import { ArrowSmallUpIcon, BookmarkIcon } from "@heroicons/react/24/outline";
-import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid";
+import { ArrowSmallUpIcon } from "@heroicons/react/24/outline";
+import { BookmarkIcon } from "@heroicons/react/24/solid";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
-import EditReviewModal from "../EditReviewModal/EditReviewModal";
 import Pagination from "../Pagination/Pagination";
-import RemoveReviewModal from "../RemoveReviewModal/RemoveReviewModal";
 import { post } from "@/utils/request";
 import { useSession } from "next-auth/react";
 
-export default function UserReviews({
-  reviews,
-  bookmarked,
-}: Reviews & { bookmarked: Review[] }) {
+export default function UserBookmarkedReviews({ reviews }: Reviews) {
   const [currentReviews, setCurrentReviews] = useState(reviews);
-  const [bookmarkedReviews, setBookmarkedReviews] = useState(bookmarked);
   const [selected, setSelected] = useState("");
   const [cardView, setCardView] = useState(true);
-  const [deleted, setDeleted] = useState<string>();
-  const [edited, setEdited] = useState<{
-    reviewId: string;
-    authorName: string;
-    grade: number | null;
-  }>();
+  const [bookmarked, setBookmarked] = useState<string>();
   const [page, setPage] = useState(1);
   const { data: session, status } = useSession();
   const itemPerPage = 9;
@@ -62,21 +51,12 @@ export default function UserReviews({
   }, [selected, reviews]);
 
   // Bookmark review
-  const bookmarkReview = async (review: Review, isBookmark: boolean) => {
-    if (isBookmark) {
-      const newBookmarked = [...bookmarkedReviews].filter(
-        (r: Review) => r.reviewId !== review.reviewId
-      );
-      setBookmarkedReviews(newBookmarked);
-    } else {
-      const newBookmarked = [...bookmarkedReviews];
-      newBookmarked.push(review);
-      setBookmarkedReviews(newBookmarked);
-    }
+  const bookmarkReview = async (review: Review) => {
+    setBookmarked(review.reviewId);
     const body = {
       reviewId: review.reviewId,
       zid: session?.user?.id,
-      bookmark: !isBookmark,
+      bookmark: false,
     };
     await post("/reviews/bookmark", body);
   };
@@ -91,27 +71,13 @@ export default function UserReviews({
   };
 
   useEffect(() => {
-    if (!deleted) return;
+    if (!bookmarked) return;
     // Optimistic UI update for deleting a review
     const newReviews = currentReviews.filter(
-      (review) => review.reviewId !== deleted
+      (review) => review.reviewId !== bookmarked
     );
     setCurrentReviews(newReviews);
-  }, [deleted]);
-
-  useEffect(() => {
-    if (!edited) return;
-    // Optimistic UI update for deleting a review
-    const newReviews = [...currentReviews];
-    const target = newReviews.find(
-      (review) => review.reviewId === edited.reviewId
-    );
-    if (!target) return;
-    target.authorName = edited.authorName;
-    target.grade = edited.grade;
-    console.log(newReviews);
-    setCurrentReviews(newReviews);
-  }, [edited]);
+  }, [bookmarked]);
 
   return (
     <div className="space-y-5 isolate">
@@ -170,23 +136,12 @@ export default function UserReviews({
                       className="w-6 h-6 inline-block"
                     />
                   </button>
-                  <button className="duration-100 hover:text-unilectives-blue">
-                    {bookmarkedReviews.find(
-                      (r: Review) => r.reviewId === review.reviewId
-                    ) ? (
-                      <SolidBookmarkIcon
-                        onClick={() => bookmarkReview(review, true)}
-                        className="w-6 h-6 inline-block"
-                      />
-                    ) : (
-                      <BookmarkIcon
-                        onClick={() => bookmarkReview(review, false)}
-                        className="w-6 h-6 inline-block"
-                      />
-                    )}
+                  <button className="duration-100 hover:text-unilectives-blue/75">
+                    <BookmarkIcon
+                      onClick={() => bookmarkReview(review)}
+                      className="w-6 h-6 inline-block"
+                    />
                   </button>
-                  <EditReviewModal review={review} setEdited={setEdited} />
-                  <RemoveReviewModal review={review} setDeleted={setDeleted} />
                 </div>
               </div>
             ))}
@@ -230,23 +185,12 @@ export default function UserReviews({
                       className="w-6 h-6 inline-block"
                     />
                   </button>
-                  <button className="duration-100 hover:text-unilectives-blue">
-                    {bookmarkedReviews.find(
-                      (r: Review) => r.reviewId === review.reviewId
-                    ) ? (
-                      <SolidBookmarkIcon
-                        onClick={() => bookmarkReview(review, true)}
-                        className="w-6 h-6 inline-block"
-                      />
-                    ) : (
-                      <BookmarkIcon
-                        onClick={() => bookmarkReview(review, false)}
-                        className="w-6 h-6 inline-block"
-                      />
-                    )}
+                  <button className="duration-100 hover:text-unilectives-blue/75">
+                    <BookmarkIcon
+                      onClick={() => bookmarkReview(review)}
+                      className="w-6 h-6 inline-block"
+                    />
                   </button>
-                  <EditReviewModal review={review} setEdited={setEdited} />
-                  <RemoveReviewModal review={review} setDeleted={setDeleted} />
                 </div>
               </div>
             ))}

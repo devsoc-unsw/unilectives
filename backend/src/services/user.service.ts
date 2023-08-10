@@ -5,15 +5,16 @@ import { UserRepository } from "../repositories/user.repository";
 import { AuthService } from "../modules/Auth";
 import {
   CreateUser,
-  UserSuccessResponse,
   UserTokenSuccessResponse,
 } from "../api/schemas/user.schema";
+import { ReviewRepository } from "../repositories/review.repository";
 
 export class UserService {
   private logger = getLogger();
   constructor(
     private readonly authService: AuthService,
     private readonly userRepository: UserRepository,
+    private readonly reviewRepository: ReviewRepository
   ) {}
 
   async saveUser(zid: string): Promise<UserTokenSuccessResponse> {
@@ -21,7 +22,7 @@ export class UserService {
 
     // existing user
     if (userExists) {
-      this.logger.debug(`User with zid ${zid} already exists in the database.`);
+      this.logger.info(`User with zid ${zid} already exists in the database.`);
       throw new HTTPError(badRequest);
     }
 
@@ -46,7 +47,7 @@ export class UserService {
     };
   }
 
-  async getUser(zid: string): Promise<UserSuccessResponse> {
+  async getUser(zid: string) {
     // get user info
     const userInfo = await this.userRepository.getUser(zid);
     if (!userInfo) {
@@ -54,9 +55,12 @@ export class UserService {
       throw new HTTPError(badRequest);
     }
 
+    const bookmarkedReviews = await this.reviewRepository.getReviewsById(userInfo.bookmarkedReviews);
+
     return {
       user: {
         ...userInfo,
+        bookmarkedReviews,
       },
     };
   }

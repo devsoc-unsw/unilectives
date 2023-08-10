@@ -27,20 +27,15 @@ export default function Pagination({
     [totalItems, itemPerPage]
   );
   const leftNeighbours = currentPageRef.current - 1;
-  const rightNeighbours = useMemo(
-    () => pageCount - currentPageRef.current,
-    [pageCount]
-  );
+  const rightNeighbours = pageCount - currentPageRef.current;
 
   // Make middle range based on page count and neighbours
   const renderMiddleRange = () => {
-    const leftNeighbours = currentPageRef.current - 1;
-    const rightNeighbours = pageCount - currentPageRef.current;
     if (leftNeighbours <= 3) {
       return range(2, 5);
     }
     if (rightNeighbours <= 3) {
-      return range(pageCount - 4, pageCount - 1);
+      return range(pageCount - 3, pageCount - 1);
     }
     return range(currentPageRef.current - 1, currentPageRef.current + 1);
   };
