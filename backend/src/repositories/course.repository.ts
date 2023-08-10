@@ -208,59 +208,72 @@ export class CourseRepository {
     } = criteria;
 
     const queryParams: any[] = [];
-    let queryConditions = '';
+    let queryConditions: string[] = [];
 
     if (studyLevel) {
-      queryConditions += `c.study_level = ?`;
+      queryConditions.push(`c.study_level = ?`);
       queryParams.push(studyLevel);
     }
 
     if (isGenEd) {
-      if (queryConditions) queryConditions += ' AND ';
-      queryConditions += `c.gen_ed = TRUE`;
+      queryConditions.push(`c.gen_ed = TRUE`);
     }
 
     if (selectedFaculty) {
-      if (queryConditions) queryConditions += ' AND ';
-      queryConditions += `c.faculty = ?`;
+      queryConditions.push(`c.faculty = ?`);
       queryParams.push(selectedFaculty);
     }
 
-    // Handle other checkbox conditions here
-    const theQuery = `
-      SELECT
-      c.course_code AS "courseCode",
-      c.archived,
-      c.attributes,
-      c.calendar,
-      c.campus,
-      c.description,
-      c.enrolment_rules AS "enrolmentRules",
-      c.equivalents,
-      c.exclusions,
-      c.faculty,
-      c.field_of_education AS "fieldOfEducation",
-      c.gen_ed AS "genEd",
-      c.level,
-      c.school,
-      c.study_level AS "studyLevel",
-      c.terms,
-      c.title,
-      c.uoc,
-      AVG(r.overall_rating) AS "overallRating",
-      AVG(r.manageability) AS "manageability",
-      AVG(r.usefulness) AS "usefulness",
-      AVG(r.enjoyability) AS "enjoyability",
-      CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
-      FROM courses c
-      LEFT JOIN reviews r ON c.course_code = r.course_code
-      WHERE ${queryConditions}
-      GROUP BY c.course_code
-      ORDER BY "reviewCount" DESC
-    `;
+    if (termCheckboxes && termCheckboxes.length > 0) {
+      const termInClause = termCheckboxes.map(() => '?').join(', ');
+      queryConditions.push(`c.terms IN (${termInClause})`);
+      queryParams.push(...termCheckboxes);
+    }
 
-    const rawCourses = (await this.prisma.$queryRaw(theQuery, queryParams)) as any[];
+    if (hexasemesterCheckboxes && hexasemesterCheckboxes.length > 0) {
+      const hexasemesterInClause = hexasemesterCheckboxes.map(() => '?').join(', ');
+      queryConditions.push(`c.hexasemesters IN (${hexasemesterInClause})`);
+      queryParams.push(...hexasemesterCheckboxes);
+    }
 
+    if (semesterCheckboxes && semesterCheckboxes.length > 0) {
+      const semesterInClause = semesterCheckboxes.map(() => '?').join(', ');
+      queryConditions.push(`c.semesters IN (${semesterInClause})`);
+      queryParams.push(...semesterCheckboxes);
+    }
+    const whereClause = queryConditions.join(' AND ');
+
+    const rawCourses = (await this.prisma.$queryRaw`
+    SELECT
+    c.course_code AS "courseCode",
+    c.archived,
+    c.attributes,
+    c.calendar,
+    c.campus,
+    c.description,
+    c.enrolment_rules AS "enrolmentRules",
+    c.equivalents,
+    c.exclusions,
+    c.faculty,
+    c.field_of_education AS "fieldOfEducation",
+    c.gen_ed AS "genEd",
+    c.level,
+    c.school,
+    c.study_level AS "studyLevel",
+    c.terms,
+    c.title,
+    c.uoc,
+    AVG(r.overall_rating) AS "overallRating",
+    AVG(r.manageability) AS "manageability",
+    AVG(r.usefulness) AS "usefulness",
+    AVG(r.enjoyability) AS "enjoyability",
+    CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
+    FROM courses c
+    LEFT JOIN reviews r ON c.course_code = r.course_code
+    ${whereClause ? `WHERE ${whereClause}` : ''}
+    GROUP BY c.course_code
+    ORDER BY "reviewCount" DESC
+  `, queryParams) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
     return courses;
   }

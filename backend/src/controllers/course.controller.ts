@@ -153,13 +153,13 @@ export class CourseController implements IController {
         },
       )
       .get(
-        "/course/filter",
+        "/search/filter",
         async (
           req: Request,
           res: Response,
           next: NextFunction
         ) => {
-          this.logger.debug(`Received request in GET /course/search/:searchTerm`);
+          this.logger.info(`Received request in GET /course/filter`);
           try {
             const {
               searchStudyLevel,
@@ -168,28 +168,27 @@ export class CourseController implements IController {
               searchIsTerm,
               searchIsHexasemester,
               searchIsSemester,
-            } = req.params;
-
+            } = req.query;
+            console.log(`Search term is ${searchIsTerm}`)
             const searchFilterCriteria = {
               studyLevel: searchStudyLevel as string,
               isGenEd: searchIsGenEd === 'true',
               selectedFaculty: searchFaculty as string | null,
-              termCheckboxes: searchIsTerm.map((value: string) => value === 'true'),
-              hexasemesterCheckboxes: searchIsHexasemester.map((value: string) => value === 'true'),
-              semesterCheckboxes: searchIsSemester.map((value: string) => value === 'true'),
+              termCheckboxes: (searchIsTerm as string[]).map((value: string) => value === 'term_1'),
+              hexasemesterCheckboxes: (searchIsHexasemester as string[]).map((value: string) => value === 'term_1'),
+              semesterCheckboxes: (searchIsSemester as string[]).map((value: string) => value === 'term_1'),
             };
-
             const result = await this.courseService.searchCourseCriteria(searchFilterCriteria);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /course/search ${formatError(
+              `An error occurred when trying to GET /course/filter ${formatError(
                 err
               )}`
             );
             return next(err);
           }
-        },
+        }
       )
       .delete(
         "/cached/:key",

@@ -85,6 +85,7 @@ export class CourseService {
   }
 
   async searchCourseCriteria(criteria: SearchFilterCriteria): Promise<CoursesSuccessResponse | undefined> {
+    console.log("here")
     // Construct a cache key based on the filter criteria
     const cacheKey = JSON.stringify(criteria);
 
