@@ -1,35 +1,49 @@
-import { unauthorizedError } from "../../utils/constants";
 import { Request, Response, NextFunction } from "express";
-import * as jwt from "jsonwebtoken";
-import { CreateUser } from "../schemas/user.schema";
+import { getLogger } from "../../utils/logger";
+
+const logger = getLogger();
 
 export const verifyToken = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const secret = process.env.JWT_SECRET as string;
-  const tokenArray = req.headers["authorization"]?.split(" ");
-
-  if (!tokenArray || tokenArray[0] !== "Bearer" || tokenArray.length !== 2) {
-    return res
-      .status(unauthorizedError.errorCode)
-      .json({ message: "A bearer token is required for authentication" });
+  const token = req.headers.token;
+  const zid = req.headers.zid;
+  if (token === undefined) {
+    logger.error(
+      "No token provided in authorisation field in request body, access denied",
+    );
+    return res.status(401).json({ message: "unauthorised" });
   }
 
   try {
-    jwt.verify(tokenArray[1], secret) as CreateUser;
-  } catch (err: any) {
-    if (err.name === "TokenExpiredError") {
-      return res
-        .status(unauthorizedError.errorCode)
-        .json({ message: "Expired token" });
+    const response = await fetch("https://id.csesoc.unsw.edu.au/userinfo", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      logger.error(`unauthorised: response code ${response.status}`);
+      return res.status(401).json({ message: "unauthorised" });
     }
-    return res
-      .status(unauthorizedError.errorCode)
-      .json({ message: "Invalid Token" });
+
+    const json = (await response.json()) as { sub: string };
+    logger.info("Token authorised succesfully");
+    const tokenZid = json.sub;
+    if (tokenZid !== zid) {
+      logger.error("unauthorised: not the same zid");
+      return res.status(401).json({ message: "unauthorised" });
+    }
+
+    return next();
+  } catch (error) {
+    const err = error as Error;
+    logger.error(`An error occurred: ${err.message}`);
+    return res.status(401).json({ message: "unauthorised" });
   }
-  return next();
 };
 
 export default verifyToken;

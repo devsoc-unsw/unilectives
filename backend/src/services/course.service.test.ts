@@ -49,9 +49,9 @@ describe("CourseService", () => {
       courseRepository.searchCourse = jest.fn().mockResolvedValue([]);
 
       expect(service.searchCourse("xddddddd")).resolves.toEqual({
-        courses: []
+        courses: [],
       });
-    })
+    });
 
     it("should return one course", () => {
       const service = courseService();
@@ -61,7 +61,7 @@ describe("CourseService", () => {
       expect(service.searchCourse("comp1511")).resolves.toEqual({
         courses,
       });
-    })
+    });
   });
 
   describe("updateCourse", () => {
