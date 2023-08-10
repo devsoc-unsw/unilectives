@@ -18,7 +18,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="font-custom">
       <body>
-        <Navbar zid={session?.user.id}/>
+        <Navbar zid={session?.user?.id}/>
         <div className="ml-20 xs:ml-15">{children}</div>
       </body>
     </html>
