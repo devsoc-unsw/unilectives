@@ -45,6 +45,11 @@ module.exports = {
         custom: ["TT Commons Pro Variable", "Segoe UI", "Arial", "sans-serif"],
       },
     },
+    listStyleType: {
+      decimal: 'decimal',
+      roman: 'lower-roman',
+      latin: 'upper-Latin',
+    },
   },
   plugins: [
     plugin(function ({ addBase }) {
