@@ -44,30 +44,6 @@ export class UserController implements IController {
           }
         },
       )
-      .post(
-        "/user/login",
-        validationMiddleware(CreateUserSchema, "body"),
-        async (
-          req: Request<Record<string, never>, unknown, CreateUser>,
-          res: Response,
-          next: NextFunction,
-        ) => {
-          const { zid } = req.body;
-          this.logger.debug(`Received POST request in /user/login`, req.body);
-          try {
-            const result = await this.userService.loginUser(zid);
-            this.logger.info(`Responding to client in /user/login`);
-            return res.status(200).json(result);
-          } catch (err: any) {
-            this.logger.warn(
-              `An error occurred when trying to POST /user/login ${formatError(
-                err,
-              )}`,
-            );
-            return next(err);
-          }
-        },
-      )
       .get(
         "/user/:zid",
         [verifyToken],
