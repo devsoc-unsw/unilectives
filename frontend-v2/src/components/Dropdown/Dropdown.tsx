@@ -9,11 +9,13 @@ export default function Dropdown({
   defaultValue,
   onChange,
   placeholder,
+  manualChange
 }: {
   options: string[];
   defaultValue?: string | null;
   onChange?: (selected: string) => void;
   placeholder?: string;
+  manualChange?: boolean;
 }) {
   const [selected, setSelected] = useState(defaultValue ?? "");
 
@@ -23,7 +25,9 @@ export default function Dropdown({
       if (onChange) {
         onChange(value);
       }
-      setSelected(value);
+      if (manualChange === undefined) {
+        setSelected(value);
+      }
     },
     [onChange]
   );
@@ -47,7 +51,7 @@ export default function Dropdown({
           </span>
         </Listbox.Button>
         {/* Dropdown options */}
-        <Listbox.Options className="absolute max-h-[10.05rem] text-left w-full overflow-auto border border-unilectives-subheadings rounded-md bg-white shadow-dropdown border-t-0 rounded-t-none">
+        <Listbox.Options className="absolute z-10 max-h-[10.05rem] text-left w-full overflow-auto border border-unilectives-subheadings rounded-md bg-white shadow-dropdown border-t-0 rounded-t-none">
           {options.length === 0 ? (
             <Listbox.Option
               value=""
