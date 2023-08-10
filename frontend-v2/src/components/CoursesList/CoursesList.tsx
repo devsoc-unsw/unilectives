@@ -4,6 +4,8 @@ import { Course, Courses } from "@/types/api";
 import CourseCard from "../CourseCard/CourseCard";
 import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
+import { sortCourses } from "@/utils/sortCourses";
+import SortDropdown from "../SortDropdown/SortDropdown";
 
 export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
   const courseFinishedRef = useRef(false);
@@ -12,6 +14,7 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
 
   const [displayCourses, setDisplayCourses] = useState<Course[]>([]);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [selected, setSelected] = useState("");
 
   const paginationOffset = 25;
 
@@ -104,8 +107,10 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
 
   return (
     <>
+      {/* SortDropdown Bar */}
+      <SortDropdown selected={selected} setSelected={setSelected} />
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
-        {displayCourses.map((c: Course, index: number) => (
+        {sortCourses(displayCourses, selected).map((c: Course, index: number) => (
           <a href={`/course/${c.courseCode}`} key={index}>
             <CourseCard
               title={c.title}
