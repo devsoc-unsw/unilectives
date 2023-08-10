@@ -1,29 +1,13 @@
 import Image from "next/image";
-import { get, validatedReq } from "@/utils/request";
+import { get } from "@/utils/request";
 import { Reviews, Reports } from "@/types/api";
 import AdminContent from "@/components/AdminContent/AdminContent";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export default async function () {
-	const session = await getServerSession(authOptions);
-	const {user} = await validatedReq(
-		"GET",
-		`/user/${session?.user?.id}`,
-		session?.user?.accessToken ?? "",
-		session?.user?.id ?? ""
-	)
-
-	if (!user.isAdmin) {
-		console.log(user)
-		redirect('/');
-	}
-
 	const { reviews } = (await get('/reviews')) as Reviews;
 	const { reports } = (await get('/reports')) as Reports;
-  console.log("updated");
-	return (
+
+  return (
 		<div>
 			<Image
 					src="navbar.svg"

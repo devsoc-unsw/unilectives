@@ -26,7 +26,7 @@ export const env = envsafe({
   POSTGRESQL_DATABASE: str({
     default: "mydb",
   }),
-  AUTHDOMAIN: str(),
-  PROJECT_ID: str(),
-  STORAGE_BUCKET: str(),
+  AUTHDOMAIN: str({default:"cselectives.firebaseapp.com"}),
+  PROJECT_ID: str({default:"cselectives"}),
+  STORAGE_BUCKET: str({default:"cselectives.appspot.com"}),
 });

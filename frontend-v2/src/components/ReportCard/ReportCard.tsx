@@ -199,3 +199,4 @@ export default function ReportCard({ report, gridView }: { report: Report, gridV
     </>
   );
 }
+
