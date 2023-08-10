@@ -12,6 +12,7 @@ import {
   BookmarkReview,
   PostReviewRequestBody,
   PutReviewRequestBody,
+  UpvoteReview,
 } from "../api/schemas/review.schema";
 import { UserRepository } from "../repositories/user.repository";
 import { ReviewRepository } from "../repositories/review.repository";
@@ -212,4 +213,77 @@ describe("ReviewService", () => {
       });
     });
   });
+
+  // describe("upvoteReview", () => {
+  //   it("should throw HTTP 400 error if no reviews in database", () => {
+  //     const service = reviewService();
+  //     const reviews = getMockReviews()[0];
+  //     reviewRepository.getReview = jest.fn().mockReturnValue(undefined);
+  //     const request: UpvoteReview = {
+  //       reviewId: reviews.reviewId,
+  //       zid: reviews.zid,
+  //       upvote: true,
+  //     };
+
+  //     const errorResult = new HTTPError(badRequest);
+  //     expect(service.upvoteReview(request)).rejects.toThrow(errorResult);
+  //   });
+
+  //   it("should throw HTTP 400 error if no user in database", () => {
+  //     const service = reviewService();
+  //     const reviews = getMockReviews();
+  //     const reviewEntity = getReviewEntity();
+
+  //     reviewRepository.getReview = jest.fn().mockReturnValue(reviewEntity);
+  //     userRepository.getUser = jest.fn().mockReturnValue(undefined);
+  //     const request: UpvoteReview = {
+  //       reviewId: reviews[0].reviewId,
+  //       zid: reviews[0].zid,
+  //       upvote: true,
+  //     };
+
+  //     const errorResult = new HTTPError(badRequest);
+  //     expect(service.upvoteReview(request)).rejects.toThrow(errorResult);
+  //   });
+
+  //   it("should resolve and return upvoted review", () => {
+  //     const service = reviewService();
+  //     const reviews = getMockReviews();
+  //     const user = getUserEntity();
+
+  //     reviewRepository.getReview = jest.fn().mockReturnValue(reviews[0]);
+  //     userRepository.getUser = jest.fn().mockReturnValue(user);
+  //     userRepository.saveUser = jest.fn().mockReturnValue(user);
+
+  //     const request: UpvoteReview = {
+  //       reviewId: reviews[0].reviewId,
+  //       zid: reviews[0].zid,
+  //       upvote: true,
+  //     };
+
+  //     expect(service.upvoteReview(request)).resolves.toEqual({
+  //       review: reviews[0],
+  //     });
+  //   });
+
+  //   it("should resolve and remove upvoted review", () => {
+  //     const service = reviewService();
+  //     const reviews = getMockReviews();
+  //     const user = getUserEntity();
+
+  //     reviewRepository.getReview = jest.fn().mockReturnValue(reviews[0]);
+  //     userRepository.getUser = jest.fn().mockReturnValue(user);
+  //     userRepository.saveUser = jest.fn().mockReturnValue(user);
+
+  //     const request: UpvoteReview = {
+  //       reviewId: reviews[0].reviewId,
+  //       zid: reviews[0].zid,
+  //       upvote: false,
+  //     };
+
+  //     expect(service.upvoteReview(request)).resolves.toEqual({
+  //       review: reviews[0],
+  //     });
+  //   });
+  // });
 });
