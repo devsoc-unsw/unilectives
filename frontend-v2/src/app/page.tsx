@@ -1,11 +1,10 @@
 import Image from "next/image";
-import SearchBar from "@/components/SearchBar/SearchBar";
 import { Courses } from "@/types/api";
 import { get } from "@/utils/request";
 import LoginButton from "@/components/LoginButton/LoginButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import CoursesList from "@/components/CoursesList/CoursesList";
+import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 
 export default async function Home() {
   const response = (await get("/courses")) as Courses;
@@ -49,9 +48,7 @@ export default async function Home() {
       </div>
       {/* Course Section */}
       <div className="flex flex-col justify-center items-center mt-10">
-        <SearchBar />
-        {/* Sortable Course cards */}
-        <CoursesList />
+        <LandingPageContent />
       </div>
     </div>
   );

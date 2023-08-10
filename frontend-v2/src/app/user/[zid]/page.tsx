@@ -24,8 +24,6 @@ export default async function UserPage({
 
   if (!user || session?.user?.id !== params.zid) notFound();
 
-  console.log(user);
-
   return (
     <div className="isolate relative">
       {/* Waves */}
