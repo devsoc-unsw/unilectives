@@ -72,7 +72,7 @@ export default async function ReviewPage({
             {/* StarRating */}
             <div className="space-x-2">
               <div className="text-2xl inline">
-                <Rating type="star" color="purple" rating={course.rating} />
+                <Rating type="star" color="purple" rating={course.overallRating} />
               </div>
               {/* Number of reviews */}
               <span>

@@ -8,38 +8,35 @@ import {
   getMockReviews,
   getMockCOMP2521Reviews,
 } from "../utils/testData";
-import { EntityManager, DataSource } from "typeorm";
 import {
   BookmarkReview,
   PostReviewRequestBody,
   PutReviewRequestBody,
 } from "../api/schemas/review.schema";
+import { UserRepository } from "../repositories/user.repository";
+import { ReviewRepository } from "../repositories/review.repository";
 
 describe("ReviewService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
-  let manager: EntityManager;
-  let connection: DataSource;
-  let redis: RedisClient;
+  const userRepository = {} as UserRepository;
+  const reviewRepository = {} as ReviewRepository;
+  const redis = {} as RedisClient;
 
   beforeEach(() => {
-    connection = new DataSource({ type: "postgres" });
-    manager = new EntityManager(connection);
-    redis = new RedisClient();
-  });
-
-  afterEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
   });
 
-  const reviewService = () => new ReviewService(manager, redis);
+  const reviewService = () =>
+    new ReviewService(redis, reviewRepository, userRepository);
   const date = new Date();
 
   describe("getAllReviews", () => {
     it("should return all reviews", () => {
       const service = reviewService();
       const reviews = getMockReviews();
-      manager.find = jest.fn().mockReturnValue(reviews);
+
+      reviewRepository.getAllReviews = jest.fn().mockReturnValue(reviews);
       expect(service.getAllReviews()).resolves.toEqual({
         reviews,
       });
@@ -47,7 +44,7 @@ describe("ReviewService", () => {
 
     it("should throw HTTP 500 error if no reviews in database", () => {
       const service = reviewService();
-      manager.find = jest.fn().mockReturnValue([]);
+      reviewRepository.getAllReviews = jest.fn().mockReturnValue([]);
       const errorResult = new HTTPError(internalServerError);
       expect(service.getAllReviews()).rejects.toThrow(errorResult);
     });
@@ -57,7 +54,9 @@ describe("ReviewService", () => {
     it("should return all reviews associated with course", () => {
       const service = reviewService();
       const reviews = getMockCOMP2521Reviews();
-      manager.find = jest.fn().mockReturnValue(reviews);
+      reviewRepository.getCourseReviews = jest.fn().mockReturnValue(reviews);
+      redis.get = jest.fn().mockReturnValue(null);
+      redis.set = jest.fn().mockReturnValue(null);
       expect(service.getCourseReviews("COMP2521")).resolves.toEqual({
         reviews,
       });
@@ -68,7 +67,6 @@ describe("ReviewService", () => {
     it("should resolve and post a new review", async () => {
       const service = reviewService();
       const reviews = getMockCOMP2521Reviews();
-      manager.find = jest.fn().mockReturnValue(reviews);
       const reviewEntity = getReviewEntity(date);
       const review = getMockReviews(date)[0];
 
@@ -86,11 +84,8 @@ describe("ReviewService", () => {
         overallRating: 5,
       };
 
-      manager.findOneBy = jest
-        .fn()
-        .mockReturnValueOnce(null)
-        .mockReturnValueOnce(reviewEntity);
-      manager.save = jest.fn().mockReturnValue(reviewEntity);
+      redis.set = jest.fn().mockReturnValue(null);
+      reviewRepository.save = jest.fn().mockReturnValue(reviewEntity);
 
       expect(service.postReview(reviewRequest)).resolves.toEqual({
         review: review,
@@ -102,11 +97,12 @@ describe("ReviewService", () => {
     it("should throw HTTP 400 error if no review in database", () => {
       const service = reviewService();
       const review = getMockReviews()[0];
-      manager.findOneBy = jest.fn().mockReturnValue(undefined);
+
+      reviewRepository.getReview = jest.fn().mockReturnValue(undefined);
 
       const errorResult = new HTTPError(badRequest);
       expect(service.updateReview(review, review.reviewId)).rejects.toThrow(
-        errorResult
+        errorResult,
       );
     });
 
@@ -120,11 +116,11 @@ describe("ReviewService", () => {
         grade: reviewEntity.grade,
       };
 
-      manager.findOneBy = jest.fn().mockReturnValue(reviewEntity);
-      manager.save = jest.fn().mockReturnValue(reviewEntity);
+      reviewRepository.getReview = jest.fn().mockReturnValue(reviewEntity);
+      reviewRepository.save = jest.fn().mockReturnValue(reviewEntity);
 
       expect(
-        service.updateReview(reviewRequest, reviewEntity.reviewId)
+        service.updateReview(reviewRequest, reviewEntity.reviewId),
       ).resolves.toEqual({
         review: review,
       });
@@ -137,8 +133,9 @@ describe("ReviewService", () => {
       const reviewEntity = getReviewEntity();
       const id = reviewEntity.reviewId;
 
-      manager.findOneBy = jest.fn().mockReturnValue(reviewEntity);
-      manager.delete = jest.fn().mockReturnValue(reviewEntity);
+      reviewRepository.getReview = jest.fn().mockReturnValue(reviewEntity);
+      reviewRepository.deleteReview = jest.fn().mockReturnValue(reviewEntity);
+
       // Should this have an empty toEqual()?
       expect(service.deleteReview(id)).resolves.toEqual(reviewEntity);
     });
@@ -148,7 +145,7 @@ describe("ReviewService", () => {
     it("should throw HTTP 400 error if no reviews in database", () => {
       const service = reviewService();
       const reviews = getMockReviews()[0];
-      manager.findOneBy = jest.fn().mockReturnValue(undefined);
+      reviewRepository.getReview = jest.fn().mockReturnValue(undefined);
       const request: BookmarkReview = {
         reviewId: reviews.reviewId,
         zid: reviews.zid,
@@ -162,10 +159,10 @@ describe("ReviewService", () => {
     it("should throw HTTP 400 error if no user in database", () => {
       const service = reviewService();
       const reviews = getMockReviews();
-      manager.findOneBy = jest
-        .fn()
-        .mockReturnValue(reviews[0])
-        .mockReturnValue(undefined);
+      const reviewEntity = getReviewEntity();
+
+      reviewRepository.getReview = jest.fn().mockReturnValue(reviewEntity);
+      userRepository.getUser = jest.fn().mockReturnValue(undefined);
       const request: BookmarkReview = {
         reviewId: reviews[0].reviewId,
         zid: reviews[0].zid,
@@ -180,11 +177,11 @@ describe("ReviewService", () => {
       const service = reviewService();
       const reviews = getMockReviews();
       const user = getUserEntity();
-      manager.findOneBy = jest
-        .fn()
-        .mockReturnValueOnce(reviews[0])
-        .mockReturnValueOnce(user);
-      manager.save = jest.fn().mockReturnValue(user);
+
+      reviewRepository.getReview = jest.fn().mockReturnValue(reviews[0]);
+      userRepository.getUser = jest.fn().mockReturnValue(user);
+      userRepository.saveUser = jest.fn().mockReturnValue(user);
+
       const request: BookmarkReview = {
         reviewId: reviews[0].reviewId,
         zid: reviews[0].zid,
@@ -200,11 +197,11 @@ describe("ReviewService", () => {
       const service = reviewService();
       const reviews = getMockReviews();
       const user = getUserEntity();
-      manager.findOneBy = jest
-        .fn()
-        .mockReturnValueOnce(reviews[0])
-        .mockReturnValueOnce(user);
-      manager.save = jest.fn().mockReturnValueOnce(user);
+
+      reviewRepository.getReview = jest.fn().mockReturnValue(reviews[0]);
+      userRepository.getUser = jest.fn().mockReturnValue(user);
+      userRepository.saveUser = jest.fn().mockReturnValue(user);
+
       const request: BookmarkReview = {
         reviewId: reviews[0].reviewId,
         zid: reviews[0].zid,
