@@ -20,7 +20,7 @@ export class ReviewService {
     private readonly redis: RedisClient,
     private readonly reviewRepository: ReviewRepository,
     private readonly userRepository: UserRepository,
-  ) {}
+  ) { }
 
   async getAllReviews(): Promise<ReviewsSuccessResponse | undefined> {
     const reviews: reviews[] = await this.reviewRepository.getAllReviews();
@@ -159,10 +159,8 @@ export class ReviewService {
     user = await this.userRepository.saveUser(user);
 
     this.logger.info(
-      `Successfully ${
-        reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
-      } review with reviewId ${reviewDetails.reviewId} for user with zID ${
-        reviewDetails.zid
+      `Successfully ${reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
+      } review with reviewId ${reviewDetails.reviewId} for user with zID ${reviewDetails.zid
       }.`,
     );
     return {
@@ -182,19 +180,29 @@ export class ReviewService {
       throw new HTTPError(badRequest);
     }
 
+    let user = await this.userRepository.getUser(upvoteDetails.zid);
+
+    if (!user) {
+      this.logger.error(`There is no user with zid ${upvoteDetails.zid}.`);
+      throw new HTTPError(badRequest);
+    }
+
     if (upvoteDetails.upvote) {
       review.upvotes = [...review.upvotes, upvoteDetails.zid];
+      user.upvotedReviews.push(review.reviewId);
     } else {
       review.upvotes.filter((zid) => zid !== upvoteDetails.zid);
+      user.upvotedReviews.filter(
+        (review) => review !== upvoteDetails.reviewId,
+      );
     }
 
     review = await this.reviewRepository.save(review);
+    user = await this.userRepository.saveUser(user);
 
     this.logger.info(
-      `Successfully ${
-        upvoteDetails.upvote ? "upvoted" : "removed upvote from"
-      } review with reviewId ${upvoteDetails.reviewId} for user with zID ${
-        upvoteDetails.zid
+      `Successfully ${upvoteDetails.upvote ? "upvoted" : "removed upvote from"
+      } review with reviewId ${upvoteDetails.reviewId} for user with zID ${upvoteDetails.zid
       }.`,
     );
 

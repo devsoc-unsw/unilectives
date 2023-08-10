@@ -27,6 +27,7 @@ export const UserSchema = z
     isAdmin: z.boolean(),
     bookmarkedCourses: z.array(z.string()),
     bookmarkedReviews: z.array(z.string()),
+    upvotedReviews: z.array(z.string()),
     reports: z.array(ReportSchema),
     reviews: z.array(ReviewSchema),
   })

@@ -14,7 +14,7 @@ export class UserService {
   constructor(
     private readonly authService: AuthService,
     private readonly userRepository: UserRepository,
-  ) {}
+  ) { }
 
   async saveUser(zid: string): Promise<UserTokenSuccessResponse> {
     const userExists = await this.userRepository.getUser(zid);
@@ -39,6 +39,7 @@ export class UserService {
         ...savedUser,
         bookmarkedCourses: [],
         bookmarkedReviews: [],
+        upvotedReviews: [],
         reports: [],
         reviews: [],
       },
