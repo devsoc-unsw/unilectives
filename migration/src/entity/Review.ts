@@ -10,7 +10,7 @@ import {
 import { CourseEntity } from "./Course";
 import { UserEntity } from "./User";
 
-@Entity({ name: "reviews", schema: "cselectives" })
+@Entity({ name: "reviews", schema: "unilectives" })
 export class ReviewEntity {
   @PrimaryGeneratedColumn("uuid", { name: "review_id" })
   reviewId: string;

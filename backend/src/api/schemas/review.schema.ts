@@ -7,7 +7,7 @@ const CommonReviewSchema = z
       z.object({
         widgetType: z.string().regex(/ARTICLE/),
         articleId: z.string().uuid(),
-      })
+      }),
     ),
   })
   .strict();
@@ -58,8 +58,8 @@ const PostReviewRequestBodySchema = z
     courseCode: z.string(),
     authorName: z.string(),
     title: z.string(),
-    description: z.string(),
-    grade: z.number(),
+    description: z.string().nullable(),
+    grade: z.number().nullable(),
     termTaken: z.string(),
     manageability: z.number(),
     usefulness: z.number(),
@@ -73,7 +73,7 @@ export type PostReviewRequestBody = z.infer<typeof PostReviewRequestBodySchema>;
 const PutReviewRequestBodySchema = z
   .object({
     authorName: z.string(),
-    grade: z.number(),
+    grade: z.number().nullable(),
   })
   .strict();
 
@@ -86,8 +86,8 @@ export const ReviewSchema = z
     courseCode: z.string(),
     authorName: z.string(),
     title: z.string(),
-    description: z.string(),
-    grade: z.number(),
+    description: z.string().nullable(),
+    grade: z.number().nullable(),
     termTaken: z.string(),
     createdTimestamp: z.date(),
     updatedTimestamp: z.date(),

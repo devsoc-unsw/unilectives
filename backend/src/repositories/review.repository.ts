@@ -1,42 +1,60 @@
-import { ReviewEntity } from "../entity/Review";
-import { EntityManager, In } from "typeorm";
+import { PrismaClient, reviews } from "@prisma/client";
+import { PostReviewRequestBody } from "../api/schemas/review.schema";
 
 export class ReviewRepository {
-  constructor(private readonly manager: EntityManager) {}
+  constructor(private readonly prisma: PrismaClient) {}
 
-  async getAllReviews(): Promise<ReviewEntity[]> {
-    return await this.manager.find(ReviewEntity);
+  async getAllReviews(): Promise<reviews[]> {
+    return await this.prisma.reviews.findMany();
   }
 
-  async getCourseReviews(courseCode: string): Promise<ReviewEntity[]> {
-    return await this.manager.find(ReviewEntity, {
+  async getCourseReviews(courseCode: string): Promise<reviews[]> {
+    return await this.prisma.reviews.findMany({
       where: {
         courseCode,
       },
     });
   }
 
-  async save(review: ReviewEntity): Promise<ReviewEntity> {
-    return await this.manager.save(ReviewEntity, review);
-  }
-
-  async getReviewsByUser(zid: string): Promise<ReviewEntity[]> {
-    return await this.manager.find(ReviewEntity, { where: { zid } });
-  }
-
-  async getReviewsById(reviewIds: string[]): Promise<ReviewEntity[]> {
-    return await this.manager.findBy(ReviewEntity, {
-      reviewId: In(reviewIds),
+  async save(review: PostReviewRequestBody): Promise<reviews> {
+    return await this.prisma.reviews.create({
+      data: {
+        ...review,
+      },
     });
   }
 
-  async getReview(reviewId: string): Promise<ReviewEntity | null> {
-    return await this.manager.findOneBy(ReviewEntity, {
-      reviewId,
+  async getReviewsByUser(zid: string): Promise<reviews[]> {
+    return await this.prisma.reviews.findMany({
+      where: {
+        zid: zid,
+      },
+    });
+  }
+
+  async getReviewsById(reviewIds: string[]): Promise<reviews[]> {
+    return await this.prisma.reviews.findMany({
+      where: {
+        reviewId: {
+          in: reviewIds,
+        },
+      },
+    });
+  }
+
+  async getReview(reviewId: string): Promise<reviews | null> {
+    return await this.prisma.reviews.findUnique({
+      where: {
+        reviewId: reviewId,
+      },
     });
   }
 
   async deleteReview(reviewId: string) {
-    return await this.manager.delete(ReviewEntity, { reviewId });
+    return await this.prisma.reviews.delete({
+      where: {
+        reviewId: reviewId,
+      },
+    });
   }
 }

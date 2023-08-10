@@ -12,7 +12,7 @@ const validationMiddleware =
       logger.info(
         `Invalid request was made - Error: ${
           result.error.issues[0].message
-        } - Data: ${JSON.stringify(req[property])}`
+        } - Data: ${JSON.stringify(req[property])}`,
       );
       res.status(400).json({
         message: `Invalid request was made - Error: ${result.error.issues[0].message}`,

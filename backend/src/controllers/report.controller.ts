@@ -32,12 +32,12 @@ export class ReportController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /reports ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .post(
         "/reports",
@@ -45,7 +45,7 @@ export class ReportController implements IController {
         async (
           req: Request<Record<string, never>, unknown, CreateReport>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug(`Received POST request in /reports`, req.body);
           try {
@@ -56,12 +56,12 @@ export class ReportController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to POST /reports ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .put(
         "/reports",
@@ -69,7 +69,7 @@ export class ReportController implements IController {
         async (
           req: Request<Record<string, never>, unknown, UpdateReportStatus>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug(`Received PUT request in /reports`, req.body);
           try {
@@ -80,12 +80,12 @@ export class ReportController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to PUT /reports ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       );
   }
 

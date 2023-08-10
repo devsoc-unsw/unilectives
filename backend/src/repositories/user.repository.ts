@@ -1,13 +1,28 @@
-import { UserEntity } from "../entity/User";
-import { EntityManager } from "typeorm";
+import { PrismaClient } from "@prisma/client";
+import { CreateUser, User, UserSchema } from "../api/schemas/user.schema";
 
 export class UserRepository {
-  constructor(private readonly manager: EntityManager) {}
-  async getUser(zid: string): Promise<UserEntity | null> {
-    return await this.manager.findOneBy(UserEntity, { zid });
+  constructor(private readonly prisma: PrismaClient) {}
+
+  async getUser(zid: string) {
+    const rawUser = await this.prisma.users.findFirst({
+      where: {
+        zid: zid,
+      },
+    });
+    // const user = UserSchema.parse(rawUser);
+    return rawUser;
   }
 
-  async saveUser(user: UserEntity): Promise<UserEntity> {
-    return await this.manager.save(UserEntity, user);
+  async saveUser(user: CreateUser): Promise<User> {
+    const rawUser = await this.prisma.users.upsert({
+      where: {
+        zid: user.zid,
+      },
+      update: user,
+      create: user,
+    });
+    // const savedUser = UserSchema.parse(rawUser);
+    return rawUser;
   }
 }
