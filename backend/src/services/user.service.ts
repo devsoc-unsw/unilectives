@@ -27,14 +27,13 @@ export class UserService {
           isAdmin: false,
         };
         await this.userRepository.saveUser(newUser);
+        await this.redis.set(`user:${zid}`, true);
         this.logger.info(`User with zid ${zid} created.`);
       } else {
         this.logger.info(
           `User with zid ${zid} already exists in the database.`,
         );
       }
-
-      await this.redis.set(`user:${zid}`, true);
     }
 
     return { user: true };

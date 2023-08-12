@@ -15,6 +15,7 @@ import {
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import Tooltip from "@/components/Tooltip/Tooltip";
+import { signIn, signOut } from "next-auth/react";
 
 type NavbarProps = {
   zid: string | undefined;
@@ -153,7 +154,7 @@ export default function Navbar({ zid }: NavbarProps) {
           >
             <Tooltip tooltip={"Expand"}>
               <BarsArrowUpIcon
-                onClick={(e) => setCollapsed(false)}
+                onClick={() => setCollapsed(false)}
                 className={
                   collapsed
                     ? "w-12 h-12 p-3 rotate-90 hover:bg-slate-200 rounded-xl"
@@ -170,7 +171,7 @@ export default function Navbar({ zid }: NavbarProps) {
             ) : (
               <a
                 className="flex flex-row w-full items-center hover:bg-slate-200 rounded-xl"
-                href={zid ? `user/${zid}` : "api/auth/signin"}
+                href={zid ? `/user/${zid}` : "api/auth/signin"}
               >
                 <UserCircleIcon className="w-12 h-12 p-3" />
                 <span className="whitespace-nowrap">

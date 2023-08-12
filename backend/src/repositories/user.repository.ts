@@ -18,12 +18,11 @@ export class UserRepository {
   }
 
   async saveUser(user: CreateUser) {
-    const rawUser = await this.prisma.users.upsert({
-      where: {
+    const rawUser = await this.prisma.users.create({
+      data: {
         zid: user.zid,
+        isAdmin: user.isAdmin,
       },
-      update: user,
-      create: user,
     });
     return rawUser;
   }
