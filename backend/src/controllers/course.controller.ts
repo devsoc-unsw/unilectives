@@ -78,33 +78,6 @@ export class CourseController implements IController {
           }
         },
       )
-      .post(
-        "/courses/bookmark",
-        validationMiddleware(BookmarkCourseSchema, "body"),
-        async (
-          req: Request<Record<string, never>, unknown, BookmarkCourse>,
-          res: Response,
-          next: NextFunction,
-        ) => {
-          this.logger.debug(`Received request in POST /courses/bookmark`);
-          try {
-            const bookmarkDetails = req.body;
-            if (!bookmarkDetails) throw new HTTPError(badRequest);
-            const result = await this.courseService.bookmarkCourse(
-              bookmarkDetails,
-            );
-            this.logger.info(`Responding to client in POST /courses/bookmark`);
-            return res.status(200).json(result);
-          } catch (err: any) {
-            this.logger.warn(
-              `An error occurred when trying to POST /courses/bookmark ${formatError(
-                err,
-              )}`,
-            );
-            return next(err);
-          }
-        },
-      )
       .get(
         "/course/:courseCode",
         async (

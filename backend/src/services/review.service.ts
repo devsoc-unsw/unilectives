@@ -153,6 +153,10 @@ export class ReviewService {
       throw new HTTPError(badRequest);
     }
 
+    if (!user.bookmarkedReviews) {
+      user.bookmarkedCourses = [];
+    }
+
     if (reviewDetails.bookmark) {
       user.bookmarkedReviews.push(review.reviewId);
     } else {
