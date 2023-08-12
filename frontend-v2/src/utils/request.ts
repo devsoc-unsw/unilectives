@@ -4,31 +4,35 @@ const request = async (
   options?: Record<string, any>,
 ) => {
   const prefix = "/api/v1";
-  const baseUrl = process.env.NODE_ENV !== "development"
+  const baseUrl =
+    process.env.NODE_ENV !== "development"
       ? `https://cselectives.staging.csesoc.unsw.edu.au${prefix}${url}`
       : `http://localhost:3030${prefix}${url}`;
 
   const payload =
     method === "GET"
       ? {
-          method
+          method,
         }
-        : {
+      : {
           method,
           headers: {
-            'Content-type': 'application/json'
+            "Content-type": "application/json",
           },
           body: JSON.stringify(options),
         };
-
-  return (await fetch(baseUrl, { ...payload, cache: "no-store" })).json();
+  const res = await fetch(baseUrl, { ...payload, cache: "no-store" });
+  if (!res.ok) {
+    return { errorCode: res.status, errorMessage: res.statusText };
+  }
+  return await res.json();
 };
 
 export const validatedReq = async (
   method: "GET" | "POST" | "PUT" | "DELETE",
   url: string,
   authToken: string,
-  zid: string
+  zid: string,
 ) => {
   const prefix = "/api/v1";
   const baseUrl =

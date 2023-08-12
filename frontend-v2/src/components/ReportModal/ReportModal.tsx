@@ -74,11 +74,13 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
 
     const res = await post("/reports", body);
 
-    setAlert(
-      res.errorCode === 400
-        ? "You have already reported this review."
-        : "Try again later"
-    );
+    if (res.errorCode) {
+      setAlert(
+        res.errorCode === 400
+          ? "You have already reported this review."
+          : "Try again later",
+      );
+    }
   };
 
   return (

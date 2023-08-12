@@ -8,17 +8,20 @@ import { Review } from "@/types/api";
 import { format } from "date-fns";
 import { post } from "@/utils/request";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function ReviewCard({ review }: { review: Review }) {
-  const { data: session, status } = useSession();
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const handleUpvotes = async () => {
     const body = {
       reviewId: review.reviewId,
       zid: session?.user?.id,
-      upvote: true,
+      upvote: !review.upvotes.includes(session?.user?.id!),
     };
     await post("/reviews/upvote", body);
+    router.refresh();
   };
 
   const handleBookmark = async () => {
@@ -28,6 +31,7 @@ export default function ReviewCard({ review }: { review: Review }) {
       bookmark: true,
     };
     await post("/reviews/bookmark", body);
+    router.refresh();
   };
 
   return (
@@ -92,23 +96,32 @@ export default function ReviewCard({ review }: { review: Review }) {
       <div className="flex justify-between">
         {/* Upvotes */}
         <button
-          className="flex items-center gap-1 hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
+          className={
+            session?.user?.id
+              ? "flex items-center gap-1 hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
+              : "flex items-center gap-1"
+          }
           onClick={handleUpvotes}
+          disabled={!session?.user?.id}
         >
           <span>{review.upvotes.length}</span>
           <HandThumbUpIcon className="w-5 h-5" />
         </button>
-        <div className="flex items-center gap-2">
-          {/* Bookmark */}
-          <button
-            className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
-            onClick={handleBookmark}
-          >
-            <BookmarkIcon className="w-5 h-5" />
-          </button>
-          {/* Flag */}
-          <ReportModal reviewId={review.reviewId} />
-        </div>
+        {session?.user?.id && (
+          <>
+            <div className="flex items-center gap-2">
+              {/* Bookmark */}
+              <button
+                className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
+                onClick={handleBookmark}
+              >
+                <BookmarkIcon className="w-5 h-5" />
+              </button>
+              {/* Flag */}
+              <ReportModal reviewId={review.reviewId} />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

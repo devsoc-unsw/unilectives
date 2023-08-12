@@ -118,7 +118,7 @@ export class CourseService {
       );
       throw new HTTPError(badRequest);
     }
-    let user = await this.userRepository.getUser(bookmarkDetails.zid);
+    const user = await this.userRepository.getUser(bookmarkDetails.zid);
 
     if (!user) {
       this.logger.error(`There is no user with zid ${bookmarkDetails.zid}.`);

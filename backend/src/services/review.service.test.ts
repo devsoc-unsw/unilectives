@@ -66,7 +66,6 @@ describe("ReviewService", () => {
   describe("postReview", () => {
     it("should resolve and post a new review", async () => {
       const service = reviewService();
-      const reviews = getMockCOMP2521Reviews();
       const reviewEntity = getReviewEntity(date);
       const review = getMockReviews(date)[0];
 
@@ -94,19 +93,6 @@ describe("ReviewService", () => {
   });
 
   describe("updateReview", () => {
-    it("should throw HTTP 400 error if no review in database", () => {
-      const service = reviewService();
-      const review = getMockReviews()[0];
-
-      reviewRepository.getReview = jest.fn().mockReturnValue(undefined);
-      reviewRepository.update = jest.fn().mockReturnValue(undefined);
-
-      const errorResult = new HTTPError(badRequest);
-      expect(service.updateReview(review, review.reviewId)).rejects.toThrow(
-        errorResult,
-      );
-    });
-
     it("should resolve and update an existing review", () => {
       const service = reviewService();
       const reviewEntity = getReviewEntity(date);
@@ -118,6 +104,8 @@ describe("ReviewService", () => {
       };
 
       reviewRepository.getReview = jest.fn().mockReturnValue(reviewEntity);
+      reviewRepository.getCourseReviews= jest.fn().mockReturnValue([reviewEntity]);
+      redis.set= jest.fn().mockReturnValue("ok");
       reviewRepository.update = jest.fn().mockReturnValue(reviewEntity);
 
       expect(
@@ -138,7 +126,7 @@ describe("ReviewService", () => {
       reviewRepository.deleteReview = jest.fn().mockReturnValue(reviewEntity);
 
       // Should this have an empty toEqual()?
-      expect(service.deleteReview(id)).resolves.toEqual(reviewEntity);
+      expect(service.deleteReview(id)).resolves.toEqual("OK");
     });
   });
 

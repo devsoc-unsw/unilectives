@@ -93,7 +93,6 @@ describe("ReportService", () => {
       reportRepository.newReport = jest.fn().mockReturnValue(reportEntity);
 
       const reportResult = await service.createReport(reportRequest);
-      console.log(reportResult)
       expect(reportResult.report.status).toEqual("UNSEEN");
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);

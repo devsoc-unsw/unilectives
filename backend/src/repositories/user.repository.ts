@@ -12,7 +12,7 @@ export class UserRepository {
       include: {
         reports: true,
         reviews: true,
-      }
+      },
     });
     return rawUser;
   }
@@ -28,18 +28,15 @@ export class UserRepository {
     return rawUser;
   }
 
-  async updateUser(user: {
-    zid: string;
-    bookmarkedReviews: string[]
-  }) {
+  async updateUser(user: { zid: string; bookmarkedReviews: string[] }) {
     const updatedUser = await this.prisma.users.update({
-      where:{
+      where: {
         zid: user.zid,
       },
       data: {
         bookmarkedReviews: user.bookmarkedReviews,
-      }
-    })
+      },
+    });
     return updatedUser;
   }
 }

@@ -26,9 +26,7 @@ export class ReportService {
     };
   }
 
-  async createReport(
-    reportDetails: CreateReport,
-  ) {
+  async createReport(reportDetails: CreateReport) {
     const { reviewId, zid, reason } = reportDetails;
 
     // check if user already created a report for the review

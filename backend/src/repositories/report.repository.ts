@@ -32,10 +32,7 @@ export class ReportRepository {
     return reports;
   }
 
-  async getReportByUserAndReview(
-    zid: string,
-    reviewId: string,
-  ) {
+  async getReportByUserAndReview(zid: string, reviewId: string) {
     const rawReport = await this.prisma.reports.findFirst({
       where: {
         zid: zid,

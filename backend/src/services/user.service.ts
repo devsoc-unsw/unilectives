@@ -2,49 +2,42 @@ import { getLogger } from "../utils/logger";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
 import { UserRepository } from "../repositories/user.repository";
-import { AuthService } from "../modules/Auth";
-import {
-  CreateUser,
-  UserTokenSuccessResponse,
-} from "../api/schemas/user.schema";
+import { CreateUser } from "../api/schemas/user.schema";
 import { ReviewRepository } from "../repositories/review.repository";
+import RedisClient from "../modules/redis";
 
 export class UserService {
   private logger = getLogger();
   constructor(
-    private readonly authService: AuthService,
     private readonly userRepository: UserRepository,
-    private readonly reviewRepository: ReviewRepository
+    private readonly reviewRepository: ReviewRepository,
+    private readonly redis: RedisClient,
   ) {}
 
-  async saveUser(zid: string): Promise<UserTokenSuccessResponse> {
-    const userExists = await this.userRepository.getUser(zid);
+  async saveUser(zid: string) {
+    const userExists = await this.redis.get<boolean>(`user:${zid}`);
+    if (!userExists) {
+      this.logger.info(`User with zid ${zid} not in cache.`);
+      const user = await this.userRepository.getUser(zid);
 
-    // existing user
-    if (userExists) {
-      this.logger.info(`User with zid ${zid} already exists in the database.`);
-      throw new HTTPError(badRequest);
+      // first time user
+      if (!user) {
+        const newUser: CreateUser = {
+          zid: zid,
+          isAdmin: false,
+        };
+        await this.userRepository.saveUser(newUser);
+        this.logger.info(`User with zid ${zid} created.`);
+      } else {
+        this.logger.info(
+          `User with zid ${zid} already exists in the database.`,
+        );
+      }
+
+      await this.redis.set(`user:${zid}`, true);
     }
 
-    // first time user
-    const newUser: CreateUser = {
-      zid: zid,
-      isAdmin: false,
-    };
-
-    const savedUser = await this.userRepository.saveUser(newUser);
-    const token = this.authService.createToken(zid);
-
-    return {
-      user: {
-        ...savedUser,
-        bookmarkedCourses: [],
-        bookmarkedReviews: [],
-        reports: [],
-        reviews: [],
-      },
-      token,
-    };
+    return { user: true };
   }
 
   async getUser(zid: string) {
@@ -55,7 +48,9 @@ export class UserService {
       throw new HTTPError(badRequest);
     }
 
-    const bookmarkedReviews = await this.reviewRepository.getReviewsById(userInfo.bookmarkedReviews);
+    const bookmarkedReviews = await this.reviewRepository.getReviewsById(
+      userInfo.bookmarkedReviews,
+    );
 
     return {
       user: {

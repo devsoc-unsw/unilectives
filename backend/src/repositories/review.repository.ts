@@ -25,19 +25,30 @@ export class ReviewRepository {
   }
 
   async update(review: {
-    reviewId: string,
-    grade: number | null,
-    authorName: string,
+    reviewId: string;
+    grade: number | null;
+    authorName: string;
   }) {
     return await this.prisma.reviews.update({
       where: {
-        reviewId: review.reviewId
+        reviewId: review.reviewId,
       },
       data: {
         grade: review.grade,
         authorName: review.authorName,
-      }
-    })
+      },
+    });
+  }
+
+  async updateUpvotes(review: { reviewId: string; upvotes: string[] }) {
+    return await this.prisma.reviews.update({
+      where: {
+        reviewId: review.reviewId,
+      },
+      data: {
+        upvotes: review.upvotes,
+      },
+    });
   }
 
   async getReviewsByUser(zid: string): Promise<reviews[]> {

@@ -17,7 +17,7 @@ export default function ReviewsBar({
   // States
   const [currentReviews, setCurrentReviews] = useState(reviews);
   const [displayTextReview, setDisplayTextReview] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("Most Recent");
 
   // Change review sorting based on dropdown
   useMemo(() => {
@@ -27,22 +27,22 @@ export default function ReviewsBar({
       case "Most Recent":
         sortedReviews.sort(
           (r1: Review, r2: Review) =>
-            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp)
+            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp),
         );
         break;
       case "Most Recently Taken":
         sortedReviews.sort((r1: Review, r2: Review) =>
-          r2.termTaken.localeCompare(r1.termTaken)
+          r2.termTaken.localeCompare(r1.termTaken),
         );
         break;
       case "Highest Rating to Lowest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r2.overallRating - r1.overallRating
+          (r1: Review, r2: Review) => r2.overallRating - r1.overallRating,
         );
         break;
       case "Lowest Rating to Highest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r1.overallRating - r2.overallRating
+          (r1: Review, r2: Review) => r1.overallRating - r2.overallRating,
         );
         break;
     }
@@ -52,7 +52,7 @@ export default function ReviewsBar({
     }
 
     setCurrentReviews(
-      sortedReviews.filter((r: Review) => !!(r.title || r.description))
+      sortedReviews.filter((r: Review) => !!(r.title || r.description)),
     );
   }, [displayTextReview, selected, reviews]);
 

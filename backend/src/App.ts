@@ -10,7 +10,6 @@ import { UserService } from "./services/user.service";
 import { UserController } from "./controllers/user.controller";
 import { ReportController } from "./controllers/report.controller";
 import { ReportService } from "./services/report.service";
-import { AuthService } from "./modules/Auth";
 import { CourseRepository } from "./repositories/course.repository";
 import { UserRepository } from "./repositories/user.repository";
 import PrismaClient from "./modules/prisma";
@@ -22,9 +21,6 @@ export default class App {
   private ex = new ExpressWrapper();
   private prisma = new PrismaClient();
   private redis = new RedisClient();
-
-  // auth
-  private readonly auth = new AuthService();
 
   private readonly courseRepository = new CourseRepository(
     this.prisma.getConnection(),
@@ -46,9 +42,9 @@ export default class App {
     this.redis,
   );
   private readonly userService = new UserService(
-    this.auth,
     this.userRepository,
-    this.reviewRepository
+    this.reviewRepository,
+    this.redis,
   );
   private readonly reportService = new ReportService(
     this.reportRepository,

@@ -98,15 +98,16 @@ export class ReviewService {
     updatedReviewDetails: PutReviewRequestBody,
     reviewId: string,
   ): Promise<ReviewSuccessResponse | undefined> {
-    // Get review entity by review id
-    let review = await this.reviewRepository.getReview(reviewId);
+    const review = await this.reviewRepository.update({
+      ...updatedReviewDetails,
+      reviewId,
+    });
 
-    if (!review) {
-      this.logger.error(`There is no review with reviewId ${reviewId}.`);
-      throw new HTTPError(badRequest);
-    }
+    const reviews = await this.reviewRepository.getCourseReviews(
+      review.courseCode,
+    );
 
-    review = await this.reviewRepository.update({...updatedReviewDetails, reviewId});
+    await this.redis.set(`reviews:${review.courseCode}`, reviews);
 
     return {
       review: review,
@@ -120,7 +121,15 @@ export class ReviewService {
       throw new HTTPError(badRequest);
     }
 
-    return await this.reviewRepository.deleteReview(review.reviewId);
+    await this.reviewRepository.deleteReview(review.reviewId);
+
+    const reviews = await this.reviewRepository.getCourseReviews(
+      review.courseCode,
+    );
+
+    await this.redis.set(`reviews:${review.courseCode}`, reviews);
+
+    return "OK";
   }
 
   async bookmarkReview(
@@ -137,7 +146,7 @@ export class ReviewService {
       throw new HTTPError(badRequest);
     }
 
-    let user = await this.userRepository.getUser(reviewDetails.zid);
+    const user = await this.userRepository.getUser(reviewDetails.zid);
 
     if (!user) {
       this.logger.error(`There is no user with zid ${reviewDetails.zid}.`);
@@ -152,8 +161,11 @@ export class ReviewService {
       );
     }
 
-    await this.userRepository.updateUser({zid: user.zid, bookmarkedReviews: user.bookmarkedReviews});
-    
+    await this.userRepository.updateUser({
+      zid: user.zid,
+      bookmarkedReviews: user.bookmarkedReviews,
+    });
+
     this.logger.info(
       `Successfully ${
         reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
@@ -166,9 +178,7 @@ export class ReviewService {
     };
   }
 
-  async upvoteReview(
-    upvoteDetails: UpvoteReview,
-  ) {
+  async upvoteReview(upvoteDetails: UpvoteReview) {
     let review = await this.reviewRepository.getReview(upvoteDetails.reviewId);
 
     if (!review) {
@@ -179,12 +189,28 @@ export class ReviewService {
     }
 
     if (upvoteDetails.upvote) {
+      if (review.upvotes.includes(upvoteDetails.zid)) {
+        this.logger.info(
+          `Already upvoted for ${upvoteDetails.reviewId} and ${upvoteDetails.zid}`,
+        );
+        return {
+          review,
+        };
+      }
       review.upvotes = [...review.upvotes, upvoteDetails.zid];
     } else {
-      review.upvotes.filter((zid) => zid !== upvoteDetails.zid);
+      review.upvotes = review.upvotes.filter(
+        (zid) => zid !== upvoteDetails.zid,
+      );
     }
 
-    review = await this.reviewRepository.save(review);
+    review = await this.reviewRepository.updateUpvotes(review);
+
+    const reviews = await this.reviewRepository.getCourseReviews(
+      review.courseCode,
+    );
+
+    await this.redis.set(`reviews:${review.courseCode}`, reviews);
 
     this.logger.info(
       `Successfully ${

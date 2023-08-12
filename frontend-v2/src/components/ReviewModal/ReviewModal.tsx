@@ -7,6 +7,7 @@ import { FormEvent, Fragment, useMemo, useState } from "react";
 import ReviewRatingInput from "../ReviewRatingInput/ReviewRatingInput";
 import { post } from "@/utils/request";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   overallRating: number | null;
@@ -17,6 +18,7 @@ type Inputs = {
 };
 
 export default function ReviewModal({ courseCode }: { courseCode: string }) {
+  const router = useRouter();
   // States
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +35,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
 
   // Simple regex check for termTaken
   const termTakenIsValid = /^[0-9]{2}(T[1-3]|S[1-2])$/.test(
-    inputs.termTaken ?? ""
+    inputs.termTaken ?? "",
   );
 
   // Check if ready to submit
@@ -88,6 +90,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
     setInputs(defaultInputs);
 
     closeModal();
+    router.refresh();
   };
 
   // function to close modal
@@ -242,7 +245,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                               onChange: (value: number | null) => void;
                               title: string;
                             },
-                            index: number
+                            index: number,
                           ) => {
                             return (
                               <div className="space-y-2 text-3xl" key={index}>
@@ -266,7 +269,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                                 )}
                               </div>
                             );
-                          }
+                          },
                         )}
                         {/* Grade */}
                         <div>

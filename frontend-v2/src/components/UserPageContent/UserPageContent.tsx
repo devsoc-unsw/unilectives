@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { Course, Report, Review, Reviews } from "@/types/api";
+import { Course, Report, Review } from "@/types/api";
 import UserReviews from "../UserReviews/UserReviews";
 import UserReports from "../UserReports/UserReports";
 import Dropdown from "../Dropdown/Dropdown";
@@ -47,7 +47,7 @@ export default function UserPageContent({
         return newTabs;
       });
     },
-    [tabs]
+    [tabs],
   );
 
   return (

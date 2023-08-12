@@ -38,22 +38,22 @@ export default function UserReviews({
       case "Most Recent":
         sortedReviews.sort(
           (r1: Review, r2: Review) =>
-            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp)
+            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp),
         );
         break;
       case "Most Recently Taken":
         sortedReviews.sort((r1: Review, r2: Review) =>
-          r2.termTaken.localeCompare(r1.termTaken)
+          r2.termTaken.localeCompare(r1.termTaken),
         );
         break;
       case "Highest Rating to Lowest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r2.overallRating - r1.overallRating
+          (r1: Review, r2: Review) => r2.overallRating - r1.overallRating,
         );
         break;
       case "Lowest Rating to Highest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r1.overallRating - r2.overallRating
+          (r1: Review, r2: Review) => r1.overallRating - r2.overallRating,
         );
         break;
     }
@@ -65,7 +65,7 @@ export default function UserReviews({
   const bookmarkReview = async (review: Review, isBookmark: boolean) => {
     if (isBookmark) {
       const newBookmarked = [...bookmarkedReviews].filter(
-        (r: Review) => r.reviewId !== review.reviewId
+        (r: Review) => r.reviewId !== review.reviewId,
       );
       setBookmarkedReviews(newBookmarked);
     } else {
@@ -94,7 +94,7 @@ export default function UserReviews({
     if (!deleted) return;
     // Optimistic UI update for deleting a review
     const newReviews = currentReviews.filter(
-      (review) => review.reviewId !== deleted
+      (review) => review.reviewId !== deleted,
     );
     setCurrentReviews(newReviews);
   }, [deleted]);
@@ -104,7 +104,7 @@ export default function UserReviews({
     // Optimistic UI update for deleting a review
     const newReviews = [...currentReviews];
     const target = newReviews.find(
-      (review) => review.reviewId === edited.reviewId
+      (review) => review.reviewId === edited.reviewId,
     );
     if (!target) return;
     target.authorName = edited.authorName;
@@ -164,27 +164,6 @@ export default function UserReviews({
                 </div>
                 {/* Icons */}
                 <div className="flex flex-1 flex-wrap gap-5 justify-end">
-                  <button className="duration-100 hover:text-unilectives-blue">
-                    <ArrowSmallUpIcon
-                      onClick={() => upvoteReview(review)}
-                      className="w-6 h-6 inline-block"
-                    />
-                  </button>
-                  <button className="duration-100 hover:text-unilectives-blue">
-                    {bookmarkedReviews.find(
-                      (r: Review) => r.reviewId === review.reviewId
-                    ) ? (
-                      <SolidBookmarkIcon
-                        onClick={() => bookmarkReview(review, true)}
-                        className="w-6 h-6 inline-block"
-                      />
-                    ) : (
-                      <BookmarkIcon
-                        onClick={() => bookmarkReview(review, false)}
-                        className="w-6 h-6 inline-block"
-                      />
-                    )}
-                  </button>
                   <EditReviewModal review={review} setEdited={setEdited} />
                   <RemoveReviewModal review={review} setDeleted={setDeleted} />
                 </div>
@@ -224,27 +203,6 @@ export default function UserReviews({
                 </p>
                 {/* Icons */}
                 <div className="flex flex-wrap ml-auto gap-5 w-fit">
-                  <button className="duration-100 hover:text-unilectives-blue">
-                    <ArrowSmallUpIcon
-                      onClick={() => upvoteReview(review)}
-                      className="w-6 h-6 inline-block"
-                    />
-                  </button>
-                  <button className="duration-100 hover:text-unilectives-blue">
-                    {bookmarkedReviews.find(
-                      (r: Review) => r.reviewId === review.reviewId
-                    ) ? (
-                      <SolidBookmarkIcon
-                        onClick={() => bookmarkReview(review, true)}
-                        className="w-6 h-6 inline-block"
-                      />
-                    ) : (
-                      <BookmarkIcon
-                        onClick={() => bookmarkReview(review, false)}
-                        className="w-6 h-6 inline-block"
-                      />
-                    )}
-                  </button>
                   <EditReviewModal review={review} setEdited={setEdited} />
                   <RemoveReviewModal review={review} setDeleted={setDeleted} />
                 </div>
