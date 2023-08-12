@@ -3,11 +3,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { FormEvent, Fragment, useMemo, useState } from "react";
+import { FormEvent, Fragment, useContext, useMemo, useState } from "react";
 import ReviewRatingInput from "../ReviewRatingInput/ReviewRatingInput";
 import { post } from "@/utils/request";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Review } from "@/types/api";
+import { AlertContext } from "@/lib/snackbar-context";
 
 type Inputs = {
   overallRating: number | null;
@@ -17,11 +19,19 @@ type Inputs = {
   termTaken: string | null;
 };
 
-export default function ReviewModal({ courseCode }: { courseCode: string }) {
+type AltSetCurrentReviewsType = (r2: Review[]) => Review[];
+export default function ReviewModal({
+  courseCode,
+  setCurrentReviews,
+}: {
+  courseCode: string;
+  setCurrentReviews?: (r: Review[] | AltSetCurrentReviewsType) => void;
+}) {
   const router = useRouter();
   // States
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const { setAlert } = useContext(AlertContext);
 
   // States: Modal Inputs
   const defaultInputs = {
@@ -35,7 +45,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
 
   // Simple regex check for termTaken
   const termTakenIsValid = /^[0-9]{2}(T[1-3]|S[1-2])$/.test(
-    inputs.termTaken ?? "",
+    inputs.termTaken ?? ""
   );
 
   // Check if ready to submit
@@ -84,13 +94,26 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
     };
 
     // Submit review
-    await post("/reviews", body);
+    const res = await post("/reviews", body);
+
+    if (res.errorCode) {
+      setAlert("Try again later.");
+      return;
+    }
+
+    // Optimistic UI update
+    const { review: newReview } = res as { review: Review };
+    if (setCurrentReviews) {
+      setCurrentReviews((prev: Review[]) => {
+        const newReviews = [newReview, ...prev];
+        return newReviews;
+      });
+    }
 
     // Reset inputs + term taken
     setInputs(defaultInputs);
 
     closeModal();
-    router.refresh();
   };
 
   // function to close modal
@@ -245,11 +268,11 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                               onChange: (value: number | null) => void;
                               title: string;
                             },
-                            index: number,
+                            index: number
                           ) => {
                             return (
                               <div className="space-y-2 text-3xl" key={index}>
-                                <h2 className="text-lg font-bold">
+                                <h2 className="text-lg font-bold after:content-['*'] after:text-red-500">
                                   {item.title}
                                 </h2>
                                 {item.title === "Overall Rating" ? (
@@ -269,7 +292,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                                 )}
                               </div>
                             );
-                          },
+                          }
                         )}
                         {/* Grade */}
                         <div>
@@ -296,7 +319,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                           <h2>
                             <label
                               htmlFor="modal-course-completion"
-                              className="text-lg font-bold"
+                              className="text-lg font-bold after:content-['*'] after:text-red-500"
                             >
                               Course Completion
                             </label>

@@ -10,18 +10,40 @@ import { post } from "@/utils/request";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function ReviewCard({ review }: { review: Review }) {
+type AltSetCurrentReviewsType = (r2: Review[]) => Review[];
+export default function ReviewCard({
+  review,
+  setCurrentReviews,
+}: {
+  review: Review;
+  setCurrentReviews: (r: Review[] | AltSetCurrentReviewsType) => void;
+}) {
   const router = useRouter();
   const { data: session } = useSession();
+  const upvote = !review.upvotes.includes(session?.user?.id!);
 
   const handleUpvotes = async () => {
     const body = {
       reviewId: review.reviewId,
       zid: session?.user?.id,
-      upvote: !review.upvotes.includes(session?.user?.id!),
+      upvote,
     };
     await post("/reviews/upvote", body);
-    router.refresh();
+    // Optimistic UI Update for Upvotes
+    setCurrentReviews((prev: Review[]) => {
+      const newReviews = [...prev];
+      const target = newReviews.find(
+        (r: Review) => r.reviewId === review.reviewId
+      ) as Review;
+      if (upvote) {
+        target.upvotes.push(session?.user?.id as string);
+      } else {
+        target.upvotes = target.upvotes.filter(
+          (userUpvote: string) => userUpvote != (session?.user?.id as string)
+        );
+      }
+      return newReviews;
+    });
   };
 
   const handleBookmark = async () => {
@@ -31,6 +53,8 @@ export default function ReviewCard({ review }: { review: Review }) {
       bookmark: true,
     };
     await post("/reviews/bookmark", body);
+    // TODO: Optimistic UI update when bookmark
+    // information is already made available
     router.refresh();
   };
 
@@ -98,8 +122,12 @@ export default function ReviewCard({ review }: { review: Review }) {
         <button
           className={
             session?.user?.id
-              ? "flex items-center gap-1 hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
-              : "flex items-center gap-1"
+              ? `flex items-center gap-1 ${
+                  !upvote ? "text-unilectives-blue" : ""
+                } hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer`
+              : `flex items-center gap-1 ${
+                  !upvote ? "text-unilectives-blue" : ""
+                }`
           }
           onClick={handleUpvotes}
           disabled={!session?.user?.id}

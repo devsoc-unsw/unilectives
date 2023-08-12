@@ -27,22 +27,22 @@ export default function ReviewsBar({
       case "Most Recent":
         sortedReviews.sort(
           (r1: Review, r2: Review) =>
-            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp),
+            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp)
         );
         break;
       case "Most Recently Taken":
         sortedReviews.sort((r1: Review, r2: Review) =>
-          r2.termTaken.localeCompare(r1.termTaken),
+          r2.termTaken.localeCompare(r1.termTaken)
         );
         break;
       case "Highest Rating to Lowest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r2.overallRating - r1.overallRating,
+          (r1: Review, r2: Review) => r2.overallRating - r1.overallRating
         );
         break;
       case "Lowest Rating to Highest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r1.overallRating - r2.overallRating,
+          (r1: Review, r2: Review) => r1.overallRating - r2.overallRating
         );
         break;
     }
@@ -52,7 +52,7 @@ export default function ReviewsBar({
     }
 
     setCurrentReviews(
-      sortedReviews.filter((r: Review) => !!(r.title || r.description)),
+      sortedReviews.filter((r: Review) => !!(r.title || r.description))
     );
   }, [displayTextReview, selected, reviews]);
 
@@ -74,7 +74,10 @@ export default function ReviewsBar({
             placeholder="Sort by"
           />
         </div>
-        <ReviewModal courseCode={courseCode} />
+        <ReviewModal
+          courseCode={courseCode}
+          setCurrentReviews={setCurrentReviews}
+        />
       </div>
       {/* Switch */}
       <div className="flex items-center flex-wrap gap-1">
@@ -87,7 +90,11 @@ export default function ReviewsBar({
       </div>
       {/* Reviews */}
       {currentReviews.map((review: Review, index: number) => (
-        <ReviewCard key={index} review={review} />
+        <ReviewCard
+          key={index}
+          review={review}
+          setCurrentReviews={setCurrentReviews}
+        />
       ))}
     </div>
   );
