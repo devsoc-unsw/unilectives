@@ -74,6 +74,7 @@ model users {
   zid                String      @id(map: "pk_zid")
   bookmarkedReviews String[]     @map("bookmarked_reviews")
   bookmarkedCourses String[]     @map("bookmarked_courses")
+  upvotedReviews    String[]     @map("upvoted_reviews")
   isAdmin           Boolean     @map("is_admin")
   reports            reports[]
   reviews            reviews[]
