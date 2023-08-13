@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { post } from "@/utils/request";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type AltSetCurrentReviewsType = (r2: Review[]) => Review[];
 
@@ -22,9 +23,9 @@ export default function ReviewCard({
   setCurrentReviews: (r: Review[] | AltSetCurrentReviewsType) => void;
   isBookmarked: boolean;
 }) {
-  const router = useRouter();
   const { data: session } = useSession();
   const upvote = !review.upvotes.includes(session?.user?.id!);
+  const [bookmarked, setBookmarked] = useState(isBookmarked);
 
   const handleUpvotes = async () => {
     const body = {
@@ -37,13 +38,13 @@ export default function ReviewCard({
     setCurrentReviews((prev: Review[]) => {
       const newReviews = [...prev];
       const target = newReviews.find(
-        (r: Review) => r.reviewId === review.reviewId,
+        (r: Review) => r.reviewId === review.reviewId
       ) as Review;
       if (upvote) {
         target.upvotes.push(session?.user?.id as string);
       } else {
         target.upvotes = target.upvotes.filter(
-          (userUpvote: string) => userUpvote != (session?.user?.id as string),
+          (userUpvote: string) => userUpvote != (session?.user?.id as string)
         );
       }
       return newReviews;
@@ -54,10 +55,11 @@ export default function ReviewCard({
     const body = {
       reviewId: review.reviewId,
       zid: session?.user?.id,
-      bookmark: !isBookmarked,
+      bookmark: !bookmarked,
     };
     await post("/reviews/bookmark", body);
-    router.refresh();
+    // Optimistic UI update for bookmark
+    setBookmarked((prev: Boolean) => !prev);
   };
 
   return (
@@ -144,10 +146,10 @@ export default function ReviewCard({
               className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
               onClick={handleBookmark}
             >
-              {isBookmarked ? (
-                <BookmarkedIcon className={"w-5 h-5"} />
+              {bookmarked ? (
+                <BookmarkedIcon className="w-5 h-5" />
               ) : (
-                <BookmarkIcon className={"w-5 h-5"} />
+                <BookmarkIcon className="w-5 h-5" />
               )}
             </button>
             {/* Flag */}

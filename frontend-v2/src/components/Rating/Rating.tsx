@@ -24,7 +24,7 @@ export default function Rating({
         className={`${
           color === "blue" ? "bg-unilectives-blue" : "bg-unilectives-purple"
         } absolute inset-0 text-transparent bg-clip-text select-none`}
-        style={{ width: percentage }}
+        style={{ width: `${percentage}%` }}
         aria-hidden={true}
       >
         {content}

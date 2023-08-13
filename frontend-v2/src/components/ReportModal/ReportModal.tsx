@@ -77,8 +77,8 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
     if (res.errorCode) {
       setAlert(
         res.errorCode === 400
-          ? "You have already reported this review."
-          : "Try again later",
+          ? { message: "You have already reported this review.", type: "Alert" }
+          : { message: "Try again later", type: "Alert" }
       );
     }
   };

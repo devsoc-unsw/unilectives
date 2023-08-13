@@ -30,7 +30,7 @@ export default async function ReviewPage({
   if (!course) notFound();
 
   const { reviews } = (await get(
-    `/reviews/${course.courseCode.toUpperCase()}`,
+    `/reviews/${course.courseCode.toUpperCase()}`
   )) as Reviews;
 
   let userCourseInfo: string[] = [];
@@ -39,7 +39,7 @@ export default async function ReviewPage({
       "GET",
       `/user/course/${params.id.toUpperCase()}`,
       session?.user?.accessToken ?? "",
-      session?.user?.id ?? "",
+      session?.user?.id ?? ""
     )) as { userCourseInfo: string[] };
     userCourseInfo = res.userCourseInfo;
   }

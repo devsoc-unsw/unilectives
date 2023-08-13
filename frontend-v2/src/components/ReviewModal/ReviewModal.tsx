@@ -27,7 +27,6 @@ export default function ReviewModal({
   courseCode: string;
   setCurrentReviews?: (r: Review[] | AltSetCurrentReviewsType) => void;
 }) {
-  const router = useRouter();
   // States
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
@@ -97,7 +96,7 @@ export default function ReviewModal({
     const res = await post("/reviews", body);
 
     if (res.errorCode) {
-      setAlert("Try again later.");
+      setAlert({ message: "Try again later.", type: "Alert" });
       return;
     }
 
@@ -114,6 +113,9 @@ export default function ReviewModal({
     setInputs(defaultInputs);
 
     closeModal();
+
+    // Snackbar
+    setAlert({ message: "Review created!", type: "Success" });
   };
 
   // function to close modal
