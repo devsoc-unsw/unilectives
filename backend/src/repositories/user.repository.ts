@@ -2,16 +2,19 @@ import { PrismaClient } from "@prisma/client";
 import { CreateUser, User, UserSchema } from "../api/schemas/user.schema";
 
 export class UserRepository {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaClient) { }
 
-  async getUser(zid: string): Promise<User | null> {
+  async getUser(zid: string) {
     const rawUser = await this.prisma.users.findFirst({
       where: {
         zid: zid,
       },
+      include: {
+        reports: true,
+        reviews: true
+      }
     });
-    const user = UserSchema.parse(rawUser);
-    return user;
+    return rawUser;
   }
 
   async saveUser(user: CreateUser): Promise<User> {

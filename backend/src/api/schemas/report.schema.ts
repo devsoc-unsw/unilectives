@@ -28,7 +28,8 @@ export type UpdateReportStatus = z.infer<typeof UpdateReportStatusSchema>;
 export const ReportSchema = z
   .object({
     reportId: z.string(),
-    review: ReviewSchema,
+    // review: ReviewSchema,
+    reviewId: z.string(),
     zid: z.string(),
     status: ReportStatusSchema,
     reason: z.string(),

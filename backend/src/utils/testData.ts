@@ -128,7 +128,7 @@ export const getUserEntity = (): User => {
 export const getReportEntity = (date = new Date()): Report => {
   return {
     reportId: "REPORT1",
-    review: getReviewEntity(),
+    reviewId: getReviewEntity().reviewId,
     zid: "z5555555",
     reason: "Nothing makes sense",
     status: "UNSEEN",
@@ -141,7 +141,7 @@ export const getMockReports = (date = new Date()): Report[] => {
   return [
     {
       reportId: "REPORT1",
-      review: getMockReview(date),
+      reviewId: getMockReview(date).reviewId,
       zid: "z5555555",
       reason: "Nothing makes sense",
       status: "UNSEEN",
@@ -150,7 +150,7 @@ export const getMockReports = (date = new Date()): Report[] => {
     },
     {
       reportId: "REPORT2",
-      review: getMockReview(date),
+      reviewId: getMockReview(date).reviewId,
       zid: "z5000000",
       reason: "There were rude words in the review!",
       status: "UNSEEN",
