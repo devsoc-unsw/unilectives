@@ -38,4 +38,33 @@ export class UserRepository {
     });
     return updatedUser;
   }
+
+  async getUserCourseInfo(courseCode: string, zid: string) {
+    const userInfo = await this.prisma.users.findFirst({
+      where: {
+        zid: zid,
+      },
+      select: {
+        bookmarkedReviews: true,
+      },
+    });
+
+    if (!userInfo) {
+      throw new Error("No user info found");
+    }
+
+    const courseBookmarks = await this.prisma.reviews.findMany({
+      where: {
+        courseCode,
+        reviewId: {
+          in: userInfo.bookmarkedReviews,
+        },
+      },
+      select: {
+        reviewId: true,
+      },
+    });
+
+    return courseBookmarks;
+  }
 }

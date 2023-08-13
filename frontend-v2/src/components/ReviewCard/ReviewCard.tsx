@@ -1,6 +1,7 @@
 "use client";
 
 import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/react/24/outline";
+import { BookmarkIcon as BookmarkedIcon } from "@heroicons/react/24/solid";
 import Rating from "../Rating/Rating";
 import TruncatedDescription from "../TruncatedDescription/TruncatedDescription";
 import ReportModal from "../ReportModal/ReportModal";
@@ -11,12 +12,15 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 type AltSetCurrentReviewsType = (r2: Review[]) => Review[];
+
 export default function ReviewCard({
   review,
   setCurrentReviews,
+  isBookmarked,
 }: {
   review: Review;
   setCurrentReviews: (r: Review[] | AltSetCurrentReviewsType) => void;
+  isBookmarked: boolean;
 }) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -33,13 +37,13 @@ export default function ReviewCard({
     setCurrentReviews((prev: Review[]) => {
       const newReviews = [...prev];
       const target = newReviews.find(
-        (r: Review) => r.reviewId === review.reviewId
+        (r: Review) => r.reviewId === review.reviewId,
       ) as Review;
       if (upvote) {
         target.upvotes.push(session?.user?.id as string);
       } else {
         target.upvotes = target.upvotes.filter(
-          (userUpvote: string) => userUpvote != (session?.user?.id as string)
+          (userUpvote: string) => userUpvote != (session?.user?.id as string),
         );
       }
       return newReviews;
@@ -50,11 +54,9 @@ export default function ReviewCard({
     const body = {
       reviewId: review.reviewId,
       zid: session?.user?.id,
-      bookmark: true,
+      bookmark: !isBookmarked,
     };
     await post("/reviews/bookmark", body);
-    // TODO: Optimistic UI update when bookmark
-    // information is already made available
     router.refresh();
   };
 
@@ -136,19 +138,21 @@ export default function ReviewCard({
           <HandThumbUpIcon className="w-5 h-5" />
         </button>
         {session?.user?.id && (
-          <>
-            <div className="flex items-center gap-2">
-              {/* Bookmark */}
-              <button
-                className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
-                onClick={handleBookmark}
-              >
-                <BookmarkIcon className="w-5 h-5" />
-              </button>
-              {/* Flag */}
-              <ReportModal reviewId={review.reviewId} />
-            </div>
-          </>
+          <div className="flex items-center gap-2">
+            {/* Bookmark */}
+            <button
+              className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
+              onClick={handleBookmark}
+            >
+              {isBookmarked ? (
+                <BookmarkedIcon className={"w-5 h-5"} />
+              ) : (
+                <BookmarkIcon className={"w-5 h-5"} />
+              )}
+            </button>
+            {/* Flag */}
+            <ReportModal reviewId={review.reviewId} />
+          </div>
         )}
       </div>
     </div>

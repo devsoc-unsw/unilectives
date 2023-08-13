@@ -58,4 +58,14 @@ export class UserService {
       },
     };
   }
+  async getUserCourseInfo(courseCode: string, zid: string) {
+    // get user course info
+    const bookmarkedReviews = await this.userRepository.getUserCourseInfo(
+      courseCode,
+      zid,
+    );
+
+    const userCourseInfo = bookmarkedReviews.map((br) => br.reviewId);
+    return { userCourseInfo };
+  }
 }
