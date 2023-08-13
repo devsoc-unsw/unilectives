@@ -10,7 +10,7 @@ Build and run locally (what you will usually do for local development):
 docker run --rm -itd --name cselectives-db -e POSTGRES_PASSWORD=password -e POSTGRES_DB=mydb -p 5432:5432 postgres
 
 # Initialise db schema:
-DATABASE_URL="postgresql://postgres:password@0.0.0.0:5432/mydb?schema=cselectives" npx prisma migrate dev
+DATABASE_URL="postgresql://postgres:password@0.0.0.0:5432/mydb?schema=unilectives" npx prisma migrate dev
 
 # Start DragonflyDB (redis):
 docker run --rm -d --name cselectives-cache -p 6379:6379 --ulimit memlock=-1 docker.dragonflydb.io/dragonflydb/dragonfly

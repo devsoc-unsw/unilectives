@@ -65,6 +65,7 @@ CREATE TABLE "users" (
     "zid" TEXT NOT NULL,
     "bookmarked_reviews" TEXT[],
     "bookmarked_courses" TEXT[],
+    "upvoted_reviews" TEXT[],
     "is_admin" BOOLEAN NOT NULL,
 
     CONSTRAINT "pk_zid" PRIMARY KEY ("zid")
@@ -76,6 +77,7 @@ VALUES
         'z5000000',
         '{}',
         '{"COMP1531"}',
+        '{}',
         FALSE
     );
 
