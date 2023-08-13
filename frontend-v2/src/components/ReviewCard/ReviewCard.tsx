@@ -13,19 +13,22 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type AltSetCurrentReviewsType = (r2: Review[]) => Review[];
+type AltSetBookmarkedReviewsType = (r2: string[]) => string[];
 
 export default function ReviewCard({
   review,
   setCurrentReviews,
-  isBookmarked,
+  bookmarkedReviews,
+  setAllBookmarkedReviews,
 }: {
   review: Review;
   setCurrentReviews: (r: Review[] | AltSetCurrentReviewsType) => void;
-  isBookmarked: boolean;
+  bookmarkedReviews: string[];
+  setAllBookmarkedReviews: (r: string[] | AltSetBookmarkedReviewsType) => void;
 }) {
   const { data: session } = useSession();
   const upvote = !review.upvotes.includes(session?.user?.id!);
-  const [bookmarked, setBookmarked] = useState(isBookmarked);
+  const bookmarked = bookmarkedReviews.includes(review.reviewId);
 
   const handleUpvotes = async () => {
     const body = {
@@ -59,7 +62,17 @@ export default function ReviewCard({
     };
     await post("/reviews/bookmark", body);
     // Optimistic UI update for bookmark
-    setBookmarked((prev: Boolean) => !prev);
+    setAllBookmarkedReviews((prev: string[]) => {
+      let newBookmarkedReviews = [...prev];
+      if (!bookmarked) {
+        newBookmarkedReviews.push(review.reviewId);
+      } else {
+        newBookmarkedReviews = newBookmarkedReviews.filter(
+          (r: string) => r !== review.reviewId
+        );
+      }
+      return newBookmarkedReviews;
+    });
   };
 
   return (
