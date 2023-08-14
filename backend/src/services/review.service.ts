@@ -188,29 +188,18 @@ export class ReviewService {
     }
 
     if (upvoteDetails.upvote) {
-      if (review.upvotes.includes(upvoteDetails.zid)) {
+      if (review.upvotes.includes(upvoteDetails.zid)
+        || user.upvotedReviews.includes(upvoteDetails.zid)) {
         this.logger.info(
           `Already upvoted for ${upvoteDetails.reviewId} and ${upvoteDetails.zid}`,
         );
         return {
           review,
         };
-      }
-      else {
-        review.upvotes = [...review.upvotes, upvoteDetails.zid];
       }
 
-      if (user.upvotedReviews.includes(upvoteDetails.zid)) {
-        this.logger.info(
-          `Already upvoted for ${upvoteDetails.reviewId} and ${upvoteDetails.zid}`,
-        );
-        return {
-          review,
-        };
-      }
-      else {
-        user.upvotedReviews = [...user.upvotedReviews, upvoteDetails.zid];
-      }
+      review.upvotes = [...review.upvotes, upvoteDetails.zid];
+      user.upvotedReviews = [...user.upvotedReviews, upvoteDetails.reviewId];
     } else {
       review.upvotes = review.upvotes.filter(
         (zid) => zid !== upvoteDetails.zid,

@@ -16,20 +16,25 @@ import {
 } from "../api/schemas/review.schema";
 import { UserRepository } from "../repositories/user.repository";
 import { ReviewRepository } from "../repositories/review.repository";
+import { UserService } from "./user.service";
+import { AuthService } from "../modules/Auth";
 
 describe("ReviewService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
+  let auth: AuthService;
   const userRepository = {} as UserRepository;
   const reviewRepository = {} as ReviewRepository;
   const redis = {} as RedisClient;
 
   beforeEach(() => {
+    auth = new AuthService();
     jest.clearAllMocks();
     jest.resetAllMocks();
   });
 
   const reviewService = () =>
     new ReviewService(redis, reviewRepository, userRepository);
+  const userService = () => new UserService(auth, userRepository);
   const date = new Date();
 
   describe("getAllReviews", () => {
@@ -246,10 +251,11 @@ describe("ReviewService", () => {
       expect(service.upvoteReview(request)).rejects.toThrow(errorResult);
     });
 
-    it("should resolve and return upvoted review", () => {
+    it("should resolve and return upvoted review", async () => {
       const service = reviewService();
       const reviews = getMockReviews();
       const user = getUserEntity();
+      const serviceUser = userService();
 
       reviewRepository.getReview = jest.fn().mockReturnValue(reviews[0]);
       userRepository.getUser = jest.fn().mockReturnValue(user);
@@ -266,12 +272,16 @@ describe("ReviewService", () => {
       expect(service.upvoteReview(request)).resolves.toEqual({
         review: reviews[0],
       });
+
+      await serviceUser.getUser(reviews[0].zid);
+      expect(user.upvotedReviews.includes(reviews[0].reviewId)).toEqual(true)
     });
 
-    it("should resolve and remove upvoted review", () => {
+    it("should resolve and remove upvoted review", async () => {
       const service = reviewService();
       const reviews = getMockReviews();
       const user = getUserEntity();
+      const serviceUser = userService();
 
       reviewRepository.getReview = jest.fn().mockReturnValue(reviews[0]);
       userRepository.getUser = jest.fn().mockReturnValue(user);
@@ -288,6 +298,9 @@ describe("ReviewService", () => {
       expect(service.upvoteReview(request)).resolves.toEqual({
         review: reviews[0],
       });
+
+      await serviceUser.getUser(reviews[0].zid);
+      expect(user.upvotedReviews.includes(reviews[0].reviewId)).toEqual(false)
     });
   });
 });
