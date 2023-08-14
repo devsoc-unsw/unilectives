@@ -57,4 +57,15 @@ export class ReviewRepository {
       },
     });
   }
+
+  async updateUpvotes(review: { reviewId: string; upvotes: string[] }) {
+    return await this.prisma.reviews.update({
+      where: {
+        reviewId: review.reviewId,
+      },
+      data: {
+        upvotes: review.upvotes,
+      },
+    });
+  }
 }
