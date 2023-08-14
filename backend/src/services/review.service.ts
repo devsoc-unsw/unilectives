@@ -20,7 +20,7 @@ export class ReviewService {
     private readonly redis: RedisClient,
     private readonly reviewRepository: ReviewRepository,
     private readonly userRepository: UserRepository,
-  ) {}
+  ) { }
 
   async getAllReviews(): Promise<ReviewsSuccessResponse | undefined> {
     const reviews: reviews[] = await this.reviewRepository.getAllReviews();
@@ -159,10 +159,8 @@ export class ReviewService {
     user = await this.userRepository.saveUser(user);
 
     this.logger.info(
-      `Successfully ${
-        reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
-      } review with reviewId ${reviewDetails.reviewId} for user with zID ${
-        reviewDetails.zid
+      `Successfully ${reviewDetails.bookmark ? "bookmarked" : "removed bookmarked"
+      } review with reviewId ${reviewDetails.reviewId} for user with zID ${reviewDetails.zid
       }.`,
     );
     return {
@@ -198,10 +196,27 @@ export class ReviewService {
           review,
         };
       }
-      review.upvotes = [...review.upvotes, upvoteDetails.zid];
+      else {
+        review.upvotes = [...review.upvotes, upvoteDetails.zid];
+      }
+
+      if (user.upvotedReviews.includes(upvoteDetails.zid)) {
+        this.logger.info(
+          `Already upvoted for ${upvoteDetails.reviewId} and ${upvoteDetails.zid}`,
+        );
+        return {
+          review,
+        };
+      }
+      else {
+        user.upvotedReviews = [...user.upvotedReviews, upvoteDetails.zid];
+      }
     } else {
       review.upvotes = review.upvotes.filter(
         (zid) => zid !== upvoteDetails.zid,
+      );
+      user.upvotedReviews.filter(
+        (review) => review !== upvoteDetails.reviewId,
       );
     }
 
@@ -211,11 +226,11 @@ export class ReviewService {
     );
     await this.redis.set(`reviews:${review.courseCode}`, reviews);
 
+    user = await this.userRepository.saveUser(user);
+
     this.logger.info(
-      `Successfully ${
-        upvoteDetails.upvote ? "upvoted" : "removed upvote from"
-      } review with reviewId ${upvoteDetails.reviewId} for user with zID ${
-        upvoteDetails.zid
+      `Successfully ${upvoteDetails.upvote ? "upvoted" : "removed upvote from"
+      } review with reviewId ${upvoteDetails.reviewId} for user with zID ${upvoteDetails.zid
       }.`,
     );
 

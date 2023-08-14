@@ -18,14 +18,15 @@ export class UserRepository {
   }
 
   async saveUser(user: CreateUser): Promise<User> {
-    const rawUser = await this.prisma.users.upsert({
-      where: {
-        zid: user.zid,
-      },
-      update: user,
-      create: user,
-    });
-    const savedUser = UserSchema.parse(rawUser);
-    return savedUser;
+    // const rawUser = await this.prisma.users.upsert({
+    //   where: {
+    //     zid: user.zid,
+    //   },
+    //   update: user,
+    //   create: user,
+    // });
+    // const savedUser = UserSchema.parse(rawUser);
+    // return savedUser;
+    return UserSchema.parse(user);
   }
 }

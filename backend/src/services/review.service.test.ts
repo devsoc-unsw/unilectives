@@ -255,6 +255,7 @@ describe("ReviewService", () => {
       userRepository.getUser = jest.fn().mockReturnValue(user);
       reviewRepository.save = jest.fn().mockReturnValue(reviews[0]);
       userRepository.saveUser = jest.fn().mockReturnValue(user);
+      reviewRepository.updateUpvotes = jest.fn().mockReturnValue(reviews[0]);
 
       const request: UpvoteReview = {
         reviewId: reviews[0].reviewId,
@@ -276,6 +277,7 @@ describe("ReviewService", () => {
       userRepository.getUser = jest.fn().mockReturnValue(user);
       reviewRepository.save = jest.fn().mockReturnValue(reviews[0]);
       userRepository.saveUser = jest.fn().mockReturnValue(user);
+      reviewRepository.updateUpvotes = jest.fn().mockReturnValue(reviews[0]);
 
       const request: UpvoteReview = {
         reviewId: reviews[0].reviewId,
