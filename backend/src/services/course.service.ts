@@ -105,49 +105,6 @@ export class CourseService {
     return { course };
   }
 
-  async bookmarkCourse(
-    bookmarkDetails: BookmarkCourse,
-  ): Promise<CourseBody | undefined> {
-    const course = await this.courseRepository.getCourse(
-      bookmarkDetails.courseCode,
-    );
-
-    if (!course) {
-      this.logger.error(
-        `There is no course with courseCode ${bookmarkDetails.courseCode}.`,
-      );
-      throw new HTTPError(badRequest);
-    }
-    let user = await this.userRepository.getUser(bookmarkDetails.zid);
-
-    if (!user) {
-      this.logger.error(`There is no user with zid ${bookmarkDetails.zid}.`);
-      throw new HTTPError(badRequest);
-    }
-
-    if (bookmarkDetails.bookmark) {
-      user.bookmarkedCourses = [
-        ...user.bookmarkedCourses,
-        bookmarkDetails.courseCode,
-      ];
-    } else {
-      user.bookmarkedCourses.filter(
-        (course) => course !== bookmarkDetails.courseCode,
-      );
-    }
-
-    user = await this.userRepository.saveUser(user);
-
-    this.logger.info(
-      `Successfully ${
-        bookmarkDetails.bookmark ? "bookmarked" : "removed bookmarked"
-      } course with courseCode ${
-        bookmarkDetails.courseCode
-      } for user with zID ${bookmarkDetails.zid}.`,
-    );
-    return { course };
-  }
-
   async flushKey(key: string) {
     await this.redis.del(key);
   }

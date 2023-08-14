@@ -13,6 +13,7 @@ import {
   PutReviewRequestBody,
   BookmarkReview,
   UpvoteReview,
+  PutReviewRequestBodySchema,
 } from "../api/schemas/review.schema";
 
 export class ReviewController implements IController {
@@ -97,7 +98,7 @@ export class ReviewController implements IController {
       )
       .put(
         "/reviews/:reviewId",
-        validationMiddleware(PostReviewSchema, "body"),
+        validationMiddleware(PutReviewRequestBodySchema, "body"),
         async (
           req: Request<{ reviewId: string }, unknown, PutReviewRequestBody>,
           res: Response,

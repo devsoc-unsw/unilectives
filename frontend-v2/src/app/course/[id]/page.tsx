@@ -9,8 +9,11 @@ import { notFound } from "next/navigation";
 import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
 import Rating from "@/components/Rating/Rating";
 import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
-import { ICourse, Reviews } from "@/types/api";
-import { get } from "@/utils/request";
+import { Course, Reviews } from "@/types/api";
+import { get, validatedReq } from "@/utils/request";
+import ReviewModal from "@/components/ReviewModal/ReviewModal";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export default async function ReviewPage({
   params,
@@ -19,15 +22,27 @@ export default async function ReviewPage({
     [key: string]: string;
   };
 }) {
-  const { course } = (await get(
-    `/course/${params.id.toUpperCase()}`
-  )) as ICourse;
+  const session = await getServerSession(authOptions);
+  const { course } = (await get(`/course/${params.id.toUpperCase()}`)) as {
+    course: Course;
+  };
 
   if (!course) notFound();
 
   const { reviews } = (await get(
     `/reviews/${course.courseCode.toUpperCase()}`
   )) as Reviews;
+
+  let userCourseInfo: string[] = [];
+  if (session?.user) {
+    const res = (await validatedReq(
+      "GET",
+      `/user/course/${params.id.toUpperCase()}`,
+      session?.user?.accessToken ?? "",
+      session?.user?.id ?? ""
+    )) as { userCourseInfo: string[] };
+    userCourseInfo = res.userCourseInfo;
+  }
 
   return (
     <div className="isolate">
@@ -72,7 +87,11 @@ export default async function ReviewPage({
             {/* StarRating */}
             <div className="space-x-2">
               <div className="text-2xl inline">
-                <Rating type="star" color="purple" rating={course.overallRating} />
+                <Rating
+                  type="star"
+                  color="purple"
+                  overallRating={course.overallRating}
+                />
               </div>
               {/* Number of reviews */}
               <span>
@@ -95,7 +114,7 @@ export default async function ReviewPage({
               ].map((item, index) => (
                 <div key={index}>
                   <DoughnutChart
-                    rating={item.metric}
+                    overallRating={item.metric}
                     width={90}
                     strokeWidth={9}
                   />
@@ -125,9 +144,17 @@ export default async function ReviewPage({
         <section className="space-y-4 w-full mb-8">
           <Suspense fallback={<div>Loading...</div>}>
             {reviews && reviews.length !== 0 ? (
-              <ReviewsBar courseCode={course.courseCode} reviews={reviews} />
+              <ReviewsBar
+                courseCode={course.courseCode}
+                reviews={reviews}
+                bookmarkedReviews={userCourseInfo}
+              />
             ) : (
-              <div>No reviews yet</div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-bold">Reviews</h3>
+                <ReviewModal courseCode={course.courseCode} />
+                <p className="text-black/50">No reviews yet</p>
+              </div>
             )}
           </Suspense>
         </section>

@@ -32,10 +32,7 @@ export class ReportRepository {
     return reports;
   }
 
-  async getReportByUserAndReview(
-    zid: string,
-    reviewId: string,
-  ): Promise<Report | null> {
+  async getReportByUserAndReview(zid: string, reviewId: string) {
     const rawReport = await this.prisma.reports.findFirst({
       where: {
         zid: zid,
@@ -45,11 +42,10 @@ export class ReportRepository {
         users: true,
       },
     });
-    const report = ReportSchema.parse(rawReport);
-    return report;
+    return rawReport;
   }
 
-  async getReport(reportId: string): Promise<Report | null> {
+  async getReport(reportId: string) {
     const rawReport = await this.prisma.reports.findUnique({
       where: {
         reportId: reportId,
@@ -58,11 +54,10 @@ export class ReportRepository {
         users: true,
       },
     });
-    const report = ReportSchema.parse(rawReport);
-    return report;
+    return rawReport;
   }
 
-  async newReport(report: CreateReport): Promise<Report> {
+  async newReport(report: CreateReport) {
     const rawReport = await this.prisma.reports.create({
       data: {
         ...report,
@@ -72,8 +67,7 @@ export class ReportRepository {
         users: true,
       },
     });
-    const savedReport = ReportSchema.parse(rawReport);
-    return savedReport;
+    return rawReport;
   }
 
   async saveReport(report: UpdateReportStatus): Promise<Report> {
