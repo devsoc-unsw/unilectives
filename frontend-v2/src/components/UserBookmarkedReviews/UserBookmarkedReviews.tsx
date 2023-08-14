@@ -4,7 +4,6 @@ import { Review, Reviews } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
 import { useEffect, useMemo, useState } from "react";
 import Rating from "../Rating/Rating";
-import { ArrowSmallUpIcon } from "@heroicons/react/24/outline";
 import { BookmarkIcon } from "@heroicons/react/24/solid";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import Pagination from "../Pagination/Pagination";
@@ -59,15 +58,6 @@ export default function UserBookmarkedReviews({ reviews }: Reviews) {
       bookmark: false,
     };
     await post("/reviews/bookmark", body);
-  };
-
-  const upvoteReview = async (review: Review) => {
-    const body = {
-      reviewId: review.reviewId,
-      zid: session?.user?.id,
-      upvote: true,
-    };
-    await post("/reviews/upvote", body);
   };
 
   useEffect(() => {
@@ -130,12 +120,6 @@ export default function UserBookmarkedReviews({ reviews }: Reviews) {
                 </div>
                 {/* Icons */}
                 <div className="flex flex-1 flex-wrap gap-5 justify-end">
-                  <button className="duration-100 hover:text-unilectives-blue">
-                    <ArrowSmallUpIcon
-                      onClick={() => upvoteReview(review)}
-                      className="w-6 h-6 inline-block"
-                    />
-                  </button>
                   <button className="duration-100 hover:text-unilectives-blue/75">
                     <BookmarkIcon
                       onClick={() => bookmarkReview(review)}
@@ -179,12 +163,6 @@ export default function UserBookmarkedReviews({ reviews }: Reviews) {
                 </p>
                 {/* Icons */}
                 <div className="flex flex-wrap ml-auto gap-5 w-fit">
-                  <button className="duration-100 hover:text-unilectives-blue">
-                    <ArrowSmallUpIcon
-                      onClick={() => upvoteReview(review)}
-                      className="w-6 h-6 inline-block"
-                    />
-                  </button>
                   <button className="duration-100 hover:text-unilectives-blue/75">
                     <BookmarkIcon
                       onClick={() => bookmarkReview(review)}

@@ -16,6 +16,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Tooltip from "@/components/Tooltip/Tooltip";
 import { signIn, signOut } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
 
 type NavbarProps = {
   zid: string | undefined;
@@ -24,6 +25,7 @@ type NavbarProps = {
 export default function Navbar({ zid }: NavbarProps) {
   const [logout, setLogout] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
+  const router = useRouter();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -45,6 +47,11 @@ export default function Navbar({ zid }: NavbarProps) {
     setLogout(true);
     if (!logout) {
       e.preventDefault();
+    } else {
+      signOut({
+        redirect: false,
+      });
+      router.push("/");
     }
   }
 
@@ -81,7 +88,7 @@ export default function Navbar({ zid }: NavbarProps) {
           className={
             collapsed
               ? "hidden"
-              : "w-12 h-12 p-3 rotate-90 hover:bg-slate-200 rounded-xl"
+              : "w-12 h-12 p-3 rotate-90 hover:bg-slate-200 rounded-xl cursor-pointer"
           }
         />
       </div>
@@ -111,10 +118,13 @@ export default function Navbar({ zid }: NavbarProps) {
           <a
             className={
               collapsed
-                ? "flex"
-                : "flex flex-row items-center hover:bg-slate-200 rounded-xl"
+                ? "flex cursor-pointer"
+                : "flex flex-row items-center hover:bg-slate-200 rounded-xl cursor-pointer"
             }
-            href={`/user/${zid}`}
+            href={zid && `/user/${zid}`}
+            onClick={() => {
+              if (!zid) signIn("csesoc");
+            }}
           >
             <Tooltip tooltip={collapsed ? "My Reviews" : ""}>
               <PencilSquareIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
@@ -148,8 +158,8 @@ export default function Navbar({ zid }: NavbarProps) {
           <div
             className={
               collapsed
-                ? "flex flex-col gap-3"
-                : "flex flex-row justify-between gap-2"
+                ? "flex flex-col gap-3 cursor-pointer"
+                : "flex flex-row justify-between gap-2 cursor-pointer"
             }
           >
             <Tooltip tooltip={"Expand"}>
@@ -157,21 +167,29 @@ export default function Navbar({ zid }: NavbarProps) {
                 onClick={() => setCollapsed(false)}
                 className={
                   collapsed
-                    ? "w-12 h-12 p-3 rotate-90 hover:bg-slate-200 rounded-xl"
+                    ? "w-12 h-12 p-3 rotate-90 hover:bg-slate-200 rounded-xl cursor-pointer"
                     : "hidden"
                 }
               />
             </Tooltip>
             {collapsed ? (
               <Tooltip tooltip={zid ? `${zid}` : "My Account"}>
-                <a href={zid ? `/user/${zid}` : "/api/auth/signin"}>
-                  <UserCircleIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
+                <a
+                  href={zid && `/user/${zid}`}
+                  onClick={() => {
+                    if (!zid) signIn("csesoc");
+                  }}
+                >
+                  <UserCircleIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl cursor-pointer" />
                 </a>
               </Tooltip>
             ) : (
               <a
-                className="flex flex-row w-full items-center hover:bg-slate-200 rounded-xl"
-                href={zid ? `/user/${zid}` : "api/auth/signin"}
+                className="flex flex-row w-full items-center hover:bg-slate-200 rounded-xl cursor-pointer"
+                href={zid && `/user/${zid}`}
+                onClick={() => {
+                  if (!zid) signIn("csesoc");
+                }}
               >
                 <UserCircleIcon className="w-12 h-12 p-3" />
                 <span className="whitespace-nowrap">
@@ -180,30 +198,24 @@ export default function Navbar({ zid }: NavbarProps) {
               </a>
             )}
             {collapsed ? (
-              <Tooltip tooltip={"Dark Mode"}>
+              <Tooltip tooltip={"COMING SOON"}>
                 <MoonIcon
                   title="Dark Mode"
-                  className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl"
+                  className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl cursor-default"
                 />
               </Tooltip>
             ) : (
               <MoonIcon
                 title="Dark Mode"
-                className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl"
+                className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl cursor-default"
               />
             )}
           </div>
           {zid ? (
             collapsed ? (
               <Tooltip tooltip={logout ? "Are you sure?" : "Logout"}>
-                <a
-                  href={logout ? "/api/auth/signout" : "#"}
-                  onClick={(e) => {
-                    setLogout(true);
-                    if (!logout) {
-                      e.preventDefault();
-                    }
-                  }}
+                <button
+                  onClick={(e) => handleLogout(e)}
                   onMouseLeave={() => setLogout(false)}
                   className={`flex flex-row items-center justify-center rounded-xl gap-2 ${
                     logout
@@ -212,11 +224,10 @@ export default function Navbar({ zid }: NavbarProps) {
                   }`}
                 >
                   <ArrowRightOnRectangleIcon className="w-12 h-12 p-3" />
-                </a>
+                </button>
               </Tooltip>
             ) : (
-              <a
-                href={logout ? "/api/auth/signout" : "#"}
+              <button
                 onClick={(e) => handleLogout(e)}
                 onMouseLeave={() => setLogout(false)}
                 className={`flex flex-row items-center justify-center rounded-xl gap-2 ${
@@ -231,25 +242,25 @@ export default function Navbar({ zid }: NavbarProps) {
                 ) : (
                   <span>Are you sure?</span>
                 )}
-              </a>
+              </button>
             )
           ) : collapsed ? (
             <Tooltip tooltip={"Login"}>
-              <a
-                href={"/api/auth/signin"}
+              <button
+                onClick={() => signIn("csesoc")}
                 className="flex flex-row items-center justify-center rounded-xl gap-2 hover:bg-slate-200"
               >
                 <ArrowLeftOnRectangleIcon className="w-12 h-12 rotate-180 p-3" />
-              </a>
+              </button>
             </Tooltip>
           ) : (
-            <a
-              href={"/api/auth/signin"}
+            <button
+              onClick={() => signIn("csesoc")}
               className="flex flex-row items-center justify-center rounded-xl gap-2 hover:bg-slate-200"
             >
               <ArrowLeftOnRectangleIcon className="w-6 h-12 rotate-180 py-3" />
               <span>Login</span>
-            </a>
+            </button>
           )}
 
           <div className="flex flex-col gap-3 max-h-20">
