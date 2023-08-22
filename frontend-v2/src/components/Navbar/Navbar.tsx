@@ -115,24 +115,26 @@ export default function Navbar({ zid }: NavbarProps) {
               Browse Courses
             </span>
           </a>
-          <a
-            className={
-              collapsed
-                ? "flex cursor-pointer"
-                : "flex flex-row items-center hover:bg-slate-200 rounded-xl cursor-pointer"
-            }
-            href={zid && `/user/${zid}`}
-            onClick={() => {
-              if (!zid) signIn("csesoc");
-            }}
-          >
-            <Tooltip tooltip={collapsed ? "My Reviews" : ""}>
-              <PencilSquareIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
-            </Tooltip>
-            <span className={collapsed ? "hidden" : "whitespace-nowrap"}>
-              My Reviews
-            </span>
-          </a>
+          {zid && (
+            <a
+              className={
+                collapsed
+                  ? "flex cursor-pointer"
+                  : "flex flex-row items-center hover:bg-slate-200 rounded-xl cursor-pointer"
+              }
+              href={zid && `/user/${zid}`}
+              onClick={() => {
+                if (!zid) signIn("csesoc");
+              }}
+            >
+              <Tooltip tooltip={collapsed ? "My Reviews" : ""}>
+                <PencilSquareIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
+              </Tooltip>
+              <span className={collapsed ? "hidden" : "whitespace-nowrap"}>
+                My Reviews
+              </span>
+            </a>
+          )}
           <a
             className={
               collapsed

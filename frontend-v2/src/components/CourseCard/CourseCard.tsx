@@ -21,9 +21,9 @@ export default function CourseCard({
   return (
     <div className="box-border px-6 py-7 bg-unilectives-card hover:bg-gray-100 shadow-lg rounded-xl space-y-2 cursor-pointer">
       {/* Course courseCode + Ratings */}
-      <div className="flex flex-wrap justify-between text-2xl">
-        <h1 className="font-bold">{courseCode}</h1>
-        <div className="text-right">
+      <div className="flex flex-wrap justify-between text-2xl gap-x-4">
+        <h1 className="font-bold w-[8ch]">{courseCode}</h1>
+        <div className="text-left">
           {/* StarRating */}
           <div className="text-2xl inline">
             <Rating color="purple" type="star" overallRating={overallRating} />
