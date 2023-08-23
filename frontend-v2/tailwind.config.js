@@ -52,6 +52,7 @@ module.exports = {
       decimal: 'decimal',
       roman: 'lower-roman',
       latin: 'upper-Latin',
+      disc: 'disc',
     },
   },
   plugins: [

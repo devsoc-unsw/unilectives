@@ -139,7 +139,7 @@ export default function Navbar({ zid }: NavbarProps) {
                 ? "flex"
                 : "flex flex-row items-center hover:bg-slate-200 rounded-xl"
             }
-            href="/terms-and-conditions"
+            href="/terms"
           >
             <Tooltip tooltip={collapsed ? "Terms and Conditions" : ""}>
               <ShieldCheckIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
@@ -267,7 +267,7 @@ export default function Navbar({ zid }: NavbarProps) {
             <span className={collapsed ? "hidden" : "text-xs"}>
               By using this site, you agree to the{" "}
               <a
-                href="/terms-and-conditions"
+                href="/terms"
                 className="inline text-blue-500 hover:underline"
               >
                 terms and conditions
