@@ -3,31 +3,42 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { FormEvent, Fragment, useMemo, useState } from "react";
+import { FormEvent, Fragment, useContext, useMemo, useState } from "react";
 import ReviewRatingInput from "../ReviewRatingInput/ReviewRatingInput";
-import Dropdown from "../Dropdown/Dropdown";
+import { post } from "@/utils/request";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { Review } from "@/types/api";
+import { AlertContext } from "@/lib/snackbar-context";
 
 type Inputs = {
-  rating: number | null;
+  overallRating: number | null;
   enjoyability: number | null;
   usefulness: number | null;
   manageability: number | null;
   termTaken: string | null;
-  grade: string | null;
 };
 
-export default function ReviewModal({ courseCode }: { courseCode: string }) {
+type AltSetCurrentReviewsType = (r2: Review[]) => Review[];
+export default function ReviewModal({
+  courseCode,
+  setCurrentReviews,
+}: {
+  courseCode: string;
+  setCurrentReviews?: (r: Review[] | AltSetCurrentReviewsType) => void;
+}) {
   // States
+  const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const { setAlert } = useContext(AlertContext);
 
   // States: Modal Inputs
   const defaultInputs = {
-    rating: null,
+    overallRating: null,
     enjoyability: null,
     usefulness: null,
     manageability: null,
     termTaken: null,
-    grade: null,
   };
   const [inputs, setInputs] = useState<Inputs>(defaultInputs);
 
@@ -38,59 +49,73 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
 
   // Check if ready to submit
   const readyToSubmit = useMemo(() => {
-    const { rating, enjoyability, usefulness, manageability } = inputs;
+    const { overallRating, enjoyability, usefulness, manageability } = inputs;
     return (
-      rating && enjoyability && usefulness && manageability && termTakenIsValid
+      overallRating &&
+      enjoyability &&
+      usefulness &&
+      manageability &&
+      termTakenIsValid
     );
   }, [inputs, termTakenIsValid]);
 
   // Submit review
-  const handleOnSubmit = (event: FormEvent) => {
+  const handleOnSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     // Return if not ready to submit
-    if (!readyToSubmit) return;
+    if (!readyToSubmit || status !== "authenticated") return;
 
     // Get all values
     const target = event.target as HTMLFormElement;
     const {
-      rating,
+      overallRating,
       enjoyability,
       usefulness,
       manageability,
-      grade,
       termTaken,
     } = inputs;
 
-    const overallRating =
-      ((rating as number) +
-        (manageability as number) +
-        (usefulness as number) +
-        (enjoyability as number)) /
-      4;
-
     const body = {
-      zid: "",
-      authorName: target.displayAnonymous.checked ? "Anonymous" : "",
+      zid: session?.user?.id,
+      authorName: target.displayAnonymous.checked
+        ? "Anonymous"
+        : session.user?.name,
       title: target.reviewTitle.value,
       description: target.reviewDescription.value,
       courseCode,
-      grade,
-      rating,
+      grade: target.reviewGrade.value ? Number(target.reviewGrade.value) : null,
+      overallRating,
       termTaken,
       manageability,
       usefulness,
       enjoyability,
-      overallRating,
     };
 
-    // TODO: Submit review here (Do this when user session can already be handled)
-    console.log(body);
+    // Submit review
+    const res = await post("/reviews", body);
+
+    if (res.errorCode) {
+      setAlert({ message: "Try again later.", type: "Alert" });
+      return;
+    }
+
+    // Optimistic UI update
+    const { review: newReview } = res as { review: Review };
+    if (setCurrentReviews) {
+      setCurrentReviews((prev: Review[]) => {
+        const newReviews = [newReview, ...prev];
+        return newReviews;
+      });
+    }
 
     // Reset inputs + term taken
     setInputs(defaultInputs);
 
     closeModal();
+
+    // Snackbar
+    setAlert({ message: "Review created!", type: "Success" });
   };
 
   // function to close modal
@@ -128,10 +153,10 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
               leaveTo="opacity-0"
             >
               {/* Dark background behind modal */}
-              <div className="fixed inset-0 bg-black/25" />
+              <div className="ml-[80px] fixed inset-0 bg-black/25" />
             </Transition.Child>
 
-            <div className="fixed inset-0 overflow-y-auto">
+            <div className="ml-[80px] fixed inset-0 overflow-y-auto">
               <div className="flex min-h-full items-center justify-center p-4 text-center">
                 <Transition.Child
                   as={Fragment}
@@ -192,14 +217,14 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                         />
                       </form>
                       <div className="flex flex-col items-center justify-around gap-y-5 px-12 lg:px-4 md:px-0 md:items-start text-center md:text-left z-10">
-                        {/* Overall rating + enjoyability + usefulness + manageability */}
+                        {/* overallRating + enjoyability + usefulness + manageability */}
                         {[
                           {
-                            defaultValue: inputs.rating,
+                            defaultValue: inputs.overallRating,
                             onChange: (value: number | null) => {
                               setInputs((prevInputs: Inputs) => {
                                 const newInputs = { ...prevInputs };
-                                newInputs.rating = value;
+                                newInputs.overallRating = value;
                                 return newInputs;
                               });
                             },
@@ -249,7 +274,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                           ) => {
                             return (
                               <div className="space-y-2 text-3xl" key={index}>
-                                <h2 className="text-lg font-bold">
+                                <h2 className="text-lg font-bold after:content-['*'] after:text-red-500">
                                   {item.title}
                                 </h2>
                                 {item.title === "Overall Rating" ? (
@@ -272,19 +297,23 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                           }
                         )}
                         {/* Grade */}
-                        <div className="w-[150px]">
-                          <h2 className="text-lg font-bold">Grade</h2>
-                          <Dropdown
-                            options={["HD", "DN", "CR", "PS", "FL", "UF"]}
-                            defaultValue={inputs.grade}
+                        <div>
+                          <h2>
+                            <label
+                              htmlFor="modal-grade"
+                              className="text-lg font-bold"
+                            >
+                              Grade
+                            </label>
+                          </h2>
+                          <input
+                            name="reviewGrade"
+                            type="number"
+                            min={0}
+                            max={100}
+                            form="submit-review"
                             placeholder="Grade"
-                            onChange={(value: string | null) => {
-                              setInputs((prevInputs: Inputs) => {
-                                const newInputs = { ...prevInputs };
-                                newInputs.grade = value;
-                                return newInputs;
-                              });
-                            }}
+                            className="py-2 px-2 border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input"
                           />
                         </div>
                         {/* Course Completion */}
@@ -292,7 +321,7 @@ export default function ReviewModal({ courseCode }: { courseCode: string }) {
                           <h2>
                             <label
                               htmlFor="modal-course-completion"
-                              className="text-lg font-bold"
+                              className="text-lg font-bold after:content-['*'] after:text-red-500"
                             >
                               Course Completion
                             </label>

@@ -1,16 +1,18 @@
 export default function Rating({
   color,
   type,
-  rating,
+  overallRating,
 }: {
   type: "star" | "circle";
   color: "blue" | "purple";
-  rating: number;
+  overallRating: number;
 }) {
   // Convert percentage to 1 decimal float
   const percentage =
-    rating && rating !== -1
-      ? parseFloat((((rating > 5 ? 5 : rating) / 5) * 100).toFixed(1))
+    overallRating && overallRating !== -1
+      ? parseFloat(
+          (((overallRating > 5 ? 5 : overallRating) / 5) * 100).toFixed(1)
+        )
       : 0;
 
   const content = (type === "star" ? "★" : "●").repeat(5);
@@ -22,7 +24,7 @@ export default function Rating({
         className={`${
           color === "blue" ? "bg-unilectives-blue" : "bg-unilectives-purple"
         } absolute inset-0 text-transparent bg-clip-text select-none`}
-        style={{ width: percentage }}
+        style={{ width: `${percentage}%` }}
         aria-hidden={true}
       >
         {content}

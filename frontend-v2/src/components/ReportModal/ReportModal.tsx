@@ -1,10 +1,16 @@
+import { authOptions } from "@/lib/auth";
+import { AlertContext } from "@/lib/snackbar-context";
+import { post } from "@/utils/request";
 import { Dialog, Transition } from "@headlessui/react";
 import { FlagIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import {
   ChangeEvent,
   FormEvent,
   Fragment,
   useCallback,
+  useContext,
   useEffect,
   useState,
 } from "react";
@@ -17,6 +23,8 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
     reason: "",
   });
   const [otherReason, setOtherReason] = useState("");
+  const { data: session, status } = useSession();
+  const { setAlert } = useContext(AlertContext);
 
   // function to close modal
   const closeModal = () => {
@@ -53,14 +61,26 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
   }, [otherReason]);
 
   // handle on submit
-  const handleOnSubmit = (event: FormEvent) => {
+  const handleOnSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    // TODO: Submit report here (Do this when user session can already be handled)
-    console.log({
+
+    closeModal();
+
+    const body = {
       reviewId,
-      zid: "",
+      zid: session?.user?.id,
       reason: input.reason,
-    });
+    };
+
+    const res = await post("/reports", body);
+
+    if (res.errorCode) {
+      setAlert(
+        res.errorCode === 400
+          ? { message: "You have already reported this review.", type: "Alert" }
+          : { message: "Try again later", type: "Alert" }
+      );
+    }
   };
 
   return (
@@ -87,10 +107,10 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
               leaveTo="opacity-0"
             >
               {/* Dark background behind modal */}
-              <div className="fixed inset-0 bg-black/25" />
+              <div className="ml-[80px] fixed inset-0 bg-black/25" />
             </Transition.Child>
 
-            <div className="fixed inset-0 overflow-y-auto">
+            <div className="ml-[80px] fixed inset-0 overflow-y-auto">
               <div className="flex min-h-full items-center justify-center p-4 text-center">
                 <Transition.Child
                   as={Fragment}

@@ -19,9 +19,9 @@ export const PostReviewSchema = z
     zid: z.string(),
     authorName: z.string(),
     title: z.string(),
-    description: z.string(),
+    description: z.string().nullable(),
+    grade: z.number().nullable(),
     courseCode: z.string(),
-    rating: z.number(),
     termTaken: z.string(),
     manageability: z.number(),
     usefulness: z.number(),
@@ -70,7 +70,7 @@ const PostReviewRequestBodySchema = z
 
 export type PostReviewRequestBody = z.infer<typeof PostReviewRequestBodySchema>;
 
-const PutReviewRequestBodySchema = z
+export const PutReviewRequestBodySchema = z
   .object({
     authorName: z.string(),
     grade: z.number().nullable(),

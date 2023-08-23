@@ -7,81 +7,129 @@ import { get } from "@/utils/request";
 import { sortCourses } from "@/utils/sortCourses";
 import SortDropdown from "../SortDropdown/SortDropdown";
 
-export default function CoursesList() {
-  // Refs
+export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
   const courseFinishedRef = useRef(false);
   const indexRef = useRef(0);
+  const searchCoursesRef = useRef<Course[]>([]);
 
-  // States
-  const [allCourses, setAllCourses] = useState<Course[]>([]);
-  const [noMoreCourses, setNoMoreCourses] = useState(false);
+  const [displayCourses, setDisplayCourses] = useState<Course[]>([]);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [selected, setSelected] = useState("");
 
-  // Constants
-  const currentCourses = allCourses.flatMap((course) => course);
+  const paginationOffset = 25;
 
-  // Load more courses
   const loadMore = async (index: number) => {
-    // If user scroll position is not in the end
-    if (window.innerHeight + window.pageYOffset < document.body.offsetHeight)
-      return;
-
-    try {
-      if (courseFinishedRef.current) return;
-      // Get courses from offset
-      const { courses } = (await get(`/courses?offset=${index}`)) as Courses;
-      // All courses has been loaded
-      if (!courses.length) {
-        courseFinishedRef.current = true;
-        return;
+    const fetchCourses = async () => {
+      let fetchedCourses: Course[] = [];
+      if (searchTerm === "") {
+        // default courses
+        try {
+          const { courses } = (await get(
+            `/courses?offset=${index}`
+          )) as Courses;
+          fetchedCourses = courses;
+        } catch (err) {
+          fetchedCourses = [];
+        }
+      } else {
+        // searched courses
+        fetchedCourses = searchCoursesRef.current.slice(index, index + 25);
       }
-      // Add courses
-      setAllCourses((prev) => [...prev, ...courses]);
-    } catch (err) {
-      setNoMoreCourses(true);
+
+      return fetchedCourses;
+    };
+
+    if (window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+      return;
     }
+    if (courseFinishedRef.current) {
+      return;
+    }
+
+    const courses = await fetchCourses();
+    if (courses.length === 0) {
+      courseFinishedRef.current = true;
+      return;
+    }
+
+    setDisplayCourses((prev) => [...prev, ...courses]);
   };
 
   useEffect(() => {
-    // Load courses on scroll
+    const resetRefs = () => {
+      courseFinishedRef.current = false;
+      indexRef.current = 0;
+      searchCoursesRef.current = [];
+    };
+    const getSearchResults = async () => {
+      try {
+        const { courses } = (await get(
+          `/course/search/${searchTerm}`
+        )) as Courses;
+        searchCoursesRef.current = courses;
+      } catch (err) {
+        searchCoursesRef.current = [];
+      }
+      setDisplayCourses(searchCoursesRef.current.slice(0, paginationOffset));
+      indexRef.current += paginationOffset;
+      setInitialLoading(false);
+    };
+    const getDefaultResults = async () => {
+      try {
+        const { courses } = (await get(`/courses?offset=0`)) as Courses;
+        setDisplayCourses(courses);
+        indexRef.current += paginationOffset;
+      } catch (err) {
+        setDisplayCourses([]);
+      }
+      setInitialLoading(false);
+    };
+    const getInitialDisplayCourses = () => {
+      if (searchTerm === "") {
+        getDefaultResults();
+      } else {
+        getSearchResults();
+      }
+    };
     const loadOnScroll = () => {
       if (
         window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
         !courseFinishedRef.current
       ) {
         loadMore(indexRef.current);
-        indexRef.current += 25;
+        indexRef.current += paginationOffset;
       }
     };
 
-    // Initial load
-    loadOnScroll();
+    resetRefs();
+    getInitialDisplayCourses();
 
-    // Load on scroll
     window.addEventListener("scroll", loadOnScroll);
-
-    // Clean up
     return () => window.removeEventListener("scroll", loadOnScroll);
-  }, []);
+  }, [searchTerm]);
 
   return (
     <>
       {/* SortDropdown Bar */}
       <SortDropdown selected={selected} setSelected={setSelected} />
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
-        {sortCourses(currentCourses, selected).map((c: Course, index: number) => (
-          <a href={`/course/${c.courseCode}`} key={index}>
-            <CourseCard
-              title={c.title}
-              courseCode={c.courseCode}
-              rating={c.rating}
-              reviewCount={c.reviewCount}
-              terms={c.terms}
-            />
-          </a>
-        ))}
-        {noMoreCourses && (
-          <p className="text-center opacity-25">No more courses</p>
+        {sortCourses(displayCourses, selected).map(
+          (c: Course, index: number) => (
+            <a href={`/course/${c.courseCode}`} key={index}>
+              <CourseCard
+                title={c.title}
+                courseCode={c.courseCode}
+                overallRating={c.overallRating}
+                reviewCount={c.reviewCount}
+                terms={c.terms}
+              />
+            </a>
+          )
+        )}
+        {!initialLoading ? (
+          <p className="text-center opacity-50">No more courses</p>
+        ) : (
+          <p className="text-center opacity-50">Loading courses...</p>
         )}
       </div>
     </>

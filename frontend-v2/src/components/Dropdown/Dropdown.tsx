@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Listbox } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 
@@ -16,6 +16,11 @@ export default function Dropdown({
   placeholder?: string;
 }) {
   const [selected, setSelected] = useState(defaultValue ?? "");
+
+  useEffect(() => {
+    if (!defaultValue) return;
+    setSelected(defaultValue as string);
+  }, [defaultValue]);
 
   // Handle dropdown value change
   const handleOnChange = useCallback(
