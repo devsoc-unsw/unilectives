@@ -68,8 +68,10 @@ export class CourseService {
     return { course };
   }
 
-  async searchCourse(searchTerm: string): Promise<CoursesSuccessResponse | undefined> {
-    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);    
+  async searchCourse(
+    searchTerm: string,
+  ): Promise<CoursesSuccessResponse | undefined> {
+    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
 
     if (!courses) {
       this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
@@ -99,49 +101,6 @@ export class CourseService {
 
     this.logger.info(
       `Successfully updated course with courseCode ${updatedCourse.courseCode}.`,
-    );
-    return { course };
-  }
-
-  async bookmarkCourse(
-    bookmarkDetails: BookmarkCourse,
-  ): Promise<CourseBody | undefined> {
-    const course = await this.courseRepository.getCourse(
-      bookmarkDetails.courseCode,
-    );
-
-    if (!course) {
-      this.logger.error(
-        `There is no course with courseCode ${bookmarkDetails.courseCode}.`,
-      );
-      throw new HTTPError(badRequest);
-    }
-    let user = await this.userRepository.getUser(bookmarkDetails.zid);
-
-    if (!user) {
-      this.logger.error(`There is no user with zid ${bookmarkDetails.zid}.`);
-      throw new HTTPError(badRequest);
-    }
-
-    if (bookmarkDetails.bookmark) {
-      user.bookmarkedCourses = [
-        ...user.bookmarkedCourses,
-        bookmarkDetails.courseCode,
-      ];
-    } else {
-      user.bookmarkedCourses.filter(
-        (course) => course !== bookmarkDetails.courseCode,
-      );
-    }
-
-    user = await this.userRepository.saveUser(user);
-
-    this.logger.info(
-      `Successfully ${
-        bookmarkDetails.bookmark ? "bookmarked" : "removed bookmarked"
-      } course with courseCode ${
-        bookmarkDetails.courseCode
-      } for user with zID ${bookmarkDetails.zid}.`,
     );
     return { course };
   }

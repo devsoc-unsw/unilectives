@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
 import { IController } from "../interfaces/IController";
 import { CourseService } from "../services/course.service";
+
 import {
   BookmarkCourseSchema,
   UpdateCourseSchema,
@@ -77,33 +78,6 @@ export class CourseController implements IController {
           }
         },
       )
-      .post(
-        "/courses/bookmark",
-        validationMiddleware(BookmarkCourseSchema, "body"),
-        async (
-          req: Request<Record<string, never>, unknown, BookmarkCourse>,
-          res: Response,
-          next: NextFunction,
-        ) => {
-          this.logger.debug(`Received request in POST /courses/bookmark`);
-          try {
-            const bookmarkDetails = req.body;
-            if (!bookmarkDetails) throw new HTTPError(badRequest);
-            const result = await this.courseService.bookmarkCourse(
-              bookmarkDetails,
-            );
-            this.logger.info(`Responding to client in POST /courses/bookmark`);
-            return res.status(200).json(result);
-          } catch (err: any) {
-            this.logger.warn(
-              `An error occurred when trying to POST /courses/bookmark ${formatError(
-                err,
-              )}`,
-            );
-            return next(err);
-          }
-        },
-      )
       .get(
         "/course/:courseCode",
         async (
@@ -127,16 +101,18 @@ export class CourseController implements IController {
             );
             return next(err);
           }
-        }
+        },
       )
       .get(
         "/course/search/:searchTerm",
-        async(
+        async (
           req: Request<{ searchTerm: string }, unknown>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
-          this.logger.debug(`Received request in GET /course/search/:searchTerm`);
+          this.logger.debug(
+            `Received request in GET /course/search/:searchTerm`,
+          );
           try {
             const searchTerm: string = req.params.searchTerm;
             const result = await this.courseService.searchCourse(searchTerm);
@@ -144,8 +120,8 @@ export class CourseController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /course/search ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }

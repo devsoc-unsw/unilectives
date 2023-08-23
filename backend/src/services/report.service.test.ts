@@ -96,6 +96,7 @@ describe("ReportService", () => {
       expect(reportResult.report.status).toEqual("UNSEEN");
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);
+      // @ts-ignore
       expect(reportResult.report.review).toEqual({
         ...review,
         createdTimestamp: expect.any(Date),

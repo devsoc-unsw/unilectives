@@ -49,9 +49,9 @@ describe("CourseService", () => {
       courseRepository.searchCourse = jest.fn().mockResolvedValue([]);
 
       expect(service.searchCourse("xddddddd")).resolves.toEqual({
-        courses: []
+        courses: [],
       });
-    })
+    });
 
     it("should return one course", () => {
       const service = courseService();
@@ -61,7 +61,7 @@ describe("CourseService", () => {
       expect(service.searchCourse("comp1511")).resolves.toEqual({
         courses,
       });
-    })
+    });
   });
 
   describe("updateCourse", () => {
@@ -83,76 +83,6 @@ describe("CourseService", () => {
 
       expect(service.updateCourse(course)).resolves.toEqual({
         course: course,
-      });
-    });
-  });
-
-  describe("bookmarkCourse", () => {
-    it("should throw HTTP 400 error if no courses in database", () => {
-      const service = courseService();
-      const course = getMockCourses()[0];
-      courseRepository.getCourse = jest.fn().mockResolvedValue(undefined);
-
-      const request: BookmarkCourse = {
-        courseCode: course.courseCode,
-        zid: "5311111",
-        bookmark: true,
-      };
-
-      const errorResult = new HTTPError(badRequest);
-      expect(service.bookmarkCourse(request)).rejects.toThrow(errorResult);
-    });
-
-    it("should throw HTTP 400 error if no user in database", () => {
-      const service = courseService();
-      const courses = getMockCourses();
-      courseRepository.getCourse = jest.fn().mockResolvedValue(courses[0]);
-      userRepository.getUser = jest.fn().mockResolvedValue(undefined);
-
-      const request: BookmarkCourse = {
-        courseCode: courses[0].courseCode,
-        zid: "5311111",
-        bookmark: true,
-      };
-
-      const errorResult = new HTTPError(badRequest);
-      expect(service.bookmarkCourse(request)).rejects.toThrow(errorResult);
-    });
-
-    it("should resolve and return bookmarked course", () => {
-      const service = courseService();
-      const courses = getMockCourses();
-      const user = getUserEntity();
-      courseRepository.getCourse = jest.fn().mockResolvedValue(courses[0]);
-      userRepository.getUser = jest.fn().mockResolvedValue(user);
-
-      userRepository.saveUser = jest.fn().mockResolvedValue(user);
-      const request: BookmarkCourse = {
-        courseCode: courses[0].courseCode,
-        zid: "5311111",
-        bookmark: true,
-      };
-
-      expect(service.bookmarkCourse(request)).resolves.toEqual({
-        course: courses[0],
-      });
-    });
-
-    it("should resolve and remove bookmarked course", () => {
-      const service = courseService();
-      const courses = getMockCourses();
-      const user = getUserEntity();
-      courseRepository.getCourse = jest.fn().mockResolvedValue(courses[0]);
-      userRepository.getUser = jest.fn().mockResolvedValue(user);
-
-      userRepository.saveUser = jest.fn().mockResolvedValue(user);
-      const request: BookmarkCourse = {
-        courseCode: courses[0].courseCode,
-        zid: "5311111",
-        bookmark: false,
-      };
-      expect(service.bookmarkCourse(request)).resolves.toEqual({
-        course: courses[0],
       });
     });
   });

@@ -1,12 +1,11 @@
 import Image from "next/image";
-import SearchBar from "@/components/SearchBar/SearchBar";
-import CoursesList from "@/components/CoursesList/CoursesList";
+import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 
-export default async function Home() {
+export default function Home() {
   return (
     <div className="mb-20">
       {/* Navbar */}
-      <div className="flex">
+      <div>
         <Image
           src="navbar.svg"
           width={1000}
@@ -30,18 +29,11 @@ export default async function Home() {
               Your one-stop shop for UNSW course and elective reviews.
             </p>
           </div>
-          <div className="flex items-center">
-            <button className="px-5 py-3 rounded-lg bg-unilectives-button items-center drop-shadow justify-center text-white text-xs sm:text-xs">
-              Add a Review
-            </button>
-          </div>
         </div>
       </div>
       {/* Course Section */}
       <div className="flex flex-col justify-center items-center mt-10">
-        <SearchBar />
-        {/* Sortable Course cards */}
-        <CoursesList />
+        <LandingPageContent />
       </div>
     </div>
   );

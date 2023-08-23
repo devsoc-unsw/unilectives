@@ -7,13 +7,9 @@ import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import { Course } from "@/types/api";
 
-export default function FilterModal({
-    courses,
-    onChange,
-}: {
-    courses: Course[];
-    onChange: (courses: Course[]) => void;
-}) {
+export default function FilterModal() {
+    // Temp
+    const courses = []
     // States
     const [isOpen, setIsOpen] = useState(false);
     const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses);
