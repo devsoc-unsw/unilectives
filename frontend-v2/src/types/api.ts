@@ -28,7 +28,7 @@ export type ReportStatus = "UNSEEN" | "SEEN" | "REMOVED" | "SETTLED";
 
 export type Report = {
   reportId: string;
-  review: Review;
+  reviewId: string;
   zid: string;
   status: ReportStatus;
   reason: string;
@@ -74,18 +74,4 @@ export type Course = {
 
 export type Courses = {
   courses: Course[];
-}
-
-export type Report = {
-  reportId: string,
-  review: Review,
-  zid: string,
-  status: "UNSEEN"| "SEEN"| "REMOVED"| "SETTLED",
-  reason: string,
-  createdTimestamp: string,
-  updatedTimestamp: string,
-}
-
-export type Reports = {
-  reports: Report[]
 }

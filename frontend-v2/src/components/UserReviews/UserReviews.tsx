@@ -61,35 +61,6 @@ export default function UserReviews({
     setCurrentReviews(sortedReviews);
   }, [selected, reviews]);
 
-  // Bookmark review
-  const bookmarkReview = async (review: Review, isBookmark: boolean) => {
-    if (isBookmark) {
-      const newBookmarked = [...bookmarkedReviews].filter(
-        (r: Review) => r.reviewId !== review.reviewId,
-      );
-      setBookmarkedReviews(newBookmarked);
-    } else {
-      const newBookmarked = [...bookmarkedReviews];
-      newBookmarked.push(review);
-      setBookmarkedReviews(newBookmarked);
-    }
-    const body = {
-      reviewId: review.reviewId,
-      zid: session?.user?.id,
-      bookmark: !isBookmark,
-    };
-    await post("/reviews/bookmark", body);
-  };
-
-  const upvoteReview = async (review: Review) => {
-    const body = {
-      reviewId: review.reviewId,
-      zid: session?.user?.id,
-      upvote: true,
-    };
-    await post("/reviews/upvote", body);
-  };
-
   useEffect(() => {
     if (!deleted) return;
     // Optimistic UI update for deleting a review
@@ -109,7 +80,6 @@ export default function UserReviews({
     if (!target) return;
     target.authorName = edited.authorName;
     target.grade = edited.grade;
-    console.log(newReviews);
     setCurrentReviews(newReviews);
   }, [edited]);
 

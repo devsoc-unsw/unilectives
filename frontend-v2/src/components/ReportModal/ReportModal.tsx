@@ -1,9 +1,7 @@
-import { authOptions } from "@/lib/auth";
 import { AlertContext } from "@/lib/snackbar-context";
-import { post } from "@/utils/request";
+import { post, validatedReq } from "@/utils/request";
 import { Dialog, Transition } from "@headlessui/react";
 import { FlagIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import {
   ChangeEvent,
@@ -72,7 +70,12 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
       reason: input.reason,
     };
 
-    const res = await post("/reports", body);
+    const res = await validatedReq(
+      "POST",
+      "/reports",
+      session?.user?.accessToken ?? "",
+      session?.user?.id ?? "",
+      body);
 
     if (res.errorCode) {
       setAlert(

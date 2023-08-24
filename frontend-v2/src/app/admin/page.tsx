@@ -20,7 +20,7 @@ export default async function () {
     session?.user?.id ?? ""
   )) as Reports;
 
-	return (
+  return (
 		<div>
 			<Image
 				src="navbar.svg"

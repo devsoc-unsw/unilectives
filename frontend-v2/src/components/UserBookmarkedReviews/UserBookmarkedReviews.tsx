@@ -7,7 +7,7 @@ import Rating from "../Rating/Rating";
 import { BookmarkIcon } from "@heroicons/react/24/solid";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import Pagination from "../Pagination/Pagination";
-import { post } from "@/utils/request";
+import { post, validatedReq } from "@/utils/request";
 import { useSession } from "next-auth/react";
 
 export default function UserBookmarkedReviews({ reviews }: Reviews) {
@@ -57,7 +57,13 @@ export default function UserBookmarkedReviews({ reviews }: Reviews) {
       zid: session?.user?.id,
       bookmark: false,
     };
-    await post("/reviews/bookmark", body);
+    await validatedReq(
+      "POST",
+      "/reviews/bookmark",
+      session?.user?.accessToken ?? "",
+      session?.user?.id ?? "",
+      body
+    );
   };
 
   useEffect(() => {

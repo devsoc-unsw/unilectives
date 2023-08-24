@@ -4,14 +4,15 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function Error() {
+export default function Error({error} : {error: Error}) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("d")
-    signOut({
-      redirect: false,
-    });
+    if (error.message === 'unauthorised') {
+      signOut({
+        redirect: false,
+      });
+    }
     router.push("/");
   }, []);
 

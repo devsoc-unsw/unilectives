@@ -6,14 +6,16 @@ import { UserCircleIcon, ClockIcon, CheckCircleIcon } from "@heroicons/react/24/
 import Dropdown from "@/components/Dropdown/Dropdown";
 import CollapseMenu from "@/components/CollapseMenu/CollapseMenu";
 import DeleteModal from "@/components/DeleteModal/DeleteModal";
-import { Report, ReportStatus } from "@/types/api";
+import { Report, ReportStatus, Review } from "@/types/api";
 import { format } from "date-fns";
-import { put } from "@/utils/request";
+import { validatedReq } from "@/utils/request";
+import { useSession } from "next-auth/react";
 
-export default function ReportCard({ report, gridView }: { report: Report, gridView: boolean }) {
+export default function ReportCard({ report, review, gridView }: { report: Report, review: Review, gridView: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState(report.status.charAt(0) + report.status.slice(1).toLowerCase());
 
+  const { data: session } = useSession();
   async function updateReportStatus(report: Report, newStatus: ReportStatus) {
     const payload = {
       reportId: report.reportId,
@@ -21,7 +23,13 @@ export default function ReportCard({ report, gridView }: { report: Report, gridV
       status: String(newStatus).toUpperCase()
     };
     setStatus(newStatus.charAt(0) + newStatus.slice(1).toLowerCase());
-    await put('/reports', payload);
+    await validatedReq(
+      "PUT",
+      "/reports",
+      session?.user?.accessToken ?? "",
+      session?.user?.id ?? "",
+      payload
+    );
   }
 
   return (
@@ -174,14 +182,14 @@ export default function ReportCard({ report, gridView }: { report: Report, gridV
                     />
                     <CollapseMenu
                       preview={"Review"}
-                      content={report.review.description}
+                      content={review.description}
                     />
                   </div>
                   <div className="flex flex-row justify-between">
                     <button
                       onClick={() => setIsOpen(false)}
                       className="bg-slate-400 text-white font-semibold py-2 px-4 rounded-md hover:scale-105">
-                      Cancel
+                      Done
                     </button>
                     <button
                       onClick={() => { updateReportStatus(report, "REMOVED"); setIsOpen(false); }}

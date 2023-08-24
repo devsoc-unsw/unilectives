@@ -33,19 +33,23 @@ export const validatedReq = async (
   url: string,
   authToken: string,
   zid: string,
+  options?: Record<string, any>,
 ) => {
   const prefix = "/api/v1";
   const baseUrl =
     process.env.NODE_ENV !== "development"
       ? `https://cselectives.staging.csesoc.unsw.edu.au${prefix}${url}`
       : `http://localhost:3030${prefix}${url}`;
-  const payload = {
-    method,
-    headers: {
-      token: authToken,
-      zid: zid,
-    },
-  };
+  const payload =
+      {
+        method,
+        headers: {
+          "Content-type": "application/json",
+          token: authToken,
+          zid: zid,
+        },
+        body: method === "GET" ? undefined : JSON.stringify(options)
+      }
   const res = await fetch(baseUrl, { ...payload, cache: "no-store" });
   if (!res.ok) {
     if (res.status === 401) {
