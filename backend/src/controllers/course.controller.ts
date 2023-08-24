@@ -90,8 +90,30 @@ export class CourseController implements IController {
         },
       )
       .delete(
+        "/cached/flush",
+        async (
+          req: Request<{ key: string }, unknown>,
+          res: Response,
+          next: NextFunction,
+        ) => {
+          this.logger.debug(`Received request in DELETE /cached/flush`);
+          try {
+            const zid = req.headers.zid as string;
+            const result = await this.courseService.flushAll(zid);
+            this.logger.info(`Responding to client in DELETE /cached/flush`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to DELETE /cached/flush ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .delete(
         "/cached/:key",
-        [verifyToken],
         async (
           req: Request<{ key: string }, unknown>,
           res: Response,
