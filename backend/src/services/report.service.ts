@@ -1,15 +1,10 @@
 import { ReportRepository } from "../repositories/report.repository";
 import { getLogger } from "../utils/logger";
 import { HTTPError } from "../utils/errors";
-import { badRequest } from "../utils/constants";
+import { badRequest, unauthorizedError } from "../utils/constants";
 import { ReviewRepository } from "../repositories/review.repository";
 import { UserRepository } from "../repositories/user.repository";
-import {
-  CreateReport,
-  ReportsSuccessResponse,
-  ReportSuccessResponse,
-  UpdateReportStatus,
-} from "../api/schemas/report.schema";
+import { CreateReport, UpdateReportStatus } from "../api/schemas/report.schema";
 
 export class ReportService {
   private logger = getLogger();
@@ -19,10 +14,21 @@ export class ReportService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async getAllReports(): Promise<ReportsSuccessResponse> {
+  async getAllReports(zid: string) {
+    const userInfo = await this.userRepository.getUser(zid);
+    if (!userInfo) {
+      this.logger.error(`Database could not find user with zid ${zid}`);
+      throw new HTTPError(badRequest);
+    }
+
+    if (!userInfo.isAdmin) {
+      this.logger.error(`Non-admin ${zid} tried retrieving reports`);
+      throw new HTTPError(unauthorizedError);
+    }
+
     const reports = await this.reportRepository.getAllReports();
     return {
-      reports: reports,
+      reports,
     };
   }
 
@@ -61,9 +67,7 @@ export class ReportService {
     };
   }
 
-  async updateReport(
-    reportDetails: UpdateReportStatus,
-  ): Promise<ReportSuccessResponse> {
+  async updateReport(reportDetails: UpdateReportStatus) {
     const { reportId, zid, status } = reportDetails;
 
     const reportExists = await this.reportRepository.getReport(reportId);
@@ -77,14 +81,17 @@ export class ReportService {
       this.logger.error(
         `User with zid ${zid} does not exist or does not have permission to update report status`,
       );
-      throw new HTTPError(badRequest);
+      throw new HTTPError(unauthorizedError);
     }
 
     const updatedReport = {
       ...reportDetails,
     };
 
-    const reportResult = await this.reportRepository.saveReport(updatedReport);
+    const reportResult = await this.reportRepository.updateReport(
+      updatedReport,
+    );
+    this.logger.info(`Admin ${zid} updated report ${reportId} to ${status}`);
 
     return {
       report: reportResult,

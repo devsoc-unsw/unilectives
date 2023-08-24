@@ -1,11 +1,14 @@
 import { getLogger } from "../utils/logger";
 import { HTTPError } from "../utils/errors";
-import { badRequest, internalServerError } from "../utils/constants";
+import {
+  badRequest,
+  internalServerError,
+  unauthorizedError,
+} from "../utils/constants";
 import { CourseRepository } from "../repositories/course.repository";
 import { UserRepository } from "../repositories/user.repository";
 import RedisClient from "../modules/redis";
 import {
-  BookmarkCourse,
   Course,
   CourseBody,
   CoursesSuccessResponse,
@@ -85,27 +88,33 @@ export class CourseService {
     return { courses };
   }
 
-  async updateCourse(updatedCourse: Course): Promise<CourseBody | undefined> {
-    let course = await this.courseRepository.getCourse(
-      updatedCourse.courseCode,
-    );
-
-    if (!course) {
-      this.logger.error(
-        `There is no course with courseCode ${updatedCourse.courseCode}.`,
-      );
+  async flushKey(zid: string, key: string) {
+    const userInfo = await this.userRepository.getUser(zid);
+    if (!userInfo) {
+      this.logger.error(`Database could not find user with zid ${zid}`);
       throw new HTTPError(badRequest);
     }
 
-    course = await this.courseRepository.save(course);
+    if (!userInfo.isAdmin) {
+      this.logger.error(`Non-admin ${zid} tried flushing key`);
+      throw new HTTPError(unauthorizedError);
+    }
 
-    this.logger.info(
-      `Successfully updated course with courseCode ${updatedCourse.courseCode}.`,
-    );
-    return { course };
+    await this.redis.del(key);
   }
 
-  async flushKey(key: string) {
-    await this.redis.del(key);
+  async flushAll(zid: string) {
+    const userInfo = await this.userRepository.getUser(zid);
+    if (!userInfo) {
+      this.logger.error(`Database could not find user with zid ${zid}`);
+      throw new HTTPError(badRequest);
+    }
+
+    if (!userInfo.isAdmin) {
+      this.logger.error(`Non-admin ${zid} tried flushing all`);
+      throw new HTTPError(unauthorizedError);
+    }
+
+    await this.redis.flushAll();
   }
 }

@@ -2,16 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
 import { IController } from "../interfaces/IController";
 import { CourseService } from "../services/course.service";
-
-import {
-  BookmarkCourseSchema,
-  UpdateCourseSchema,
-  CourseBody,
-  BookmarkCourse,
-} from "../api/schemas/course.schema";
-import validationMiddleware from "../api/middlewares/validation";
-import { HTTPError } from "../utils/errors";
-import { badRequest } from "../utils/constants";
+import verifyToken from "../api/middlewares/auth";
 
 export class CourseController implements IController {
   private readonly logger = getLogger();
@@ -42,35 +33,6 @@ export class CourseController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /courses ${formatError(
-                err,
-              )}`,
-            );
-            return next(err);
-          }
-        },
-      )
-      .put(
-        "/courses/:courseCode",
-        validationMiddleware(UpdateCourseSchema, "body"),
-        async (
-          req: Request<{ courseCode: string }, unknown, CourseBody>,
-          res: Response,
-          next: NextFunction,
-        ) => {
-          const { courseCode } = req.params;
-          this.logger.debug(`Received request in PUT /courses/${courseCode}`);
-          try {
-            const { course } = req.body;
-            if (courseCode !== course.courseCode)
-              throw new HTTPError(badRequest);
-            const result = await this.courseService.updateCourse(course);
-            this.logger.info(
-              `Responding to client in PUT /courses/${courseCode}`,
-            );
-            return res.status(200).json(result);
-          } catch (err: any) {
-            this.logger.warn(
-              `An error occurred when trying to PUT /courses/${courseCode} ${formatError(
                 err,
               )}`,
             );
@@ -128,6 +90,29 @@ export class CourseController implements IController {
         },
       )
       .delete(
+        "/cached/flush",
+        async (
+          req: Request<{ key: string }, unknown>,
+          res: Response,
+          next: NextFunction,
+        ) => {
+          this.logger.debug(`Received request in DELETE /cached/flush`);
+          try {
+            const zid = req.headers.zid as string;
+            const result = await this.courseService.flushAll(zid);
+            this.logger.info(`Responding to client in DELETE /cached/flush`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to DELETE /cached/flush ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .delete(
         "/cached/:key",
         async (
           req: Request<{ key: string }, unknown>,
@@ -137,7 +122,8 @@ export class CourseController implements IController {
           this.logger.debug(`Received request in DELETE /cached/:key`);
           try {
             const key: string = req.params.key;
-            const result = await this.courseService.flushKey(key);
+            const zid = req.headers.zid as string;
+            const result = await this.courseService.flushKey(zid, key);
             this.logger.info(`Responding to client in DELETE /cached/${key}`);
             return res.status(200).json(result);
           } catch (err: any) {
