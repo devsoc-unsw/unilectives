@@ -7,16 +7,16 @@ export default async function () {
 	const { reviews } = (await get('/reviews')) as Reviews;
 	const { reports } = (await get('/reports')) as Reports;
 
-  return (
+	return (
 		<div>
-      <Image
-					src="navbar.svg"
-					width={1000}
-					height={500}
-					alt="landing page graphic"
-					layout="responsive"
-					priority
-				/>
+			<Image
+				src="navbar.svg"
+				width={1000}
+				height={500}
+				alt="landing page graphic"
+				layout="responsive"
+				priority
+			/>
 			<div className="flex flex-col w-full px-12 py-6 gap-6">
 				<p className="font-bold text-3xl">Dashboard</p>
 				<p>Welcome to the admin dashboard!</p>
