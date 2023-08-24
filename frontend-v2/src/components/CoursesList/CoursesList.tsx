@@ -24,7 +24,9 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
       if (searchTerm === "") {
         // default courses
         try {
-          const { courses } = (await get(`/courses?offset=${index}`)) as Courses;
+          const { courses } = (await get(
+            `/courses?offset=${index}`
+          )) as Courses;
           fetchedCourses = courses;
         } catch (err) {
           fetchedCourses = [];
@@ -35,7 +37,7 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
       }
 
       return fetchedCourses;
-    }
+    };
 
     if (window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
       return;
@@ -53,7 +55,6 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
     setDisplayCourses((prev) => [...prev, ...courses]);
   };
 
-
   useEffect(() => {
     const resetRefs = () => {
       courseFinishedRef.current = false;
@@ -62,7 +63,9 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
     };
     const getSearchResults = async () => {
       try {
-        const { courses } = (await get(`/course/search/${searchTerm}`)) as Courses;
+        const { courses } = (await get(
+          `/course/search/${searchTerm}`
+        )) as Courses;
         searchCoursesRef.current = courses;
       } catch (err) {
         searchCoursesRef.current = [];
@@ -80,14 +83,14 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
         setDisplayCourses([]);
       }
       setInitialLoading(false);
-    }
+    };
     const getInitialDisplayCourses = () => {
       if (searchTerm === "") {
         getDefaultResults();
       } else {
         getSearchResults();
       }
-    }
+    };
     const loadOnScroll = () => {
       if (
         window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
@@ -110,21 +113,24 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
       {/* SortDropdown Bar */}
       <SortDropdown selected={selected} setSelected={setSelected} />
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
-        {sortCourses(displayCourses, selected).map((c: Course, index: number) => (
-          <a href={`/course/${c.courseCode}`} key={index}>
-            <CourseCard
-              title={c.title}
-              courseCode={c.courseCode}
-              rating={c.overallRating}
-              reviewCount={c.reviewCount}
-              terms={c.terms}
-            />
-          </a>
-        ))}
-        {!initialLoading 
-          ? <p className="text-center opacity-50">No more courses</p>
-          : <p className="text-center opacity-50">Loading courses...</p>
-        }
+        {sortCourses(displayCourses, selected).map(
+          (c: Course, index: number) => (
+            <a href={`/course/${c.courseCode}`} key={index}>
+              <CourseCard
+                title={c.title}
+                courseCode={c.courseCode}
+                overallRating={c.overallRating}
+                reviewCount={c.reviewCount}
+                terms={c.terms}
+              />
+            </a>
+          )
+        )}
+        {!initialLoading ? (
+          <p className="text-center opacity-50">No more courses</p>
+        ) : (
+          <p className="text-center opacity-50">Loading courses...</p>
+        )}
       </div>
     </>
   );

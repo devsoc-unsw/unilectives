@@ -7,50 +7,39 @@ import {
   getMockUser,
   getMockCourses,
 } from "../utils/testData";
-import { AuthService } from "../modules/Auth";
 import { CourseRepository } from "../repositories/course.repository";
 import { UserRepository } from "../repositories/user.repository";
 import { ReviewRepository } from "../repositories/review.repository";
-import { ReportRepository } from "../repositories/report.repository";
+import RedisClient from "../modules/redis";
 
 describe("UserService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
-  let auth: AuthService;
   const courseRepository = {} as CourseRepository;
   const userRepository = {} as UserRepository;
   const reviewRepository = {} as ReviewRepository;
-  const reportRepository = {} as ReportRepository;
+  const redis = {} as RedisClient;
 
   beforeEach(() => {
-    auth = new AuthService();
     jest.clearAllMocks();
     jest.resetAllMocks();
   });
 
-  const userService = () => new UserService(auth, userRepository);
+  const userService = () =>
+    new UserService(userRepository, reviewRepository, redis);
 
   describe("createUser", () => {
-    it("should throw HTTP 400 error if could user exists in database", () => {
-      const service = userService();
-      const entity = getUserEntity();
-      const user = getMockUser();
-
-      userRepository.getUser = jest.fn().mockReturnValue(entity);
-
-      const errorResult = new HTTPError(badRequest);
-      expect(service.saveUser(user.zid)).rejects.toThrow(errorResult);
-    });
-
     it("should resolve and return new created user", async () => {
       const service = userService();
       const entity = getUserEntity();
       const user = getMockNewUser();
 
+      redis.get = jest.fn().mockReturnValue(false);
+      redis.set = jest.fn().mockReturnValue("ok");
       userRepository.getUser = jest.fn().mockReturnValue(null);
       userRepository.saveUser = jest.fn().mockReturnValue(entity);
 
       const result = await service.saveUser(user.zid);
-      expect(result.user).toEqual(user);
+      expect(result.user).toEqual(true);
     });
   });
 

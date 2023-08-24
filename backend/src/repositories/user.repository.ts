@@ -4,25 +4,67 @@ import { CreateUser, User, UserSchema } from "../api/schemas/user.schema";
 export class UserRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async getUser(zid: string): Promise<User | null> {
+  async getUser(zid: string) {
     const rawUser = await this.prisma.users.findFirst({
       where: {
         zid: zid,
       },
+      include: {
+        reports: true,
+        reviews: true,
+      },
     });
-    const user = UserSchema.parse(rawUser);
-    return user;
+    return rawUser;
   }
 
-  async saveUser(user: CreateUser): Promise<User> {
-    const rawUser = await this.prisma.users.upsert({
+  async saveUser(user: CreateUser) {
+    const rawUser = await this.prisma.users.create({
+      data: {
+        zid: user.zid,
+        isAdmin: user.isAdmin,
+      },
+    });
+    return rawUser;
+  }
+
+  async updateUser(user: { zid: string; bookmarkedReviews: string[] }) {
+    const updatedUser = await this.prisma.users.update({
       where: {
         zid: user.zid,
       },
-      update: user,
-      create: user,
+      data: {
+        bookmarkedReviews: user.bookmarkedReviews,
+      },
     });
-    const savedUser = UserSchema.parse(rawUser);
-    return savedUser;
+    return updatedUser;
+  }
+
+  async getUserCourseInfo(courseCode: string, zid: string) {
+    const userInfo = await this.prisma.users.findFirst({
+      where: {
+        zid: zid,
+      },
+      select: {
+        bookmarkedReviews: true,
+      },
+    });
+
+    if (!userInfo) {
+      throw new Error("No user info found");
+    }
+
+    const courseBookmarks = await this.prisma.reviews.findMany({
+      where: {
+        courseCode,
+        reviewId: {
+          in: userInfo.bookmarkedReviews,
+        },
+      },
+      select: {
+        reviewId: true,
+      },
+    });
+
+    return courseBookmarks;
   }
 }

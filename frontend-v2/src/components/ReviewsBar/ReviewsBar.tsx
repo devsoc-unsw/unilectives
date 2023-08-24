@@ -2,7 +2,7 @@
 
 import Dropdown from "../Dropdown/Dropdown";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ReviewModal from "../ReviewModal/ReviewModal";
 import ReviewCard from "../ReviewCard/ReviewCard";
 import { Review } from "@/types/api";
@@ -10,24 +10,29 @@ import { Review } from "@/types/api";
 export default function ReviewsBar({
   reviews,
   courseCode,
+  bookmarkedReviews,
 }: {
   reviews: Review[];
   courseCode: string;
+  bookmarkedReviews: string[];
 }) {
   // States
+  const currentReviewRef = useRef(reviews);
   const [currentReviews, setCurrentReviews] = useState(reviews);
+  const [allBookmarkedReviews, setAllBookmarkedReviews] =
+    useState(bookmarkedReviews);
   const [displayTextReview, setDisplayTextReview] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("Most Recent");
 
   // Change review sorting based on dropdown
   useMemo(() => {
-    const sortedReviews = [...reviews];
+    const sortedReviews = [...currentReviewRef.current];
 
     switch (selected) {
       case "Most Recent":
         sortedReviews.sort(
           (r1: Review, r2: Review) =>
-            Date.parse(r2.createdTimestamp) - Date.parse(r2.createdTimestamp)
+            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp)
         );
         break;
       case "Most Recently Taken":
@@ -48,6 +53,7 @@ export default function ReviewsBar({
     }
 
     if (!displayTextReview) {
+      currentReviewRef.current = sortedReviews;
       return setCurrentReviews(sortedReviews);
     }
 
@@ -74,7 +80,10 @@ export default function ReviewsBar({
             placeholder="Sort by"
           />
         </div>
-        <ReviewModal courseCode={courseCode} />
+        <ReviewModal
+          courseCode={courseCode}
+          setCurrentReviews={setCurrentReviews}
+        />
       </div>
       {/* Switch */}
       <div className="flex items-center flex-wrap gap-1">
@@ -87,7 +96,13 @@ export default function ReviewsBar({
       </div>
       {/* Reviews */}
       {currentReviews.map((review: Review, index: number) => (
-        <ReviewCard key={index} review={review} />
+        <ReviewCard
+          key={index}
+          review={review}
+          setCurrentReviews={setCurrentReviews}
+          bookmarkedReviews={allBookmarkedReviews}
+          setAllBookmarkedReviews={setAllBookmarkedReviews}
+        />
       ))}
     </div>
   );

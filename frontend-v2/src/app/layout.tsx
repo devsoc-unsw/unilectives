@@ -1,7 +1,9 @@
 import "./globals.css";
-import Navbar from "@/components/Navbar/Navbar";
+import Provider from "@/lib/session-context";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { AlertProvider } from "@/lib/snackbar-context";
+import Navbar from "@/components/Navbar/Navbar";
 
 export const metadata = {
   title: "uni-lectives",
@@ -14,12 +16,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-  console.log("layout re-rendered")
+
   return (
     <html lang="en" className="font-custom">
       <body>
-        <Navbar zid={session?.user?.id}/>
-        <div className="ml-20 xs:ml-15">{children}</div>
+        <Provider session={session}>
+          <AlertProvider>
+            <Navbar zid={session?.user?.id} />
+            <div className="ml-20 xs:ml-15">{children}</div>
+          </AlertProvider>
+        </Provider>
       </body>
     </html>
   );

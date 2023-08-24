@@ -18,8 +18,8 @@ export default function TruncatedDescription({
 
   return (
     <div>
-      <p className="whitespace-pre-line">
-        {showFullContent ? content : shortenedContent}
+      <p className="whitespace-pre-line break-all inline">
+        {showFullContent ? content : shortenedContent}{" "}
       </p>
       {content.length > maxCharacters && (
         <button

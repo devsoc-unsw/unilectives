@@ -5,10 +5,11 @@ export type ApiError = {
 
 export type Review = {
   reviewId: string;
+  courseCode: string;
   authorName: string;
   title: string;
   description: string;
-  grade: number;
+  grade: number | null;
   termTaken: string;
   createdTimestamp: string;
   updatedTimestamp: string;
@@ -64,7 +65,6 @@ export type Course = {
   terms: number[];
   title: string;
   uoc: number;
-  rating: number;
   reviewCount: number;
   overallRating: number;
   manageability: number;
@@ -72,10 +72,20 @@ export type Course = {
   enjoyability: number;
 };
 
-export type ICourse = {
-  course: Course;
-}
-
 export type Courses = {
   courses: Course[];
+}
+
+export type Report = {
+  reportId: string,
+  review: Review,
+  zid: string,
+  status: "UNSEEN"| "SEEN"| "REMOVED"| "SETTLED",
+  reason: string,
+  createdTimestamp: string,
+  updatedTimestamp: string,
+}
+
+export type Reports = {
+  reports: Report[]
 }

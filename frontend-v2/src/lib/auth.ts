@@ -1,3 +1,4 @@
+import { createUser } from "@/utils/createUser";
 import { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
@@ -33,6 +34,7 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.zid;
         session.user.id = token.zid;
         session.user.accessToken = token.accessToken;
+        await createUser(session.user.id);
       }
       return session;
     },

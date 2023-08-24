@@ -1,7 +1,7 @@
 const request = async (
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE",
-  options?: Record<string, string>
+  options?: Record<string, any>,
 ) => {
   const prefix = "/api/v1";
   const baseUrl =
@@ -16,17 +16,23 @@ const request = async (
         }
       : {
           method,
+          headers: {
+            "Content-type": "application/json",
+          },
           body: JSON.stringify(options),
         };
-
-  return (await fetch(baseUrl, { ...payload, cache: "no-store" })).json();
+  const res = await fetch(baseUrl, { ...payload, cache: "no-store" });
+  if (!res.ok) {
+    return { errorCode: res.status, errorMessage: res.statusText };
+  }
+  return await res.json();
 };
 
 export const validatedReq = async (
   method: "GET" | "POST" | "PUT" | "DELETE",
   url: string,
   authToken: string,
-  zid: string
+  zid: string,
 ) => {
   const prefix = "/api/v1";
   const baseUrl =
@@ -50,11 +56,11 @@ export const validatedReq = async (
 export const get = (url: string, options?: Record<string, string>) =>
   request(url, "GET", options);
 
-export const post = (url: string, options?: Record<string, string>) =>
+export const post = (url: string, options?: Record<string, any>) =>
   request(url, "POST", options);
 
-export const put = (url: string, options?: Record<string, string>) =>
+export const put = (url: string, options?: Record<string, any>) =>
   request(url, "PUT", options);
 
-export const del = (url: string, options?: Record<string, string>) =>
+export const del = (url: string, options?: Record<string, any>) =>
   request(url, "DELETE", options);
