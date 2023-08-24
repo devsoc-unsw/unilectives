@@ -39,8 +39,8 @@ jobs:
           platforms: linux/amd64
           file: ${{ matrix.component }}/Dockerfile
           tags: |
-            ghcr.io/csesoc/cselectives-${{ matrix.component }}:${{ github.sha }}
-            ghcr.io/csesoc/cselectives-${{ matrix.component }}:latest
+            ghcr.io/csesoc/unilectives-${{ matrix.component }}:${{ github.sha }}
+            ghcr.io/csesoc/unilectives-${{ matrix.component }}:latest
           labels: ${{ steps.meta.outputs.labels }}
   deploy-staging:
     name: Deploy (CD)
@@ -65,11 +65,11 @@ jobs:
         run: |
           git config user.name "CSESoc CD"
           git config user.email "technical@csesoc.org.au"
-          git checkout -b update/cselectives-staging/${{ github.sha }}
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/cselectives-backend:${{ github.sha }}"' apps/projects/unilectives/v2/staging/deploy-backend.yml
-          yq -i '.items[0].spec.template.spec.initContainers[0].image = "ghcr.io/csesoc/cselectives-database:${{ github.sha }}"' apps/projects/unilectives/v2/staging/deploy-backend.yml
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/cselectives-frontend-v2:${{ github.sha }}"' apps/projects/unilectives/v2/staging/deploy-frontend.yml
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/cselectives-migration:${{ github.sha }}"' apps/projects/unilectives/v2/staging/deploy-migration.yml
+          git checkout -b update/unilectives-staging/${{ github.sha }}
+          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-backend:${{ github.sha }}"' apps/projects/unilectives/v2/staging/deploy-backend.yml
+          yq -i '.items[0].spec.template.spec.initContainers[0].image = "ghcr.io/csesoc/unilectives-database:${{ github.sha }}"' apps/projects/unilectives/v2/staging/deploy-backend.yml
+          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-frontend-v2:${{ github.sha }}"' apps/projects/unilectives/v2/staging/deploy-frontend.yml
+          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-migration:${{ github.sha }}"' apps/projects/unilectives/v2/staging/deploy-migration.yml
           git add .
           git commit -m "feat(cselectives/staging): update image"
           git push -u origin update/cselectives/${{ github.sha }}
@@ -99,10 +99,10 @@ jobs:
           git config user.name "CSESoc CD"
           git config user.email "technical@csesoc.org.au"
           git checkout -b update/unilectives-prod/${{ github.sha }}
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/cselectives-backend:${{ github.sha }}"' apps/projects/unilectives/v2/prod/deploy-backend.yml
-          yq -i '.items[0].spec.template.spec.initContainers[0].image = "ghcr.io/csesoc/cselectives-database:${{ github.sha }}"' apps/projects/unilectives/v2/prod/deploy-backend.yml
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/cselectives-frontend-v2:${{ github.sha }}"' apps/projects/unilectives/v2/prod/deploy-frontend.yml
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/cselectives-migration:${{ github.sha }}"' apps/projects/unilectives/v2/prod/deploy-migration.yml
+          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-backend:${{ github.sha }}"' apps/projects/unilectives/v2/prod/deploy-backend.yml
+          yq -i '.items[0].spec.template.spec.initContainers[0].image = "ghcr.io/csesoc/unilectives-database:${{ github.sha }}"' apps/projects/unilectives/v2/prod/deploy-backend.yml
+          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-frontend-v2:${{ github.sha }}"' apps/projects/unilectives/v2/prod/deploy-frontend.yml
+          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-migration:${{ github.sha }}"' apps/projects/unilectives/v2/prod/deploy-migration.yml
           git add .
           git commit -m "feat(unilectives/prod): update image"
           git push -u origin update/unilectives/${{ github.sha }}
