@@ -1,5 +1,6 @@
 import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
+import navbar from "@/assets/navbar.svg";
 
 export default function Home() {
   return (
@@ -7,7 +8,7 @@ export default function Home() {
       {/* Navbar */}
       <div>
         <Image
-          src="navbar.svg"
+          src={navbar}
           width={1000}
           height={500}
           alt="landing page graphic"

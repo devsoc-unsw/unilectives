@@ -4,6 +4,7 @@ import { Reviews, Reports } from "@/types/api";
 import AdminContent from "@/components/AdminContent/AdminContent";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import navbar from "@/assets/navbar.svg";
 
 export default async function () {
   const session = await getServerSession(authOptions);
@@ -23,7 +24,7 @@ export default async function () {
   return (
 		<div>
 			<Image
-				src="navbar.svg"
+				src={navbar}
 				width={1000}
 				height={500}
 				alt="landing page graphic"
