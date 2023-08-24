@@ -67,7 +67,6 @@ jobs:
           git config user.email "technical@csesoc.org.au"
           git checkout -b update/unilectives-staging/${{ github.sha }}
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-backend:${{ github.sha }}"' apps/projects/unilectives/staging/deploy-backend.yml
-          yq -i '.items[0].spec.template.spec.initContainers[0].image = "ghcr.io/csesoc/unilectives-database:${{ github.sha }}"' apps/projects/unilectives/staging/deploy-backend.yml
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-frontend:${{ github.sha }}"' apps/projects/unilectives/staging/deploy-frontend.yml
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-migration:${{ github.sha }}"' apps/projects/unilectives/staging/deploy-migration.yml
           git add .
@@ -100,7 +99,6 @@ jobs:
           git config user.email "technical@csesoc.org.au"
           git checkout -b update/unilectives-prod/${{ github.sha }}
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-backend:${{ github.sha }}"' apps/projects/unilectives/prod/deploy-backend.yml
-          yq -i '.items[0].spec.template.spec.initContainers[0].image = "ghcr.io/csesoc/unilectives-database:${{ github.sha }}"' apps/projects/unilectives/prod/deploy-backend.yml
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-frontend:${{ github.sha }}"' apps/projects/unilectives/prod/deploy-frontend.yml
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-migration:${{ github.sha }}"' apps/projects/unilectives/prod/deploy-migration.yml
           git add .
