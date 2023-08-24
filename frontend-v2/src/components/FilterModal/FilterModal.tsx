@@ -4,7 +4,7 @@ import FilterSelection from "./FilterSelection/FilterSelection";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
-import { XCircleIcon } from "@heroicons/react/24/solid";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import { Course } from "@/types/api";
 
 export default function FilterModal() {
@@ -35,7 +35,9 @@ export default function FilterModal() {
             {/* Modal */}
             <div className="isolate">
                 {/* Add Review button */}
-                <button onClick={openModal}>
+                <button
+                    onClick={openModal}
+                >
                     <AdjustmentsVerticalIcon className="mt-1 mr-2 w-6 h-6 text-unilectives-search" />
                 </button>
 
@@ -51,10 +53,10 @@ export default function FilterModal() {
                             leaveTo="opacity-0"
                         >
                             {/* Dark background behind modal */}
-                            <div className="fixed inset-0 bg-black/25" />
+                            <div className="ml-[80px] fixed inset-0 bg-black/25" />
                         </Transition.Child>
 
-                        <div className="fixed inset-0 overflow-y-auto">
+                        <div className="ml-[80px] fixed inset-0 overflow-y-auto">
                             <div className="flex min-h-full items-center justify-center p-4 text-center">
                                 <Transition.Child
                                     as={Fragment}
@@ -65,14 +67,17 @@ export default function FilterModal() {
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95"
                                 >
-                                    <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
-                                        {/* Close button */}
-                                        <button
-                                            onClick={closeModal}
-                                            className="absolute top-2 right-2 p-2 text-gray-600 hover:text-gray-800"
-                                        >
-                                            <XCircleIcon className="w-6 h-6" />
-                                        </button>
+                                    <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
+                                        {/* Modal title + Close button */}
+                                        <div className="flex justify-between items-center">
+                                            <Dialog.Title as="h1" className="text-2xl font-bold">
+                                                Filters
+                                            </Dialog.Title>
+                                            <button onClick={closeModal}>
+                                                <XMarkIcon className="w-6 h-6" />
+                                            </button>
+                                        </div>
+                                        <hr className="border-black/25" />
                                         {/* Modal content */}
                                         <FilterSelection courses={courses} onChange={handleCourseChange} />
                                     </Dialog.Panel>
@@ -81,7 +86,7 @@ export default function FilterModal() {
                         </div>
                     </Dialog>
                 </Transition>
-            </div>
+            </div >
         </>
     );
 }

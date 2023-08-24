@@ -86,30 +86,26 @@ export default function FilterSelection({
     };
     return (
         <>
-            <div className="text-3xl font-bold">
-                Filters
-            </div>
-            <hr className="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-600"></hr>
             {/* Tab Option */}
-            <div className="text-2xl font-semibold">
+            <div className="text-lg font-semibold">
                 Study Level
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 text-sm">
                 <Checkbox label="Undergraduate" checked={selectedStudyLevels.includes("Undergraduate")} onChange={() => toggleCheckbox("Undergraduate")} />
                 <Checkbox label="Postgraduate" checked={selectedStudyLevels.includes("Postgraduate")} onChange={() => toggleCheckbox("Postgraduate")} />
                 <Checkbox label="Research" checked={selectedStudyLevels.includes("Research")} onChange={() => toggleCheckbox("Research")} />
             </div>
             {/* CheckboxGrid */}
-            <div className="text-2xl font-semibold">
+            <div className="text-lg font-semibold">
                 General Education
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 text-sm">
                 <Checkbox label="Yes" />
                 <Checkbox label="No" />
             </div>
             {/* Faculty Checkbox */}
-            <div className="text-2xl font-semibold">Faculty</div>
-            <div className="flex flex-wrap gap-2">
+            <div className="text-lg font-semibold">Faculty</div>
+            <div className="flex flex-wrap gap-2 text-sm">
                 <Checkbox label="Select All" checked={selectedFaculties.length === faculties.length} onChange={toggleSelectAllFaculties} />
                 {faculties.map(faculty => (
                     <Checkbox
@@ -122,8 +118,8 @@ export default function FilterSelection({
             </div>
 
             {/* Term Offering */}
-            <div className="text-2xl font-semibold">Term Offering</div>
-            <div className="flex flex-wrap gap-2">
+            <div className="text-lg font-semibold">Term Offering</div>
+            <div className="flex flex-wrap gap-2 text-sm">
                 <Checkbox label="Select All" checked={selectedTermOfferings.length === termOfferings.length} onChange={toggleSelectAllTermOfferings} />
                 {termOfferings.map(term => (
                     <Checkbox
@@ -135,7 +131,7 @@ export default function FilterSelection({
                 ))}
             </div>
             {/* Control Button */}
-            <div className="flex flex-wrap justify-between items-center py-6">
+            <div className="flex flex-wrap justify-between items-center py-2 gap-4">
                 <button className="px-4 py-2 bg-gray-600 text-white text-base rounded-md ml-2 focus:outline-none border-round font-semibold" onClick={handleClearSelection}>
                     Clear Filters
                 </button>
