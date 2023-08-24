@@ -143,7 +143,7 @@ export default function Navbar({ userZid }: NavbarProps) {
                 ? "flex"
                 : "flex flex-row items-center hover:bg-slate-200 rounded-xl"
             }
-            href="/terms"
+            href="/terms-and-conditions"
           >
             <Tooltip tooltip={collapsed ? "Terms and Conditions" : ""}>
               <ShieldCheckIcon className="w-12 h-12 p-3 hover:bg-slate-200 rounded-xl" />
