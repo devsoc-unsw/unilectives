@@ -221,7 +221,7 @@ export default function Navbar({ userZid }: NavbarProps) {
                 <button
                   onClick={(e) => handleLogout(e)}
                   onMouseLeave={() => setLogout(false)}
-                  className={`bg-red-100 flex flex-row items-center justify-center rounded-xl gap-2 ${
+                  className={`bg-blue-200 flex flex-row items-center justify-center rounded-xl gap-2 ${
                     logout
                       ? "hover:text-red-600 hover:bg-red-100"
                       : "hover:bg-slate-200"
