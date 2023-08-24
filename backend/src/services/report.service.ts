@@ -1,7 +1,7 @@
 import { ReportRepository } from "../repositories/report.repository";
 import { getLogger } from "../utils/logger";
 import { HTTPError } from "../utils/errors";
-import { badRequest } from "../utils/constants";
+import { badRequest, unauthorizedError } from "../utils/constants";
 import { ReviewRepository } from "../repositories/review.repository";
 import { UserRepository } from "../repositories/user.repository";
 import {
@@ -19,7 +19,18 @@ export class ReportService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async getAllReports(): Promise<ReportsSuccessResponse> {
+  async getAllReports(zid: string): Promise<ReportsSuccessResponse> {
+    const userInfo = await this.userRepository.getUser(zid);
+    if (!userInfo) {
+      this.logger.error(`Database could not find user with zid ${zid}`);
+      throw new HTTPError(badRequest);
+    }
+
+    if (!userInfo.isAdmin) {
+      this.logger.error(`Non-admin ${zid} tried retrieving reports`);
+      throw new HTTPError(unauthorizedError);
+    }
+
     const reports = await this.reportRepository.getAllReports();
     return {
       reports: reports,
@@ -85,6 +96,7 @@ export class ReportService {
     };
 
     const reportResult = await this.reportRepository.saveReport(updatedReport);
+    this.logger.info(`Admin ${zid} updated report ${reportId} to ${status}`);
 
     return {
       report: reportResult,
