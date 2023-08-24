@@ -4,11 +4,7 @@ import { HTTPError } from "../utils/errors";
 import { badRequest, unauthorizedError } from "../utils/constants";
 import { ReviewRepository } from "../repositories/review.repository";
 import { UserRepository } from "../repositories/user.repository";
-import {
-  CreateReport,
-  ReportsSuccessResponse,
-  UpdateReportStatus,
-} from "../api/schemas/report.schema";
+import { CreateReport, UpdateReportStatus } from "../api/schemas/report.schema";
 
 export class ReportService {
   private logger = getLogger();
@@ -18,7 +14,7 @@ export class ReportService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async getAllReports(zid: string): Promise<ReportsSuccessResponse> {
+  async getAllReports(zid: string) {
     const userInfo = await this.userRepository.getUser(zid);
     if (!userInfo) {
       this.logger.error(`Database could not find user with zid ${zid}`);
@@ -32,7 +28,7 @@ export class ReportService {
 
     const reports = await this.reportRepository.getAllReports();
     return {
-      reports: reports,
+      reports,
     };
   }
 
