@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
 import { ReviewService } from "../services/review.service";
+import verifyToken from "../api/middlewares/auth";
 import validationMiddleware from "../api/middlewares/validation";
 import { HTTPError } from "../utils/errors";
 import { badRequest } from "../utils/constants";
@@ -73,7 +74,7 @@ export class ReviewController implements IController {
       )
       .post(
         "/reviews",
-        validationMiddleware(PostReviewSchema, "body"),
+        [verifyToken, validationMiddleware(PostReviewSchema, "body")],
         async (
           req: Request<Record<string, never>, unknown, PostReviewRequestBody>,
           res: Response,
@@ -98,7 +99,7 @@ export class ReviewController implements IController {
       )
       .put(
         "/reviews/:reviewId",
-        validationMiddleware(PutReviewRequestBodySchema, "body"),
+        [verifyToken, validationMiddleware(PutReviewRequestBodySchema, "body")],
         async (
           req: Request<{ reviewId: string }, unknown, PutReviewRequestBody>,
           res: Response,
@@ -129,6 +130,7 @@ export class ReviewController implements IController {
       )
       .delete(
         "/reviews/:reviewId",
+        [verifyToken],
         async (
           req: Request<{ reviewId: string }, unknown>,
           res: Response,
@@ -155,7 +157,7 @@ export class ReviewController implements IController {
       )
       .post(
         "/reviews/bookmark",
-        validationMiddleware(BookmarkReviewSchema, "body"),
+        [verifyToken, validationMiddleware(BookmarkReviewSchema, "body")],
         async (
           req: Request<Record<string, never>, unknown, BookmarkReview>,
           res: Response,
@@ -182,7 +184,7 @@ export class ReviewController implements IController {
       )
       .post(
         "/reviews/upvote",
-        validationMiddleware(UpvoteReviewSchema, "body"),
+        [verifyToken, validationMiddleware(UpvoteReviewSchema, "body")],
         async (
           req: Request<Record<string, never>, unknown, UpvoteReview>,
           res: Response,

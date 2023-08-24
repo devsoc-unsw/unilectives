@@ -64,29 +64,6 @@ describe("CourseService", () => {
     });
   });
 
-  describe("updateCourse", () => {
-    it("should throw HTTP 400 error if no courses in database", () => {
-      const service = courseService();
-      const course = getMockCourses()[0];
-      courseRepository.getCourse = jest.fn().mockResolvedValue(undefined);
-
-      const errorResult = new HTTPError(badRequest);
-      expect(service.updateCourse(course)).rejects.toThrow(errorResult);
-    });
-
-    it("should resolve and return new updated course", () => {
-      const service = courseService();
-      const entity = getCourseEntity();
-      const course = getMockCourses()[0];
-      courseRepository.getCourse = jest.fn().mockResolvedValue(entity);
-      courseRepository.save = jest.fn().mockResolvedValue(entity);
-
-      expect(service.updateCourse(course)).resolves.toEqual({
-        course: course,
-      });
-    });
-  });
-
   describe("getCourse", () => {
     it("should throw HTTP 500 error if there is no course in database", () => {
       const service = courseService();

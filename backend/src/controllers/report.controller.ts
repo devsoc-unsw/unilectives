@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { formatError, getLogger } from "../utils/logger";
 import { ReportService } from "../services/report.service";
+import verifyToken from "../api/middlewares/auth";
 import validationMiddleware from "../api/middlewares/validation";
 import {
   CreateReport,
@@ -23,10 +24,12 @@ export class ReportController implements IController {
     return Router()
       .get(
         "/reports",
+        [verifyToken],
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received GET request in /reports`);
           try {
-            const result = await this.reportService.getAllReports();
+            const zid = req.headers.zid as string;
+            const result = await this.reportService.getAllReports(zid);
             this.logger.info(`Responding to client in /reports`);
             return res.status(200).json(result);
           } catch (err: any) {
@@ -41,7 +44,7 @@ export class ReportController implements IController {
       )
       .post(
         "/reports",
-        validationMiddleware(CreateReportSchema, "body"),
+        [verifyToken, validationMiddleware(CreateReportSchema, "body")],
         async (
           req: Request<Record<string, never>, unknown, CreateReport>,
           res: Response,
@@ -65,7 +68,7 @@ export class ReportController implements IController {
       )
       .put(
         "/reports",
-        validationMiddleware(UpdateReportStatusSchema, "body"),
+        [verifyToken, validationMiddleware(UpdateReportStatusSchema, "body")],
         async (
           req: Request<Record<string, never>, unknown, UpdateReportStatus>,
           res: Response,

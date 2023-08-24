@@ -1,25 +1,19 @@
 import { PrismaClient } from "@prisma/client";
-import {
-  CreateReport,
-  Report,
-  ReportSchema,
-  UpdateReportStatus,
-} from "../api/schemas/report.schema";
+import { CreateReport, UpdateReportStatus } from "../api/schemas/report.schema";
 
 export class ReportRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async getAllReports(): Promise<Report[]> {
+  async getAllReports() {
     const rawReports = await this.prisma.reports.findMany({
       include: {
         users: true,
       },
     });
-    const reports = rawReports.map((report) => ReportSchema.parse(report));
-    return reports;
+    return rawReports;
   }
 
-  async getReportByUser(zid: string): Promise<Report[]> {
+  async getReportByUser(zid: string) {
     const rawReports = await this.prisma.reports.findMany({
       where: {
         zid: zid,
@@ -28,8 +22,7 @@ export class ReportRepository {
         reviews: true,
       },
     });
-    const reports = rawReports.map((report) => ReportSchema.parse(report));
-    return reports;
+    return rawReports;
   }
 
   async getReportByUserAndReview(zid: string, reviewId: string) {
@@ -70,19 +63,15 @@ export class ReportRepository {
     return rawReport;
   }
 
-  async saveReport(report: UpdateReportStatus): Promise<Report> {
-    const rawReport = await this.prisma.reports.update({
+  async updateReport(report: UpdateReportStatus) {
+    const updatedReport = await this.prisma.reports.update({
       where: {
         reportId: report.reportId,
       },
       data: {
         ...report,
       },
-      include: {
-        users: true,
-      },
     });
-    const savedReport = ReportSchema.parse(rawReport);
-    return savedReport;
+    return updatedReport;
   }
 }

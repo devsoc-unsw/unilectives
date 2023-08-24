@@ -4,7 +4,8 @@ import { Review } from "@/types/api";
 import { Dialog, Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
-import { del } from "@/utils/request";
+import { del, validatedReq } from "@/utils/request";
+import { useSession } from "next-auth/react";
 
 export default function RemoveReviewModal({
   review,
@@ -13,6 +14,8 @@ export default function RemoveReviewModal({
   review: Review;
   setDeleted: (reviewId: string) => void;
 }) {
+  const { data: session } = useSession();
+  
   // States
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,7 +31,12 @@ export default function RemoveReviewModal({
 
   // Remove review
   const removeReview = async () => {
-    await del(`/reviews/${review.reviewId}`);
+    await validatedReq(
+      "DELETE",
+      `/reviews/${review.reviewId}`,
+      session?.user?.accessToken ?? "",
+      session?.user?.id ?? "",
+    );
     setDeleted(review.reviewId);
     closeModal();
   };

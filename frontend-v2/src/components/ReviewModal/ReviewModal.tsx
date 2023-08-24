@@ -5,7 +5,7 @@ import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { FormEvent, Fragment, useContext, useMemo, useState } from "react";
 import ReviewRatingInput from "../ReviewRatingInput/ReviewRatingInput";
-import { post } from "@/utils/request";
+import { post, validatedReq } from "@/utils/request";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Review } from "@/types/api";
@@ -93,7 +93,13 @@ export default function ReviewModal({
     };
 
     // Submit review
-    const res = await post("/reviews", body);
+    const res = await validatedReq(
+      "POST",
+      "/reviews",
+      session?.user?.accessToken ?? "",
+      session?.user?.id ?? "",
+      body
+    );
 
     if (res.errorCode) {
       setAlert({ message: "Try again later.", type: "Alert" });

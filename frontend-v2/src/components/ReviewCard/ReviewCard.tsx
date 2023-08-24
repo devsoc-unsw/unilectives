@@ -7,7 +7,7 @@ import TruncatedDescription from "../TruncatedDescription/TruncatedDescription";
 import ReportModal from "../ReportModal/ReportModal";
 import { Review } from "@/types/api";
 import { format } from "date-fns";
-import { post } from "@/utils/request";
+import { post, validatedReq } from "@/utils/request";
 import { useSession } from "next-auth/react";
 import { MutableRefObject } from "react";
 
@@ -37,7 +37,12 @@ export default function ReviewCard({
       zid: session?.user?.id,
       upvote,
     };
-    await post("/reviews/upvote", body);
+    await validatedReq(
+      "POST",
+      "/reviews/upvote",
+      session?.user?.accessToken ?? "",
+      session?.user?.id ?? "",
+      body);
     // Optimistic UI Update for Upvotes
     setCurrentReviews((prev: Review[]) => {
       const refTarget = reviewsRef.current?.find(
@@ -60,7 +65,12 @@ export default function ReviewCard({
       zid: session?.user?.id,
       bookmark: !bookmarked,
     };
-    await post("/reviews/bookmark", body);
+    await validatedReq(
+      "POST",
+      "/reviews/bookmark",
+      session?.user?.accessToken ?? "",
+      session?.user?.id ?? "",
+      body);
     // Optimistic UI update for bookmark
     setAllBookmarkedReviews((prev: string[]) => {
       let newBookmarkedReviews = [...prev];

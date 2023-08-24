@@ -7,7 +7,8 @@ import { FormEvent, Fragment, useState } from "react";
 import Link from "next/link";
 import Rating from "../Rating/Rating";
 import TruncatedDescription from "../TruncatedDescription/TruncatedDescription";
-import { put } from "@/utils/request";
+import { put, validatedReq } from "@/utils/request";
+import { useSession } from "next-auth/react";
 
 export default function EditReviewModal({
   review,
@@ -20,6 +21,8 @@ export default function EditReviewModal({
     grade: number | null;
   }) => void;
 }) {
+  const { data: session } = useSession();
+  
   // States
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,8 +47,14 @@ export default function EditReviewModal({
       authorName: target.displayAnonymous.checked ? "Anonymous" : "",
       grade: target.reviewGrade.value ? Number(target.reviewGrade.value) : null,
     };
-
-    await put(`/reviews/${review.reviewId}`, body);
+    
+    await validatedReq(
+      "PUT",
+      `/reviews/${review.reviewId}`,
+      session?.user?.accessToken ?? "",
+      session?.user?.id ?? "",
+      body
+    );
 
     setEdited({
       reviewId: review.reviewId,
