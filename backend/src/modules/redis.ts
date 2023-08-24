@@ -56,4 +56,13 @@ export default class RedisClient {
       throw err;
     }
   }
+  async flushAll(): Promise<void> {
+    try {
+      await this.redis.flushall();
+      this.logger.info(`Flushed ALL`);
+    } catch (err) {
+      this.logger.error(`Failed to flush all from redis: ${err}`);
+      throw err;
+    }
+  }
 }

@@ -10,7 +10,7 @@ export default class MigrationService {
   constructor(
     readonly fb: Firebase,
     readonly fetcher: Fetcher,
-    readonly migrationRepository: MigrationRepository
+    readonly migrationRepository: MigrationRepository,
   ) {}
 
   async migrateReviews(): Promise<IResponse> {
@@ -82,13 +82,28 @@ export default class MigrationService {
     }
   }
 
+  async updateUser(zid: string) {
+    try {
+      await this.migrationRepository.updateUser(zid);
+      return {
+        status: "SUCCESS",
+        message: "Successfully updated user to admin" + ` ${zid}`,
+      };
+    } catch (err: any) {
+      return {
+        status: "FAILURE",
+        message: err.message,
+      };
+    }
+  }
+
   async flush(): Promise<IResponse> {
     try {
       await this.migrationRepository.flush();
       return {
         status: "SUCCESS",
         message: "Successfully flushed database",
-      }
+      };
     } catch (err: any) {
       return {
         status: "FAILURE",

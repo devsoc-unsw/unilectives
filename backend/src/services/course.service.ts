@@ -96,10 +96,25 @@ export class CourseService {
     }
 
     if (!userInfo.isAdmin) {
-      this.logger.error(`Non-admin ${zid} tried retrieving reports`);
+      this.logger.error(`Non-admin ${zid} tried flushing key`);
       throw new HTTPError(unauthorizedError);
     }
 
     await this.redis.del(key);
+  }
+
+  async flushAll(zid: string) {
+    const userInfo = await this.userRepository.getUser(zid);
+    if (!userInfo) {
+      this.logger.error(`Database could not find user with zid ${zid}`);
+      throw new HTTPError(badRequest);
+    }
+
+    if (!userInfo.isAdmin) {
+      this.logger.error(`Non-admin ${zid} tried flushing all`);
+      throw new HTTPError(unauthorizedError);
+    }
+
+    await this.redis.flushAll();
   }
 }
