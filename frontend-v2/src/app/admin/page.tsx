@@ -1,11 +1,24 @@
 import Image from "next/image";
-import { get } from "@/utils/request";
+import { validatedReq } from "@/utils/request";
 import { Reviews, Reports } from "@/types/api";
 import AdminContent from "@/components/AdminContent/AdminContent";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export default async function () {
-	const { reviews } = (await get('/reviews')) as Reviews;
-	const { reports } = (await get('/reports')) as Reports;
+  const session = await getServerSession(authOptions);
+  const { reviews } = (await validatedReq(
+    "GET",
+    "/reviews",
+    session?.user?.accessToken ?? "",
+    session?.user?.id ?? ""
+  )) as Reviews;
+	const { reports } = (await validatedReq(
+    "GET",
+    "/reports",
+    session?.user?.accessToken ?? "",
+    session?.user?.id ?? ""
+  )) as Reports;
 
 	return (
 		<div>

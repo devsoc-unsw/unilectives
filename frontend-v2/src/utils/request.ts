@@ -46,11 +46,14 @@ export const validatedReq = async (
       zid: zid,
     },
   };
-  return (
-    await fetch(baseUrl, {
-      ...payload,
-    })
-  ).json();
+  const res = await fetch(baseUrl, { ...payload, cache: "no-store" });
+  if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error('unauthorised');
+    }
+    return { errorCode: res.status, errorMessage: res.statusText };
+  }
+  return await res.json();
 };
 
 export const get = (url: string, options?: Record<string, string>) =>

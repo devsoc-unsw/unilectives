@@ -8,6 +8,7 @@ export default function Error() {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("d")
     signOut({
       redirect: false,
     });
