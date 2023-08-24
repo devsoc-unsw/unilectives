@@ -271,7 +271,7 @@ export default function Navbar({ userZid }: NavbarProps) {
             <span className={collapsed ? "hidden" : "text-xs"}>
               By using this site, you agree to the{" "}
               <a
-                href="/terms"
+                href="/terms-and-conditions"
                 className="inline text-blue-500 hover:underline"
               >
                 terms and conditions
