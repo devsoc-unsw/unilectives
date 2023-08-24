@@ -17,8 +17,8 @@ export default function ReviewsBar({
   bookmarkedReviews: string[];
 }) {
   // States
-  const currentReviewRef = useRef(reviews);
-  const [currentReviews, setCurrentReviews] = useState(reviews);
+  const currentReviewRef = useRef(reviews ? reviews : []);
+  const [currentReviews, setCurrentReviews] = useState(reviews ? reviews : []);
   const [allBookmarkedReviews, setAllBookmarkedReviews] =
     useState(bookmarkedReviews);
   const [displayTextReview, setDisplayTextReview] = useState(false);
@@ -67,43 +67,54 @@ export default function ReviewsBar({
       <div className="flex items-center flex-wrap gap-x-5 gap-y-2">
         <h3 className="text-2xl font-bold">Reviews</h3>
         <div className="flex-1 min-w-[275px] max-w-[275px] xs:min-w-full z-10">
-          <Dropdown
-            options={[
-              "Most Recent",
-              "Most Recently Taken",
-              "Highest Rating to Lowest Rating",
-              "Lowest Rating to Highest Rating",
-            ]}
-            defaultValue={selected}
-            onChange={setSelected}
-            placeholder="Sort by"
-          />
+          {currentReviewRef.current &&
+            currentReviewRef.current.length !== 0 && (
+              <Dropdown
+                options={[
+                  "Most Recent",
+                  "Most Recently Taken",
+                  "Highest Rating to Lowest Rating",
+                  "Lowest Rating to Highest Rating",
+                ]}
+                defaultValue={selected}
+                onChange={setSelected}
+                placeholder="Sort by"
+              />
+            )}
         </div>
         <ReviewModal
           courseCode={courseCode}
+          currentReviewRef={currentReviewRef}
           setCurrentReviews={setCurrentReviews}
         />
       </div>
       {/* Switch */}
-      <div className="flex items-center flex-wrap gap-1">
-        <ToggleSwitch
-          defaultValue={displayTextReview}
-          onChange={setDisplayTextReview}
-          accessibleTitle="Text only reviews"
-        />
-        <span>Text only reviews</span>
-      </div>
-      {/* Reviews */}
-      {currentReviews.map((review: Review, index: number) => (
-        <ReviewCard
-          key={index}
-          review={review}
-          reviewsRef={currentReviewRef}
-          setCurrentReviews={setCurrentReviews}
-          bookmarkedReviews={allBookmarkedReviews}
-          setAllBookmarkedReviews={setAllBookmarkedReviews}
-        />
-      ))}
+      {currentReviewRef.current && currentReviewRef.current.length !== 0 && (
+        <>
+          <div className="flex items-center flex-wrap gap-1">
+            <ToggleSwitch
+              defaultValue={displayTextReview}
+              onChange={setDisplayTextReview}
+              accessibleTitle="Text only reviews"
+            />
+            <span>Text only reviews</span>
+          </div>
+          {/* Reviews */}
+          {currentReviews.map((review: Review, index: number) => (
+            <ReviewCard
+              key={index}
+              review={review}
+              reviewsRef={currentReviewRef}
+              setCurrentReviews={setCurrentReviews}
+              bookmarkedReviews={allBookmarkedReviews}
+              setAllBookmarkedReviews={setAllBookmarkedReviews}
+            />
+          ))}
+        </>
+      )}
+      {!(currentReviews && currentReviews.length !== 0) && (
+        <p>No reviews yet</p>
+      )}
     </div>
   );
 }
