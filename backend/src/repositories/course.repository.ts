@@ -196,13 +196,4 @@ export class CourseRepository {
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
     return courses;
   }
-
-  async save(course: Course): Promise<Course> {
-    const newCourseData = await this.prisma.courses.update({
-      where: { courseCode: course.courseCode },
-      data: { ...course },
-    });
-    const newCourse = CourseSchema.parse(newCourseData);
-    return newCourse;
-  }
 }
