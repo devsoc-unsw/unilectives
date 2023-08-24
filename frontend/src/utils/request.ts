@@ -4,9 +4,10 @@ const request = async (
   options?: Record<string, any>,
 ) => {
   const prefix = "/api/v1";
+  const backend = process.env.API_URL ?? "";
   const baseUrl =
     process.env.NODE_ENV !== "development"
-      ? `${prefix}${url}`
+      ? `${backend}${prefix}${url}`
       : `http://localhost:3030${prefix}${url}`;
 
   const payload =
@@ -36,9 +37,10 @@ export const validatedReq = async (
   options?: Record<string, any>,
 ) => {
   const prefix = "/api/v1";
+  const backend = process.env.API_URL ?? "";
   const baseUrl =
     process.env.NODE_ENV !== "development"
-      ? `${prefix}${url}`
+      ? `${backend}${prefix}${url}`
       : `http://localhost:3030${prefix}${url}`;
   const payload = {
     method,
