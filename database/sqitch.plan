@@ -1,5 +1,0 @@
-%syntax-version=1.0.0
-%project=cselectives
-%uri=https://github.com/sqitchers/sqitch-intro/
-
-appschema 2022-02-05T12:27:35Z me <me@example.com> # Add schema for all flipr objects.

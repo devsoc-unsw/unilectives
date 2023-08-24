@@ -1,11 +1,13 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import { formatError, getLogger } from "../utils/Logger";
+import { formatError, getLogger } from "../utils/logger";
 import * as http from "http";
 import bodyParser from "body-parser";
 import { promisify } from "util";
-import { IRouter } from "../interfaces/IRouter";
 import { errorHandlerMiddleware } from "../api/middlewares/errorHandler";
+import swaggerUi from "swagger-ui-express";
+import docs from "../../docs/swagger.json";
+import { IController } from "IController";
 
 export class ExpressWrapper {
   private logger = getLogger();
@@ -22,7 +24,15 @@ export class ExpressWrapper {
     const app = express()
       .use(cors())
       .use(express.urlencoded({ extended: true }))
-      .use(bodyParser.json());
+      .use(bodyParser.json())
+      .use("/docs", swaggerUi.serve, swaggerUi.setup(docs))
+      .get("/", (req: Request, res: Response) => {
+        this.logger.info("health check");
+        res.status(200).json({
+          code: 200,
+          message: "health check success",
+        });
+      });
 
     this.logger.info("Setup Express");
     return app;
@@ -50,14 +60,14 @@ export class ExpressWrapper {
       this.logger.info("Stopped HTTP Server");
     } catch (err: any) {
       this.logger.warn(
-        `Error when trying to stop HTTP Server ${formatError(err)}`
+        `Error when trying to stop HTTP Server ${formatError(err)}`,
       );
     }
   }
 
-  addRouters(...routers: IRouter[]): void {
-    for (const router of routers) {
-      this.express.use(router.getPrefix(), router.getRouter());
+  addControllers(...controllers: IController[]): void {
+    for (const controller of controllers) {
+      this.express.use(controller.getPrefix(), controller.getRouter());
     }
     this.express
       .use((req: Request, res: Response) => {

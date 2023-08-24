@@ -1,20 +1,32 @@
 {
   "extends": ["config:base"],
-  "lockFileMaintenance": { "enabled": true, "automerge": false },
-  "prHourlyLimit": 5,
+  "lockFileMaintenance": { "enabled": true, "automerge": true },
+  "prHourlyLimit": 2,
   "labels": ["dependencies"],
   "baseBranches": ["develop"],
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": false,
+      "automerge": true,
       "automergeType": "branch"
     },
     {
       "matchUpdateTypes": ["major"],
-      "automerge": false,
+      "automerge": true,
       "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
       "groupName": "react monorepo with types"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": true,
+      "matchPackageNames": ["vite", "@vitejs/plugin-react"],
+      "groupName": "vite & plugins",
+      "addLabels": ["deps: vite"]
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "weekly minor & patch updates",
+      "schedule": ["before 5am every monday"]
     }
   ]
 }
