@@ -48,6 +48,12 @@ module.exports = {
         "-1": "-1",
       },
     },
+    listStyleType: {
+      decimal: 'decimal',
+      roman: 'lower-roman',
+      latin: 'upper-Latin',
+      disc: 'disc',
+    },
   },
   plugins: [
     plugin(function ({ addBase }) {

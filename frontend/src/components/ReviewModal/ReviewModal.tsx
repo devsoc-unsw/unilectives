@@ -376,7 +376,7 @@ export default function ReviewModal({
                           By clicking Submit, you have agreed to the{" "}
                           {/* TODO: Change link to the Terms and Condition page */}
                           <Link
-                            href="/"
+                            href="/terms-and-conditions"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-unilectives-blue hover:underline focus:underline"

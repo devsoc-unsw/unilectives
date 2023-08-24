@@ -22,7 +22,7 @@ export default async function RootLayout({
       <body>
         <Provider session={session}>
           <AlertProvider>
-            <Navbar zid={session?.user?.id} />
+            <Navbar userZid={session?.user?.id} />
             <div className="ml-20 xs:ml-15">{children}</div>
           </AlertProvider>
         </Provider>

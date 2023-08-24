@@ -16,13 +16,14 @@ import {
 } from "@heroicons/react/24/outline";
 import Tooltip from "@/components/Tooltip/Tooltip";
 import { signIn, signOut } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type NavbarProps = {
-  zid: string | undefined;
+  userZid: string | undefined;
 };
 
-export default function Navbar({ zid }: NavbarProps) {
+export default function Navbar({ userZid }: NavbarProps) {
+  const [zid, setZid] = useState<string | undefined>(userZid);
   const [logout, setLogout] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
   const router = useRouter();
@@ -51,7 +52,8 @@ export default function Navbar({ zid }: NavbarProps) {
       signOut({
         redirect: false,
       });
-      router.push("/");
+      router.refresh();
+      setZid(undefined);
     }
   }
 
@@ -219,7 +221,7 @@ export default function Navbar({ zid }: NavbarProps) {
                 <button
                   onClick={(e) => handleLogout(e)}
                   onMouseLeave={() => setLogout(false)}
-                  className={`flex flex-row items-center justify-center rounded-xl gap-2 ${
+                  className={`bg-blue-200 flex flex-row items-center justify-center rounded-xl gap-2 ${
                     logout
                       ? "hover:text-red-600 hover:bg-red-100"
                       : "hover:bg-slate-200"
