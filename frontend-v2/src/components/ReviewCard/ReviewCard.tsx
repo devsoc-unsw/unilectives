@@ -9,19 +9,20 @@ import { Review } from "@/types/api";
 import { format } from "date-fns";
 import { post } from "@/utils/request";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { MutableRefObject } from "react";
 
 type AltSetCurrentReviewsType = (r2: Review[]) => Review[];
 type AltSetBookmarkedReviewsType = (r2: string[]) => string[];
 
 export default function ReviewCard({
   review,
+  reviewsRef,
   setCurrentReviews,
   bookmarkedReviews,
   setAllBookmarkedReviews,
 }: {
   review: Review;
+  reviewsRef: MutableRefObject<Review[]>;
   setCurrentReviews: (r: Review[] | AltSetCurrentReviewsType) => void;
   bookmarkedReviews: string[];
   setAllBookmarkedReviews: (r: string[] | AltSetBookmarkedReviewsType) => void;
@@ -39,18 +40,17 @@ export default function ReviewCard({
     await post("/reviews/upvote", body);
     // Optimistic UI Update for Upvotes
     setCurrentReviews((prev: Review[]) => {
-      const newReviews = [...prev];
-      const target = newReviews.find(
+      const refTarget = reviewsRef.current?.find(
         (r: Review) => r.reviewId === review.reviewId
       ) as Review;
       if (upvote) {
-        target.upvotes.push(session?.user?.id as string);
+        refTarget.upvotes.push(session?.user?.id as string);
       } else {
-        target.upvotes = target.upvotes.filter(
+        refTarget.upvotes = refTarget.upvotes.filter(
           (userUpvote: string) => userUpvote != (session?.user?.id as string)
         );
       }
-      return newReviews;
+      return [...prev];
     });
   };
 
