@@ -56,6 +56,28 @@ export default class MigrationController {
           }
         }
       )
+      .put(
+        "/courses",
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(`Received request in PUT /migrate/courses`);
+          if (req.headers.authorization !== process.env.MIGRATE_SECRET) {
+            return res.status(401).json({
+              status: "FAILURE",
+              message: "Unauthorized",
+            });
+          }
+          try {
+            const result = await this.migrationService.updateCourses();
+            this.logger.info(`Responding to client in PUT /migrate/courses`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to PUT /migrate/courses ${err}`
+            );
+            return next(err);
+          }
+        }
+      )
       .delete(
         "/flush",
         async (req: Request, res: Response, next: NextFunction) => {

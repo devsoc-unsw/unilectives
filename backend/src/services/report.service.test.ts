@@ -8,30 +8,30 @@ import {
   getMockReview,
   getUserEntity,
 } from "../utils/testData";
-import { EntityManager, DataSource } from "typeorm";
 import { CreateReport, UpdateReportStatus } from "../api/schemas/report.schema";
+import { ReportRepository } from "../repositories/report.repository";
+import { UserRepository } from "../repositories/user.repository";
+import { ReviewRepository } from "../repositories/review.repository";
 
 describe("ReportService", () => {
-  let manager: EntityManager;
-  let connection: DataSource;
+  jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
+  const reportRepository = {} as ReportRepository;
+  const userRepository = {} as UserRepository;
+  const reviewRepository = {} as ReviewRepository;
 
   beforeEach(() => {
-    connection = new DataSource({ type: "postgres" });
-    manager = new EntityManager(connection);
-  });
-
-  afterEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
   });
 
-  const reportService = () => new ReportService(manager);
+  const reportService = () =>
+    new ReportService(reportRepository, reviewRepository, userRepository);
 
   describe("getAllReports", () => {
     it("should resolve and return report", () => {
       const service = reportService();
       const reports = getMockReports();
-      manager.find = jest.fn().mockReturnValue(reports);
+      reportRepository.getAllReports = jest.fn().mockReturnValue(reports);
       expect(service.getAllReports()).resolves.toEqual({
         reports,
       });
@@ -49,7 +49,9 @@ describe("ReportService", () => {
         zid: report.zid,
       };
 
-      manager.findOneBy = jest.fn().mockReturnValue(entity);
+      reportRepository.getReportByUserAndReview = jest
+        .fn()
+        .mockReturnValue(entity);
       const errorResult = new HTTPError(badRequest);
       expect(service.createReport(reportRequest)).rejects.toThrow(errorResult);
     });
@@ -63,10 +65,10 @@ describe("ReportService", () => {
         zid: report.zid,
       };
 
-      manager.findOneBy = jest
+      reportRepository.getReportByUserAndReview = jest
         .fn()
-        .mockReturnValueOnce(null)
-        .mockReturnValueOnce(null);
+        .mockReturnValue(null);
+      reviewRepository.getReview = jest.fn().mockReturnValue(null);
 
       const errorResult = new HTTPError(badRequest);
       expect(service.createReport(reportRequest)).rejects.toThrow(errorResult);
@@ -84,16 +86,17 @@ describe("ReportService", () => {
         zid: report.zid,
       };
 
-      manager.findOneBy = jest
+      reportRepository.getReportByUserAndReview = jest
         .fn()
-        .mockReturnValueOnce(null)
-        .mockReturnValueOnce(reviewEntity);
-      manager.save = jest.fn().mockReturnValue(reportEntity);
+        .mockReturnValue(null);
+      reviewRepository.getReview = jest.fn().mockReturnValue(reviewEntity);
+      reportRepository.newReport = jest.fn().mockReturnValue(reportEntity);
 
       const reportResult = await service.createReport(reportRequest);
       expect(reportResult.report.status).toEqual("UNSEEN");
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);
+      // @ts-ignore
       expect(reportResult.report.review).toEqual({
         ...review,
         createdTimestamp: expect.any(Date),
@@ -112,7 +115,8 @@ describe("ReportService", () => {
         status: report.status,
       };
 
-      manager.findOne = jest.fn().mockReturnValue(null);
+      reportRepository.getReport = jest.fn().mockReturnValue(null);
+
       const errorResult = new HTTPError(badRequest);
       expect(service.updateReport(reportRequest)).rejects.toThrow(errorResult);
     });
@@ -127,8 +131,8 @@ describe("ReportService", () => {
         status: report.status,
       };
 
-      manager.findOne = jest.fn().mockReturnValueOnce(reportEntity);
-      manager.findOneBy = jest.fn().mockReturnValueOnce(null);
+      reportRepository.getReport = jest.fn().mockReturnValueOnce(reportEntity);
+      userRepository.getUser = jest.fn().mockReturnValueOnce(null);
 
       const errorResult = new HTTPError(badRequest);
       expect(service.updateReport(reportRequest)).rejects.toThrow(errorResult);
@@ -145,8 +149,8 @@ describe("ReportService", () => {
         status: report.status,
       };
 
-      manager.findOne = jest.fn().mockReturnValueOnce(reportEntity);
-      manager.findOneBy = jest.fn().mockReturnValueOnce(userEntity);
+      reportRepository.getReport = jest.fn().mockReturnValueOnce(report);
+      userRepository.getUser = jest.fn().mockReturnValueOnce(userEntity);
 
       const errorResult = new HTTPError(badRequest);
       expect(service.updateReport(reportRequest)).rejects.toThrow(errorResult);
@@ -166,9 +170,9 @@ describe("ReportService", () => {
         status: report.status,
       };
 
-      manager.findOne = jest.fn().mockReturnValueOnce(reportEntity);
-      manager.findOneBy = jest.fn().mockReturnValueOnce(userEntity);
-      manager.save = jest.fn().mockReturnValue(reportEntity);
+      reportRepository.getReport = jest.fn().mockReturnValueOnce(report);
+      userRepository.getUser = jest.fn().mockReturnValueOnce(userEntity);
+      reportRepository.saveReport = jest.fn().mockReturnValue(reportEntity);
 
       const reportResult = await service.updateReport(reportRequest);
       expect(reportResult.report.status).toEqual("UNSEEN");
