@@ -1,98 +1,52 @@
-import { 
-  CardContentsContainer, 
-  CardContentsColumn, 
-  CardContentsTitle,
-  CardContentsDesc, 
-  CardContentsExtras, 
-  CardContentsRating,
-  CardContentsReviews, 
-  CardCategoriesTable,
-  CardContentsFaculty } from './style'
-import Card from '@mui/material/Card';
-import Rating from '@mui/material/Rating';
-import StarRoundedIcon from '@mui/icons-material/StarRounded';
-import { ICourse } from "src/interfaces/ResponseInterface"
+import Rating from "../Rating/Rating";
+import TermsGroup from "../TermsGroup/TermsGroup";
 
-import DisplayTerms from "./DisplayTerms/DisplayTerms";
+// Type for the course card component
+type CourseCardProps = {
+  courseCode: string;
+  title: string;
+  overallRating: number;
+  reviewCount: number;
+  terms: number[];
+};
 
-import { CardActionArea } from "@mui/material";
-import { Link } from "react-router-dom";
-
-interface Props {
-  course: ICourse;
+// Course card component
+export default function CourseCard({
+  courseCode,
+  title,
+  overallRating,
+  reviewCount,
+  terms,
+}: CourseCardProps) {
+  return (
+    <div className="box-border px-6 py-7 bg-unilectives-card hover:bg-gray-100 shadow-lg rounded-xl space-y-2 cursor-pointer">
+      {/* Course courseCode + Ratings */}
+      <div className="flex flex-wrap justify-between text-2xl gap-x-4">
+        <h1 className="font-bold w-[8ch]">{courseCode}</h1>
+        <div className="text-left">
+          {/* StarRating */}
+          <div className="text-2xl inline">
+            <Rating color="purple" type="star" overallRating={overallRating} />
+          </div>
+          {/* Number of reviews */}
+          <p className="text-xs text-unilectives-subheadings">
+            {Intl.NumberFormat("en-US", {
+              notation: "compact",
+              maximumFractionDigits: 1,
+            }).format(reviewCount)}{" "}
+            reviews
+          </p>
+        </div>
+      </div>
+      {/* Course title */}
+      <p className="text-sm text-unilectives-headings h-16 break-all line-clamp-3">
+        {title}
+      </p>
+      {/* Terms */}
+      <TermsGroup
+        className="text-xs py-1 px-2 rounded-full bg-unilectives-tags"
+        terms={terms}
+      />
+    </div>
+  );
 }
-
-const CourseCard = (p: Props) => {
-  const makeFacultyString = (facultyString: string) => {
-    return facultyString.replace("Faculty of ", "");
-  };
-
-    var cardStyle = {
-        height: '13.5rem',
-        width: '21rem',
-        margin: 'auto',
-        boxShadow: '0 3px 6px 0 rgba(0,0,0,0.2)',
-        backgroundColor: '#FEFDFD',
-    }
-    
-    const getCategoryRating = (rating: number) => {
-        if (rating === null ) {
-            return 0;
-        }
-        return Math.round(rating * 10) / 10;
-    }
-
-    return (
-        <Card style={cardStyle}>
-            <CardActionArea component={Link} to={'/course/' + p.course.courseCode} style={{height:'100%'}}>
-                <CardContentsContainer>
-                    <CardContentsColumn>
-                        <CardContentsTitle>
-                            {p.course.courseCode}
-                        </CardContentsTitle>
-                        <CardContentsDesc>
-                            {p.course.title}
-                        </CardContentsDesc>
-                        <CardContentsExtras>
-                            <CardContentsFaculty>{makeFacultyString(p.course.faculty)}</CardContentsFaculty>
-                            <DisplayTerms terms={p.course.terms} />
-                        </CardContentsExtras>
-                    </CardContentsColumn>
-                    <CardContentsColumn>
-                        <CardContentsRating>
-                            <Rating
-                                icon={<StarRoundedIcon fontSize="inherit" style={{fill: "#26C97F"}} />}
-                                emptyIcon={<StarRoundedIcon fontSize="inherit" style={{fill: "#CED9DD"}}/>}
-                                value={p.course.rating}
-                                precision={0.5}
-                                sx={{fontSize: 28}}
-                                readOnly
-                            />
-                        </CardContentsRating>
-                        <CardContentsReviews>
-                            {p.course.reviewCount} reviews
-                        </CardContentsReviews>
-                        <CardCategoriesTable>
-                            <table>
-                                <tr>
-                                    <th>Enjoyability</th>
-                                    <td>{getCategoryRating(p.course.enjoyability)}</td>
-                                </tr>
-                                <tr>
-                                    <th>Usefulness</th>
-                                    <td>{getCategoryRating(p.course.usefulness)}</td>
-                                </tr>
-                                <tr>
-                                    <th>Manageability</th>
-                                    <td>{getCategoryRating(p.course.manageability)}</td>
-                                </tr>
-                            </table>
-                        </CardCategoriesTable>
-                    </CardContentsColumn>
-                </CardContentsContainer>
-            </CardActionArea>
-        </Card>
-    );
-}
-
-export default CourseCard;
