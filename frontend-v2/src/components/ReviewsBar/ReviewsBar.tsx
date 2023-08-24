@@ -25,7 +25,7 @@ export default function ReviewsBar({
   const [selected, setSelected] = useState("Most Recent");
 
   // Change review sorting based on dropdown
-  useMemo(() => {
+  useEffect(() => {
     const sortedReviews = [...currentReviewRef.current];
 
     switch (selected) {
@@ -53,14 +53,13 @@ export default function ReviewsBar({
     }
 
     if (!displayTextReview) {
-      currentReviewRef.current = sortedReviews;
       return setCurrentReviews(sortedReviews);
     }
 
     setCurrentReviews(
-      sortedReviews.filter((r: Review) => !!(r.title || r.description))
+      sortedReviews.filter((r: Review) => r.title || r.description)
     );
-  }, [displayTextReview, selected, reviews]);
+  }, [displayTextReview, selected]);
 
   return (
     <div className="space-y-5 isolate">
@@ -99,6 +98,7 @@ export default function ReviewsBar({
         <ReviewCard
           key={index}
           review={review}
+          reviewsRef={currentReviewRef}
           setCurrentReviews={setCurrentReviews}
           bookmarkedReviews={allBookmarkedReviews}
           setAllBookmarkedReviews={setAllBookmarkedReviews}
