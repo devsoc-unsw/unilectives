@@ -7,7 +7,6 @@ import { UserRepository } from "../repositories/user.repository";
 import {
   CreateReport,
   ReportsSuccessResponse,
-  ReportSuccessResponse,
   UpdateReportStatus,
 } from "../api/schemas/report.schema";
 
@@ -72,9 +71,7 @@ export class ReportService {
     };
   }
 
-  async updateReport(
-    reportDetails: UpdateReportStatus,
-  ): Promise<ReportSuccessResponse> {
+  async updateReport(reportDetails: UpdateReportStatus) {
     const { reportId, zid, status } = reportDetails;
 
     const reportExists = await this.reportRepository.getReport(reportId);
@@ -88,14 +85,16 @@ export class ReportService {
       this.logger.error(
         `User with zid ${zid} does not exist or does not have permission to update report status`,
       );
-      throw new HTTPError(badRequest);
+      throw new HTTPError(unauthorizedError);
     }
 
     const updatedReport = {
       ...reportDetails,
     };
 
-    const reportResult = await this.reportRepository.saveReport(updatedReport);
+    const reportResult = await this.reportRepository.updateReport(
+      updatedReport,
+    );
     this.logger.info(`Admin ${zid} updated report ${reportId} to ${status}`);
 
     return {

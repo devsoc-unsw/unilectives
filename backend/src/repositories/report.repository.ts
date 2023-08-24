@@ -70,19 +70,15 @@ export class ReportRepository {
     return rawReport;
   }
 
-  async saveReport(report: UpdateReportStatus): Promise<Report> {
-    const rawReport = await this.prisma.reports.update({
+  async updateReport(report: UpdateReportStatus) {
+    const updatedReport = await this.prisma.reports.update({
       where: {
         reportId: report.reportId,
       },
       data: {
         ...report,
       },
-      include: {
-        users: true,
-      },
     });
-    const savedReport = ReportSchema.parse(rawReport);
-    return savedReport;
+    return updatedReport;
   }
 }

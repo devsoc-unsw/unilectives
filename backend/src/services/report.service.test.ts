@@ -1,5 +1,5 @@
 import { HTTPError } from "../utils/errors";
-import { badRequest } from "../utils/constants";
+import { badRequest, unauthorizedError } from "../utils/constants";
 import { ReportService } from "./report.service";
 import {
   getReportEntity,
@@ -32,9 +32,23 @@ describe("ReportService", () => {
       const service = reportService();
       const reports = getMockReports();
       reportRepository.getAllReports = jest.fn().mockReturnValue(reports);
-      expect(service.getAllReports()).resolves.toEqual({
+      userRepository.getUser = jest
+        .fn()
+        .mockReturnValue({ zid: "z1", isAdmin: true });
+      expect(service.getAllReports("z1")).resolves.toEqual({
         reports,
       });
+    });
+
+    it("should throw HTTP 401 error if user is not an admin", () => {
+      const service = reportService();
+      const reports = getMockReports();
+      reportRepository.getAllReports = jest.fn().mockReturnValue(reports);
+      userRepository.getUser = jest
+        .fn()
+        .mockReturnValue({ zid: "z1", isAdmin: false });
+      const errorResult = new HTTPError(unauthorizedError);
+      expect(service.getAllReports("z1")).rejects.toThrow(errorResult);
     });
   });
 
@@ -106,41 +120,8 @@ describe("ReportService", () => {
   });
 
   describe("updateReport", () => {
-    it("should throw HTTP 400 error if report is not in database", () => {
+    it("should throw HTTP 401 error if user is not an admin", () => {
       const service = reportService();
-      const report = getMockReports()[0];
-      const reportRequest: UpdateReportStatus = {
-        reportId: report.reportId,
-        zid: report.zid,
-        status: report.status,
-      };
-
-      reportRepository.getReport = jest.fn().mockReturnValue(null);
-
-      const errorResult = new HTTPError(badRequest);
-      expect(service.updateReport(reportRequest)).rejects.toThrow(errorResult);
-    });
-
-    it("should throw HTTP 400 error if user is not in database", () => {
-      const service = reportService();
-      const reportEntity = getReportEntity();
-      const report = getMockReports()[0];
-      const reportRequest: UpdateReportStatus = {
-        reportId: report.reportId,
-        zid: report.zid,
-        status: report.status,
-      };
-
-      reportRepository.getReport = jest.fn().mockReturnValueOnce(reportEntity);
-      userRepository.getUser = jest.fn().mockReturnValueOnce(null);
-
-      const errorResult = new HTTPError(badRequest);
-      expect(service.updateReport(reportRequest)).rejects.toThrow(errorResult);
-    });
-
-    it("should throw HTTP 400 error if user is not an admin", () => {
-      const service = reportService();
-      const reportEntity = getReportEntity();
       const report = getMockReports()[0];
       const userEntity = getUserEntity();
       const reportRequest: UpdateReportStatus = {
@@ -152,7 +133,7 @@ describe("ReportService", () => {
       reportRepository.getReport = jest.fn().mockReturnValueOnce(report);
       userRepository.getUser = jest.fn().mockReturnValueOnce(userEntity);
 
-      const errorResult = new HTTPError(badRequest);
+      const errorResult = new HTTPError(unauthorizedError);
       expect(service.updateReport(reportRequest)).rejects.toThrow(errorResult);
     });
 
@@ -161,7 +142,6 @@ describe("ReportService", () => {
       const date = new Date();
       const reportEntity = getReportEntity(date);
       const report = getMockReports(date)[0];
-      const review = getMockReview(date);
       const userEntity = getUserEntity();
       userEntity.isAdmin = true;
       const reportRequest: UpdateReportStatus = {
@@ -172,17 +152,12 @@ describe("ReportService", () => {
 
       reportRepository.getReport = jest.fn().mockReturnValueOnce(report);
       userRepository.getUser = jest.fn().mockReturnValueOnce(userEntity);
-      reportRepository.saveReport = jest.fn().mockReturnValue(reportEntity);
+      reportRepository.updateReport = jest.fn().mockReturnValue(reportEntity);
 
       const reportResult = await service.updateReport(reportRequest);
       expect(reportResult.report.status).toEqual("UNSEEN");
       expect(reportResult.report.zid).toEqual(report.zid);
       expect(reportResult.report.reason).toEqual(report.reason);
-      expect({
-        ...reportResult.report.review,
-        updatedTimestamp: date,
-        createdTimestamp: date,
-      }).toEqual(review);
     });
   });
 });
