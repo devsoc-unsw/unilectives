@@ -28,11 +28,11 @@ export default class MigrationController {
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to POST /migrate/reviews ${err}`
+              `An error occurred when trying to POST /migrate/reviews ${err}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .post(
         "/courses",
@@ -50,11 +50,11 @@ export default class MigrationController {
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to POST /migrate/courses ${err}`
+              `An error occurred when trying to POST /migrate/courses ${err}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .put(
         "/courses",
@@ -72,11 +72,38 @@ export default class MigrationController {
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to PUT /migrate/courses ${err}`
+              `An error occurred when trying to PUT /migrate/courses ${err}`,
             );
             return next(err);
           }
-        }
+        },
+      )
+      .put(
+        "/users/:zid",
+        async (
+          req: Request<{ zid: string }, unknown>,
+          res: Response,
+          next: NextFunction,
+        ) => {
+          const zid = req.params.zid;
+          this.logger.debug(`Received request in PUT /users/${zid}`);
+          if (req.headers.authorization !== process.env.MIGRATE_SECRET) {
+            return res.status(401).json({
+              status: "FAILURE",
+              message: "Unauthorized",
+            });
+          }
+          try {
+            const result = await this.migrationService.updateUser(zid);
+            this.logger.info(`Responding to client in PUT /users/${zid}`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to PUT /users/${zid}: ${err}`,
+            );
+            return next(err);
+          }
+        },
       )
       .delete(
         "/flush",
@@ -94,11 +121,11 @@ export default class MigrationController {
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to DELETE /migrate/flush ${err}`
+              `An error occurred when trying to DELETE /migrate/flush ${err}`,
             );
             return next(err);
           }
-        }
+        },
       );
   }
 
