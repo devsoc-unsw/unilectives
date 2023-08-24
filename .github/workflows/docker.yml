@@ -43,7 +43,7 @@ jobs:
             ghcr.io/csesoc/unilectives-${{ matrix.component }}:latest
           labels: ${{ steps.meta.outputs.labels }}
   deploy-staging:
-    name: Deploy (CD)
+    name: Deploy Staging (CD)
     runs-on: ubuntu-latest
     needs: [build]
     concurrency: staging
@@ -72,11 +72,11 @@ jobs:
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-migration:${{ github.sha }}"' apps/projects/unilectives/staging/deploy-migration.yml
           git add .
           git commit -m "feat(cselectives/staging): update image"
-          git push -u origin update/cselectives/${{ github.sha }}
+          git push -u origin update/unilectives-staging/${{ github.sha }}
           gh pr create --title "feat(cselectives/staging): update image" --body "Updates the image for the cselectives v2 (staging) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
           gh pr merge $(cat URL) --squash -d
   deploy-prod:
-    name: Deploy (CD)
+    name: Deploy Production (CD)
     runs-on: ubuntu-latest
     needs: [build]
     concurrency: prod
@@ -105,6 +105,6 @@ jobs:
           yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-migration:${{ github.sha }}"' apps/projects/unilectives/prod/deploy-migration.yml
           git add .
           git commit -m "feat(unilectives/prod): update image"
-          git push -u origin update/unilectives/${{ github.sha }}
+          git push -u origin update/unilectives-prod/${{ github.sha }}
           gh pr create --title "feat(unilectives/prod): update image" --body "Updates the image for the unilectives v2 (prod) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
           gh pr merge $(cat URL) --squash -d
