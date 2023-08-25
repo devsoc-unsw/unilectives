@@ -80,6 +80,9 @@ export default async function ReviewPage({
       name: course.title,
       courseCode: course.courseCode,
       description: course.description,
+      url: `//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${
+        course.courseCode
+      }`,
       provider: {
         "@type": "CollegeOrUniversity",
         name: "University of New South Wales",
