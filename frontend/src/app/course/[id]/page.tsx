@@ -1,19 +1,38 @@
-import Image from "next/image";
-import waves from "../../../assets/waves.svg";
-import { LinkIcon } from "@heroicons/react/24/solid";
-import { Suspense } from "react";
-import TermsGroup from "@/components/TermsGroup/TermsGroup";
-import Link from "next/link";
 import DoughnutChart from "@/components/DoughnutChart/DoughnutChart";
-import { notFound } from "next/navigation";
-import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
 import Rating from "@/components/Rating/Rating";
+import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
+import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
+import TermsGroup from "@/components/TermsGroup/TermsGroup";
+import { authOptions } from "@/lib/auth";
 import { Course, Reviews } from "@/types/api";
 import { get, validatedReq } from "@/utils/request";
-import ReviewModal from "@/components/ReviewModal/ReviewModal";
+import { LinkIcon } from "@heroicons/react/24/solid";
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { AggregateRating, WithContext } from "schema-dts";
+import waves from "../../../assets/waves.svg";
+
+export async function generateMetadata(props: {
+  params: {
+    [key: string]: string;
+  };
+}): Promise<Metadata> {
+  const { course } = (await get(
+    `/course/${props.params.id.toUpperCase()}`
+  )) as {
+    course: Course;
+  };
+
+  return {
+    title: `${course.courseCode} | Unilectives - UNSW Course Reviews`,
+    description: `Considering ${course.courseCode} at UNSW? Dive into real student reviews giving you unfiltered perspectives on the course. Get the scoop on teaching quality, workload, and more.`,
+  };
+}
 
 export default async function ReviewPage({
   params,
@@ -44,6 +63,27 @@ export default async function ReviewPage({
     userCourseInfo = res.userCourseInfo;
   }
 
+  const metaLD: WithContext<AggregateRating> = {
+    "@context": "https://schema.org",
+    "@type": "AggregateRating",
+    ratingCount: reviews.length,
+    ratingValue:
+      (reviews.reduce((acc, curr) => acc + curr.overallRating, 0) as number) /
+      reviews.length,
+    bestRating: 5,
+    itemReviewed: {
+      "@type": "Course",
+      name: course.title,
+      courseCode: course.courseCode,
+      description: course.description,
+      provider: {
+        "@type": "CollegeOrUniversity",
+        name: "University of New South Wales",
+        sameAs: "https://www.unsw.edu.au/",
+      },
+    },
+  };
+
   return (
     <div className="isolate">
       {/* Header */}
@@ -62,6 +102,10 @@ export default async function ReviewPage({
       {/* Course details */}
       <div className="flex gap-8 pt-12 px-16 md:px-8 lg:pt-8 md:flex-wrap">
         <Suspense fallback={<div>Loading...</div>}>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
+          />
           <section className="space-y-4 w-full block md:static md:max-h-full sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-none">
             <h1 className="text-6xl font-bold break-words">
               {course.courseCode}
