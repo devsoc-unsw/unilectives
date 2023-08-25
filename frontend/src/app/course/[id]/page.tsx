@@ -68,8 +68,12 @@ export default async function ReviewPage({
     "@type": "AggregateRating",
     ratingCount: reviews.length,
     ratingValue:
-      (reviews.reduce((acc, curr) => acc + curr.overallRating, 0) as number) /
-      reviews.length,
+      reviews.length === 0
+        ? 0
+        : (reviews.reduce(
+            (acc, curr) => acc + curr.overallRating,
+            0
+          ) as number) / reviews.length,
     bestRating: 5,
     itemReviewed: {
       "@type": "Course",
