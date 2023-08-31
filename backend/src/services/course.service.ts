@@ -13,6 +13,7 @@ import {
   CourseBody,
   CoursesSuccessResponse,
 } from "../api/schemas/course.schema";
+import { SearchFilterCriteria } from "ICourseFilter";
 
 export class CourseService {
   private logger = getLogger();
@@ -82,6 +83,27 @@ export class CourseService {
       await this.redis.set(`searchCourses:${searchTerm}`, courses);
     } else {
       this.logger.info(`Cache hit on searchCourses:${searchTerm}`);
+    }
+
+    this.logger.info(`Found ${courses.length} courses.`);
+    return { courses };
+  }
+
+  async searchCourseCriteria(criteria: SearchFilterCriteria): Promise<CoursesSuccessResponse | undefined> {
+    console.log("here")
+    // Construct a cache key based on the filter criteria
+    const cacheKey = JSON.stringify(criteria);
+
+    let courses = await this.redis.get<Course[]>(`searchCoursesCriteria:${cacheKey}`);
+
+    if (!courses) {
+      this.logger.info(`Cache miss on searchCoursesCriteria:${cacheKey}`);
+      // Call repository function passing the filter criteria
+      courses = await this.courseRepository.searchCoursesByCriteria(criteria);
+
+      await this.redis.set(`searchCoursesCriteria:${cacheKey}`, courses);
+    } else {
+      this.logger.info(`Cache hit on searchCoursesCriteria:${cacheKey}`);
     }
 
     this.logger.info(`Found ${courses.length} courses.`);

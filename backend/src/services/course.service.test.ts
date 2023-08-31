@@ -64,6 +64,28 @@ describe("CourseService", () => {
     });
   });
 
+  describe("searchCourseByCriteria", () => {
+    it("should return empty list if no courses match the criteria", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+
+      service.searchCourseCriteria = jest.fn().mockResolvedValue([]);
+
+      const filteredCourses = service.searchCourseCriteria({
+        studyLevel: "undergraduate",
+        isGenEd: false,
+        selectedFaculty: "engineering",
+        termCheckboxes: ["term_1"],
+        hexamesterCheckboxes: [],
+        semesterCheckboxes: []
+      });
+
+      expect(filteredCourses).toEqual({
+        courses,
+      });
+    });
+  });
+
   describe("getCourse", () => {
     it("should throw HTTP 500 error if there is no course in database", () => {
       const service = courseService();
