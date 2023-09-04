@@ -31,9 +31,9 @@ export default function Home() {
             <p className="drop-shadow-md text-base sm:text-xs">
               CSESoc presents
             </p>
-            <p className="justify-center font-bold text-unilectives-blue text-7xl sm:text-4xl">
-              uni-lectives
-            </p>
+            <h1 className="justify-center font-bold text-unilectives-blue text-7xl sm:text-4xl">
+              unilectives
+            </h1>
             <p className="justify-center font-semibold text-base sm:text-xs">
               Your one-stop shop for UNSW course and elective reviews.
             </p>

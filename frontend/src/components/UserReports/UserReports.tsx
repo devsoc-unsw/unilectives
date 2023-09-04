@@ -145,10 +145,10 @@ export default function UserReports({ reports }: Reports) {
               {/* Course courseCode + Ratings */}
               <div className="flex gap-2 text-xl">
                 <span className={`${statusTextColor(report.status)}`}>●</span>
-                <h1 className="font-bold break-all">
+                <h2 className="font-bold break-all">
                   Report{" "}
                   <span className="text-black/50">#{report.reportId}</span>
-                </h1>
+                </h2>
               </div>
               {/* Description */}
               <p className="text-unilectives-headings break-all line-clamp-3 h-[4.5rem]">
