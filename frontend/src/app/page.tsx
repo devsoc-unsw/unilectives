@@ -1,6 +1,14 @@
 import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import navbar from "@/assets/navbar.svg";
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: `Home | Unilectives - UNSW Course Reviews`,
+    description: `A course review website for UNSW made by CSESoc`,
+  };
+}
 
 export default function Home() {
   return (
