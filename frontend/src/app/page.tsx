@@ -2,10 +2,9 @@ import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import navbar from "@/assets/navbar.svg";
 import { Metadata } from "next";
-import { AggregateRating, ItemList, WithContext } from "schema-dts";
+import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
 import { Course, Courses } from "@/types/api";
-import { ConstructSignatureDeclaration } from "typescript";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -37,6 +36,15 @@ export default async function Home() {
           name: "University of New South Wales",
           sameAs: "https://www.unsw.edu.au/",
         },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingCount: course.reviewCount,
+          ratingValue:
+            course.reviewCount === 0
+              ? 0
+              : course.overallRating,
+          bestRating: 5,
+        },
       },
     })),
   };
@@ -56,9 +64,9 @@ export default async function Home() {
       </div>
       {/* Hero Section */}
       <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
-        />
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
+      />
       <div className="flex flex-row w-full justify-center items-center mt-10">
         <div className="flex flex-row w-5/6 space-y-0 justify-between items-left md:space-y-4 md:flex-col md:items-center">
           <div className="flex flex-col w-full gap-3">

@@ -66,14 +66,9 @@ export default async function ReviewPage({
   const metaLD: WithContext<AggregateRating> = {
     "@context": "https://schema.org",
     "@type": "AggregateRating",
-    ratingCount: reviews.length,
+    ratingCount: course.reviewCount,
     ratingValue:
-      reviews.length === 0
-        ? 0
-        : (reviews.reduce(
-            (acc, curr) => acc + curr.overallRating,
-            0
-          ) as number) / reviews.length,
+      course.reviewCount === 0 ? 0 : course.overallRating,
     bestRating: 5,
     itemReviewed: {
       "@type": "Course",
