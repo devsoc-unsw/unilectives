@@ -1,6 +1,6 @@
 export default function TermsAndConditionsPage() {
   return (
-    <div className="p-20 xs:m-12 sm:m-12 xs:text-xs sm:text-sm">
+    <div className="p-20 xs:p-8 sm:p-12 xs:text-xs sm:text-sm">
       <h1 className="text-lg font-bold">Terms and Conditions</h1>
       <br />
       <p>
@@ -28,7 +28,7 @@ export default function TermsAndConditionsPage() {
       <br />
       <p>By using our services, you agree to the following terms of use.</p>
       {/* List of Terms */}
-      <div className="px-16 xs:px-0 sm:px-8">
+      <div className="px-16 xs:px-0 sm:px-4">
         <hr className="mt-8 bg-black/25" />
         <p className="mt-8">
           <span className="inline font-semibold">
