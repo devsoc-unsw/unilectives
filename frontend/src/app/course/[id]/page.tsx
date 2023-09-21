@@ -189,19 +189,11 @@ export default async function ReviewPage({
         rendering */}
         <section className="space-y-4 w-full mb-8">
           <Suspense fallback={<div>Loading...</div>}>
-            {reviews && reviews.length !== 0 ? (
-              <ReviewsBar
-                courseCode={course.courseCode}
-                reviews={reviews}
-                bookmarkedReviews={userCourseInfo}
-              />
-            ) : (
-              <div className="space-y-2">
-                <h3 className="text-2xl font-bold">Reviews</h3>
-                <ReviewModal courseCode={course.courseCode} />
-                <p className="text-black/50">No reviews yet</p>
-              </div>
-            )}
+            <ReviewsBar
+              courseCode={course.courseCode}
+              reviews={reviews}
+              bookmarkedReviews={userCourseInfo}
+            />
           </Suspense>
         </section>
       </div>
