@@ -131,7 +131,7 @@ export default function UserReviews({
               >
                 <div className="flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2">
                   {/* Title */}
-                  <h1 className="font-bold text-xl">{review.courseCode}</h1>
+                  <h2 className="font-bold text-xl">{review.courseCode}</h2>
                   {/* Description */}
                   <p className="text-unilectives-headings w-full truncate">
                     {!review.description ? "-" : review.description}
@@ -158,9 +158,9 @@ export default function UserReviews({
               >
                 {/* Course courseCode + Ratings */}
                 <div className="flex flex-wrap justify-between text-2xl">
-                  <h1 className="font-bold block truncate">
+                  <h2 className="font-bold block truncate">
                     {review.courseCode}
-                  </h1>
+                  </h2>
                   <div className="text-right">
                     {/* StarRating */}
                     <div className="text-2xl inline">

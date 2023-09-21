@@ -5,6 +5,18 @@ import { validatedReq } from "@/utils/request";
 import UserPageContent from "@/components/UserPageContent/UserPageContent";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { Metadata } from "next";
+
+export async function generateMetadata(props: {
+  params: {
+    [key: string]: string;
+  };
+}): Promise<Metadata> {
+  return {
+    title: `${props.params.zid} Profile | Unilectives - UNSW Course Reviews`,
+    description: `Curious about ${props.params.zid}'s reviews? Check out their profile to see what courses they've reviewed and bookmarked.`,
+  };
+}
 
 export default async function UserPage({
   params,
