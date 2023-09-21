@@ -1,10 +1,8 @@
 import { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: `Terms & Conditions | Unilectives - UNSW Course Reviews`,
-    description: `Terms and Conditions for Unilectives - UNSW Course Reviews`,
-  };
+export const metadata: Metadata = {
+  title: `Terms & Conditions | Unilectives - UNSW Course Reviews`,
+  description: `Terms and Conditions for Unilectives - UNSW Course Reviews`,
 }
 
 export default function TermsAndConditions() {

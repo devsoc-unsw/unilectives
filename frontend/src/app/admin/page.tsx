@@ -7,11 +7,9 @@ import { authOptions } from "@/lib/auth";
 import navbar from "@/assets/navbar.svg";
 import { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: `Admin Dashboard | Unilectives - UNSW Course Reviews`,
-    description: `Manage and resolve reports left on particular course reviews by Unilectives users.`,
-  };
+export const metadata: Metadata = {
+  title: `Admin Dashboard | Unilectives - UNSW Course Reviews`,
+	description: `Manage and resolve reports left on particular course reviews by Unilectives users.`,
 }
 
 export default async function AdminDashboard() {
