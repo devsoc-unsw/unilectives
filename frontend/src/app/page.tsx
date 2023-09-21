@@ -14,14 +14,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const res = (await get("/courses")) as Courses;
-  const courses = res.courses;
-  // TODO: fix up client side rendering (have the first 25 courses loaded serverside and subsequent clientside)
+  const { courses: initialCourses } = (await get(
+    "/courses?offset=0"
+  )) as Courses;
 
   const metaLD: WithContext<ItemList> = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    itemListElement: courses.map((course: Course, index: number) => ({
+    itemListElement: initialCourses.map((course: Course, index: number) => ({
       "@type": "ListItem",
       position: index + 1,
       item: {
@@ -39,10 +39,7 @@ export default async function Home() {
         aggregateRating: {
           "@type": "AggregateRating",
           ratingCount: course.reviewCount,
-          ratingValue:
-            course.reviewCount === 0
-              ? 0
-              : course.overallRating,
+          ratingValue: course.reviewCount === 0 ? 0 : course.overallRating,
           bestRating: 5,
         },
       },
@@ -52,16 +49,14 @@ export default async function Home() {
   return (
     <div className="mb-20">
       {/* Landing page graphic */}
-      <div>
-        <Image
-          src={navbar}
-          width={1000}
-          height={500}
-          alt="landing page graphic"
-          layout="responsive"
-          priority
-        />
-      </div>
+      <Image
+        src={navbar}
+        width={1000}
+        height={500}
+        alt="landing page graphic"
+        layout="responsive"
+        priority
+      />
       {/* Hero Section */}
       <script
         type="application/ld+json"
@@ -84,7 +79,7 @@ export default async function Home() {
       </div>
       {/* Course Section */}
       <div className="flex flex-col justify-center items-center mt-10">
-        <LandingPageContent />
+        <LandingPageContent initialCourses={initialCourses} />
       </div>
     </div>
   );

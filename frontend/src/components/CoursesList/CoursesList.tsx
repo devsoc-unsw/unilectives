@@ -7,12 +7,19 @@ import { get } from "@/utils/request";
 import { sortCourses } from "@/utils/sortCourses";
 import SortDropdown from "../SortDropdown/SortDropdown";
 
-export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
+export default function CoursesList({
+  initialCourses,
+  searchTerm,
+}: {
+  initialCourses: Course[];
+  searchTerm: string;
+}) {
   const courseFinishedRef = useRef(false);
-  const indexRef = useRef(0);
+  const indexRef = useRef(initialCourses.length);
   const searchCoursesRef = useRef<Course[]>([]);
 
-  const [displayCourses, setDisplayCourses] = useState<Course[]>([]);
+  const [displayCourses, setDisplayCourses] =
+    useState<Course[]>(initialCourses);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selected, setSelected] = useState("");
 
@@ -58,7 +65,7 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
   useEffect(() => {
     const resetRefs = () => {
       courseFinishedRef.current = false;
-      indexRef.current = 0;
+      indexRef.current = initialCourses.length;
       searchCoursesRef.current = [];
     };
     const getSearchResults = async () => {
@@ -74,20 +81,8 @@ export default function CoursesList({ searchTerm }: { searchTerm?: string }) {
       indexRef.current += paginationOffset;
       setInitialLoading(false);
     };
-    const getDefaultResults = async () => {
-      try {
-        const { courses } = (await get(`/courses?offset=0`)) as Courses;
-        setDisplayCourses(courses);
-        indexRef.current += paginationOffset;
-      } catch (err) {
-        setDisplayCourses([]);
-      }
-      setInitialLoading(false);
-    };
     const getInitialDisplayCourses = () => {
-      if (searchTerm === "") {
-        getDefaultResults();
-      } else {
+      if (searchTerm !== "") {
         getSearchResults();
       }
     };

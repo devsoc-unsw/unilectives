@@ -4,25 +4,28 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import debounce from "lodash/debounce";
 
-export default function SearchBar({ onSearchChange }: { onSearchChange: (newSearchTerm: string) => void }) {
+export default function SearchBar({
+  onSearchChange,
+}: {
+  onSearchChange: (newSearchTerm: string) => void;
+}) {
   const [initialLoading, setInitialLoading] = useState(true);
 
   const handleOnChange = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
       onSearchChange(event.target.value.trim().replaceAll(" ", "%20"));
-    }, 300), []
+    }, 300),
+    []
   );
 
   useEffect(() => {
     setTimeout(() => {
       setInitialLoading(false);
-    }, 500)
+    }, 500);
   }, []);
 
   return (
-    <div
-      className="flex w-5/6 items-center bg-white rounded border-2 border-unilectives-search"
-    >
+    <div className="flex w-5/6 items-center bg-white rounded border-2 border-unilectives-search">
       <MagnifyingGlassIcon className="w-6 h-6 text-unilectives-search mx-2" />
       <input
         type="text"
