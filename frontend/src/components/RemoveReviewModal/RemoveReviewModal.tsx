@@ -78,7 +78,7 @@ export default function RemoveReviewModal({
                 >
                   <Dialog.Panel className="transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
                     {/* Modal title */}
-                    <Dialog.Title as="h1" className="text-2xl font-bold">
+                    <Dialog.Title as="h2" className="text-2xl font-bold">
                       Delete Your Review
                     </Dialog.Title>
                     <hr className="border-black/25" />

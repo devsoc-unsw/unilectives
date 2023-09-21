@@ -40,7 +40,7 @@ First start the database:
 ```
 docker run --rm -itd --network cselectives-network --name cselectives-db -e POSTGRES_PASSWORD=password -e POSTGRES_DB=mydb -p 5432:5432 postgres
 # Initialise db schema:
-DATABASE_URL="postgresql://postgres:password@0.0.0.0:5432/mydb?schema=cselectives" npx prisma migrate dev
+DATABASE_URL="postgresql://postgres:password@0.0.0.0:5432/mydb?schema=unilectives" npx prisma migrate dev
 ```
 
 Then dragonfly (redis):

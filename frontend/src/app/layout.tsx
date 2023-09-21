@@ -5,11 +5,6 @@ import { authOptions } from "@/lib/auth";
 import { AlertProvider } from "@/lib/snackbar-context";
 import Navbar from "@/components/Navbar/Navbar";
 
-export const metadata = {
-  title: "uni-lectives",
-  description: "Course review website for UNSW made by CSESoc",
-};
-
 export default async function RootLayout({
   children,
 }: {
