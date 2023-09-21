@@ -1,7 +1,13 @@
 "use client";
 
-import { Reports, Report } from "@/types/api";
-import { useMemo, useState, useCallback } from "react";
+import { Reports, Report, TabsType } from "@/types/api";
+import {
+  useState,
+  useCallback,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+} from "react";
 import Dropdown from "../Dropdown/Dropdown";
 import Pagination from "../Pagination/Pagination";
 
@@ -12,8 +18,12 @@ type STATUS = {
   SETTLED: boolean;
 };
 
-export default function UserReports({ reports }: Reports) {
-  const [currentReports, setCurrentReports] = useState(reports);
+export default function UserReports({
+  reports,
+  setTabs,
+}: Reports & {
+  setTabs: Dispatch<SetStateAction<TabsType>>;
+}) {
   const [currentStatus, setCurrentStatus] = useState<STATUS>({
     UNSEEN: true,
     SEEN: true,
@@ -25,7 +35,7 @@ export default function UserReports({ reports }: Reports) {
   const itemPerPage = 9;
 
   // Change review filter based on checkboxes and dropdown
-  useMemo(() => {
+  useEffect(() => {
     let sortedReports = [...reports];
     // Filter reports based on category
     const currentReportFilters = Object.entries(currentStatus)
@@ -49,7 +59,11 @@ export default function UserReports({ reports }: Reports) {
         );
         break;
     }
-    setCurrentReports(sortedReports);
+    setTabs((prev: TabsType) => {
+      const newTab = { ...prev };
+      newTab["My reports"].data = sortedReports;
+      return newTab;
+    });
   }, [currentStatus, selected, reports]);
 
   // Handle checkbox on change
@@ -135,7 +149,7 @@ export default function UserReports({ reports }: Reports) {
       </div>
       {/* Reports */}
       <div className="grid grid-cols-3 lg:grid-cols-1 gap-12">
-        {currentReports
+        {reports
           .slice((page - 1) * itemPerPage, page * itemPerPage)
           .map((report: Report, index: number) => (
             <div

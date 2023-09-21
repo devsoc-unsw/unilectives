@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
-import { Course, Report, Review } from "@/types/api";
+import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
+import { Course, Report, Review, TabsType } from "@/types/api";
 import UserReviews from "../UserReviews/UserReviews";
 import UserReports from "../UserReports/UserReports";
 import Dropdown from "../Dropdown/Dropdown";
@@ -19,9 +19,7 @@ export default function UserPageContent({
   // Refs
   const currentTabRef = useRef("My reviews");
   // States
-  const [tabs, setTabs] = useState<{
-    [key: string]: { current: boolean; data: Report[] | Review[] | Course[] };
-  }>({
+  const [tabs, setTabs] = useState<TabsType>({
     "My reviews": {
       current: true,
       data: reviews as Review[],
@@ -47,7 +45,7 @@ export default function UserPageContent({
         return newTabs;
       });
     },
-    [tabs],
+    [tabs]
   );
 
   return (
@@ -80,16 +78,22 @@ export default function UserPageContent({
       {tabs["My reviews"].current && (
         <UserReviews
           reviews={tabs["My reviews"].data as Review[]}
-          bookmarked={bookmarked}
+          setTabs={setTabs}
         />
       )}
       {/* My reports */}
       {tabs["My reports"].current && (
-        <UserReports reports={tabs["My reports"].data as Report[]} />
+        <UserReports
+          reports={tabs["My reports"].data as Report[]}
+          setTabs={setTabs}
+        />
       )}
       {/* Bookmarked */}
       {tabs["Bookmarked"].current && (
-        <UserBookmarkedReviews reviews={tabs["Bookmarked"].data as Review[]} />
+        <UserBookmarkedReviews
+          reviews={tabs["Bookmarked"].data as Review[]}
+          setTabs={setTabs}
+        />
       )}
     </div>
   );

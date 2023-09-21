@@ -1,24 +1,20 @@
 "use client";
 
-import { Review, Reviews } from "@/types/api";
+import { Course, Review, Reviews, TabsType } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
-import { useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Rating from "../Rating/Rating";
-import { ArrowSmallUpIcon, BookmarkIcon } from "@heroicons/react/24/outline";
-import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import EditReviewModal from "../EditReviewModal/EditReviewModal";
 import Pagination from "../Pagination/Pagination";
 import RemoveReviewModal from "../RemoveReviewModal/RemoveReviewModal";
-import { post } from "@/utils/request";
-import { useSession } from "next-auth/react";
 
 export default function UserReviews({
   reviews,
-  bookmarked,
-}: Reviews & { bookmarked: Review[] }) {
-  const [currentReviews, setCurrentReviews] = useState(reviews);
-  const [bookmarkedReviews, setBookmarkedReviews] = useState(bookmarked);
+  setTabs,
+}: Reviews & {
+  setTabs: Dispatch<SetStateAction<TabsType>>;
+}) {
   const [selected, setSelected] = useState("");
   const [cardView, setCardView] = useState(true);
   const [deleted, setDeleted] = useState<string>();
@@ -28,59 +24,68 @@ export default function UserReviews({
     grade: number | null;
   }>();
   const [page, setPage] = useState(1);
-  const { data: session, status } = useSession();
   const itemPerPage = 9;
 
   // Change review sorting based on dropdown
-  useMemo(() => {
+  useEffect(() => {
     const sortedReviews = [...reviews];
     switch (selected) {
       case "Most Recent":
         sortedReviews.sort(
           (r1: Review, r2: Review) =>
-            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp),
+            Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp)
         );
         break;
       case "Most Recently Taken":
         sortedReviews.sort((r1: Review, r2: Review) =>
-          r2.termTaken.localeCompare(r1.termTaken),
+          r2.termTaken.localeCompare(r1.termTaken)
         );
         break;
       case "Highest Rating to Lowest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r2.overallRating - r1.overallRating,
+          (r1: Review, r2: Review) => r2.overallRating - r1.overallRating
         );
         break;
       case "Lowest Rating to Highest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r1.overallRating - r2.overallRating,
+          (r1: Review, r2: Review) => r1.overallRating - r2.overallRating
         );
         break;
     }
-
-    setCurrentReviews(sortedReviews);
+    setTabs((prev: TabsType) => {
+      const newTab = { ...prev };
+      console.log(newTab);
+      newTab["My reviews"].data = sortedReviews;
+      return newTab;
+    });
   }, [selected, reviews]);
 
   useEffect(() => {
     if (!deleted) return;
     // Optimistic UI update for deleting a review
-    const newReviews = currentReviews.filter(
-      (review) => review.reviewId !== deleted,
-    );
-    setCurrentReviews(newReviews);
+    const newReviews = reviews.filter((review) => review.reviewId !== deleted);
+    setTabs((prev: TabsType) => {
+      const newTab = { ...prev };
+      newTab["My reviews"].data = newReviews;
+      return newTab;
+    });
   }, [deleted]);
 
   useEffect(() => {
     if (!edited) return;
     // Optimistic UI update for deleting a review
-    const newReviews = [...currentReviews];
+    const newReviews = [...reviews];
     const target = newReviews.find(
-      (review) => review.reviewId === edited.reviewId,
+      (review) => review.reviewId === edited.reviewId
     );
     if (!target) return;
     target.authorName = edited.authorName;
     target.grade = edited.grade;
-    setCurrentReviews(newReviews);
+    setTabs((prev: TabsType) => {
+      const newTab = { ...prev };
+      newTab["My reviews"].data = newReviews;
+      return newTab;
+    });
   }, [edited]);
 
   return (
@@ -116,8 +121,8 @@ export default function UserReviews({
       {/* Reviews */}
       {/* List view */}
       {!cardView && (
-        <div>
-          {currentReviews
+        <div className="grid grid-cols-1">
+          {reviews
             .slice((page - 1) * itemPerPage, page * itemPerPage)
             .map((review: Review, index: number) => (
               <div
@@ -144,7 +149,7 @@ export default function UserReviews({
       {/* Card view */}
       {cardView && (
         <div className="grid grid-cols-3 lg:grid-cols-1 gap-12">
-          {currentReviews
+          {reviews
             .slice((page - 1) * itemPerPage, page * itemPerPage)
             .map((review: Review, index: number) => (
               <div
