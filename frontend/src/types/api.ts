@@ -75,3 +75,10 @@ export type Course = {
 export type Courses = {
   courses: Course[];
 }
+
+export type TabsType = {
+  [key: string]: {
+    current: boolean;
+    data: Report[] | Review[] | Course[];
+  };
+};
