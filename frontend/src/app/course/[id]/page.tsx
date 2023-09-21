@@ -1,6 +1,5 @@
 import DoughnutChart from "@/components/DoughnutChart/DoughnutChart";
 import Rating from "@/components/Rating/Rating";
-import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
 import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
 import TermsGroup from "@/components/TermsGroup/TermsGroup";
@@ -50,7 +49,7 @@ export default async function ReviewPage({
   if (!course) notFound();
 
   const { reviews } = (await get(
-    `/reviews/${course.courseCode.toUpperCase()}`,
+    `/reviews/${course.courseCode.toUpperCase()}`
   )) as Reviews;
 
   let userCourseInfo: string[] = [];
@@ -60,7 +59,7 @@ export default async function ReviewPage({
         "GET",
         `/user/course/${params.id.toUpperCase()}`,
         session?.user?.accessToken ?? "",
-        session?.user?.id ?? "",
+        session?.user?.id ?? ""
       )) as { userCourseInfo: string[] };
       userCourseInfo = res.userCourseInfo;
     } catch (err) {
@@ -72,8 +71,7 @@ export default async function ReviewPage({
     "@context": "https://schema.org",
     "@type": "AggregateRating",
     ratingCount: course.reviewCount,
-    ratingValue:
-      course.reviewCount === 0 ? 0 : course.overallRating,
+    ratingValue: course.reviewCount === 0 ? 0 : course.overallRating,
     bestRating: 5,
     itemReviewed: {
       "@type": "Course",
