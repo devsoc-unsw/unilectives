@@ -16,6 +16,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { AggregateRating, WithContext } from "schema-dts";
 import waves from "../../../assets/waves.svg";
+import { signOut } from "next-auth/react";
 
 export async function generateMetadata(props: {
   params: {
@@ -49,18 +50,22 @@ export default async function ReviewPage({
   if (!course) notFound();
 
   const { reviews } = (await get(
-    `/reviews/${course.courseCode.toUpperCase()}`
+    `/reviews/${course.courseCode.toUpperCase()}`,
   )) as Reviews;
 
   let userCourseInfo: string[] = [];
   if (session?.user) {
-    const res = (await validatedReq(
-      "GET",
-      `/user/course/${params.id.toUpperCase()}`,
-      session?.user?.accessToken ?? "",
-      session?.user?.id ?? ""
-    )) as { userCourseInfo: string[] };
-    userCourseInfo = res.userCourseInfo;
+    try {
+      const res = (await validatedReq(
+        "GET",
+        `/user/course/${params.id.toUpperCase()}`,
+        session?.user?.accessToken ?? "",
+        session?.user?.id ?? "",
+      )) as { userCourseInfo: string[] };
+      userCourseInfo = res.userCourseInfo;
+    } catch (err) {
+      signOut();
+    }
   }
 
   const metaLD: WithContext<AggregateRating> = {
