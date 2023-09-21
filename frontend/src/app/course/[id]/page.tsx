@@ -14,6 +14,7 @@ import { get, validatedReq } from "@/utils/request";
 import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { signOut } from "next-auth/react";
 
 export default async function ReviewPage({
   params,
@@ -30,18 +31,22 @@ export default async function ReviewPage({
   if (!course) notFound();
 
   const { reviews } = (await get(
-    `/reviews/${course.courseCode.toUpperCase()}`
+    `/reviews/${course.courseCode.toUpperCase()}`,
   )) as Reviews;
 
   let userCourseInfo: string[] = [];
   if (session?.user) {
-    const res = (await validatedReq(
-      "GET",
-      `/user/course/${params.id.toUpperCase()}`,
-      session?.user?.accessToken ?? "",
-      session?.user?.id ?? ""
-    )) as { userCourseInfo: string[] };
-    userCourseInfo = res.userCourseInfo;
+    try {
+      const res = (await validatedReq(
+        "GET",
+        `/user/course/${params.id.toUpperCase()}`,
+        session?.user?.accessToken ?? "",
+        session?.user?.id ?? "",
+      )) as { userCourseInfo: string[] };
+      userCourseInfo = res.userCourseInfo;
+    } catch (err) {
+      signOut();
+    }
   }
 
   return (
