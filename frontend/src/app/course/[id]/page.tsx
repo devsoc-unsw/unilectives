@@ -1,19 +1,38 @@
-import Image from "next/image";
-import waves from "../../../assets/waves.svg";
-import { LinkIcon } from "@heroicons/react/24/solid";
-import { Suspense } from "react";
-import TermsGroup from "@/components/TermsGroup/TermsGroup";
-import Link from "next/link";
 import DoughnutChart from "@/components/DoughnutChart/DoughnutChart";
-import { notFound } from "next/navigation";
-import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
 import Rating from "@/components/Rating/Rating";
 import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
+import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
+import TermsGroup from "@/components/TermsGroup/TermsGroup";
+import { authOptions } from "@/lib/auth";
 import { Course, Reviews } from "@/types/api";
 import { get, validatedReq } from "@/utils/request";
-import ReviewModal from "@/components/ReviewModal/ReviewModal";
+import { LinkIcon } from "@heroicons/react/24/solid";
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { AggregateRating, WithContext } from "schema-dts";
+import waves from "../../../assets/waves.svg";
+import { signOut } from "next-auth/react";
+
+export async function generateMetadata(props: {
+  params: {
+    [key: string]: string;
+  };
+}): Promise<Metadata> {
+  const { course } = (await get(
+    `/course/${props.params.id.toUpperCase()}`
+  )) as {
+    course: Course;
+  };
+
+  return {
+    title: `${course.courseCode} | Unilectives - UNSW Course Reviews`,
+    description: `Considering ${course.courseCode} at UNSW? Dive into real student reviews giving you unfiltered perspectives on the course. Get the scoop on teaching quality, workload, and more.`,
+  };
+}
 
 export default async function ReviewPage({
   params,
@@ -35,14 +54,40 @@ export default async function ReviewPage({
 
   let userCourseInfo: string[] = [];
   if (session?.user) {
-    const res = (await validatedReq(
-      "GET",
-      `/user/course/${params.id.toUpperCase()}`,
-      session?.user?.accessToken ?? "",
-      session?.user?.id ?? ""
-    )) as { userCourseInfo: string[] };
-    userCourseInfo = res.userCourseInfo;
+    try {
+      const res = (await validatedReq(
+        "GET",
+        `/user/course/${params.id.toUpperCase()}`,
+        session?.user?.accessToken ?? "",
+        session?.user?.id ?? ""
+      )) as { userCourseInfo: string[] };
+      userCourseInfo = res.userCourseInfo;
+    } catch (err) {
+      signOut();
+    }
   }
+
+  const metaLD: WithContext<AggregateRating> = {
+    "@context": "https://schema.org",
+    "@type": "AggregateRating",
+    ratingCount: course.reviewCount,
+    ratingValue: course.reviewCount === 0 ? 0 : course.overallRating,
+    bestRating: 5,
+    itemReviewed: {
+      "@type": "Course",
+      name: course.title,
+      courseCode: course.courseCode,
+      description: course.description,
+      url: `//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${
+        course.courseCode
+      }`,
+      provider: {
+        "@type": "CollegeOrUniversity",
+        name: "University of New South Wales",
+        sameAs: "https://www.unsw.edu.au/",
+      },
+    },
+  };
 
   return (
     <div className="isolate">
@@ -62,6 +107,10 @@ export default async function ReviewPage({
       {/* Course details */}
       <div className="flex gap-8 pt-12 px-16 md:px-8 lg:pt-8 md:flex-wrap">
         <Suspense fallback={<div>Loading...</div>}>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
+          />
           <section className="space-y-4 w-full block md:static md:max-h-full sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-none">
             <h1 className="text-6xl font-bold break-words">
               {course.courseCode}
@@ -143,19 +192,11 @@ export default async function ReviewPage({
         rendering */}
         <section className="space-y-4 w-full mb-8">
           <Suspense fallback={<div>Loading...</div>}>
-            {reviews && reviews.length !== 0 ? (
-              <ReviewsBar
-                courseCode={course.courseCode}
-                reviews={reviews}
-                bookmarkedReviews={userCourseInfo}
-              />
-            ) : (
-              <div className="space-y-2">
-                <h3 className="text-2xl font-bold">Reviews</h3>
-                <ReviewModal courseCode={course.courseCode} />
-                <p className="text-black/50">No reviews yet</p>
-              </div>
-            )}
+            <ReviewsBar
+              courseCode={course.courseCode}
+              reviews={reviews}
+              bookmarkedReviews={userCourseInfo}
+            />
           </Suspense>
         </section>
       </div>

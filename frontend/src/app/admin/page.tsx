@@ -5,8 +5,14 @@ import AdminContent from "@/components/AdminContent/AdminContent";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import navbar from "@/assets/navbar.svg";
+import { Metadata } from "next";
 
-export default async function () {
+export const metadata: Metadata = {
+  title: `Admin Dashboard | Unilectives - UNSW Course Reviews`,
+	description: `Manage and resolve reports left on particular course reviews by Unilectives users.`,
+}
+
+export default async function AdminDashboard() {
   const session = await getServerSession(authOptions);
   const { reviews } = (await validatedReq(
     "GET",
@@ -32,7 +38,7 @@ export default async function () {
 				priority
 			/>
 			<div className="flex flex-col w-full px-12 py-6 gap-6">
-				<p className="font-bold text-3xl">Dashboard</p>
+				<p className="font-bold text-3xl">Admin Dashboard</p>
 				<p>Welcome to the admin dashboard!</p>
 				<AdminContent
 					reports={reports}

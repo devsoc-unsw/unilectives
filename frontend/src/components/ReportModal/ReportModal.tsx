@@ -127,7 +127,7 @@ export default function ReportModal({ reviewId }: { reviewId: string }) {
                   <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-8 py-6 space-y-4 isolate">
                     {/* Modal title + close button */}
                     <div className="flex justify-between items-center">
-                      <Dialog.Title as="h1" className="text-2xl font-bold">
+                      <Dialog.Title as="h2" className="text-2xl font-bold">
                         Reason for Report
                       </Dialog.Title>
                       <button onClick={closeModal}>

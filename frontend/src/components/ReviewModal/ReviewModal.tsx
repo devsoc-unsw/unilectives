@@ -3,11 +3,17 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { FormEvent, Fragment, useContext, useMemo, useState } from "react";
+import {
+  FormEvent,
+  Fragment,
+  MutableRefObject,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import ReviewRatingInput from "../ReviewRatingInput/ReviewRatingInput";
-import { post, validatedReq } from "@/utils/request";
+import { validatedReq } from "@/utils/request";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { Review } from "@/types/api";
 import { AlertContext } from "@/lib/snackbar-context";
 
@@ -22,10 +28,12 @@ type Inputs = {
 type AltSetCurrentReviewsType = (r2: Review[]) => Review[];
 export default function ReviewModal({
   courseCode,
+  currentReviewRef,
   setCurrentReviews,
 }: {
   courseCode: string;
-  setCurrentReviews?: (r: Review[] | AltSetCurrentReviewsType) => void;
+  currentReviewRef: MutableRefObject<Review[]>;
+  setCurrentReviews: (r: Review[] | AltSetCurrentReviewsType) => void;
 }) {
   // States
   const { data: session, status } = useSession();
@@ -111,6 +119,7 @@ export default function ReviewModal({
     if (setCurrentReviews) {
       setCurrentReviews((prev: Review[]) => {
         const newReviews = [newReview, ...prev];
+        currentReviewRef.current = [newReview, ...currentReviewRef.current];
         return newReviews;
       });
     }
@@ -176,7 +185,7 @@ export default function ReviewModal({
                   <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
                     {/* Modal title + close button */}
                     <div className="flex justify-between items-center">
-                      <Dialog.Title as="h1" className="text-2xl font-bold">
+                      <Dialog.Title as="h2" className="text-2xl font-bold">
                         Submit a Review
                       </Dialog.Title>
                       <button onClick={closeModal}>
@@ -371,10 +380,9 @@ export default function ReviewModal({
                         />
                       </div>
                       <div className="flex flex-wrap gap-5 justify-between items-center">
-                        {/* Terms & Condition */}
+                        {/* Terms & Conditions */}
                         <p>
                           By clicking Submit, you have agreed to the{" "}
-                          {/* TODO: Change link to the Terms and Condition page */}
                           <Link
                             href="/terms-and-conditions"
                             target="_blank"

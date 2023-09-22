@@ -7,7 +7,7 @@ import TruncatedDescription from "../TruncatedDescription/TruncatedDescription";
 import ReportModal from "../ReportModal/ReportModal";
 import { Review } from "@/types/api";
 import { format } from "date-fns";
-import { post, validatedReq } from "@/utils/request";
+import { validatedReq } from "@/utils/request";
 import { useSession } from "next-auth/react";
 import { MutableRefObject } from "react";
 
@@ -42,7 +42,8 @@ export default function ReviewCard({
       "/reviews/upvote",
       session?.user?.accessToken ?? "",
       session?.user?.id ?? "",
-      body);
+      body
+    );
     // Optimistic UI Update for Upvotes
     setCurrentReviews((prev: Review[]) => {
       const refTarget = reviewsRef.current?.find(
@@ -70,7 +71,8 @@ export default function ReviewCard({
       "/reviews/bookmark",
       session?.user?.accessToken ?? "",
       session?.user?.id ?? "",
-      body);
+      body
+    );
     // Optimistic UI update for bookmark
     setAllBookmarkedReviews((prev: string[]) => {
       let newBookmarkedReviews = [...prev];
@@ -89,7 +91,7 @@ export default function ReviewCard({
     <div className="px-10 py-5 space-y-2 shadow-review-card rounded-md bg-white isolate">
       {/* Title + Date */}
       <div className="flex items-center gap-2 flex-wrap justify-between">
-        <h1 className="font-bold">{!review.title ? "-" : review.title}</h1>
+        {review.title ? <h2 className="font-bold">{!review.title ? "-" : review.title}</h2> : <div></div>}
         <p>{format(new Date(review.createdTimestamp), "dd/MM/yyyy")}</p>
       </div>
       {/* Rating + Author */}

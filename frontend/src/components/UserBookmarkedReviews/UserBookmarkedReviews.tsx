@@ -1,17 +1,21 @@
 "use client";
 
-import { Review, Reviews } from "@/types/api";
+import { Review, Reviews, TabsType } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
-import { useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Rating from "../Rating/Rating";
 import { BookmarkIcon } from "@heroicons/react/24/solid";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import Pagination from "../Pagination/Pagination";
-import { post, validatedReq } from "@/utils/request";
+import { validatedReq } from "@/utils/request";
 import { useSession } from "next-auth/react";
 
-export default function UserBookmarkedReviews({ reviews }: Reviews) {
-  const [currentReviews, setCurrentReviews] = useState(reviews);
+export default function UserBookmarkedReviews({
+  reviews,
+  setTabs,
+}: Reviews & {
+  setTabs: Dispatch<SetStateAction<TabsType>>;
+}) {
   const [selected, setSelected] = useState("");
   const [cardView, setCardView] = useState(true);
   const [bookmarked, setBookmarked] = useState<string>();
@@ -20,7 +24,7 @@ export default function UserBookmarkedReviews({ reviews }: Reviews) {
   const itemPerPage = 9;
 
   // Change review sorting based on dropdown
-  useMemo(() => {
+  useEffect(() => {
     const sortedReviews = [...reviews];
     switch (selected) {
       case "Most Recent":
@@ -46,7 +50,11 @@ export default function UserBookmarkedReviews({ reviews }: Reviews) {
         break;
     }
 
-    setCurrentReviews(sortedReviews);
+    setTabs((prev: TabsType) => {
+      const newTab = { ...prev };
+      newTab["Bookmarked"].data = sortedReviews;
+      return newTab;
+    });
   }, [selected, reviews]);
 
   // Bookmark review
@@ -69,10 +77,14 @@ export default function UserBookmarkedReviews({ reviews }: Reviews) {
   useEffect(() => {
     if (!bookmarked) return;
     // Optimistic UI update for deleting a review
-    const newReviews = currentReviews.filter(
+    const newReviews = reviews.filter(
       (review) => review.reviewId !== bookmarked
     );
-    setCurrentReviews(newReviews);
+    setTabs((prev: TabsType) => {
+      const newTab = { ...prev };
+      newTab["Bookmarked"].data = newReviews;
+      return newTab;
+    });
   }, [bookmarked]);
 
   return (
@@ -109,7 +121,7 @@ export default function UserBookmarkedReviews({ reviews }: Reviews) {
       {/* List view */}
       {!cardView && (
         <div>
-          {currentReviews
+          {reviews
             .slice((page - 1) * itemPerPage, page * itemPerPage)
             .map((review: Review, index: number) => (
               <div
@@ -140,7 +152,7 @@ export default function UserBookmarkedReviews({ reviews }: Reviews) {
       {/* Card view */}
       {cardView && (
         <div className="grid grid-cols-3 lg:grid-cols-1 gap-12">
-          {currentReviews
+          {reviews
             .slice((page - 1) * itemPerPage, page * itemPerPage)
             .map((review: Review, index: number) => (
               <div

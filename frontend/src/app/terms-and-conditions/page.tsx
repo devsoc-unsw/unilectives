@@ -1,4 +1,11 @@
-export default function TermsAndConditionsPage() {
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: `Terms & Conditions | Unilectives - UNSW Course Reviews`,
+  description: `Terms and Conditions for Unilectives - UNSW Course Reviews`,
+}
+
+export default function TermsAndConditions() {
   return (
     <div className="p-20 xs:p-8 sm:p-12 xs:text-xs sm:text-sm">
       <h1 className="text-lg font-bold">Terms and Conditions</h1>
