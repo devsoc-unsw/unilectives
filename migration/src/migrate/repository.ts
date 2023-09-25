@@ -16,6 +16,24 @@ export default class MigrationRepository {
       .execute();
   }
 
+  async updateReview(reviewId: string, timestamp: Date) {
+    await this.manager
+      .createQueryBuilder()
+      .update("reviews")
+      .set({
+        createdTimestamp: timestamp,
+      })
+      .where("reviewId = :reviewId", { reviewId })
+      .execute();
+  }
+
+  async getReviews(): Promise<ReviewEntity[]> {
+    const reviews = await this.manager
+      .getRepository(ReviewEntity)
+      .find()
+    return reviews;
+  }
+
   async insertCourses(courses: CourseEntity[]): Promise<void> {
     await this.manager
       .createQueryBuilder()

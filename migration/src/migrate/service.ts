@@ -5,6 +5,9 @@ import { IResponse } from "src/types/IApi";
 import { CirclesCourse } from "src/types/ICircles";
 import Fetcher from "./fetcher";
 import MigrationRepository from "./repository";
+import { Timestamp } from "typeorm";
+import { IOldReview } from "src/types/IReview";
+import { version } from "os";
 
 export default class MigrationService {
   constructor(
@@ -39,6 +42,78 @@ export default class MigrationService {
       return {
         status: "SUCCESS",
         message: "Successfully migrated reviews",
+      };
+    } catch (err: any) {
+      return {
+        status: "FAILURE",
+        message: err.message,
+      };
+    }
+  }
+
+  async updateReviews(): Promise<IResponse> {
+    try {
+      // Retrieve old reviews
+      const reviewsObj = await this.fb.getReviews();
+      const oldReviews = Object.values(reviewsObj);
+      console.log(oldReviews.length)
+
+      // Retrieve current database of old and new reviews
+      const currentReviews = await this.migrationRepository.getReviews();
+
+      // Filter out the new reviews
+      const outdatedReviews = currentReviews.filter((r) => r.createdTimestamp.valueOf() <= Date.parse("2023-09-24T11:20"));
+      console.log(outdatedReviews.length)
+      
+      /* 
+        1. Create a hash map of old reviews, indexed by a concatenated string of values of intersecting keys;
+        2. Iterate through old reviews, adding the timestamp of each old review to this aforementioned key;
+        3. Iterate through new reviews, updating the value of the timestamp from the corresponding old review using the key;
+        NOTE(S).  Not sure what to do about duplicates.
+                  Time complexity: O(n)
+      */
+
+      // Step 1 --
+      const verboseHashOfOldReviews: {[key: string]: number } = {};
+      function oldReviewKeyConstructor(r: IOldReview): string {
+        return (`${r.courseCode}, ${r.title}, ${r.comment}, ${r.termTaken}, ${r.rating.usefulness}, ${r.rating.enjoyment}, ${r.rating.overall}}`);
+      };
+      function newReviewKeyConstructor(r: ReviewEntity): string {
+        return (`${r.courseCode}, ${r.title}, ${r.description}, ${r.termTaken}, ${r.usefulness}, ${r.enjoyability}, ${r.overallRating}}`);
+      }
+      // -- /
+
+      // Step 2 --
+      let c = 0;
+      oldReviews.forEach((r) => {
+        const key = oldReviewKeyConstructor(r);
+        verboseHashOfOldReviews[key] = r.timestamp;
+        if (r.comment.includes("Useful info")) {
+          console.log(key)
+          c++;
+        }
+      });
+      // -- /
+
+      // Step 3 --
+      outdatedReviews.forEach((r) => {
+        const key = newReviewKeyConstructor(r);
+        if (r.reviewId==="a65da825-843a-4ccf-9cba-b1a7a608aad4") {console.log(r)}
+        // console.log("Key: ")
+        // console.log(key)
+        // console.log("Timestamp: ")
+        // console.log(verboseHashOfOldReviews[key])
+        //this.migrationRepository.updateReview(r.reviewId, new Date(verboseHashOfOldReviews[key]));
+      });
+      // -- /
+
+      // Testing
+      const n = await this.migrationRepository.getReviews();
+      console.log(n.filter((r) => r.createdTimestamp.valueOf() <= Date.parse("2023-01-01T00:00")));
+
+      return {
+        status: "SUCCESS",
+        message: "Successfully updated reviews",
       };
     } catch (err: any) {
       return {
