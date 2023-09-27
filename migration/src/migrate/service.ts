@@ -8,7 +8,6 @@ import MigrationRepository from "./repository";
 import { Timestamp } from "typeorm";
 import { IOldReview } from "src/types/IReview";
 import { version } from "os";
-import { num } from "envsafe";
 
 export default class MigrationService {
   constructor(
