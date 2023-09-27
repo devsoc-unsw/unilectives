@@ -22,9 +22,12 @@ export async function generateMetadata(props: {
     [key: string]: string;
   };
 }): Promise<Metadata> {
+  const { course } = (await get(`/course/${props.params.id.toUpperCase()}`)) as {
+    course: Course;
+  };
   return {
-    title: `${props.params.id.toUpperCase()} | Unilectives - UNSW Course Reviews`,
-    description: `Considering ${props.params.id.toUpperCase()} at UNSW? Dive into real student reviews giving you unfiltered perspectives on the course. Get the scoop on teaching quality, workload, and more.`,
+    title: `${course.courseCode} | Unilectives - UNSW Course Reviews`,
+    description: `Considering ${course.courseCode} at UNSW? Dive into real student reviews giving you unfiltered perspectives on the course. Get the scoop on teaching quality, workload, and more.`,
   };
 }
 
@@ -43,7 +46,7 @@ export default async function ReviewPage({
   if (!course) notFound();
 
   const { reviews } = (await get(
-    `/reviews/${course.courseCode.toUpperCase()}`
+    `/reviews/${course.courseCode.toUpperCase()}`,
   )) as Reviews;
 
   let userCourseInfo: string[] = [];
@@ -53,7 +56,7 @@ export default async function ReviewPage({
         "GET",
         `/user/course/${params.id.toUpperCase()}`,
         session?.user?.accessToken ?? "",
-        session?.user?.id ?? ""
+        session?.user?.id ?? "",
       )) as { userCourseInfo: string[] };
       userCourseInfo = res.userCourseInfo;
     } catch (err) {
