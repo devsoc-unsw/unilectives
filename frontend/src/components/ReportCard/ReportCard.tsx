@@ -39,11 +39,11 @@ export default function ReportCard({ report, review, gridView }: { report: Repor
         className={`flex w-full rounded-lg border-b-2 border-slate-200 ${gridView ? "flex-col gap-4 p-8" : "flex-row justify-between items-center p-2 xs:flex-col md:gap-2 xs:justify-center"}`}
       >
         {/* Title */}
-        <h1 className="font-bold">● Report &nbsp;
+        <h2 className="font-bold">● Report &nbsp;
           <span className="text-slate-700">
             #{report.reportId}
           </span>
-        </h1>
+        </h2>
         {/* Body for List View */}
         {!gridView &&
           // Actions
@@ -139,7 +139,7 @@ export default function ReportCard({ report, review, gridView }: { report: Repor
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-8 py-6 space-y-4 isolate">
                   {/* Modal title*/}
-                  <Dialog.Title as="h1" className="text-2xl font-bold">
+                  <Dialog.Title as="h2" className="text-2xl font-bold">
                     Report #{report.reportId}
                   </Dialog.Title>
                   <hr className="border-black/25" />

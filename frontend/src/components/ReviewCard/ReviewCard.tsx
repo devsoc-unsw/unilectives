@@ -91,7 +91,7 @@ export default function ReviewCard({
     <div className="px-10 py-5 space-y-2 shadow-review-card rounded-md bg-white isolate">
       {/* Title + Date */}
       <div className="flex items-center gap-2 flex-wrap justify-between">
-        <h1 className="font-bold">{!review.title ? "-" : review.title}</h1>
+        <h2 className="font-bold">{review.title ? review.title : "-"}</h2>
         <p>{format(new Date(review.createdTimestamp), "dd/MM/yyyy")}</p>
       </div>
       {/* Rating + Author */}

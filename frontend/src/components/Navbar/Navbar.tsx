@@ -279,7 +279,7 @@ export default function Navbar({ userZid }: NavbarProps) {
               .
             </span>
             <span className={collapsed ? "hidden" : "text-xs"}>
-              © CSESoc 2023, v1.0.0
+              © CSESoc {new Date().getFullYear()}, v1.0.0
             </span>
           </div>
         </div>
