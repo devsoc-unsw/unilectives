@@ -16,6 +16,44 @@ export default class MigrationRepository {
       .execute();
   }
 
+  async updateReview(reviewId: string, timestamp: Date) {
+    await this.manager
+      .createQueryBuilder()
+      .update("reviews")
+      .set({
+        createdTimestamp: timestamp,
+      })
+      .where("reviewId = :reviewId", { reviewId })
+      .execute();
+  }
+
+  async getReviews(): Promise<ReviewEntity[]> {
+    const reviews = await this.manager
+      .find(ReviewEntity)
+    return reviews;
+  }
+  // ", , , 21T2, 5, 5, 5" - 4 reviews (2x comp6080)
+  // 
+
+  async getCourseReviews(courseCode: string): Promise<ReviewEntity[]> {
+    const results =  await this.manager.find(ReviewEntity, {
+      where: {
+        courseCode,
+      },
+    });
+    return results.map((r) => ({...r, courseCode}))
+  }
+
+  async getCourseCodes(): Promise<string[]> {
+    const courseCodes = 
+    await this.manager.find(CourseEntity, {
+      select: {
+        courseCode: true
+      }
+    })
+    return courseCodes.map((c) => c.courseCode)
+  }
+
   async insertCourses(courses: CourseEntity[]): Promise<void> {
     await this.manager
       .createQueryBuilder()

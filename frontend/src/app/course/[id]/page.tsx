@@ -22,9 +22,15 @@ export async function generateMetadata(props: {
     [key: string]: string;
   };
 }): Promise<Metadata> {
+  const { course } = (await get(
+    `/course/${props.params.id.toUpperCase()}`
+  )) as {
+    course: Course;
+  };
+
   return {
-    title: `${props.params.id.toUpperCase()} | Unilectives - UNSW Course Reviews`,
-    description: `Considering ${props.params.id.toUpperCase()} at UNSW? Dive into real student reviews giving you unfiltered perspectives on the course. Get the scoop on teaching quality, workload, and more.`,
+    title: `${course.courseCode} | Unilectives - UNSW Course Reviews`,
+    description: `Considering ${course.courseCode} at UNSW? Dive into real student reviews giving you unfiltered perspectives on the course. Get the scoop on teaching quality, workload, and more.`,
   };
 }
 
