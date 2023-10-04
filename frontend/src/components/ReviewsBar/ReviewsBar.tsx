@@ -27,7 +27,6 @@ export default function ReviewsBar({
   // Change review sorting based on dropdown
   useEffect(() => {
     const sortedReviews = [...currentReviewRef.current];
-
     switch (selected) {
       case "Most Recent":
         sortedReviews.sort(
