@@ -5,9 +5,6 @@ import { IResponse } from "src/types/IApi";
 import { CirclesCourse } from "src/types/ICircles";
 import Fetcher from "./fetcher";
 import MigrationRepository from "./repository";
-import { Timestamp } from "typeorm";
-import { IOldReview } from "src/types/IReview";
-import { version } from "os";
 
 export default class MigrationService {
   constructor(
@@ -17,6 +14,41 @@ export default class MigrationService {
   ) {}
 
   async migrateReviews(): Promise<IResponse> {
+    try {
+      const oldReviews = await this.fetcher.getProdReviews();
+
+      const newReviews: ReviewEntity[] = oldReviews.map((review) => {
+        const entity = new ReviewEntity();
+        entity.zid = "z5000000";
+        entity.courseCode = review.courseCode;
+        entity.authorName = review.authorName;
+        entity.title = review.title;
+        entity.description = review.description;
+        entity.termTaken = review.termTaken;
+        entity.manageability = review.manageability;
+        entity.usefulness = review.usefulness;
+        entity.enjoyability = review.enjoyability;
+        entity.overallRating = review.overallRating;
+        entity.upvotes = review.upvotes;
+        entity.createdTimestamp = new Date(review.createdTimestamp);
+        entity.updatedTimestamp = new Date(review.updatedTimestamp);
+        return entity;
+      });
+
+      await this.migrationRepository.insertReviews(newReviews);
+      return {
+        status: "SUCCESS",
+        message: "Successfully migrated reviews",
+      };
+    } catch (err: any) {
+      return {
+        status: "FAILURE",
+        message: err.message,
+      };
+    }
+  }
+
+  async migrateFirebaseReviews(): Promise<IResponse> {
     try {
       const reviewsObj = await this.fb.getReviews();
       const oldReviews = Object.values(reviewsObj);
@@ -53,76 +85,37 @@ export default class MigrationService {
 
   async updateReviews(): Promise<IResponse> {
     try {
-      // Retrieve current database of old reviews
       const reviewsObj = await this.fb.getReviews();
       const oldReviews = Object.values(reviewsObj);
 
-      /* 
-        1.  Create a hash map of old reviews, indexed by a concatenated string of values of intersecting keys;
-        2.  Iterate through old reviews, adding the timestamp of each old review to this aforementioned key;
-        3.  Iterate through new reviews of each course, updating the value of the timestamp from the corresponding old review using the key;
-        NOTE(S).  For duplicates: 
-                    on insertion, simply push; and
-                    on extraction, once you extract a time value, remove the first value so the next will be used.
-                  Time complexity: O(n).
-      */
+      const updatedReviews = new Map<string, string>();
+      const currentReviews = await this.migrationRepository.getReviews();
 
-      // 1 --
-      const verboseHashOfOldReviews: {[key: string]: number[] } = {};
-      function oldReviewKeyConstructor(r: IOldReview): string {
-        return (`${r.courseCode}, ${r.title}, ${r.comment}, ${r.termTaken}, ${r.rating.usefulness}, ${r.rating.enjoyment}, ${r.rating.overall}}`);
-      };
-      function newReviewKeyConstructor(r: ReviewEntity, courseCode: string): string { // No course code available :sob:
-        return (`${courseCode}, ${r.title}, ${r.description}, ${r.termTaken}, ${r.usefulness}, ${r.enjoyability}, ${r.overallRating}}`);
-      }
-      // -- /
-
-      // 2 --
-      let numDuplicates = 0;
-      oldReviews.forEach((r) => {
-        const key = oldReviewKeyConstructor(r);
-        if (verboseHashOfOldReviews[key] === undefined) {
-          verboseHashOfOldReviews[key] = [r.timestamp];
-        } else {
-          verboseHashOfOldReviews[key].push(r.timestamp);
-          numDuplicates++;
-        }
+      for (const oldReview of oldReviews) {
+        const matchingReviews = currentReviews.filter((cr) => {
+          return (
+            cr.description === oldReview.comment &&
+            cr.title === oldReview.title &&
+            cr.overallRating === oldReview.rating.overall &&
+            cr.enjoyability === oldReview.rating.enjoyment &&
+            cr.usefulness === oldReview.rating.usefulness &&
+            cr.courseCode === oldReview.courseCode &&
+            cr.termTaken === oldReview.termTaken
+          );
         });
-      // -- /
 
-      // 3 --
-      let numMismatches = 0;
-      const allCourseCodes = await this.migrationRepository.getCourseCodes();
-      for (const c of allCourseCodes) {
-        // Retrieve reviews for that course code
-        const currentReviews = await this.migrationRepository.getCourseReviews(c);
-        
-        // For each outdated review, do step 3. Shift the array when done.
-        currentReviews.forEach((r) => {
-          const key = newReviewKeyConstructor(r, c);
-          if (verboseHashOfOldReviews[key] !== undefined) {
-            this.migrationRepository.updateReview(r.reviewId, new Date(verboseHashOfOldReviews[key][0]));
-            verboseHashOfOldReviews[key].shift();
-          } else {
-            numMismatches++;
+        for (const matchingReview of matchingReviews) {
+          if (updatedReviews.has(matchingReview.reviewId)) {
+            continue;
           }
-        });
-      };
-      // -- /
 
-      // Testing
-      // Find the last post in the old reviews
-      let lastOldReview: number = 0;
-      oldReviews.forEach((r) => {
-        if (r.timestamp > lastOldReview) {
-          lastOldReview = r.timestamp;
+          await this.migrationRepository.updateReview(
+            matchingReview.reviewId,
+            oldReview.timestamp,
+          );
+          updatedReviews.set(matchingReview.reviewId, "yeet");
         }
-      });
-      console.log(`Some ${numDuplicates} duplicates were found, with ${numMismatches} mismatches.`);
-      console.log(`There are ${oldReviews.length} old reviews in old db.`);
-      const n = await this.migrationRepository.getReviews();
-      const m = n.filter((r) => r.createdTimestamp.valueOf() <= lastOldReview);
-      console.log(`There are ${m.length} old reviews in new db.`);
+      }
 
       return {
         status: "SUCCESS",
