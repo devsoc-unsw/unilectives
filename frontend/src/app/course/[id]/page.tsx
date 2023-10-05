@@ -24,9 +24,7 @@ export async function generateMetadata(props: {
     [key: string]: string;
   };
 }): Promise<Metadata> {
-  const { course } = (await get(
-    `/course/${props.params.id.toUpperCase()}`,
-  )) as {
+  const { course } = (await get(`/course/${props.params.id.toUpperCase()}`)) as {
     course: Course;
   };
   return {
