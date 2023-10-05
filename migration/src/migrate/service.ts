@@ -15,6 +15,41 @@ export default class MigrationService {
 
   async migrateReviews(): Promise<IResponse> {
     try {
+      const oldReviews = await this.fetcher.getProdReviews();
+
+      const newReviews: ReviewEntity[] = oldReviews.map((review) => {
+        const entity = new ReviewEntity();
+        entity.zid = "z5000000";
+        entity.courseCode = review.courseCode;
+        entity.authorName = review.authorName;
+        entity.title = review.title;
+        entity.description = review.description;
+        entity.termTaken = review.termTaken;
+        entity.manageability = review.manageability;
+        entity.usefulness = review.usefulness;
+        entity.enjoyability = review.enjoyability;
+        entity.overallRating = review.overallRating;
+        entity.upvotes = review.upvotes;
+        entity.createdTimestamp = new Date(review.createdTimestamp);
+        entity.updatedTimestamp = new Date(review.updatedTimestamp);
+        return entity;
+      });
+
+      await this.migrationRepository.insertReviews(newReviews);
+      return {
+        status: "SUCCESS",
+        message: "Successfully migrated reviews",
+      };
+    } catch (err: any) {
+      return {
+        status: "FAILURE",
+        message: err.message,
+      };
+    }
+  }
+
+  async migrateFirebaseReviews(): Promise<IResponse> {
+    try {
       const reviewsObj = await this.fb.getReviews();
       const oldReviews = Object.values(reviewsObj);
 
@@ -39,6 +74,52 @@ export default class MigrationService {
       return {
         status: "SUCCESS",
         message: "Successfully migrated reviews",
+      };
+    } catch (err: any) {
+      return {
+        status: "FAILURE",
+        message: err.message,
+      };
+    }
+  }
+
+  async updateReviews(): Promise<IResponse> {
+    try {
+      const reviewsObj = await this.fb.getReviews();
+      const oldReviews = Object.values(reviewsObj);
+
+      const updatedReviews = new Map<string, string>();
+      const currentReviews = await this.migrationRepository.getReviews();
+
+      for (const oldReview of oldReviews) {
+        const matchingReviews = currentReviews.filter((cr) => {
+          return (
+            cr.description === oldReview.comment &&
+            cr.title === oldReview.title &&
+            cr.overallRating === oldReview.rating.overall &&
+            cr.enjoyability === oldReview.rating.enjoyment &&
+            cr.usefulness === oldReview.rating.usefulness &&
+            cr.courseCode === oldReview.courseCode &&
+            cr.termTaken === oldReview.termTaken
+          );
+        });
+
+        for (const matchingReview of matchingReviews) {
+          if (updatedReviews.has(matchingReview.reviewId)) {
+            continue;
+          }
+
+          await this.migrationRepository.updateReview(
+            matchingReview.reviewId,
+            oldReview.timestamp,
+          );
+          updatedReviews.set(matchingReview.reviewId, "yeet");
+        }
+      }
+
+      return {
+        status: "SUCCESS",
+        message: "Successfully updated reviews",
       };
     } catch (err: any) {
       return {
