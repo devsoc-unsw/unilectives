@@ -8,7 +8,7 @@ Build and run locally:
 
 ```
 # Start in development mode:
-npm run start:dev
+npm run dev
 ```
 
 ## Build & Deploy
