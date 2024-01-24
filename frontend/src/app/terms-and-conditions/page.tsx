@@ -11,8 +11,8 @@ export default function TermsAndConditions() {
       <h1 className="text-lg font-bold">Terms and Conditions</h1>
       <br />
       <p>
-        CSESoc is the constituent student society of UNSW&apos;s School of Computer
-        Science and Engineering. We do not represent the School, Faculty or
+        Software Development Society (DevSoc) is a student society comprised of interested
+        developers, inventors and tech enthusiasts. We do not represent the School, Faculty or
         University.
       </p>
       <br />
