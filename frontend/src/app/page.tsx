@@ -9,7 +9,7 @@ import { Course, Courses } from "@/types/api";
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `Home | Unilectives - UNSW Course Reviews`,
-    description: `A course review website for UNSW made by CSESoc`,
+    description: `A course review website for UNSW made by DevSoc`,
   };
 }
 
@@ -66,7 +66,7 @@ export default async function Home() {
         <div className="flex flex-row w-5/6 space-y-0 justify-between items-left md:space-y-4 md:flex-col md:items-center">
           <div className="flex flex-col w-full gap-3">
             <p className="drop-shadow-md text-base sm:text-xs">
-              CSESoc presents
+              DevSoc presents
             </p>
             <h1 className="justify-center font-bold text-unilectives-blue text-7xl sm:text-4xl">
               unilectives
