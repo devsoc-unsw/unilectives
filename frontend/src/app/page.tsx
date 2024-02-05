@@ -9,13 +9,13 @@ import { Course, Courses } from "@/types/api";
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `Home | Unilectives - UNSW Course Reviews`,
-    description: `A course review website for UNSW made by DevSoc`,
+    description: `UNSW course reviews, ratings, and study tips. Unilectives is your one-stop shop for making informed course choices at UNSW.`,
   };
 }
 
 export default async function Home() {
   const { courses: initialCourses } = (await get(
-    "/courses?offset=0"
+    "/courses?offset=0",
   )) as Courses;
 
   const metaLD: WithContext<ItemList> = {
