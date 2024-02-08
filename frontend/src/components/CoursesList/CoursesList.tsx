@@ -6,6 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
 import { sortCourses } from "@/utils/sortCourses";
 import SortDropdown from "../SortDropdown/SortDropdown";
+import { filterOptions, filterCourses } from "@/utils/filterCourses";
+import FilterDropdown from "../FilterDropdown/FilterDropdown";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 export default function CoursesList({
   initialCourses,
@@ -22,6 +25,11 @@ export default function CoursesList({
     useState<Course[]>(initialCourses);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selected, setSelected] = useState("");
+  const [terms, setTerms] = useState<string[]>([]);
+  const allTerms = ["Summer", "Term 1", "Term 2", "Term 3"];
+  const [faculties, setFaculties] = useState<string[]>([])
+  const allFaculties = ["Arts", "Business", "Engineering", "Law", "Medicine", "Science", "UNSW Canberra"];
+  const filters: filterOptions = {"faculty": faculties, "term": terms};
 
   const paginationOffset = 25;
 
@@ -106,9 +114,18 @@ export default function CoursesList({
   return (
     <>
       {/* SortDropdown Bar */}
-      <SortDropdown selected={selected} setSelected={setSelected} />
+      <div className="flex flex-row w-5/6 justify-between items-center">
+        <SortDropdown selected={selected} setSelected={setSelected} />
+        <div className="flex flex-row gap-2 items-end flex-shrink-0">
+          <FilterDropdown selected={faculties} setSelected={setFaculties} options={allFaculties} placeholder="Filter Faculty"/>
+          <FilterDropdown selected={terms} setSelected={setTerms} options={allTerms} placeholder="Filter Term"/>
+          <button className="h-full">
+            <XMarkIcon className="rounded-xl w-10 h-10 p-1 text-slate-300 hover:text-black hover:bg-red-200" onClick={() => {setTerms([]); setFaculties([]);}}/>
+          </button>
+        </div>
+      </div>
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
-        {sortCourses(displayCourses, selected).map(
+        {sortCourses(filterCourses(displayCourses, filters), selected).map(
           (c: Course, index: number) => (
             <a href={`/course/${c.courseCode}`} key={index}>
               <CourseCard
