@@ -17,12 +17,7 @@ export default class MigrationRepository {
   }
 
   async insertCourses(courses: CourseEntity[]): Promise<void> {
-    await this.manager
-      .createQueryBuilder()
-      .insert()
-      .into("courses")
-      .values(courses)
-      .execute();
+    await this.manager.save(courses, { chunk: 1000 });
   }
 
   async updateUser(zid: string) {
