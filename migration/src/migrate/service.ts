@@ -135,7 +135,7 @@ export default class MigrationService {
           console.log("Unknown term: ", term);
         }
       }
-      return termNums;
+      return termNums.filter((term) => !isNaN(term));
     };
 
     const entity = new CourseEntity();
