@@ -1,15 +1,13 @@
-# cselectives-v2
+# unilectives
 
 A website to review UNSW courses and electives.
 
 ## Branch conventions
 
 Type: feature, task, bugfix, refactor
-Jira Ticket: ELEC-XXX
+[type]/UNI-XXX-[opt. description-in-kebab-case]
 
-{type}/{jira-ticket}
-
-e.g. feature/ELEC-777
+e.g. feature/UNI-777-the-brown-fox
 
 ## Running Locally
 
