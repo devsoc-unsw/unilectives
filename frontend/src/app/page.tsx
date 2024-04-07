@@ -77,7 +77,8 @@ export default async function Home() {
               Your one-stop shop for UNSW course and elective reviews.
             </p>
             {/* Sponsors Section */}
-            <div className='flex flex-row justify-evenly items-center bg-gray-100 rounded-md h-16 p-4'>
+            <p className='my-4 sm:text-xs sm:my-1'>Proudly sponsored by</p>
+            <div className='flex flex-row justify-evenly items-center bg-gray-100 rounded-md h-16 py-10'>
               <div className='w-40 h-32 relative items-center md:w-36 sm:w-24'>
                 <Image
                   src={JaneStreetLogo}
