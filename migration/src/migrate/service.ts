@@ -53,7 +53,7 @@ export default class MigrationService {
       const reviewsObj = await this.fb.getReviews();
       const oldReviews = Object.values(reviewsObj);
 
-      const newReviews: ReviewEntity[] = oldReviews.filter((review) => review.courseCode !== "COMP9323").map((review) => {
+      const newReviews: ReviewEntity[] = oldReviews.map((review) => {
         const entity = new ReviewEntity();
         entity.zid = "z5000000";
         entity.courseCode = review.courseCode;
