@@ -11,12 +11,16 @@ export default function TruncatedDescription({
 }) {
   
   const [showFullContent, setShowFullContent] = useState(false);
+  const [exceed, setExceed] = useState(false);
   const [shortenedContent, setShortenedContent] = useState("");
-  // const shortenedContent =
-  //   content.length < maxCharacters
-  //     ? content
-  //     : `${content.slice(0, maxCharacters)}...`;
 
+  /**
+   * If the content exceeds the maxCharacters, find the next whitespace
+   * and make the cutoff point there so the break does not happen mid-word
+   * 
+   * If the new cutoff point is the end of the entire content, make it so
+   * the See More/Less button does not appear
+   */
   useEffect(() => {
     if (content.length > maxCharacters) {
       let newMax = maxCharacters;
@@ -29,7 +33,12 @@ export default function TruncatedDescription({
         newMax++;
         index++;
       }
-      setShortenedContent(content.slice(0, newMax) + '...');
+      if (index === content.length) {
+        setShortenedContent(content);
+      } else {
+        setExceed(true);
+        setShortenedContent(content.slice(0, newMax) + '...');
+      }
     } else {
       setShortenedContent(content);
     }
@@ -41,14 +50,16 @@ export default function TruncatedDescription({
         {showFullContent ? content : shortenedContent}{" "}
       </p>
       <div className="mt-1">
-        {content.length > maxCharacters && (
-          <button
-            className="text-unilectives-blue hover:underline"
-            onClick={() => setShowFullContent((prev) => !prev)}
-          >
-            {showFullContent ? "See Less" : "See More"}
-          </button>
-        )}
+        {exceed && 
+          (
+            <button
+              className="text-unilectives-blue hover:underline"
+              onClick={() => setShowFullContent((prev) => !prev)}
+            >
+              {showFullContent ? "See Less" : "See More"}
+            </button>
+          )
+        }
       </div>
     </div>
   );
