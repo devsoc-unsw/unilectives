@@ -5,8 +5,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/index.js",
-    "start:dev": "NODE_ENV=dev tsx src/index.ts",
-    "start:watch": "NODE_ENV=dev tsx watch src/index.ts"
+    "dev": "NODE_ENV=dev tsx watch src/index.ts",
+    "dev:one": "NODE_ENV=dev tsx src/index.ts"
   },
   "dependencies": {
     "envsafe": "^2.0.3",
