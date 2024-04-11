@@ -11,7 +11,6 @@ export default function TruncatedDescription({
 }) {
   
   const [showFullContent, setShowFullContent] = useState(false);
-  const [dynamicCutOffPoint, setDynamicCutOffPoint] = useState(maxCharacters);
   const [shortenedContent, setShortenedContent] = useState("");
   // const shortenedContent =
   //   content.length < maxCharacters
