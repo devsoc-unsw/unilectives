@@ -16,6 +16,8 @@ import { Suspense } from "react";
 import { AggregateRating, WithContext } from "schema-dts";
 import waves from "../../../assets/waves.svg";
 import { signOut } from "next-auth/react";
+import Head from "next/head";
+import { jsonLdScriptProps } from "react-schemaorg";
 
 export async function generateMetadata(props: {
   params: {
@@ -64,30 +66,56 @@ export default async function ReviewPage({
     }
   }
 
-  const metaLD: WithContext<AggregateRating> = {
-    "@context": "https://schema.org",
-    "@type": "AggregateRating",
-    ratingCount: course.reviewCount,
-    ratingValue: course.reviewCount === 0 ? 0 : course.overallRating,
-    bestRating: 5,
-    itemReviewed: {
-      "@type": "Course",
-      name: course.title,
-      courseCode: course.courseCode,
-      description: course.description,
-      url: `//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${
-        course.courseCode
-      }`,
-      provider: {
-        "@type": "CollegeOrUniversity",
-        name: "University of New South Wales",
-        sameAs: "https://www.unsw.edu.au/",
-      },
-    },
-  };
+  // const metaLD: WithContext<AggregateRating> = {
+  //   "@context": "https://schema.org",
+  //   "@type": "AggregateRating",
+  //   ratingCount: course.reviewCount,
+  //   ratingValue: course.reviewCount === 0 ? 0 : course.overallRating,
+  //   bestRating: 5,
+  //   itemReviewed: {
+  //     "@type": "Course",
+  //     name: course.title,
+  //     courseCode: course.courseCode,
+  //     description: course.description,
+  //     url: `//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${
+  //       course.courseCode
+  //     }`,
+  //     provider: {
+  //       "@type": "CollegeOrUniversity",
+  //       name: "University of New South Wales",
+  //       sameAs: "https://www.unsw.edu.au/",
+  //     },
+  //   },
+  // };
 
   return (
     <div className="isolate">
+      {/* Structured data */}
+      <Head>
+        <script
+          {...jsonLdScriptProps<AggregateRating>({
+            "@context": "https://schema.org",
+            "@type": "AggregateRating",
+            ratingCount: course.reviewCount,
+            ratingValue: course.reviewCount === 0 ? 0 : course.overallRating,
+            bestRating: 5,
+            itemReviewed: {
+              "@type": "Course",
+              name: course.title,
+              courseCode: course.courseCode,
+              description: course.description,
+              url: `//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${
+                course.courseCode
+              }`,
+              provider: {
+                "@type": "CollegeOrUniversity",
+                name: "University of New South Wales",
+                sameAs: "https://www.unsw.edu.au/",
+              },
+            },
+          })}
+        />
+      </Head>
       {/* Header */}
       <div className="relative">
         <div className="w-1/2 ml-auto md:w-full pr-16 md:px-8 py-8">
@@ -104,10 +132,10 @@ export default async function ReviewPage({
       {/* Course details */}
       <div className="flex gap-8 pt-12 px-16 md:px-8 lg:pt-8 md:flex-wrap">
         <Suspense fallback={<div>Loading...</div>}>
-          <script
+          {/* <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
-          />
+          /> */}
           <section className="space-y-4 w-full block md:static md:max-h-full sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-none">
             <h1 className="text-6xl font-bold break-words">
               {course.courseCode}
