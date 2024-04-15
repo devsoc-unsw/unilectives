@@ -25,14 +25,14 @@ export default function SearchBar({
   }, []);
 
   return (
-    <div className="flex w-5/6 items-center bg-white rounded border-2 border-unilectives-search">
-      <MagnifyingGlassIcon className="w-6 h-6 text-unilectives-search mx-2" />
+    <div className='flex w-5/6 items-center bg-white dark:bg-gray-900 rounded border-2 border-unilectives-search'>
+      <MagnifyingGlassIcon className='w-6 h-6 text-unilectives-search mx-2 bg-white dark:bg-gray-900' />
       <input
-        type="text"
-        name="query"
-        className="w-full py-2 px-3 text-sm text-unilectives-search focus:outline-none placeholder-unilectives-search font-medium"
-        placeholder="Search for a course e.g. COMP1511"
-        autoComplete="off"
+        type='text'
+        name='query'
+        className='w-full py-2 px-3 text-sm bg-white dark:bg-gray-900 text-unilectives-search focus:outline-none placeholder-unilectives-search font-medium'
+        placeholder='Search for a course e.g. COMP1511'
+        autoComplete='off'
         onChange={handleOnChange}
         disabled={initialLoading}
       />

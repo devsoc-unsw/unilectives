@@ -17,7 +17,7 @@ export default function LandingPageContent({
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full">
+    <div className='flex flex-col justify-center items-center w-full duration-150'>
       <SearchBar onSearchChange={handleStateChange} />
       <CoursesList initialCourses={initialCourses} searchTerm={searchTerm} />
     </div>
