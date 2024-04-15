@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import { Course, Courses } from "@/types/api";
-import CourseCard from "../CourseCard/CourseCard";
-import { useEffect, useRef, useState } from "react";
-import { get } from "@/utils/request";
-import { sortCourses } from "@/utils/sortCourses";
-import SortDropdown from "../SortDropdown/SortDropdown";
+import { Course, Courses } from '@/types/api';
+import CourseCard from '../CourseCard/CourseCard';
+import { useEffect, useRef, useState } from 'react';
+import { get } from '@/utils/request';
+import { sortCourses } from '@/utils/sortCourses';
+import SortDropdown from '../SortDropdown/SortDropdown';
+import FilterButton from '../FilterButton/FilterButton';
 
 export default function CoursesList({
   initialCourses,
@@ -21,14 +22,14 @@ export default function CoursesList({
   const [displayCourses, setDisplayCourses] =
     useState<Course[]>(initialCourses);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState('');
 
   const paginationOffset = 25;
 
   const loadMore = async (index: number) => {
     const fetchCourses = async () => {
       let fetchedCourses: Course[] = [];
-      if (searchTerm === "") {
+      if (searchTerm === '') {
         // default courses
         try {
           const { courses } = (await get(
@@ -82,7 +83,7 @@ export default function CoursesList({
       setInitialLoading(false);
     };
     const getInitialDisplayCourses = () => {
-      if (searchTerm !== "") {
+      if (searchTerm !== '') {
         getSearchResults();
       }
     };
@@ -99,14 +100,17 @@ export default function CoursesList({
     resetRefs();
     getInitialDisplayCourses();
 
-    window.addEventListener("scroll", loadOnScroll);
-    return () => window.removeEventListener("scroll", loadOnScroll);
+    window.addEventListener('scroll', loadOnScroll);
+    return () => window.removeEventListener('scroll', loadOnScroll);
   }, [searchTerm]);
 
   return (
     <>
-      {/* SortDropdown Bar */}
-      <SortDropdown selected={selected} setSelected={setSelected} />
+      {/* SortDropdown Bar and Filter Buttion*/}
+      <div className="flex justify-between w-5/6">
+        <SortDropdown selected={selected} setSelected={setSelected} />
+        <FilterButton selected={selected} setSelected={setSelected} />
+      </div>
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
         {sortCourses(displayCourses, selected).map(
           (c: Course, index: number) => (
