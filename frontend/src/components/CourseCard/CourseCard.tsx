@@ -19,17 +19,19 @@ export default function CourseCard({
   terms,
 }: CourseCardProps) {
   return (
-    <div className="box-border px-6 py-7 bg-unilectives-card hover:bg-gray-100 shadow-lg rounded-xl space-y-2 cursor-pointer">
+    <div className='box-border px-6 py-7 bg-unilectives-card dark:bg-slate-700/40 hover:bg-gray-100 dark:hover:bg-slate-700/10 shadow-lg rounded-xl space-y-2 cursor-pointer'>
       {/* Course courseCode + Ratings */}
-      <div className="flex flex-wrap justify-between text-2xl gap-x-4">
-        <h2 className="font-bold w-[8ch]">{courseCode}</h2>
-        <div className="text-left">
+      <div className='flex flex-wrap justify-between text-2xl gap-x-4'>
+        <h2 className='font-bold w-[8ch] text-black dark:text-white'>
+          {courseCode}
+        </h2>
+        <div className='text-left'>
           {/* StarRating */}
-          <div className="text-2xl inline">
-            <Rating color="purple" type="star" overallRating={overallRating} />
+          <div className='text-2xl inline'>
+            <Rating color='purple' type='star' overallRating={overallRating} />
           </div>
           {/* Number of reviews */}
-          <p className="text-xs text-unilectives-subheadings">
+          <p className='text-xs text-unilectives-subheadings dark:text-gray-400'>
             {Intl.NumberFormat("en-US", {
               notation: "compact",
               maximumFractionDigits: 1,
@@ -39,12 +41,12 @@ export default function CourseCard({
         </div>
       </div>
       {/* Course title */}
-      <p className="text-sm text-unilectives-headings h-16 break-all line-clamp-3">
+      <p className='text-sm text-unilectives-headings dark:text-gray-200 h-16 break-all line-clamp-3'>
         {title}
       </p>
       {/* Terms */}
       <TermsGroup
-        className="text-xs py-1 px-2 rounded-full bg-unilectives-tags"
+        className='text-xs py-1 px-2 rounded-full bg-unilectives-tags dark:bg-unilectives-blue'
         terms={terms}
       />
     </div>
