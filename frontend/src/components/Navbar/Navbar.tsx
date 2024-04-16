@@ -10,7 +10,6 @@ import {
   UserCircleIcon,
   BarsArrowDownIcon,
   BarsArrowUpIcon,
-  MoonIcon,
   ArrowRightOnRectangleIcon,
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
@@ -210,9 +209,9 @@ export default function Navbar({ userZid }: NavbarProps) {
                 <button
                   onClick={(e) => handleLogout(e)}
                   onMouseLeave={() => setLogout(false)}
-                  className={`bg-blue-200 flex flex-row items-center justify-center rounded-xl gap-2 ${
+                  className={`bg-blue-200 dark:bg-blue-800 flex flex-row items-center justify-center rounded-xl gap-2 ${
                     logout
-                      ? "hover:text-red-600 hover:bg-red-100"
+                      ? "hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-100"
                       : "hover:bg-slate-200 dark:hover:bg-slate-800"
                   }`}
                 >
@@ -225,7 +224,7 @@ export default function Navbar({ userZid }: NavbarProps) {
                 onMouseLeave={() => setLogout(false)}
                 className={`flex flex-row items-center justify-center rounded-xl gap-2 ${
                   logout
-                    ? "hover:text-red-600 hover:bg-red-100"
+                    ? "hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-100"
                     : "hover:bg-slate-200 dark:hover:bg-slate-800"
                 }`}
               >
