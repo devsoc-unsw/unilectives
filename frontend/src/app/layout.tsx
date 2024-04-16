@@ -16,14 +16,16 @@ export default async function RootLayout({
   return (
     <html lang='en' className='font-custom'>
       <body>
-        <ThemeProvider>
-          <AlertProvider>
-            <Navbar userZid={session?.user?.id} />
-            <div className='ml-20 xs:ml-15 h-screen bg-white dark:bg-slate-800'>
-              {children}
-            </div>
-          </AlertProvider>
-        </ThemeProvider>
+        <Provider session={session}>
+          <ThemeProvider>
+            <AlertProvider>
+              <Navbar userZid={session?.user?.id} />
+              <div className='ml-20 xs:ml-15 h-screen bg-white dark:bg-slate-800'>
+                {children}
+              </div>
+            </AlertProvider>
+          </ThemeProvider>
+        </Provider>
       </body>
     </html>
   );
