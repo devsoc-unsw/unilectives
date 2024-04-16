@@ -91,7 +91,7 @@ export default async function ReviewPage({
   // };
 
   return (
-    <div className='isolate bg-white dark:bg-slate-800 duration-300'>
+    <div className='isolate bg-white dark:bg-slate-800 duration-150'>
       {/* Structured data */}
       <Head>
         <script
