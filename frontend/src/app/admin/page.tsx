@@ -9,42 +9,41 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: `Admin Dashboard | Unilectives - UNSW Course Reviews`,
-	description: `Manage and resolve reports left on particular course reviews by Unilectives users.`,
-}
+  description: `Manage and resolve reports left on particular course reviews by Unilectives users.`,
+};
 
 export default async function AdminDashboard() {
-  const session = await getServerSession(authOptions);
-  const { reviews } = (await validatedReq(
-    "GET",
-    "/reviews",
-    session?.user?.accessToken ?? "",
-    session?.user?.id ?? ""
-  )) as Reviews;
-	const { reports } = (await validatedReq(
-    "GET",
-    "/reports",
-    session?.user?.accessToken ?? "",
-    session?.user?.id ?? ""
-  )) as Reports;
+  //   const session = await getServerSession(authOptions);
+  //   const { reviews } = (await validatedReq(
+  //     "GET",
+  //     "/reviews",
+  //     session?.user?.accessToken ?? "",
+  //     session?.user?.id ?? ""
+  //   )) as Reviews;
+  //   const { reports } = (await validatedReq(
+  //     "GET",
+  //     "/reports",
+  //     session?.user?.accessToken ?? "",
+  //     session?.user?.id ?? ""
+  //   )) as Reports;
+  const { reviews } = { reviews: [] };
+  const { reports } = { reports: [] };
 
   return (
-		<div>
-			<Image
-				src={navbar}
-				width={1000}
-				height={500}
-				alt="landing page graphic"
-				layout="responsive"
-				priority
-			/>
-			<div className="flex flex-col w-full px-12 py-6 gap-6">
-				<p className="font-bold text-3xl">Admin Dashboard</p>
-				<p>Welcome to the admin dashboard!</p>
-				<AdminContent
-					reports={reports}
-					reviews={reviews}
-				/>
-			</div>
-		</div>
-	)
+    <div>
+      <Image
+        src={navbar}
+        width={1000}
+        height={500}
+        alt='landing page graphic'
+        layout='responsive'
+        priority
+      />
+      <div className='flex flex-col w-full h-full px-12 py-6 gap-6 bg-white dark:bg-slate-800'>
+        <p className='font-bold text-3xl'>Admin Dashboard</p>
+        <p>Welcome to the admin dashboard!</p>
+        <AdminContent reports={reports} reviews={reviews} />
+      </div>
+    </div>
+  );
 }

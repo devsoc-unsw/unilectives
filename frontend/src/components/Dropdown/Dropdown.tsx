@@ -41,12 +41,12 @@ export default function Dropdown({
     <Listbox value={selected} onChange={handleOnChange}>
       <div className='relative'>
         {/* Dropdown when not expanded */}
-        <Listbox.Button className='relative flex items-center justify-between gap-2 w-full cursor-pointer bg-white py-2 px-4 text-left border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none'>
+        <Listbox.Button className='relative flex items-center justify-between gap-2 w-full cursor-pointer bg-white dark:bg-slate-900 py-2 px-4 text-left border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none'>
           <span className='block truncate'>
             {selected ? (
               <span>{selected}</span>
             ) : (
-              <span className='text-unilectives-subheadings'>
+              <span className='text-unilectives-subheadings dark:text-white'>
                 {placeholder}
               </span>
             )}
@@ -56,12 +56,12 @@ export default function Dropdown({
           </span>
         </Listbox.Button>
         {/* Dropdown options */}
-        <Listbox.Options className='absolute z-10 max-h-[10.05rem] text-left w-full overflow-auto border border-unilectives-subheadings rounded-md bg-white shadow-dropdown border-t-0 rounded-t-none'>
+        <Listbox.Options className='absolute z-10 max-h-[10.05rem] text-left w-full overflow-auto border border-unilectives-subheadings rounded-md bg-white dark:bg-slate-900 shadow-dropdown border-t-0 rounded-t-none'>
           {options.length === 0 ? (
             <Listbox.Option
               value=''
               disabled
-              className='relative cursor-default select-none py-2 px-4 bg-white text-unilectives-subheadings/50'
+              className='relative cursor-default select-none py-2 px-4 bg-white dark:bg-slate-900 text-unilectives-subheadings/50 dark:text-gray-50'
             >
               <span className='block truncate'>No options yet</span>
             </Listbox.Option>
@@ -71,7 +71,9 @@ export default function Dropdown({
                 key={index}
                 className={({ active }) =>
                   `relative cursor-pointer select-none py-2 px-4 ${
-                    active ? "bg-unilectives-subheadings/20" : "bg-white"
+                    active
+                      ? "bg-unilectives-subheadings/20 dark:bg-gray-50 text-unilectives-subheadings dark:text-gray-900"
+                      : "bg-white dark:bg-unilectives-subheadings/20"
                   }`
                 }
                 value={option}
