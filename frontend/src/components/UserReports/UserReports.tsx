@@ -110,14 +110,14 @@ export default function UserReports({
   };
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-wrap gap-4 items-center justify-between">
+    <div className='space-y-5'>
+      <div className='flex flex-wrap gap-4 items-center justify-between'>
         {/* Categorize reports */}
-        <form name="status-checkbox" className="flex flex-wrap gap-4">
+        <form name='status-checkbox' className='flex flex-wrap gap-4'>
           {Object.keys(currentStatus).map((status: string) => (
-            <div key={status} className="space-x-2">
+            <div key={status} className='space-x-2'>
               <input
-                type="checkbox"
+                type='checkbox'
                 value={status}
                 checked={currentStatus[status as keyof STATUS]}
                 id={`status-checkbox-${status.toLowerCase()}`}
@@ -129,7 +129,7 @@ export default function UserReports({
                 }
               />
               <label
-                className="cursor-pointer"
+                className='cursor-pointer'
                 htmlFor={`status-checkbox-${status.toLowerCase()}`}
               >
                 {status}
@@ -138,34 +138,36 @@ export default function UserReports({
           ))}
         </form>
         {/* Filter report */}
-        <div className="[&>*]:z-10">
+        <div className='[&>*]:z-10'>
           <Dropdown
             options={["Most Recent", "Least Recent"]}
-            placeholder="Sort by"
+            placeholder='Sort by'
             defaultValue={selected}
             onChange={setSelected}
           />
         </div>
       </div>
       {/* Reports */}
-      <div className="grid grid-cols-3 lg:grid-cols-1 gap-12">
+      <div className='grid grid-cols-3 lg:grid-cols-1 gap-12'>
         {reports
           .slice((page - 1) * itemPerPage, page * itemPerPage)
           .map((report: Report, index: number) => (
             <div
               key={index}
-              className="box-border isolate px-6 py-7 bg-unilectives-card shadow-lg rounded-xl space-y-4"
+              className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 shadow-lg shadow-gray-600 rounded-xl space-y-4'
             >
               {/* Course courseCode + Ratings */}
-              <div className="flex gap-2 text-xl">
+              <div className='flex gap-2 text-xl'>
                 <span className={`${statusTextColor(report.status)}`}>●</span>
-                <h2 className="font-bold break-all">
+                <h2 className='font-bold break-all'>
                   Report{" "}
-                  <span className="text-black/50">#{report.reportId}</span>
+                  <span className='text-black/50 dark:text-white/50'>
+                    #{report.reportId}
+                  </span>
                 </h2>
               </div>
               {/* Description */}
-              <p className="text-unilectives-headings break-all line-clamp-3 h-[4.5rem]">
+              <p className='text-unilectives-headings dark:text-gray-100 break-all line-clamp-3 h-[4.5rem]'>
                 {report.reason}
               </p>
               {/* Icons */}

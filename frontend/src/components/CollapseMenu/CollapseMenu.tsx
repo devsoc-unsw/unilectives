@@ -19,9 +19,9 @@ export default function CollapseMenu({
         <span className='font-bold'>
           <TruncatedDescription content={preview} maxCharacters={250} />
         </span>
-        <ChevronDownIcon className='h-4 w-4 text-gray-700' />
+        <ChevronDownIcon className='h-4 w-4 text-gray-700 dark:text-gray-200' />
       </Disclosure.Button>
-      <Disclosure.Panel className='px-4 py-2 text-gray-500'>
+      <Disclosure.Panel className='px-4 py-2 text-gray-500 dark:text-gray-200'>
         <TruncatedDescription content={content} maxCharacters={250} />
       </Disclosure.Panel>
     </Disclosure>

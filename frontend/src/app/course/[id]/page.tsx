@@ -13,7 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { AggregateRating, WithContext } from "schema-dts";
+import { AggregateRating } from "schema-dts";
 import waves from "../../../assets/waves.svg";
 import { signOut } from "next-auth/react";
 import Head from "next/head";
@@ -91,7 +91,7 @@ export default async function ReviewPage({
   // };
 
   return (
-    <div className='isolate bg-white dark:bg-slate-800 duration-150'>
+    <div className='isolate bg-white dark:bg-slate-800 duration-300'>
       {/* Structured data */}
       <Head>
         <script

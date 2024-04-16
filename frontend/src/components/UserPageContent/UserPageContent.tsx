@@ -49,24 +49,24 @@ export default function UserPageContent({
   );
 
   return (
-    <div className="space-y-5 isolate">
+    <div className='space-y-5 isolate'>
       {/* Tabs */}
-      <div className="hidden sm:block [&>*]:z-20">
+      <div className='hidden sm:block [&>*]:z-20'>
         <Dropdown
           options={Object.keys(tabs)}
           defaultValue={currentTabRef.current}
           onChange={switchTabs}
         />
       </div>
-      <hr className="hidden sm:block"></hr>
-      <div className="sm:hidden flex flex-wrap gap-4">
+      <hr className='hidden sm:block'></hr>
+      <div className='sm:hidden flex flex-wrap gap-4'>
         {Object.keys(tabs).map((key: string) => (
           <button
             key={key}
             className={`${
               tabs[key].current
-                ? "bg-unilectives-tags-pink text-black/50 font-bold"
-                : "text-black"
+                ? "bg-unilectives-tags-pink text-black/50 dark:text-black/50 font-bold"
+                : "text-black dark:text-white"
             } rounded-lg py-2 duration-150 min-w-[125px] sm:w-full`}
             onClick={() => switchTabs(key)}
           >

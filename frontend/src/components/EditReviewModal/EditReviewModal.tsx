@@ -103,13 +103,16 @@ export default function EditReviewModal({
                   leaveFrom='opacity-100 scale-100'
                   leaveTo='opacity-0 scale-95'
                 >
-                  <Dialog.Panel className='w-full max-w-5xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate'>
+                  <Dialog.Panel className='w-full max-w-5xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal dark:bg-gray-700 px-12 py-8 space-y-5 isolate'>
                     {/* Modal title + close button */}
                     <div className='flex justify-between items-center'>
                       <Dialog.Title as='h2' className='text-2xl font-bold'>
                         Edit Your Review
                       </Dialog.Title>
-                      <button onClick={closeModal}>
+                      <button
+                        className='hover:bg-gray-600 p-2 rounded-lg'
+                        onClick={closeModal}
+                      >
                         <XMarkIcon className='w-6 h-6' />
                       </button>
                     </div>
@@ -202,7 +205,7 @@ export default function EditReviewModal({
                         <button
                           type='submit'
                           form='edit-review'
-                          className='flex items-center gap-1 px-4 py-2 bg-unilectives-icon text-white rounded-md hover:bg-unilectives-icon/95 font-bold'
+                          className='flex items-center gap-1 px-4 py-2 bg-unilectives-icon text-white rounded-md hover:bg-unilectives-icon/50 font-bold duration-100'
                         >
                           Confirm
                         </button>

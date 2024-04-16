@@ -30,20 +30,20 @@ export default async function UserPage({
   const { user } = await validatedReq(
     "GET",
     `/user/${params.zid}`,
-    session?.user?.accessToken ?? "",
+    "",
     params.zid
   );
 
   if (!user || session?.user?.id !== params.zid) notFound();
 
   return (
-    <div className="isolate relative">
+    <div className='isolate relative'>
       {/* Waves */}
-      <div className="absolute w-full top-0 -z-10">
-        <Image className="w-full h-full object-cover" src={waves} alt="Waves" />
+      <div className='absolute w-full top-0 -z-10'>
+        <Image className='w-full h-full object-cover' src={waves} alt='Waves' />
       </div>
-      <section className="py-24 px-16 md:px-8 lg:py-16 space-y-5">
-        <h1 className="font-bold text-3xl">{user.zid}</h1>
+      <section className='py-24 px-16 md:px-8 lg:py-16 space-y-5'>
+        <h1 className='font-bold text-3xl'>{user.zid}</h1>
         <UserPageContent
           reviews={user.reviews}
           reports={user.reports}

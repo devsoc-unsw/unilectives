@@ -20,7 +20,7 @@ export default async function RootLayout({
           <ThemeProvider>
             <AlertProvider>
               <Navbar userZid={session?.user?.id} />
-              <div className='ml-20 xs:ml-15 h-screen bg-white dark:bg-slate-800'>
+              <div className='ml-20 xs:ml-15 bg-white dark:bg-slate-800 h-screen overflow-y-scroll duration-150'>
                 {children}
               </div>
             </AlertProvider>

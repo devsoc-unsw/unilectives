@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { validatedReq } from "@/utils/request";
-import { Reviews, Reports } from "@/types/api";
+import { Reports, Reviews } from "@/types/api";
 import AdminContent from "@/components/AdminContent/AdminContent";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -37,7 +37,7 @@ export default async function AdminDashboard() {
         layout='responsive'
         priority
       />
-      <div className='flex flex-col w-full h-full px-12 py-6 gap-6 bg-white dark:bg-slate-800'>
+      <div className='flex flex-col w-full h-full px-12 py-6 gap-6'>
         <p className='font-bold text-3xl'>Admin Dashboard</p>
         <p>Welcome to the admin dashboard!</p>
         <AdminContent reports={reports} reviews={reviews} />

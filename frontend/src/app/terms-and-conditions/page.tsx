@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function TermsAndConditions() {
   return (
-    <div className='p-20 xs:m-12 sm:m-12 xs:text-xs sm:text-sm bg-white dark:bg-slate-800'>
+    <div className='p-20 xs:m-12 sm:m-12 xs:text-xs sm:text-sm bg-white dark:bg-slate-800 duration-300'>
       <h1 className='text-lg font-bold'>Terms and Conditions</h1>
       <br />
       <p>

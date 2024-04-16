@@ -41,7 +41,7 @@ export default function Dropdown({
     <Listbox value={selected} onChange={handleOnChange}>
       <div className='relative'>
         {/* Dropdown when not expanded */}
-        <Listbox.Button className='relative flex items-center justify-between gap-2 w-full cursor-pointer bg-white dark:bg-slate-900 py-2 px-4 text-left border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none'>
+        <Listbox.Button className='relative flex items-center justify-between gap-2 w-full cursor-pointer bg-white dark:bg-slate-900 py-2 px-4 text-left border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none duration-150'>
           <span className='block truncate'>
             {selected ? (
               <span>{selected}</span>
@@ -73,7 +73,7 @@ export default function Dropdown({
                   `relative cursor-pointer select-none py-2 px-4 ${
                     active
                       ? "bg-unilectives-subheadings/20 dark:bg-gray-50 text-unilectives-subheadings dark:text-gray-900"
-                      : "bg-white dark:bg-unilectives-subheadings/20"
+                      : "bg-white dark:bg-slate-900"
                   }`
                 }
                 value={option}
