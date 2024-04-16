@@ -13,21 +13,19 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminDashboard() {
-  //   const session = await getServerSession(authOptions);
-  //   const { reviews } = (await validatedReq(
-  //     "GET",
-  //     "/reviews",
-  //     session?.user?.accessToken ?? "",
-  //     session?.user?.id ?? ""
-  //   )) as Reviews;
-  //   const { reports } = (await validatedReq(
-  //     "GET",
-  //     "/reports",
-  //     session?.user?.accessToken ?? "",
-  //     session?.user?.id ?? ""
-  //   )) as Reports;
-  const { reviews } = { reviews: [] };
-  const { reports } = { reports: [] };
+  const session = await getServerSession(authOptions);
+  const { reviews } = (await validatedReq(
+    "GET",
+    "/reviews",
+    session?.user?.accessToken ?? "",
+    session?.user?.id ?? ""
+  )) as Reviews;
+  const { reports } = (await validatedReq(
+    "GET",
+    "/reports",
+    session?.user?.accessToken ?? "",
+    session?.user?.id ?? ""
+  )) as Reports;
 
   return (
     <div>
