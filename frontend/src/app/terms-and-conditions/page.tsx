@@ -46,7 +46,7 @@ export default function TermsAndConditions() {
         <br />
         Section 4. Principles of open and respectful discussion.
         <br />
-        <ol className='space-y-1 text-gray-800 dark:text-gray-200 list-roman list-inside px-4'>
+        <ol className='space-y-1 text-gray-800 dark:text-gray-300 list-roman list-inside px-4'>
           <li>
             UNSW encourages critical thought and open discussion, including of
             controversial ideas.
@@ -76,7 +76,7 @@ export default function TermsAndConditions() {
         of equity and respect in dealing with every member of the UNSW
         community.
         <br />
-        <ol className='space-y-1 text-gray-800 dark:text-gray-200 list-roman list-inside px-4'>
+        <ol className='space-y-1 text-gray-800 dark:text-gray-300 list-roman list-inside px-4'>
           <li>
             Treat all members of the UNSW community with courtesy and respect.
             This includes respecting the rights of others to be treated
@@ -145,7 +145,7 @@ export default function TermsAndConditions() {
           descriptions that
         </p>
         <br />
-        <ol className='space-y-1 text-gray-800 dark:text-gray-200 list-roman list-inside px-4'>
+        <ol className='space-y-1 text-gray-800 dark:text-gray-300 list-roman list-inside px-4'>
           <li>Threatens or advocates harm on oneself or others.</li>
           <li>
             Harasses, intimidates or bullies an individual or group of
@@ -180,7 +180,7 @@ export default function TermsAndConditions() {
           This includes, but is not limited to, the following criterion.
         </p>
         <br />
-        <ol className='space-y-1 text-gray-800 dark:text-gray-200 list-roman list-inside px-4'>
+        <ol className='space-y-1 text-gray-800 dark:text-gray-300 list-roman list-inside px-4'>
           <li>Be thoughtful, fair and constructive.</li>
           <li>
             Have a focus on the learning and teaching activities, provide

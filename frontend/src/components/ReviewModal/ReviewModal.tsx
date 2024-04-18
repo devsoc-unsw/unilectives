@@ -150,7 +150,7 @@ export default function ReviewModal({
         {/* Add Review button */}
         <button
           onClick={openModal}
-          className='flex items-center gap-1 px-4 py-2 bg-unilectives-icon text-white rounded-md hover:bg-unilectives-icon/95'
+          className='flex items-center gap-1 px-4 py-2 bg-unilectives-icon dark:bg-unilectives-icon/85 dark:hover:bg-unilectives-icon/80 text-white rounded-md hover:bg-unilectives-icon/95'
         >
           <PencilSquareIcon className='h-4 w-4' />
           Add a review
