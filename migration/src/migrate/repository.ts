@@ -1,6 +1,7 @@
 import { EntityManager } from "typeorm";
 import { CourseEntity } from "src/entity/Course";
 import { ReviewEntity } from "src/entity/Review";
+import { IReview } from "src/types/IReview";
 
 export default class MigrationRepository {
   private readonly logger = console;
@@ -16,13 +17,37 @@ export default class MigrationRepository {
       .execute();
   }
 
+  async updateReview(reviewId: string, timestamp: number) {
+    await this.manager.query(`
+    update unilectives.reviews SET created_timestamp = TO_TIMESTAMP(${timestamp}/ 1000.0) where review_id = '${reviewId}';
+    `);
+  }
+
+  async getReviews(): Promise<IReview[]> {
+    const reviews: any = await this.manager.query(`
+    select * from unilectives.reviews
+    `);
+    return reviews.map((r: any) => ({
+      reviewId: r.review_id,
+      zid: r.zid,
+      courseCode: r.course_code,
+      authorName: r.author_name,
+      title: r.title,
+      description: r.description,
+      grade: r.grade,
+      termTaken: r.term_taken,
+      createdTimestamp: r.created_timestamp,
+      updatedTimestamp: r.updated_timestamp,
+      upvotes: r.upvotes,
+      manageability: r.manageability,
+      usefulness: r.usefulness,
+      enjoyability: r.enjoyability,
+      overallRating: r.overall_rating,
+    }));
+  }
+
   async insertCourses(courses: CourseEntity[]): Promise<void> {
-    await this.manager
-      .createQueryBuilder()
-      .insert()
-      .into("courses")
-      .values(courses)
-      .execute();
+    await this.manager.save(courses, { chunk: 1000 });
   }
 
   async updateUser(zid: string) {
