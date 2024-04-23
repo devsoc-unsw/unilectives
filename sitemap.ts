@@ -16,7 +16,7 @@ const generateSitemapXML = (codes: string[]) => {
 
 
 const SitemapGenerator = () => {
-  // temp data
+  //temp data
   const codes = ['COMP1511', 'COMP2521', 'COMP3900'];
   const sitemapXML = generateSitemapXML(codes);
   console.log(sitemapXML);
