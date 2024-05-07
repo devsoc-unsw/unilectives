@@ -132,7 +132,7 @@
 				}
 			}
 		},
-    "/allCourses": {
+    "/courses/all": {
 			"get": {
 				"tags": ["Courses"],
 				"summary": "Gets a list of all course objects",

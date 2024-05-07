@@ -16,7 +16,7 @@ export class CourseController implements IController {
   setupRoutes(): Router {
     return Router()
       .get(
-        "/allCourses",
+        "/courses/all",
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in GET /allCourses`);
           try {
