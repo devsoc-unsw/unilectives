@@ -18,14 +18,14 @@ export class CourseController implements IController {
       .get(
         "/courses/all",
         async (req: Request, res: Response, next: NextFunction) => {
-          this.logger.debug(`Received request in GET /allCourses`);
+          this.logger.debug(`Received request in GET /courses/all`);
           try {
             const allCourses = await this.courseService.getCourses();
-            this.logger.info(`Responding to client in GET /allCourses`);
+            this.logger.info(`Responding to client in GET /courses/all`);
             return res.status(200).json(allCourses);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /allCourses ${formatError(
+              `An error occurred when trying to GET /courses/all ${formatError(
                 err,
               )}`,
             );
