@@ -42,7 +42,20 @@ export default async function Home() {
           ratingValue: course.reviewCount === 0 ? 0 : course.overallRating,
           bestRating: 5,
         },
-      },
+        offers: [{
+          "@type": "Offer",
+          category: "Paid"
+        }],
+        hasCourseInstance: course.terms.map((term: number) => ({
+          "@type": "CourseInstance",
+          courseMode: "Blended",
+          courseSchedule: {
+            "@type": "Schedule",
+            repeatCount: term === 0 ? 5 : 10,
+            repeatFrequency: "Weekly",
+          }
+        }))
+      }
     })),
   };
 
