@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint -c eslint.config.js \"src/**/*.{js,ts,tsx}\" --quiet --fix",
     "start": "node dist/src/index.js",
     "dev": "NODE_ENV=dev tsx watch src/index.ts",
     "dev:one": "NODE_ENV=dev tsx src/index.ts"
