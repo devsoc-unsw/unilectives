@@ -51,7 +51,7 @@ export default function TruncatedDescription({
 
   return (
     <div>
-      <p className="whitespace-pre-line text-justify inline">
+      <p className="whitespace-pre-line text-justify">
         {showFullContent ? content : shortenedContent}
       </p>
       <div className="mt-1">
