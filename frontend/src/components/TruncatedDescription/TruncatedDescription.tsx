@@ -12,7 +12,7 @@ export default function TruncatedDescription({
   
   const [showFullContent, setShowFullContent] = useState(false);
   const [exceed, setExceed] = useState(false);
-  const [shortenedContent, setShortenedContent] = useState("");
+  const [shortenedContent, setShortenedContent] = useState(" ");
 
   /**
    * If the content exceeds the maxCharacters, find the next whitespace
@@ -23,6 +23,8 @@ export default function TruncatedDescription({
    */
   useEffect(() => {
     if (content.length > maxCharacters) {
+      // Description exceeds max characters
+      setShowFullContent(false);
       let newMax = maxCharacters;
       let index = newMax - 1;
       while (true) {
@@ -40,14 +42,17 @@ export default function TruncatedDescription({
         setShortenedContent(content.slice(0, newMax) + '...');
       }
     } else {
+      // Description length is less than maxCharacters
+      setShowFullContent(true);
+      setExceed(false);
       setShortenedContent(content);
     }
-  }, [])
+  }, [content])
 
   return (
     <div>
       <p className="whitespace-pre-line text-justify inline">
-        {showFullContent ? content : shortenedContent}{" "}
+        {showFullContent ? content : shortenedContent}
       </p>
       <div className="mt-1">
         {exceed && 
