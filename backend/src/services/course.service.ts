@@ -1,31 +1,31 @@
-import { getLogger } from "../utils/logger";
-import { HTTPError } from "../utils/errors";
+import { getLogger } from '../utils/logger';
+import { HTTPError } from '../utils/errors';
 import {
   badRequest,
   internalServerError,
   unauthorizedError,
-} from "../utils/constants";
-import { CourseRepository } from "../repositories/course.repository";
-import { UserRepository } from "../repositories/user.repository";
-import RedisClient from "../modules/redis";
+} from '../utils/constants';
+import { CourseRepository } from '../repositories/course.repository';
+import { UserRepository } from '../repositories/user.repository';
+import RedisClient from '../modules/redis';
 import {
   Course,
   CourseBody,
   CoursesSuccessResponse,
-} from "../api/schemas/course.schema";
+} from '../api/schemas/course.schema';
 
 export class CourseService {
   private logger = getLogger();
   constructor(
     private readonly courseRepository: CourseRepository,
     private readonly userRepository: UserRepository,
-    private readonly redis: RedisClient,
+    private readonly redis: RedisClient
   ) {}
 
   async getCourses(): Promise<CoursesSuccessResponse | undefined> {
     const courses = await this.courseRepository.getAllCourses();
     if (courses.length === 0) {
-      this.logger.error("Database returned with no courses.");
+      this.logger.error('Database returned with no courses.');
       throw new HTTPError(internalServerError);
     }
 
@@ -34,7 +34,7 @@ export class CourseService {
   }
 
   async getCoursesFromOffset(
-    offset: number,
+    offset: number
   ): Promise<CoursesSuccessResponse | undefined> {
     let courses = await this.redis.get<Course[]>(`courses:${offset}`);
 
@@ -72,7 +72,7 @@ export class CourseService {
   }
 
   async searchCourse(
-    searchTerm: string,
+    searchTerm: string
   ): Promise<CoursesSuccessResponse | undefined> {
     let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
 

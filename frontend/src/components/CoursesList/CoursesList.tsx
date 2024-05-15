@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { get } from '@/utils/request';
 import { sortCourses } from '@/utils/sortCourses';
 import SortDropdown from '../SortDropdown/SortDropdown';
-import FilterButton from '../FilterButton/FilterButton';
+import FilterModal from '../FilterModal.js/FilterModal';
 
 export default function CoursesList({
   initialCourses,
@@ -18,12 +18,14 @@ export default function CoursesList({
   const courseFinishedRef = useRef(false);
   const indexRef = useRef(initialCourses.length);
   const searchCoursesRef = useRef<Course[]>([]);
+  const filterCoursesRef = useRef<Course[]>([]);
 
   const [displayCourses, setDisplayCourses] =
     useState<Course[]>(initialCourses);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selected, setSelected] = useState('');
-
+  const [filters, setFilters] = useState<{}>({ faculties: [], terms: [] });
+  // do i need filtered courses array
   const paginationOffset = 25;
 
   const loadMore = async (index: number) => {
@@ -62,6 +64,24 @@ export default function CoursesList({
 
     setDisplayCourses((prev) => [...prev, ...courses]);
   };
+
+  const getFilterResults = async () => {
+    console.log('in courses', filters);
+    try {
+      const { courses } = (await get(
+        `/course/filter?terms=1&faculties=art`
+      )) as Courses;
+      filterCoursesRef.current = courses;
+    } catch (err) {
+      filterCoursesRef.current = [];
+    }
+    setDisplayCourses(searchCoursesRef.current.slice(0, paginationOffset));
+    indexRef.current += paginationOffset;
+    setInitialLoading(false);
+  };
+  useEffect(() => {
+    getFilterResults();
+  }, [filters]);
 
   useEffect(() => {
     const resetRefs = () => {
@@ -109,7 +129,7 @@ export default function CoursesList({
       {/* SortDropdown Bar and Filter Buttion*/}
       <div className="flex justify-between w-5/6">
         <SortDropdown selected={selected} setSelected={setSelected} />
-        <FilterButton selected={selected} setSelected={setSelected} />
+        <FilterModal filters={filters} setFilters={setFilters} />
       </div>
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
         {sortCourses(displayCourses, selected).map(

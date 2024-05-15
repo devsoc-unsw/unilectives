@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 import {
   Course,
   CourseCodeSchema,
   CourseSchema,
-} from "../api/schemas/course.schema";
+} from '../api/schemas/course.schema';
 
 export class CourseRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -79,7 +79,7 @@ export class CourseRepository {
   }
 
   async getCoursesById(courseCodes: string[]): Promise<Course[]> {
-    const courseCodesString = courseCodes.map((code) => `'${code}'`).join(",");
+    const courseCodesString = courseCodes.map((code) => `'${code}'`).join(',');
 
     const rawCourses = (await this.prisma.$queryRaw`
     SELECT
@@ -192,6 +192,56 @@ export class CourseRepository {
         END,
         CAST(COUNT(r.review_id) AS INT) DESC,
         c.course_code;
+      `) as any[];
+    const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    return courses;
+  }
+
+  async filterCourse(filters: {
+    terms: number[];
+    faculties: string[];
+  }): Promise<Course[]> {
+    const facultyFilters = filters.faculties;
+
+    // [0,1,2] => '0,1,2'
+    const termFilterQuery = filters.terms.join();
+
+    // ['arts', 'law'] => `'%arts%', '%law%'`
+    const facultyFilterQuery = filters.faculties
+      .map((faculty) => `\'%${faculty}%\'`)
+      .join(', ');
+
+    const rawCourses = (await this.prisma.$queryRaw`
+      SELECT
+      c.course_code AS "courseCode",
+      c.archived,
+      c.attributes,
+      c.calendar,
+      c.campus,
+      c.description,
+      c.enrolment_rules AS "enrolmentRules",
+      c.equivalents,
+      c.exclusions,
+      c.faculty,
+      c.field_of_education AS "fieldOfEducation",
+      c.gen_ed AS "genEd",
+      c.level,
+      c.school,
+      c.study_level AS "studyLevel",
+      c.terms,
+      c.title,
+      c.uoc,
+      AVG(r.overall_rating) AS "overallRating",
+      AVG(r.manageability) AS "manageability",
+      AVG(r.usefulness) AS "usefulness",
+      AVG(r.enjoyability) AS "enjoyability",
+      CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
+      FROM courses c
+      LEFT JOIN reviews r ON c.course_code = r.course_code
+      WHERE c.terms && ARRAY[${termFilterQuery}]
+      c.faculty ILIKE ANY(ARRAY[${facultyFilterQuery})
+      GROUP BY c.course_code
+      ORDER BY "reviewCount" DESC;
       `) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
     return courses;
