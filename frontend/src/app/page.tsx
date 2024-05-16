@@ -1,6 +1,8 @@
 import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import navbar from "@/assets/navbar.svg";
+import JaneStreetLogo from "@/assets/jane-street-logo.svg";
+import TikTokLogo from "@/assets/tiktok-logo.svg";
 import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
@@ -42,7 +44,20 @@ export default async function Home() {
           ratingValue: course.reviewCount === 0 ? 0 : course.overallRating,
           bestRating: 5,
         },
-      },
+        offers: [{
+          "@type": "Offer",
+          category: "Paid"
+        }],
+        hasCourseInstance: course.terms.map((term: number) => ({
+          "@type": "CourseInstance",
+          courseMode: "Blended",
+          courseSchedule: {
+            "@type": "Schedule",
+            repeatCount: term === 0 ? 5 : 10,
+            repeatFrequency: "Weekly",
+          }
+        }))
+      }
     })),
   };
 
@@ -74,6 +89,26 @@ export default async function Home() {
             <p className='justify-center font-semibold text-base sm:text-xs'>
               Your one-stop shop for UNSW course and elective reviews.
             </p>
+            {/* Sponsors Section */}
+            <p className="my-4 sm:text-xs sm:my-1">Proudly sponsored by</p>
+            <div className="flex flex-row justify-evenly items-center bg-gray-100 rounded-md h-16 py-10 sm:py-5">
+              <div className="w-40 h-32 relative items-center md:w-36 sm:w-24">
+                <Image
+                  src={JaneStreetLogo}
+                  alt="Jane Street Logo"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+              <div className="w-32 h-32 relative items-center md:w-28 sm:w-16">
+                <Image
+                  src={TikTokLogo}
+                  alt="TikTok Logo"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
