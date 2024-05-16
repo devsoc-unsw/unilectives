@@ -28,9 +28,8 @@ export default async function Home() {
       position: index + 1,
       item: {
         "@type": "Course",
-        url: `//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${
-          course.courseCode
-        }`,
+        url: `//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${course.courseCode
+          }`,
         name: course.title,
         description: course.description,
         provider: {
@@ -91,13 +90,14 @@ export default async function Home() {
             </p>
             {/* Sponsors Section */}
             <p className="my-4 sm:text-xs sm:my-1">Proudly sponsored by</p>
-            <div className="flex flex-row justify-evenly items-center bg-gray-100 rounded-md h-16 py-10 sm:py-5">
+            <div className="flex flex-row justify-evenly items-center bg-gray-100 dark:bg-slate-700 rounded-md h-16 py-10 sm:py-5 duration-150">
               <div className="w-40 h-32 relative items-center md:w-36 sm:w-24">
                 <Image
                   src={JaneStreetLogo}
                   alt="Jane Street Logo"
                   layout="fill"
                   objectFit="contain"
+                  className="dark:filter dark:invert"
                 />
               </div>
               <div className="w-32 h-32 relative items-center md:w-28 sm:w-16">
@@ -106,6 +106,7 @@ export default async function Home() {
                   alt="TikTok Logo"
                   layout="fill"
                   objectFit="contain"
+                  className="dark:filter dark:invert"
                 />
               </div>
             </div>
