@@ -36,7 +36,7 @@ export default function TermsAndConditions() {
       <p>By using our services, you agree to the following terms of use.</p>
       {/* List of Terms */}
       <div className='px-16 xs:px-0 sm:px-8'>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>
             1. Your review must abide by the UNSW Student Code of Conduct.
@@ -97,7 +97,7 @@ export default function TermsAndConditions() {
             good order and compliance with UNSW policies and procedures.
           </li>
         </ol>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>
             2. Spam and fake content.
@@ -108,7 +108,7 @@ export default function TermsAndConditions() {
           course&apos;s ratings. Don&apos;t post fake reviews and don&apos;t
           post a review multiple times.
         </p>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>3. Off-topic.</span> Only post
           reviews based on your experience while being enrolled in the relevant
@@ -116,7 +116,7 @@ export default function TermsAndConditions() {
           of goods and services, political or social commentary, or any other
           unrelated topics. Reviews which fail to meet this will be removed.
         </p>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>4. Illegal content.</span> Any
           review that describes or links to illegal activity will be removed.
@@ -124,20 +124,20 @@ export default function TermsAndConditions() {
           descriptions of illegal products or services, descriptions of graphic
           violence, or anything that violates any laws, rules or regulations.
         </p>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>5. Offensive content.</span>{" "}
           Any review that contain profane, obscene or offensive language, will
           be removed.
         </p>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>6. Malicious content.</span>{" "}
           Any review that attempts to distribute or upload material that contain
           malicious code or any other potentially harmful program or material,
           will be removed.
         </p>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>7. Dangerous Content.</span>{" "}
           Our platform is a place for safe communication, for this reason we
@@ -158,13 +158,13 @@ export default function TermsAndConditions() {
             discrimination.
           </li>
         </ol>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>8. Impersonation.</span> We
           don&apos;t allow individuals to write deceptive reviews as well as
           undertake false representations.
         </p>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>9. Conflict of interest.</span>{" "}
           Reviews are most valuable when they are unbiased and honest. An
@@ -172,7 +172,7 @@ export default function TermsAndConditions() {
           the course, writes a review for a term for which they were not a
           student.
         </p>
-        <hr className='mt-8 bg-black/25 dark:bg-white/25' />
+        <hr className='mt-8 bg-black/20 border-0 h-px dark:bg-white/40' />
         <p className='mt-8'>
           <span className='inline font-semibold'>
             10. Reviews must be respectful.
