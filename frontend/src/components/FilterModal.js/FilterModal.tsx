@@ -12,7 +12,7 @@ export default function FilterModal({
   filters,
   setFilters,
 }: {
-  filters: {};
+  filters: { terms: number[]; faculties: string[] };
   setFilters: any;
 }) {
   const faculties = [
@@ -38,6 +38,10 @@ export default function FilterModal({
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
+    // if no filters were applied then clear all
+    if (filters.terms.length === 0 && filters.faculties.length === 0) {
+      handleClearAll();
+    }
     setOpen(false);
   };
 
@@ -66,7 +70,7 @@ export default function FilterModal({
 
     setFilters({ faculties: selectedFaculties, terms: selectedTerms });
 
-    handleClose();
+    setOpen(false);
   };
 
   const handleTagOnClick = (type: string, position: number) => {
@@ -88,7 +92,7 @@ export default function FilterModal({
       {/* filter button */}
       <div className="mt-4 flex-1 min-w-[150px] max-w-[200px] xs:min-w-full">
         <button
-          className="relative flex items-center justify-between gap-2 w-full cursor-pointer bg-white py-2 px-4 text-left border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
+          className="relative flex items-center justify-between gap-2 w-full cursor-pointer bg-unilectives-modal py-2 px-4 text-left border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
           onClick={() => {
             setOpen(true);
           }}
@@ -110,14 +114,16 @@ export default function FilterModal({
         <div className="fixed inset-0 flex w-screen items-center justify-center p-4 z-10">
           {/* The actual dialog panel  */}
           <Dialog.Panel className="mx-auto max-w-sm p-8 rounded bg-white flex flex-col">
-            <button onClick={handleClose}>
+            <button className="w-6 h-6 place-self-end" onClick={handleClose}>
               {/* TODO: IT WONT GO TO THE RIGHT */}
-              <XMarkIcon className="w-6 h-6 place-self-end" />
+              <XMarkIcon />
             </button>
-            <Dialog.Title className="text-2xl font-bold mb-4">
+            <Dialog.Title className="text-2xl font-bold mb-4 text-unilectives-headings">
               Filter by:
             </Dialog.Title>
-            <Dialog.Description className="text-xl">Faculty</Dialog.Description>
+            <Dialog.Description className="text-xl font-semibold mb-2 ">
+              Faculty
+            </Dialog.Description>
             {/* display the faculty tags */}
             <div className="flex flex-wrap mb-4">
               {faculties.map((faculty, index) => {
@@ -128,16 +134,18 @@ export default function FilterModal({
                     onClick={() => handleTagOnClick('faculty', index)}
                     className={`${
                       facultiesCheckedState[index]
-                        ? 'bg-slate-600 text-white'
-                        : 'bg-white'
-                    } ' w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-2 border-slate-600 '`}
+                        ? 'bg-unilectives-indigo text-white font-medium'
+                        : 'bg-white text-unilectives-indigo font-medium'
+                    } ' w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px]  border-unilectives-indigo '`}
                   >
                     {faculty}
                   </div>
                 );
               })}
             </div>
-            <Dialog.Description className="text-xl">Term</Dialog.Description>
+            <Dialog.Description className="text-xl font-semibold mb-2">
+              Term
+            </Dialog.Description>
             {/* display the term tags */}
             <div className="flex flex-wrap mb-4">
               {terms.map((term, index) => {
@@ -148,9 +156,9 @@ export default function FilterModal({
                     onClick={() => handleTagOnClick('term', index)}
                     className={`${
                       termsCheckedState[index]
-                        ? 'bg-slate-600 text-white'
-                        : 'bg-white'
-                    } ' w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-2 border-slate-600 '`}
+                        ? 'bg-unilectives-indigo text-white font-medium'
+                        : 'bg-white text-unilectives-indigo font-medium'
+                    } ' w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px] border-unilectives-indigo '`}
                   >
                     {term}
                   </div>
@@ -160,13 +168,13 @@ export default function FilterModal({
 
             <div className="flex justify-between mt-4">
               <button
-                className="flex items-center gap-1 px-4 py-2 bg-unilectives-button text-white rounded-md hover:bg-unilectives-icon/95 font-bold disabled:opacity-50"
+                className="flex items-center justify-center w-1/3 gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
                 onClick={handleClearAll}
               >
                 Clear All
               </button>
               <button
-                className="flex items-center gap-1 px-4 py-2 bg-unilectives-button text-white rounded-md hover:bg-unilectives-icon/95 font-bold disabled:opacity-50"
+                className="flex items-center justify-center w-1/3 gap-1 px-4 py-2 bg-unilectives-button text-white rounded-md hover:bg-unilectives-icon/95 font-bold disabled:opacity-50"
                 onClick={handleApply}
               >
                 Apply

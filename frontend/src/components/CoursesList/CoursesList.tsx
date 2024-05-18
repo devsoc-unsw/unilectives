@@ -24,7 +24,10 @@ export default function CoursesList({
     useState<Course[]>(initialCourses);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selected, setSelected] = useState('');
-  const [filters, setFilters] = useState<{}>({ faculties: [], terms: [] });
+  const [filters, setFilters] = useState<{}>({
+    faculties: [],
+    terms: [],
+  });
   // do i need filtered courses array
   const paginationOffset = 25;
 
@@ -35,7 +38,7 @@ export default function CoursesList({
         // default courses
         try {
           const { courses } = (await get(
-            `/courses?offset=${index}`,
+            `/courses?offset=${index}`
           )) as Courses;
           fetchedCourses = courses;
         } catch (err) {
@@ -92,7 +95,7 @@ export default function CoursesList({
     const getSearchResults = async () => {
       try {
         const { courses } = (await get(
-          `/course/search/${searchTerm}`,
+          `/course/search/${searchTerm}`
         )) as Courses;
         searchCoursesRef.current = courses;
       } catch (err) {
@@ -146,7 +149,7 @@ export default function CoursesList({
                 terms={c.terms}
               />
             </a>
-          ),
+          )
         )}
         {!initialLoading ? (
           <p className="text-center opacity-50">No more courses</p>
