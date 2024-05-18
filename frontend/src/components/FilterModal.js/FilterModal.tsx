@@ -90,7 +90,7 @@ export default function FilterModal({
   return (
     <>
       {/* filter button */}
-      <div className="mt-4 flex-1 min-w-[150px] max-w-[200px] xs:min-w-full">
+      <div className="mt-4 min-w-[140px] xs:min-w-1/2">
         <button
           className="relative flex items-center justify-between gap-2 w-full cursor-pointer bg-unilectives-modal py-2 px-4 text-left border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
           onClick={() => {

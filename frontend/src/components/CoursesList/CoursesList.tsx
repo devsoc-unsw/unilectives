@@ -133,7 +133,7 @@ export default function CoursesList({
   return (
     <>
       {/* SortDropdown Bar and Filter Buttion*/}
-      <div className="flex justify-between w-5/6">
+      <div className="flex justify-end w-5/6 gap-4 xs:flex-col xs:gap-1">
         <SortDropdown selected={selected} setSelected={setSelected} />
         <FilterModal filters={filters} setFilters={setFilters} />
       </div>
