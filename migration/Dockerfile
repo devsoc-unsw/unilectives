@@ -6,4 +6,4 @@ WORKDIR /app
 COPY . .
 RUN npm install
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "dev"]

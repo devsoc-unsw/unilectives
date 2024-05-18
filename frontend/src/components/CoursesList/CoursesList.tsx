@@ -35,7 +35,7 @@ export default function CoursesList({
         // default courses
         try {
           const { courses } = (await get(
-            `/courses?offset=${index}`
+            `/courses?offset=${index}`,
           )) as Courses;
           fetchedCourses = courses;
         } catch (err) {
@@ -92,7 +92,7 @@ export default function CoursesList({
     const getSearchResults = async () => {
       try {
         const { courses } = (await get(
-          `/course/search/${searchTerm}`
+          `/course/search/${searchTerm}`,
         )) as Courses;
         searchCoursesRef.current = courses;
       } catch (err) {
@@ -105,6 +105,9 @@ export default function CoursesList({
     const getInitialDisplayCourses = () => {
       if (searchTerm !== '') {
         getSearchResults();
+      } else {
+        setDisplayCourses(initialCourses.slice(0, paginationOffset));
+        setInitialLoading(false);
       }
     };
     const loadOnScroll = () => {
@@ -143,7 +146,7 @@ export default function CoursesList({
                 terms={c.terms}
               />
             </a>
-          )
+          ),
         )}
         {!initialLoading ? (
           <p className="text-center opacity-50">No more courses</p>

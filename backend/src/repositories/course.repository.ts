@@ -72,7 +72,7 @@ export class CourseRepository {
     FROM courses c
     LEFT JOIN reviews r ON c.course_code = r.course_code
     GROUP BY c.course_code
-    ORDER BY "reviewCount" DESC
+    ORDER BY "reviewCount" DESC, c.course_code ASC
     LIMIT 25 OFFSET ${offset};
     `) as any[];
     return courses;
