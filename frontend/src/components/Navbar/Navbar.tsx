@@ -95,12 +95,11 @@ export default function Navbar({ userZid }: NavbarProps) {
         />
       </div>
       {/* Navbar Container */}
-      <div className='flex flex-col h-full w-full justify-between border-t-2 border-gray-200'>
+      <div className='flex flex-col h-full w-full justify-between border-t-2 border-gray-200 dark:border-slate-500'>
         {/* Review Options */}
         <div
-          className={`flex flex-col gap-3 py-3 ${
-            collapsed ? "items-center" : "items-left"
-          }`}
+          className={`flex flex-col gap-3 py-3 ${collapsed ? "items-center" : "items-left"
+            }`}
         >
           <a
             className={
@@ -155,9 +154,8 @@ export default function Navbar({ userZid }: NavbarProps) {
         </div>
         {/* Account Options */}
         <div
-          className={`flex flex-col gap-4 py-2 ${
-            collapsed ? "items-center" : "items-left"
-          }`}
+          className={`flex flex-col gap-4 py-2 ${collapsed ? "items-center" : "items-left"
+            }`}
         >
           <div
             className={
@@ -209,11 +207,10 @@ export default function Navbar({ userZid }: NavbarProps) {
                 <button
                   onClick={(e) => handleLogout(e)}
                   onMouseLeave={() => setLogout(false)}
-                  className={`bg-blue-200 dark:bg-blue-800 flex flex-row items-center justify-center rounded-xl gap-2 ${
-                    logout
-                      ? "hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-100"
-                      : "hover:bg-slate-200 dark:hover:bg-slate-800"
-                  }`}
+                  className={`bg-blue-200 dark:bg-blue-800 flex flex-row items-center justify-center rounded-xl gap-2 ${logout
+                    ? "hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-100"
+                    : "hover:bg-slate-200 dark:hover:bg-slate-800"
+                    }`}
                 >
                   <ArrowRightOnRectangleIcon className='w-12 h-12 p-3' />
                 </button>
@@ -222,11 +219,10 @@ export default function Navbar({ userZid }: NavbarProps) {
               <button
                 onClick={(e) => handleLogout(e)}
                 onMouseLeave={() => setLogout(false)}
-                className={`flex flex-row items-center justify-center rounded-xl gap-2 ${
-                  logout
-                    ? "hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-100"
-                    : "hover:bg-slate-200 dark:hover:bg-slate-800"
-                }`}
+                className={`flex flex-row items-center justify-center rounded-xl gap-2 ${logout
+                  ? "hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-100"
+                  : "hover:bg-slate-200 dark:hover:bg-slate-800"
+                  }`}
               >
                 <ArrowRightOnRectangleIcon className='w-6 h-12 py-3' />
                 {!logout ? (
