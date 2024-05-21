@@ -92,13 +92,13 @@ export default function FilterModal({
       {/* filter button */}
       <div className="mt-4 min-w-[140px] xs:min-w-1/2">
         <button
-          className="relative flex items-center justify-between gap-2 w-full cursor-pointer bg-unilectives-modal py-2 px-4 text-left border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
+          className="relative flex items-center justify-between gap-2 w-full cursor-pointer py-2 px-4 text-left text-[#989898] border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
           onClick={() => {
             setOpen(true);
           }}
         >
           Filter
-          <AdjustmentsHorizontalIcon className="w-4 h-4 rounded-full" />
+          <AdjustmentsHorizontalIcon className="w-4 h-4 rounded-full text-black" />
         </button>
       </div>
 
@@ -111,9 +111,9 @@ export default function FilterModal({
         />
 
         {/* Full-screen container to center the panel */}
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4 z-10">
+        <div className="fixed inset-0 flex w-screen items-center justify-center pl-20 z-10 ">
           {/* The actual dialog panel  */}
-          <Dialog.Panel className="mx-auto max-w-sm p-8 rounded bg-white flex flex-col">
+          <Dialog.Panel className="mx-auto max-w-sm p-8 rounded bg-white flex flex-col xs:w-full">
             <button className="w-6 h-6 place-self-end" onClick={handleClose}>
               {/* TODO: IT WONT GO TO THE RIGHT */}
               <XMarkIcon />
@@ -135,7 +135,7 @@ export default function FilterModal({
                     className={`${
                       facultiesCheckedState[index]
                         ? 'bg-unilectives-indigo text-white font-medium'
-                        : 'bg-white text-unilectives-indigo font-medium'
+                        : ' text-unilectives-indigo font-medium'
                     } ' w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px]  border-unilectives-indigo '`}
                   >
                     {faculty}
@@ -157,7 +157,7 @@ export default function FilterModal({
                     className={`${
                       termsCheckedState[index]
                         ? 'bg-unilectives-indigo text-white font-medium'
-                        : 'bg-white text-unilectives-indigo font-medium'
+                        : ' text-unilectives-indigo font-medium'
                     } ' w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px] border-unilectives-indigo '`}
                   >
                     {term}
@@ -166,15 +166,15 @@ export default function FilterModal({
               })}
             </div>
 
-            <div className="flex justify-between mt-4">
+            <div className="flex justify-between mt-4 xs:flex-col xs:gap-4">
               <button
-                className="flex items-center justify-center w-1/3 gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
+                className="flex items-center justify-center w-1/3 xs:w-full gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
                 onClick={handleClearAll}
               >
                 Clear All
               </button>
               <button
-                className="flex items-center justify-center w-1/3 gap-1 px-4 py-2 bg-unilectives-button text-white rounded-md hover:bg-unilectives-icon/95 font-bold disabled:opacity-50"
+                className="flex items-center justify-center w-1/3 xs:w-full gap-1 px-4 py-2 bg-unilectives-button text-white rounded-md hover:bg-unilectives-icon/95 font-bold disabled:opacity-50"
                 onClick={handleApply}
               >
                 Apply
