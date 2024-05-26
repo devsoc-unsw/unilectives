@@ -71,9 +71,7 @@ export default function CoursesList({
   const getFilterResults = async () => {
     console.log('in courses', filters);
     try {
-      const { courses } = (await get(
-        `/course/filter?terms=1&faculties=art`
-      )) as Courses;
+      const { courses } = (await get(`/course/filter/1/art`)) as Courses;
       filterCoursesRef.current = courses;
     } catch (err) {
       filterCoursesRef.current = [];

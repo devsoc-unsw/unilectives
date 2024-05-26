@@ -92,13 +92,14 @@ export class CourseController implements IController {
         )
         // Example URL: /courses?category=programming&level=beginner&level=intermediate&price=free
         .get(
-          '/course/filter',
+          '/course/filter/:terms/:faculties',
           async (req: Request, res: Response, next: NextFunction) => {
             this.logger.debug(`Received request in GET /course/filter`);
             try {
               // console.log(req.query);
-              const { terms, faculties } = req.query;
-              console.log('req', terms, faculties);
+
+              // const { options } = req.params;
+              console.log('req', req.params);
               // const result = await this.courseService.searchCourse(searchTerm);
               // return res.status(200).json(result);
             } catch (err: any) {
