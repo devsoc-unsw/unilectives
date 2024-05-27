@@ -197,17 +197,14 @@ export class CourseRepository {
     return courses;
   }
 
-  async filterCourse(filters: {
-    terms: number[];
-    faculties: string[];
-  }): Promise<Course[]> {
-    const facultyFilters = filters.faculties;
+  async filterCourse(terms: string, faculties: string): Promise<Course[]> {
+    const facultyFilters = faculties.split('&');
 
-    // [0,1,2] => '0,1,2'
-    const termFilterQuery = filters.terms.join();
+    // 0&1&2 => '0,1,2'
+    const termFilterQuery = terms.replace('&', ',');
 
     // ['arts', 'law'] => `'%arts%', '%law%'`
-    const facultyFilterQuery = filters.faculties
+    const facultyFilterQuery = facultyFilters
       .map((faculty) => `\'%${faculty}%\'`)
       .join(', ');
 

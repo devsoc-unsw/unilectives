@@ -24,7 +24,7 @@ export default function CoursesList({
     useState<Course[]>(initialCourses);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selected, setSelected] = useState('');
-  const [filters, setFilters] = useState<{}>({
+  const [filters, setFilters] = useState<{ faculties: []; terms: [] }>({
     faculties: [],
     terms: [],
   });
@@ -69,9 +69,15 @@ export default function CoursesList({
   };
 
   const getFilterResults = async () => {
+    const terms = filters.terms.join('&');
+    const faculties = filters.faculties.join('&');
+
+    // EXAMPLE URL: /course/filter/1&3/art%engineering
     console.log('in courses', filters);
     try {
-      const { courses } = (await get(`/course/filter/1/art`)) as Courses;
+      const { courses } = (await get(
+        `/course/filter/${terms}/${faculties}`
+      )) as Courses;
       filterCoursesRef.current = courses;
     } catch (err) {
       filterCoursesRef.current = [];

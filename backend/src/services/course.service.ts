@@ -88,6 +88,31 @@ export class CourseService {
     return { courses };
   }
 
+  async filterCourse(
+    terms: string,
+    faculties: string
+  ): Promise<CoursesSuccessResponse | undefined> {
+    // idk if this is right
+    console.log('called?');
+    let courses = await this.redis.get<Course[]>(
+      `filterCourses:${terms + '&' + faculties}`
+    );
+
+    if (!courses) {
+      this.logger.info(
+        `Cache miss on filterCourses:${terms + '&' + faculties}`
+      );
+      courses = await this.courseRepository.filterCourse(terms, faculties);
+      console.log('courses', courses);
+      await this.redis.set(`filterCourses:${terms + '&' + faculties}`, courses);
+    } else {
+      this.logger.info(`Cache hit on filterCourses:${terms + '&' + faculties}`);
+    }
+
+    this.logger.info(`Found ${courses.length} courses.`);
+    return { courses };
+  }
+
   async flushKey(zid: string, key: string) {
     const userInfo = await this.userRepository.getUser(zid);
     if (!userInfo) {
