@@ -202,14 +202,18 @@ export class CourseRepository {
     const facultyFilters = faculties.split("&");
 
     // 0&1&2 => '0,1,2'
-    const termFilterQuery = terms.replace("&", ",");
+    const termFilters = terms.split("&");
+
+    const termFilterQuery = termFilters.map((term) => parseInt(term));
 
     // ['arts', 'law'] => `'%arts%', '%law%'`
     const facultyFilterQuery = facultyFilters
       .map((faculty) => `'%${faculty}%'`)
       .join(", ");
 
+    console.log(`arrays ARRAY[${termFilterQuery}]`);
     console.log("termFilterQuery", termFilterQuery);
+    console.log(typeof termFilterQuery[0]);
     console.log("facultyFilterQuery", facultyFilterQuery);
     const rawCourses = (await this.prisma.$queryRaw`
       SELECT
@@ -238,8 +242,8 @@ export class CourseRepository {
       CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
       FROM courses c
       LEFT JOIN reviews r ON c.course_code = r.course_code
-      WHERE c.terms && ARRAY[${termFilterQuery}]
-      c.faculty ILIKE ANY(ARRAY[${facultyFilterQuery})
+      WHERE c.terms && ARRAY[1,2] OR
+      c.faculty ILIKE ANY(ARRAY[${facultyFilterQuery}])
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC;
       `) as any[];
