@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 import {
   Course,
   CourseCodeSchema,
   CourseSchema,
-} from '../api/schemas/course.schema';
+} from "../api/schemas/course.schema";
 
 export class CourseRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -79,7 +79,7 @@ export class CourseRepository {
   }
 
   async getCoursesById(courseCodes: string[]): Promise<Course[]> {
-    const courseCodesString = courseCodes.map((code) => `'${code}'`).join(',');
+    const courseCodesString = courseCodes.map((code) => `'${code}'`).join(",");
 
     const rawCourses = (await this.prisma.$queryRaw`
     SELECT
@@ -198,16 +198,19 @@ export class CourseRepository {
   }
 
   async filterCourse(terms: string, faculties: string): Promise<Course[]> {
-    const facultyFilters = faculties.split('&');
+    console.log("query error");
+    const facultyFilters = faculties.split("&");
 
     // 0&1&2 => '0,1,2'
-    const termFilterQuery = terms.replace('&', ',');
+    const termFilterQuery = terms.replace("&", ",");
 
     // ['arts', 'law'] => `'%arts%', '%law%'`
     const facultyFilterQuery = facultyFilters
-      .map((faculty) => `\'%${faculty}%\'`)
-      .join(', ');
+      .map((faculty) => `'%${faculty}%'`)
+      .join(", ");
 
+    console.log("termFilterQuery", termFilterQuery);
+    console.log("facultyFilterQuery", facultyFilterQuery);
     const rawCourses = (await this.prisma.$queryRaw`
       SELECT
       c.course_code AS "courseCode",

@@ -1,13 +1,13 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { formatError, getLogger } from '../utils/logger';
-import { IController } from '../interfaces/IController';
-import { CourseService } from '../services/course.service';
-import verifyToken from '../api/middlewares/auth';
+import { Router, Request, Response, NextFunction } from "express";
+import { formatError, getLogger } from "../utils/logger";
+import { IController } from "../interfaces/IController";
+import { CourseService } from "../services/course.service";
+import verifyToken from "../api/middlewares/auth";
 
 export class CourseController implements IController {
   private readonly logger = getLogger();
   private readonly router: Router;
-  private readonly prefix = '/api/v1';
+  private readonly prefix = "/api/v1";
 
   constructor(private readonly courseService: CourseService) {
     this.router = this.setupRoutes();
@@ -16,7 +16,7 @@ export class CourseController implements IController {
   setupRoutes(): Router {
     return Router()
       .get(
-        '/courses',
+        "/courses",
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in GET /courses`);
           try {
@@ -26,52 +26,54 @@ export class CourseController implements IController {
               offset = parseInt(offsetStr);
             }
             const result = await this.courseService.getCoursesFromOffset(
-              offset
+              offset,
             );
             this.logger.info(`Responding to client in GET /courses`);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /courses ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .get(
-        '/course/:courseCode',
+        "/course/:courseCode",
         async (
           req: Request<{ courseCode: string }, unknown>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug(`Received request in GET /course/:courseCode`);
           try {
             const courseCode: string = req.params.courseCode;
             const result = await this.courseService.getCourse(courseCode);
             this.logger.info(
-              `Responding to client in GET /course/${courseCode}`
+              `Responding to client in GET /course/${courseCode}`,
             );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /course ${formatError(err)}`
+              `An error occurred when trying to GET /course ${formatError(
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .get(
-        '/course/search/:searchTerm',
+        "/course/search/:searchTerm",
         async (
           req: Request<{ searchTerm: string }, unknown>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug(
-            `Received request in GET /course/search/:searchTerm`
+            `Received request in GET /course/search/:searchTerm`,
           );
           try {
             const searchTerm: string = req.params.searchTerm;
@@ -80,47 +82,47 @@ export class CourseController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /course/search ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .get(
-        '/course/filter/:terms/:faculties',
+        "/course/filter/:terms/:faculties",
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in GET /course/filter`);
           try {
             // console.log(req.query);
-            console.log('called');
+            console.log("called");
             // const terms = req.params.terms.split('&');
             // const { options } = req.params;
-            console.log('req', req.params);
+            console.log("req", req.params);
             // console.log('terms', terms);
             const { terms, faculties } = req.params;
             const result = await this.courseService.filterCourse(
               terms,
-              faculties
+              faculties,
             );
             return res.status(200).json(result);
           } catch (err: any) {
-            console.log('lol error');
+            console.log("lol error");
             this.logger.warn(
               `An error occurred when trying to GET /course/filter ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .delete(
-        '/cached/flush',
+        "/cached/flush",
         async (
           req: Request<{ key: string }, unknown>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug(`Received request in DELETE /cached/flush`);
           try {
@@ -131,19 +133,19 @@ export class CourseController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to DELETE /cached/flush ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       )
       .delete(
-        '/cached/:key',
+        "/cached/:key",
         async (
           req: Request<{ key: string }, unknown>,
           res: Response,
-          next: NextFunction
+          next: NextFunction,
         ) => {
           this.logger.debug(`Received request in DELETE /cached/:key`);
           try {
@@ -155,12 +157,12 @@ export class CourseController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to DELETE /cached/:key ${formatError(
-                err
-              )}`
+                err,
+              )}`,
             );
             return next(err);
           }
-        }
+        },
       );
   }
 
