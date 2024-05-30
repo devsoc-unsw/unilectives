@@ -7,7 +7,6 @@ import Fetcher from "./fetcher";
 import MigrationRepository from "./repository";
 
 export default class MigrationService {
-  private readonly logger = console;
   constructor(
     readonly fb: Firebase,
     readonly fetcher: Fetcher,
