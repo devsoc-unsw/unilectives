@@ -7,11 +7,16 @@ import Fetcher from "./fetcher";
 import MigrationRepository from "./repository";
 
 export default class MigrationService {
+  private readonly logger = console;
   constructor(
     readonly fb: Firebase,
     readonly fetcher: Fetcher,
     readonly migrationRepository: MigrationRepository,
   ) {}
+
+  inferError(err: unknown) {
+    return err instanceof Error ? err.message : "An unknown error occured";
+  }
 
   async migrateReviews(): Promise<IResponse> {
     try {
@@ -40,10 +45,10 @@ export default class MigrationService {
         status: "SUCCESS",
         message: "Successfully migrated reviews",
       };
-    } catch (err: any) {
+    } catch (err) {
       return {
         status: "FAILURE",
-        message: err.message,
+        message: this.inferError(err),
       };
     }
   }
@@ -75,10 +80,10 @@ export default class MigrationService {
         status: "SUCCESS",
         message: "Successfully migrated reviews",
       };
-    } catch (err: any) {
+    } catch (err) {
       return {
         status: "FAILURE",
-        message: err.message,
+        message: this.inferError(err),
       };
     }
   }
@@ -121,10 +126,10 @@ export default class MigrationService {
         status: "SUCCESS",
         message: "Successfully updated reviews",
       };
-    } catch (err: any) {
+    } catch (err) {
       return {
         status: "FAILURE",
-        message: err.message,
+        message: this.inferError(err),
       };
     }
   }
@@ -138,10 +143,10 @@ export default class MigrationService {
         status: "SUCCESS",
         message: "Successfully migrated courses",
       };
-    } catch (err: any) {
+    } catch (err) {
       return {
         status: "FAILURE",
-        message: err.message,
+        message: this.inferError(err),
       };
     }
   }
@@ -155,10 +160,10 @@ export default class MigrationService {
         status: "SUCCESS",
         message: "Successfully updated courses",
       };
-    } catch (err: any) {
+    } catch (err) {
       return {
         status: "FAILURE",
-        message: err.message,
+        message: this.inferError(err),
       };
     }
   }
@@ -170,10 +175,10 @@ export default class MigrationService {
         status: "SUCCESS",
         message: "Successfully updated user to admin" + ` ${zid}`,
       };
-    } catch (err: any) {
+    } catch (err) {
       return {
         status: "FAILURE",
-        message: err.message,
+        message: this.inferError(err),
       };
     }
   }
@@ -185,10 +190,10 @@ export default class MigrationService {
         status: "SUCCESS",
         message: "Successfully flushed database",
       };
-    } catch (err: any) {
+    } catch (err) {
       return {
         status: "FAILURE",
-        message: err.message,
+        message: this.inferError(err),
       };
     }
   }

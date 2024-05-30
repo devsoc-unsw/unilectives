@@ -26,7 +26,7 @@ export default class MigrationController {
             const result = await this.migrationService.migrateReviews();
             this.logger.info(`Responding to client in POST /migrate/reviews`);
             return res.status(200).json(result);
-          } catch (err: any) {
+          } catch (err) {
             this.logger.warn(
               `An error occurred when trying to POST /migrate/reviews ${err}`,
             );
@@ -48,7 +48,7 @@ export default class MigrationController {
             const result = await this.migrationService.updateReviews();
             this.logger.info(`Responding to client in PUT /migrate/reviews`);
             return res.status(200).json(result);
-          } catch (err: any) {
+          } catch (err) {
             this.logger.warn(
               `An error occurred when trying to PUT /migrate/reviews ${err}`,
             );
@@ -70,7 +70,7 @@ export default class MigrationController {
             const result = await this.migrationService.migrateCourses();
             this.logger.info(`Responding to client in POST /migrate/courses`);
             return res.status(200).json(result);
-          } catch (err: any) {
+          } catch (err) {
             this.logger.warn(
               `An error occurred when trying to POST /migrate/courses ${err}`,
             );
@@ -92,7 +92,7 @@ export default class MigrationController {
             const result = await this.migrationService.updateCourses();
             this.logger.info(`Responding to client in PUT /migrate/courses`);
             return res.status(200).json(result);
-          } catch (err: any) {
+          } catch (err) {
             this.logger.warn(
               `An error occurred when trying to PUT /migrate/courses ${err}`,
             );
@@ -119,7 +119,7 @@ export default class MigrationController {
             const result = await this.migrationService.updateUser(zid);
             this.logger.info(`Responding to client in PUT /users/${zid}`);
             return res.status(200).json(result);
-          } catch (err: any) {
+          } catch (err) {
             this.logger.warn(
               `An error occurred when trying to PUT /users/${zid}: ${err}`,
             );
@@ -141,7 +141,7 @@ export default class MigrationController {
             const result = await this.migrationService.flush();
             this.logger.info(`Responding to client in DELETE /migrate/flush`);
             return res.status(200).json(result);
-          } catch (err: any) {
+          } catch (err) {
             this.logger.warn(
               `An error occurred when trying to DELETE /migrate/flush ${err}`,
             );
