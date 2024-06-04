@@ -19,7 +19,7 @@ export class CourseService {
   constructor(
     private readonly courseRepository: CourseRepository,
     private readonly userRepository: UserRepository,
-    private readonly redis: RedisClient,
+    private readonly redis: RedisClient
   ) {}
 
   async getCourses(): Promise<CoursesSuccessResponse | undefined> {
@@ -34,7 +34,7 @@ export class CourseService {
   }
 
   async getCoursesFromOffset(
-    offset: number,
+    offset: number
   ): Promise<CoursesSuccessResponse | undefined> {
     let courses = await this.redis.get<Course[]>(`courses:${offset}`);
 
@@ -72,7 +72,7 @@ export class CourseService {
   }
 
   async searchCourse(
-    searchTerm: string,
+    searchTerm: string
   ): Promise<CoursesSuccessResponse | undefined> {
     let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
 
@@ -90,21 +90,23 @@ export class CourseService {
 
   async filterCourse(
     terms: string,
-    faculties: string,
+    faculties: string
   ): Promise<CoursesSuccessResponse | undefined> {
     // idk if this is right
     console.log("called?");
     this.logger.info("help filter");
-    let courses = await this.redis.get<Course[]>(
-      `filterCourses:${terms + "&" + faculties}`,
-    );
-
-    if (!courses) {
+    // let courses = await this.redis.get<Course[]>(
+    //   `filterCourses:${terms + "&" + faculties}`
+    // );
+    this.logger.info("banana");
+    //this.logger.info(courses);
+    let courses: any = [];
+    if (true) {
       this.logger.info(
-        `Cache miss on filterCourses:${terms + "&" + faculties}`,
+        `Cache miss on filterCourses:${terms + "&" + faculties}`
       );
       courses = await this.courseRepository.filterCourse(terms, faculties);
-      console.log("courses", courses);
+      // console.log("courses:", courses[1]);
       await this.redis.set(`filterCourses:${terms + "&" + faculties}`, courses);
     } else {
       this.logger.info(`Cache hit on filterCourses:${terms + "&" + faculties}`);

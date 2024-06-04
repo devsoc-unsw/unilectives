@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Course, Courses } from '@/types/api';
-import CourseCard from '../CourseCard/CourseCard';
-import { useEffect, useRef, useState } from 'react';
-import { get } from '@/utils/request';
-import { sortCourses } from '@/utils/sortCourses';
-import SortDropdown from '../SortDropdown/SortDropdown';
-import FilterModal from '../FilterModal.js/FilterModal';
+import { Course, Courses } from "@/types/api";
+import CourseCard from "../CourseCard/CourseCard";
+import { useEffect, useRef, useState } from "react";
+import { get } from "@/utils/request";
+import { sortCourses } from "@/utils/sortCourses";
+import SortDropdown from "../SortDropdown/SortDropdown";
+import FilterModal from "../FilterModal.js/FilterModal";
 
 export default function CoursesList({
   initialCourses,
@@ -23,7 +23,7 @@ export default function CoursesList({
   const [displayCourses, setDisplayCourses] =
     useState<Course[]>(initialCourses);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState("");
   const [filters, setFilters] = useState<{ faculties: []; terms: [] }>({
     faculties: [],
     terms: [],
@@ -34,7 +34,7 @@ export default function CoursesList({
   const loadMore = async (index: number) => {
     const fetchCourses = async () => {
       let fetchedCourses: Course[] = [];
-      if (searchTerm === '') {
+      if (searchTerm === "") {
         // default courses
         try {
           const { courses } = (await get(
@@ -69,20 +69,34 @@ export default function CoursesList({
   };
 
   const getFilterResults = async () => {
-    const terms = filters.terms.join('&');
-    const faculties = filters.faculties.join('&');
+    // if no filters then just get courses
+
+    // if no terms/faculties
+    // if (filters.terms.length === 0) {
+
+    // }
+    let terms = filters.terms.join("&");
+    let faculties = filters.faculties.join("&");
+
+    if (terms === "") {
+      terms = "_";
+    } else if (faculties === "") {
+      faculties = "_";
+    }
 
     // EXAMPLE URL: /course/filter/1&3/art%engineering
-    console.log('in courses', filters);
+    console.log("in courses", filters);
+    console.log("terms", typeof terms);
     try {
       const { courses } = (await get(
         `/course/filter/${terms}/${faculties}`
       )) as Courses;
       filterCoursesRef.current = courses;
+      console.log(courses.slice(0, 3));
     } catch (err) {
       filterCoursesRef.current = [];
     }
-    setDisplayCourses(searchCoursesRef.current.slice(0, paginationOffset));
+    setDisplayCourses(filterCoursesRef.current.slice(0, paginationOffset));
     indexRef.current += paginationOffset;
     setInitialLoading(false);
   };
@@ -110,7 +124,7 @@ export default function CoursesList({
       setInitialLoading(false);
     };
     const getInitialDisplayCourses = () => {
-      if (searchTerm !== '') {
+      if (searchTerm !== "") {
         getSearchResults();
       } else {
         setDisplayCourses(initialCourses.slice(0, paginationOffset));
@@ -130,8 +144,8 @@ export default function CoursesList({
     resetRefs();
     getInitialDisplayCourses();
 
-    window.addEventListener('scroll', loadOnScroll);
-    return () => window.removeEventListener('scroll', loadOnScroll);
+    window.addEventListener("scroll", loadOnScroll);
+    return () => window.removeEventListener("scroll", loadOnScroll);
   }, [searchTerm]);
 
   return (

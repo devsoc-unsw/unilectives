@@ -4,6 +4,8 @@ import {
   CourseCodeSchema,
   CourseSchema,
 } from "../api/schemas/course.schema";
+import e from "express";
+import { Console } from "console";
 
 export class CourseRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -194,28 +196,66 @@ export class CourseRepository {
         c.course_code;
       `) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    console.log("SDKJF");
+    console.log(courses);
     return courses;
   }
 
   async filterCourse(terms: string, faculties: string): Promise<Course[]> {
-    console.log("query error");
-    const facultyFilters = faculties.split("&");
-
     // 0&1&2 => '0,1,2'
-    const termFilters = terms.split("&");
-
-    const termFilterQuery = termFilters.map((term) => parseInt(term));
+    const termFilterQuery = terms.split("&");
 
     // ['arts', 'law'] => `'%arts%', '%law%'`
+    const facultyFilters = faculties.split("&");
     const facultyFilterQuery = facultyFilters
       .map((faculty) => `'%${faculty}%'`)
       .join(", ");
 
-    console.log(`arrays ARRAY[${termFilterQuery}]`);
-    console.log("termFilterQuery", termFilterQuery);
-    console.log(typeof termFilterQuery[0]);
-    console.log("facultyFilterQuery", facultyFilterQuery);
-    const rawCourses = (await this.prisma.$queryRaw`
+    let filterQuery = "";
+    // only faculties are selected
+    if (terms === "_") {
+      const selectedFaculties = faculties
+        .split("&")
+        .map((faculty) => `'%${faculty}%'`)
+        .join(", ");
+      filterQuery = `WHERE c.faculty ILIKE ANY(ARRAY[${selectedFaculties}])`;
+      // only terms are selected
+    } else if (faculties === "_") {
+      const selectedTerms = terms.split("&");
+      filterQuery = `WHERE c.terms && ARRAY[${selectedTerms}]::integer[]`;
+      // both are selected
+    } else {
+      const selectedTerms = terms.split("&");
+      const selectedFaculties = faculties
+        .split("&")
+        .map((faculty) => `'%${faculty}%'`)
+        .join(", ");
+
+      filterQuery = `WHERE c.terms && ARRAY[${selectedTerms}]::integer[] AND 
+      c.faculty ILIKE ANY(ARRAY[${selectedFaculties}])`;
+    }
+
+    console.log("query", filterQuery);
+
+    // const rawCourses = await this.prisma.courses.findMany({
+    //   where: {
+    //     AND: [
+    //       {
+    //         faculty: {
+    //           contains: "Business",
+    //         },
+    //       },
+    //       {
+    //         terms: {
+    //           has: 1,
+    //         },
+    //       },
+    //     ],
+    //   },
+    // });
+    // console.log(rawCourses[0]);
+
+    const rawCourses = (await this.prisma.$queryRawUnsafe(`
       SELECT
       c.course_code AS "courseCode",
       c.archived,
@@ -242,12 +282,12 @@ export class CourseRepository {
       CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
       FROM courses c
       LEFT JOIN reviews r ON c.course_code = r.course_code
-      WHERE c.terms && ARRAY[1,2] OR
-      c.faculty ILIKE ANY(ARRAY[${facultyFilterQuery}])
+      ${filterQuery}
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC;
-      `) as any[];
+      `)) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    console.log(courses[0]);
     return courses;
   }
 }
