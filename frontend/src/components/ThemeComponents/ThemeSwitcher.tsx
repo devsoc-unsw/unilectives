@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import Tooltip from "@/components/Tooltip/Tooltip";
@@ -9,10 +10,22 @@ interface ThemeSwitcherProps {
 }
 
 export default function ThemeSwitcher({ collapsed }: ThemeSwitcherProps) {
+  const [mounted, setMounted] = useState<boolean>(false);
   const { systemTheme, theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
 
   const renderThemeChanger = () => {
     const currentTheme = theme === "system" ? systemTheme : theme;
+
+    console.log(currentTheme);
 
     const iconProps = {
       className:
