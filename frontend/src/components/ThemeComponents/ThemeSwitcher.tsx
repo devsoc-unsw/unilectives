@@ -25,8 +25,6 @@ export default function ThemeSwitcher({ collapsed }: ThemeSwitcherProps) {
   const renderThemeChanger = () => {
     const currentTheme = theme === "system" ? systemTheme : theme;
 
-    console.log(currentTheme);
-
     const iconProps = {
       className:
         "w-12 h-12 p-3 rounded-xl cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800",
