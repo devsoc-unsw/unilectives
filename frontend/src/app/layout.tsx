@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { AlertProvider } from "@/lib/snackbar-context";
 import Navbar from "@/components/Navbar/Navbar";
+import ThemeProvider from "@/components/ThemeComponents/ThemeProvider";
 
 export default async function RootLayout({
   children,
@@ -13,13 +14,17 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en" className="font-custom">
+    <html lang='en' className='font-custom'>
       <body>
         <Provider session={session}>
-          <AlertProvider>
-            <Navbar userZid={session?.user?.id} />
-            <div className="ml-20 xs:ml-15">{children}</div>
-          </AlertProvider>
+          <ThemeProvider>
+            <AlertProvider>
+              <Navbar userZid={session?.user?.id} />
+              <div className='ml-20 xs:ml-15 bg-white dark:bg-slate-800 dark:text-gray-200 h-screen overflow-y-scroll duration-150'>
+                {children}
+              </div>
+            </AlertProvider>
+          </ThemeProvider>
         </Provider>
       </body>
     </html>

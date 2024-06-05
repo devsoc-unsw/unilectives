@@ -88,57 +88,57 @@ export default function ReviewCard({
   };
 
   return (
-    <div className="px-10 py-5 space-y-2 shadow-review-card rounded-md bg-white isolate">
+    <div className='px-10 py-5 space-y-2 shadow-review-card rounded-md bg-white dark:bg-slate-800 dark:shadow-slate-700/90 duration-150 isolate'>
       {/* Title + Date */}
-      <div className="flex items-center gap-2 flex-wrap justify-between">
-        <h2 className="font-bold">{review.title ? review.title : "-"}</h2>
+      <div className='flex items-center gap-2 flex-wrap justify-between'>
+        <h2 className='font-bold'>{review.title ? review.title : "-"}</h2>
         <p>{format(new Date(review.createdTimestamp), "dd/MM/yyyy")}</p>
       </div>
       {/* Rating + Author */}
-      <div className="flex items-center gap-2 flex-wrap justify-between">
+      <div className='flex items-center gap-2 flex-wrap justify-between'>
         <div>
           Overall:{" "}
           <Rating
-            color="purple"
-            type="star"
+            color='purple'
+            type='star'
             overallRating={review.overallRating}
           />
         </div>
-        <p className="text-unilectives-subheadings">{review.authorName}</p>
+        <p className='text-unilectives-subheadings'>{review.authorName}</p>
       </div>
       {/* Term taken + Grade */}
-      <div className="flex items-center gap-2 flex-wrap justify-between">
+      <div className='flex items-center gap-2 flex-wrap justify-between'>
         <p>Term taken: {review.termTaken}</p>
-        <p className="text-unilectives-subheadings">
+        <p className='text-unilectives-subheadings'>
           Grade: {!review.grade ? "-" : review.grade}
         </p>
       </div>
       {/* Circle rating */}
-      <div className="flex flex-wrap gap-2 justify-around">
+      <div className='flex flex-wrap gap-2 justify-around'>
         {/* Enjoyability */}
-        <div className="flex flex-col items-center">
-          <p className="font-bold text-center">Enjoyment</p>
+        <div className='flex flex-col items-center'>
+          <p className='font-bold text-center'>Enjoyment</p>
           <Rating
-            color="blue"
-            type="circle"
+            color='blue'
+            type='circle'
             overallRating={review.enjoyability}
           />
         </div>
         {/* Usefulness */}
-        <div className="flex flex-col items-center">
-          <p className="font-bold text-center">Usefulness</p>
+        <div className='flex flex-col items-center'>
+          <p className='font-bold text-center'>Usefulness</p>
           <Rating
-            color="blue"
-            type="circle"
+            color='blue'
+            type='circle'
             overallRating={review.usefulness}
           />
         </div>
         {/* Manageability */}
-        <div className="flex flex-col items-center">
-          <p className="font-bold text-center">Manageability</p>
+        <div className='flex flex-col items-center'>
+          <p className='font-bold text-center'>Manageability</p>
           <Rating
-            color="blue"
-            type="circle"
+            color='blue'
+            type='circle'
             overallRating={review.manageability}
           />
         </div>
@@ -146,7 +146,7 @@ export default function ReviewCard({
       {/* Description */}
       <TruncatedDescription content={review.description} maxCharacters={500} />
       {/* Icons */}
-      <div className="flex justify-between">
+      <div className='flex justify-between'>
         {/* Upvotes */}
         <button
           className={
@@ -162,19 +162,19 @@ export default function ReviewCard({
           disabled={!session?.user?.id}
         >
           <span>{review.upvotes.length}</span>
-          <HandThumbUpIcon className="w-5 h-5" />
+          <HandThumbUpIcon className='w-5 h-5' />
         </button>
         {session?.user?.id && (
-          <div className="flex items-center gap-2">
+          <div className='flex items-center gap-2'>
             {/* Bookmark */}
             <button
-              className="hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer"
+              className='hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer'
               onClick={handleBookmark}
             >
               {bookmarked ? (
-                <BookmarkedIcon className="w-5 h-5" />
+                <BookmarkedIcon className='w-5 h-5' />
               ) : (
-                <BookmarkIcon className="w-5 h-5" />
+                <BookmarkIcon className='w-5 h-5' />
               )}
             </button>
             {/* Flag */}
