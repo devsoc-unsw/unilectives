@@ -132,10 +132,34 @@
 				}
 			}
 		},
-		"/courses": {
+    "/courses/all": {
 			"get": {
 				"tags": ["Courses"],
 				"summary": "Gets a list of all course objects",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Course"
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "An internal server error occurred"
+					}
+				}
+			}
+		},
+		"/courses": {
+			"get": {
+				"tags": ["Courses"],
+				"summary": "Gets a list of all course objects per 25 offset",
 				"responses": {
 					"200": {
 						"description": "OK",
