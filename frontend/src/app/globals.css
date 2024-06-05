@@ -7,6 +7,10 @@
     font-family: "TT Commons Pro Variable";
     src: url("../assets/TT_Commons_Pro_Variable.woff2") format("woff2");
   }
+
+  p {
+    @apply dark:text-gray-200;
+  }
 }
 
 @layer utilities {
