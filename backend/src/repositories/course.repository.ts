@@ -202,40 +202,65 @@ export class CourseRepository {
   }
 
   async filterCourse(terms: string, faculties: string): Promise<Course[]> {
-    // 0&1&2 => '0,1,2'
-    const termFilterQuery = terms.split("&");
+    // HELP the facultyFilters does not currently work
+    // if u hardcode the faculty part, the terms work
 
-    // ['arts', 'law'] => `'%arts%', '%law%'`
-    const facultyFilters = faculties.split("&");
-    const facultyFilterQuery = facultyFilters
-      .map((faculty) => `'%${faculty}%'`)
-      .join(", ");
+    // default filters (all options)
+    let termFilters = ["0", "1", "2"];
+    // let termFilters = "0,1,2";
+    let facultyFilters =
+      "'%arts%', '%business%', '%engineering%', '%law%', '%medicine%', '%science%', '%unsw canberra%'";
 
-    let filterQuery = "";
-    // only faculties are selected
-    if (terms === "_") {
-      const selectedFaculties = faculties
-        .split("&")
-        .map((faculty) => `'%${faculty}%'`)
-        .join(", ");
-      filterQuery = `WHERE c.faculty ILIKE ANY(ARRAY[${selectedFaculties}])`;
-      // only terms are selected
-    } else if (faculties === "_") {
-      const selectedTerms = terms.split("&");
-      filterQuery = `WHERE c.terms && ARRAY[${selectedTerms}]::integer[]`;
-      // both are selected
-    } else {
-      const selectedTerms = terms.split("&");
-      const selectedFaculties = faculties
-        .split("&")
-        .map((faculty) => `'%${faculty}%'`)
-        .join(", ");
-
-      filterQuery = `WHERE c.terms && ARRAY[${selectedTerms}]::integer[] AND 
-      c.faculty ILIKE ANY(ARRAY[${selectedFaculties}])`;
+    // there are selected terms
+    if (terms !== "_") {
+      // 0&1&2 =>  ["0", "1", "2"];
+      termFilters = terms.split("&");
     }
 
-    console.log("query", filterQuery);
+    console.log("terms", termFilters);
+
+    // there are selected faculties
+    if (faculties !== "_") {
+      // ['arts', 'law'] => `'%arts%', '%law%'`
+      facultyFilters = faculties
+        .split("&")
+        .map((faculty) => `'%${faculty}%'`)
+        .join(", ");
+    }
+
+    // const termFilterQuery = terms.split("&");
+
+    // ['arts', 'law'] => `'%arts%', '%law%'`
+    // const facultyFilters = faculties.split("&");
+    // const facultyFilterQuery = facultyFilters
+    //   .map((faculty) => `'%${faculty}%'`)
+    //   .join(", ");
+
+    // let filterQuery = "";
+    // // only faculties are selected
+    // if (terms === "_") {
+    //   const selectedFaculties = faculties
+    //     .split("&")
+    //     .map((faculty) => `'%${faculty}%'`)
+    //     .join(", ");
+    //   filterQuery = `WHERE c.faculty ILIKE ANY(ARRAY[${selectedFaculties}])`;
+    //   // only terms are selected
+    // } else if (faculties === "_") {
+    //   const selectedTerms = terms.split("&");
+    //   filterQuery = `WHERE c.terms && ARRAY[${selectedTerms}]::integer[]`;
+    //   // both are selected
+    // } else {
+    //   const selectedTerms = terms.split("&");
+    //   const selectedFaculties = faculties
+    //     .split("&")
+    //     .map((faculty) => `'%${faculty}%'`)
+    //     .join(", ");
+
+    //   filterQuery = `WHERE c.terms && ARRAY[${selectedTerms}]::integer[] AND
+    //   c.faculty ILIKE ANY(ARRAY[${selectedFaculties}])`;
+    // }
+
+    // console.log("query", filterQuery);
 
     // const rawCourses = await this.prisma.courses.findMany({
     //   where: {
@@ -255,7 +280,7 @@ export class CourseRepository {
     // });
     // console.log(rawCourses[0]);
 
-    const rawCourses = (await this.prisma.$queryRawUnsafe(`
+    const rawCourses = (await this.prisma.$queryRaw`
       SELECT
       c.course_code AS "courseCode",
       c.archived,
@@ -282,10 +307,11 @@ export class CourseRepository {
       CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
       FROM courses c
       LEFT JOIN reviews r ON c.course_code = r.course_code
-      ${filterQuery}
+      WHERE c.terms && ARRAY[${termFilters}]::integer[] AND 
+      c.faculty ILIKE ANY(ARRAY[${facultyFilters}])
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC;
-      `)) as any[];
+      `) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
     console.log(courses[0]);
     return courses;
