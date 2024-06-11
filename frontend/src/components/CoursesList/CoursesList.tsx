@@ -18,7 +18,7 @@ export default function CoursesList({
   const courseFinishedRef = useRef(false);
   const indexRef = useRef(initialCourses.length);
   const searchCoursesRef = useRef<Course[]>([]);
-  const filterCoursesRef = useRef<Course[]>([]);
+  const filteredCoursesRef = useRef<Course[]>([]);
 
   const [displayCourses, setDisplayCourses] =
     useState<Course[]>(initialCourses);
@@ -40,8 +40,8 @@ export default function CoursesList({
         filters.faculties.length !== 0 ||
         filters.terms.length !== 0
       ) {
-        // searched + filtered courses
-        fetchedCourses = filterCoursesRef.current.slice(index, index + 25);
+        // filtered courses based on search + filter (if any)
+        fetchedCourses = filteredCoursesRef.current.slice(index, index + 25);
       } else {
         // default courses
         try {
@@ -75,12 +75,6 @@ export default function CoursesList({
 
   // filters courses based on search + selected filters
   const getFilterResults = async () => {
-    // if no filters then just get courses
-
-    // if no terms/faculties
-    // if (filters.terms.length === 0) {
-
-    // }
     let terms = filters.terms.join("&");
     let faculties = filters.faculties.join("&");
 
@@ -102,40 +96,23 @@ export default function CoursesList({
       const { courses } = (await get(
         `/course/filter/${terms}/${faculties}/${searchTerm}`
       )) as Courses;
-      filterCoursesRef.current = courses;
+      filteredCoursesRef.current = courses;
       console.log(courses.slice(0, 50));
     } catch (err) {
-      filterCoursesRef.current = [];
+      filteredCoursesRef.current = [];
     }
-    setDisplayCourses(filterCoursesRef.current.slice(0, paginationOffset));
+    setDisplayCourses(filteredCoursesRef.current.slice(0, paginationOffset));
     indexRef.current += paginationOffset;
     console.log("filters", filters);
     setInitialLoading(false);
   };
 
-  // useEffect(() => {
-  //   getFilterResults();
-  // }, [searchTerm, filters]);
-
   useEffect(() => {
     const resetRefs = () => {
       courseFinishedRef.current = false;
       indexRef.current = initialCourses.length;
-      searchCoursesRef.current = [];
+      filteredCoursesRef.current = [];
     };
-    // const getSearchResults = async () => {
-    //   try {
-    //     const { courses } = (await get(
-    //       `/course/search/${searchTerm}`
-    //     )) as Courses;
-    //     searchCoursesRef.current = courses;
-    //   } catch (err) {
-    //     searchCoursesRef.current = [];
-    //   }
-    //   setDisplayCourses(searchCoursesRef.current.slice(0, paginationOffset));
-    //   indexRef.current += paginationOffset;
-    //   setInitialLoading(false);
-    // };
 
     const getInitialDisplayCourses = () => {
       if (
