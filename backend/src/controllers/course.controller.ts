@@ -88,7 +88,7 @@ export class CourseController implements IController {
         }
       )
       .get(
-        "/course/filter/:terms/:faculties",
+        "/course/filter/:terms/:faculties/:searchTerm",
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in GET /course/filter`);
           try {
@@ -98,10 +98,11 @@ export class CourseController implements IController {
             // const { options } = req.params;
             console.log("req", req.params);
             // console.log('terms', terms);
-            const { terms, faculties } = req.params;
+            const { terms, faculties, searchTerm } = req.params;
             const result = await this.courseService.filterCourse(
               terms,
-              faculties
+              faculties,
+              searchTerm
             );
             //console.log("res:", result?.courses.slice(0, 3));
             return res.status(200).json(result);

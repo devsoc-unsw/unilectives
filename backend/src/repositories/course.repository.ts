@@ -201,16 +201,33 @@ export class CourseRepository {
     return courses;
   }
 
-  async filterCourse(terms: string, faculties: string): Promise<Course[]> {
+  async filterCourse(
+    terms: string,
+    faculties: string,
+    searchTerm: string
+  ): Promise<Course[]> {
     // HELP the facultyFilters does not currently work
     // if u hardcode the faculty part, the terms work
-
+    console.log("search Param", searchTerm);
     // default filters (all options)
-    let termFilters = ["0", "1", "2"];
+    let searchQuery = `%`;
+    let termFilters = ["0", "1", "2", "3"];
     // let termFilters = "0,1,2";
-    let facultyFilters =
-      "'%arts%', '%business%', '%engineering%', '%law%', '%medicine%', '%science%', '%unsw canberra%'";
+    let facultyFilters = [
+      "%arts%",
+      "%business%",
+      "%engineering%",
+      "%law%",
+      "%medicine%",
+      "%science%",
+      "%unsw canberra%",
+    ];
 
+    if (searchTerm !== "_") {
+      searchQuery = `%${searchTerm}%`;
+    }
+
+    console.log("searchQuery:", searchQuery);
     // there are selected terms
     if (terms !== "_") {
       // 0&1&2 =>  ["0", "1", "2"];
@@ -222,11 +239,10 @@ export class CourseRepository {
     // there are selected faculties
     if (faculties !== "_") {
       // ['arts', 'law'] => `'%arts%', '%law%'`
-      facultyFilters = faculties
-        .split("&")
-        .map((faculty) => `'%${faculty}%'`)
-        .join(", ");
+      facultyFilters = faculties.split("&").map((faculty) => `%${faculty}%`);
     }
+
+    console.log("faculties", facultyFilters);
 
     // const termFilterQuery = terms.split("&");
 
@@ -307,7 +323,8 @@ export class CourseRepository {
       CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
       FROM courses c
       LEFT JOIN reviews r ON c.course_code = r.course_code
-      WHERE c.terms && ARRAY[${termFilters}]::integer[] AND 
+      WHERE (c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}) AND
+      c.terms && ARRAY[${termFilters}]::integer[] AND 
       c.faculty ILIKE ANY(ARRAY[${facultyFilters}])
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC;

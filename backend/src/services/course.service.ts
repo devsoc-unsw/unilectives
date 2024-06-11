@@ -90,7 +90,8 @@ export class CourseService {
 
   async filterCourse(
     terms: string,
-    faculties: string
+    faculties: string,
+    searchTerm: string
   ): Promise<CoursesSuccessResponse | undefined> {
     // idk if this is right
     console.log("called?");
@@ -105,7 +106,11 @@ export class CourseService {
       this.logger.info(
         `Cache miss on filterCourses:${terms + "&" + faculties}`
       );
-      courses = await this.courseRepository.filterCourse(terms, faculties);
+      courses = await this.courseRepository.filterCourse(
+        terms,
+        faculties,
+        searchTerm
+      );
       // console.log("courses:", courses[1]);
       await this.redis.set(`filterCourses:${terms + "&" + faculties}`, courses);
     } else {

@@ -28,13 +28,21 @@ export default function CoursesList({
     faculties: [],
     terms: [],
   });
-  // do i need filtered courses array
   const paginationOffset = 25;
 
   const loadMore = async (index: number) => {
+    console.log("load more", filters);
     const fetchCourses = async () => {
       let fetchedCourses: Course[] = [];
-      if (searchTerm === "") {
+
+      if (
+        searchTerm !== "" ||
+        filters.faculties.length !== 0 ||
+        filters.terms.length !== 0
+      ) {
+        // searched + filtered courses
+        fetchedCourses = filterCoursesRef.current.slice(index, index + 25);
+      } else {
         // default courses
         try {
           const { courses } = (await get(
@@ -44,9 +52,6 @@ export default function CoursesList({
         } catch (err) {
           fetchedCourses = [];
         }
-      } else {
-        // searched courses
-        fetchedCourses = searchCoursesRef.current.slice(index, index + 25);
       }
 
       return fetchedCourses;
@@ -68,6 +73,7 @@ export default function CoursesList({
     setDisplayCourses((prev) => [...prev, ...courses]);
   };
 
+  // filters courses based on search + selected filters
   const getFilterResults = async () => {
     // if no filters then just get courses
 
@@ -80,29 +86,36 @@ export default function CoursesList({
 
     if (terms === "") {
       terms = "_";
-    } else if (faculties === "") {
+    }
+    if (faculties === "") {
       faculties = "_";
     }
 
-    // EXAMPLE URL: /course/filter/1&3/art%engineering
+    if (searchTerm === "") {
+      searchTerm = "_";
+    }
+
+    // EXAMPLE URL: /course/filter/1&3/art&engineering/comp
     console.log("in courses", filters);
     console.log("terms", typeof terms);
     try {
       const { courses } = (await get(
-        `/course/filter/${terms}/${faculties}`
+        `/course/filter/${terms}/${faculties}/${searchTerm}`
       )) as Courses;
       filterCoursesRef.current = courses;
-      console.log(courses.slice(0, 3));
+      console.log(courses.slice(0, 50));
     } catch (err) {
       filterCoursesRef.current = [];
     }
     setDisplayCourses(filterCoursesRef.current.slice(0, paginationOffset));
     indexRef.current += paginationOffset;
+    console.log("filters", filters);
     setInitialLoading(false);
   };
-  useEffect(() => {
-    getFilterResults();
-  }, [filters]);
+
+  // useEffect(() => {
+  //   getFilterResults();
+  // }, [searchTerm, filters]);
 
   useEffect(() => {
     const resetRefs = () => {
@@ -110,27 +123,33 @@ export default function CoursesList({
       indexRef.current = initialCourses.length;
       searchCoursesRef.current = [];
     };
-    const getSearchResults = async () => {
-      try {
-        const { courses } = (await get(
-          `/course/search/${searchTerm}`
-        )) as Courses;
-        searchCoursesRef.current = courses;
-      } catch (err) {
-        searchCoursesRef.current = [];
-      }
-      setDisplayCourses(searchCoursesRef.current.slice(0, paginationOffset));
-      indexRef.current += paginationOffset;
-      setInitialLoading(false);
-    };
+    // const getSearchResults = async () => {
+    //   try {
+    //     const { courses } = (await get(
+    //       `/course/search/${searchTerm}`
+    //     )) as Courses;
+    //     searchCoursesRef.current = courses;
+    //   } catch (err) {
+    //     searchCoursesRef.current = [];
+    //   }
+    //   setDisplayCourses(searchCoursesRef.current.slice(0, paginationOffset));
+    //   indexRef.current += paginationOffset;
+    //   setInitialLoading(false);
+    // };
+
     const getInitialDisplayCourses = () => {
-      if (searchTerm !== "") {
-        getSearchResults();
+      if (
+        searchTerm !== "" ||
+        filters.faculties.length !== 0 ||
+        filters.terms.length !== 0
+      ) {
+        getFilterResults();
       } else {
         setDisplayCourses(initialCourses.slice(0, paginationOffset));
         setInitialLoading(false);
       }
     };
+
     const loadOnScroll = () => {
       if (
         window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
@@ -146,7 +165,7 @@ export default function CoursesList({
 
     window.addEventListener("scroll", loadOnScroll);
     return () => window.removeEventListener("scroll", loadOnScroll);
-  }, [searchTerm]);
+  }, [searchTerm, filters]);
 
   return (
     <>
