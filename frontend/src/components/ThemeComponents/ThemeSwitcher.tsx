@@ -21,11 +21,8 @@ export default function ThemeSwitcher({ collapsed }: ThemeSwitcherProps) {
     return null;
   }
 
-
   const renderThemeChanger = () => {
     const currentTheme = theme === "system" ? systemTheme : theme;
-
-    console.log(currentTheme);
 
     const iconProps = {
       className:
