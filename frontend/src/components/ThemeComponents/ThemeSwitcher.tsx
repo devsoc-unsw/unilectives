@@ -11,11 +11,23 @@ interface ThemeSwitcherProps {
 
 export default function ThemeSwitcher({ collapsed }: ThemeSwitcherProps) {
   const [mounted, setMounted] = useState<boolean>(false);
-  const { systemTheme, theme, setTheme } = useTheme();
+  const { systemTheme, theme, setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (resolvedTheme === 'dark') {
+      document
+        .querySelector('meta[name="theme-color"]')!
+        .setAttribute('content', '#0B1120')
+    } else {
+      document
+        .querySelector('meta[name="theme-color"]')!
+        .setAttribute('content', '#f8fafc')
+    }
+  }, [resolvedTheme])
 
   if (!mounted) {
     return null;
