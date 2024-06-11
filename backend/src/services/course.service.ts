@@ -71,22 +71,22 @@ export class CourseService {
     return { course };
   }
 
-  async searchCourse(
-    searchTerm: string
-  ): Promise<CoursesSuccessResponse | undefined> {
-    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
+  // async searchCourse(
+  //   searchTerm: string
+  // ): Promise<CoursesSuccessResponse | undefined> {
+  //   let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
 
-    if (!courses) {
-      this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
-      courses = await this.courseRepository.searchCourse(searchTerm);
-      await this.redis.set(`searchCourses:${searchTerm}`, courses);
-    } else {
-      this.logger.info(`Cache hit on searchCourses:${searchTerm}`);
-    }
+  //   if (!courses) {
+  //     this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
+  //     courses = await this.courseRepository.searchCourse(searchTerm);
+  //     await this.redis.set(`searchCourses:${searchTerm}`, courses);
+  //   } else {
+  //     this.logger.info(`Cache hit on searchCourses:${searchTerm}`);
+  //   }
 
-    this.logger.info(`Found ${courses.length} courses.`);
-    return { courses };
-  }
+  //   this.logger.info(`Found ${courses.length} courses.`);
+  //   return { courses };
+  // }
 
   async filterCourse(
     terms: string,
