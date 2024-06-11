@@ -2,8 +2,13 @@ from bs4 import BeautifulSoup
 import json
 import requests
 
+# Get all course codes from localhost:3030/api/v1/courses/code/all
+url = "http://localhost:3030/api/v1/courses/code/all"
+response = requests.get(url)
+courses = response.json()
+
 # List of course codes. Eventually get full list of course codes.
-course_codes = ["elec2141", "comp1511", "math1081", "fake9999"]
+course_codes = courses
 url_prefix = "https://studentvip.com.au/unsw/subjects/"
 reviews = []
 

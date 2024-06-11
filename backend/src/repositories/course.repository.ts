@@ -43,6 +43,20 @@ export class CourseRepository {
     return courses;
   }
 
+  async getAllCourseCodes(): Promise<string[]> {
+    const rawCourses = await this.prisma.courses.findMany({
+      select: {
+        courseCode: true,
+      },
+    });
+
+    const courses = rawCourses.map((course) =>
+      CourseCodeSchema.parse(course.courseCode),
+    );
+
+    return courses;
+  }
+
   async getCoursesFromOffset(offset: number): Promise<Course[]> {
     const courses = (await this.prisma.$queryRaw`
     SELECT
