@@ -9,7 +9,14 @@ type Props = {
   children: string | React.ReactNode;
 };
 
-export default function ThemeProviderComponent({ children }: Props) {
+/**
+ * Component that provides a theme to its child components.
+ *
+ * @param {Props} props - The component props.
+ * @param {React.ReactNode} props.children - The child components to be wrapped by the theme provider.
+ * @returns {JSX.Element | null} - If page is mounted then show the page otherwise it will make browser show no content.
+ */
+export default function ThemeProviderComponent({ children }: Props): JSX.Element | null {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

@@ -5,22 +5,44 @@ import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import Tooltip from "@/components/Tooltip/Tooltip";
 
-interface ThemeSwitcherProps {
-  collapsed: boolean;
-}
+/**
+ * Renders a theme switcher component.
+ *
+ * @param {object} props - The component props.
+ * @param {boolean} props.collapsed - Indicates whether the theme switcher is collapsed.
+ * @returns {JSX.Element | null} The rendered theme switcher component or null if not mounted.
+ */
 
-export default function ThemeSwitcher({ collapsed }: ThemeSwitcherProps) {
+export default function ThemeSwitcher({ collapsed }: { collapsed: boolean }): JSX.Element | null {
   const [mounted, setMounted] = useState<boolean>(false);
-  const { systemTheme, theme, setTheme } = useTheme();
+  const { systemTheme, theme, setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (resolvedTheme === 'dark') {
+      // Change theme-color meta tag to slate-800 color when dark mode
+      document
+        .querySelector('meta[name="theme-color"]')!
+        .setAttribute('content', '#1e293b')
+    } else {
+      // Change theme-color meta tag to white when light mode
+      document
+        .querySelector('meta[name="theme-color"]')!
+        .setAttribute('content', '#ffffff')
+    }
+  }, [resolvedTheme])
+
   if (!mounted) {
     return null;
   }
 
+  /**
+   * Renders the theme changer component based on the current theme.
+   * @returns The rendered theme changer component.
+   */
   const renderThemeChanger = () => {
     const currentTheme = theme === "system" ? systemTheme : theme;
 
