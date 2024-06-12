@@ -30,7 +30,7 @@ export default async function UserPage({
   const { user } = await validatedReq(
     "GET",
     `/user/${params.zid}`,
-    "",
+    session?.user?.accessToken ?? "",
     params.zid
   );
 
