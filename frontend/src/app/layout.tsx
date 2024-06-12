@@ -5,7 +5,6 @@ import { authOptions } from "@/lib/auth";
 import { AlertProvider } from "@/lib/snackbar-context";
 import Navbar from "@/components/Navbar/Navbar";
 import ThemeProviderComponent from "@/components/ThemeComponents/ThemeProvider";
-import Head from "next/head";
 
 export default async function RootLayout({
   children,
@@ -17,8 +16,10 @@ export default async function RootLayout({
   return (
     <html lang='en' className='font-custom '>
       <head>
-        <meta name="msapplication-TileColor" content="#38bdf8" />
+        {/* Only used in Safari - Change Navbar to slate-800 colors when dark mode */}
         <meta name="theme-color" content="#ffffff" />
+        {/* Fetch theme of user before page is loaded in order to avoid flashing in safari.
+         also sets theme-color meta tag to the appropriate color */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
