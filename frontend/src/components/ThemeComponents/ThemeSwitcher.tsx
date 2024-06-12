@@ -21,11 +21,11 @@ export default function ThemeSwitcher({ collapsed }: ThemeSwitcherProps) {
     if (resolvedTheme === 'dark') {
       document
         .querySelector('meta[name="theme-color"]')!
-        .setAttribute('content', '#0B1120')
+        .setAttribute('content', '#1e293b')
     } else {
       document
         .querySelector('meta[name="theme-color"]')!
-        .setAttribute('content', '#f8fafc')
+        .setAttribute('content', '#ffffff')
     }
   }, [resolvedTheme])
 
