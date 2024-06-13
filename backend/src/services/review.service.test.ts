@@ -7,6 +7,7 @@ import {
   getReviewEntity,
   getMockReviews,
   getMockCOMP2521Reviews,
+  getMockReview,
 } from "../utils/testData";
 import {
   BookmarkReview,
@@ -104,8 +105,10 @@ describe("ReviewService", () => {
       };
 
       reviewRepository.getReview = jest.fn().mockReturnValue(reviewEntity);
-      reviewRepository.getCourseReviews= jest.fn().mockReturnValue([reviewEntity]);
-      redis.set= jest.fn().mockReturnValue("ok");
+      reviewRepository.getCourseReviews = jest
+        .fn()
+        .mockReturnValue([reviewEntity]);
+      redis.set = jest.fn().mockReturnValue("ok");
       reviewRepository.update = jest.fn().mockReturnValue(reviewEntity);
 
       expect(
@@ -199,6 +202,28 @@ describe("ReviewService", () => {
       expect(service.bookmarkReview(request)).resolves.toEqual({
         review: reviews[0],
       });
+    });
+  });
+
+  describe("getMostLikedReview", () => {
+    it("should throw HTTP 500 error if no reviews in database", () => {
+      const service = reviewService();
+      reviewRepository.getMostLikedReview = jest
+        .fn()
+        .mockReturnValue(undefined);
+
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getMostLikedReview()).rejects.toThrow(errorResult);
+    });
+
+    it("should retrieve the reviewId for the review with the most votes", async () => {
+      const service = reviewService();
+      const reviews = getMockReviews();
+      const { reviewId } = reviews[1];
+      reviewRepository.getMostLikedReview = jest
+        .fn()
+        .mockResolvedValue({ reviewId });
+      expect(await service.getMostLikedReview()).toEqual({ reviewId });
     });
   });
 });
