@@ -7,7 +7,6 @@ import {
   getReviewEntity,
   getMockReviews,
   getMockCOMP2521Reviews,
-  getMockReview,
 } from "../utils/testData";
 import {
   BookmarkReview,
