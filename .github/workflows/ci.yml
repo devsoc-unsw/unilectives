@@ -39,3 +39,16 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
+  migration-ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./migration
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build

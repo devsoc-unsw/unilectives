@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint -c .eslintrc.js \"src/**/*.{js,ts,tsx}\" --quiet --fix",
+    "format": "prettier '**/*.ts' --write",
     "build": "tsc",
     "start": "npx prisma migrate deploy && node dist/src/index.js",
     "dev": "NODE_ENV=dev tsx src/index.ts",
