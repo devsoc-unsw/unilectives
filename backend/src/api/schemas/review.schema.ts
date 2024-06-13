@@ -118,3 +118,6 @@ const ReviewsSuccessResponseSchema = z
 export type ReviewsSuccessResponse = z.infer<
   typeof ReviewsSuccessResponseSchema
 >;
+
+export const ReviewIdSchema = z.object({ reviewId: z.string() }).strict();
+export type ReviewId = z.infer<typeof ReviewIdSchema>;
