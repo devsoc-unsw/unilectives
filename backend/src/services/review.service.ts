@@ -231,19 +231,19 @@ export class ReviewService {
   }
 
   async getMostLikedReview(): Promise<ReviewId | undefined> {
-    const { reviewId } = await this.reviewRepository.getMostLikedReview();
+    const review = await this.reviewRepository.getMostLikedReview();
 
-    if (!reviewId) {
+    if (!review) {
       this.logger.error(`Could not find review with the most likes`);
       throw new HTTPError(badRequest);
     }
 
     this.logger.info(
-      `Sucessfully found review with reviewId ${reviewId} which contains the most votes`,
+      `Sucessfully found review with reviewId ${review.reviewId} which contains the most votes`,
     );
 
     return {
-      reviewId,
+      reviewId: review.reviewId,
     };
   }
 }
