@@ -110,7 +110,7 @@ export default function CoursesList({
     <>
       {/* SortDropdown Bar */}
       <SortDropdown selected={selected} setSelected={setSelected} />
-      <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
+      <div className='grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center'>
         {sortCourses(displayCourses, selected).map(
           (c: Course, index: number) => (
             <a href={`/course/${c.courseCode}`} key={index}>
@@ -125,9 +125,9 @@ export default function CoursesList({
           ),
         )}
         {!initialLoading ? (
-          <p className="text-center opacity-50">No more courses</p>
+          <p className='text-center opacity-50'>No more courses</p>
         ) : (
-          <p className="text-center opacity-50">Loading courses...</p>
+          <p className='text-center opacity-50'>Loading courses...</p>
         )}
       </div>
     </>
