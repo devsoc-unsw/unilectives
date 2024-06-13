@@ -24,25 +24,23 @@ export default class MigrationRepository {
   }
 
   async getReviews(): Promise<IReview[]> {
-    const reviews: any = await this.manager.query(`
-    select * from unilectives.reviews
-    `);
-    return reviews.map((r: any) => ({
-      reviewId: r.review_id,
+    const reviews = await this.manager.getRepository(ReviewEntity).find();
+    return reviews.map((r: ReviewEntity) => ({
+      reviewId: r.reviewId,
       zid: r.zid,
-      courseCode: r.course_code,
-      authorName: r.author_name,
+      courseCode: r.courseCode,
+      authorName: r.authorName,
       title: r.title,
       description: r.description,
-      grade: r.grade,
-      termTaken: r.term_taken,
-      createdTimestamp: r.created_timestamp,
-      updatedTimestamp: r.updated_timestamp,
+      grade: r.grade ? r.grade.toString() : null,
+      termTaken: r.termTaken,
+      createdTimestamp: r.createdTimestamp.toString(),
+      updatedTimestamp: r.updatedTimestamp.toString(),
       upvotes: r.upvotes,
       manageability: r.manageability,
       usefulness: r.usefulness,
       enjoyability: r.enjoyability,
-      overallRating: r.overall_rating,
+      overallRating: r.overallRating,
     }));
   }
 
