@@ -1,11 +1,11 @@
-'use client';
-import React from 'react';
-import Dropdown from '../Dropdown/Dropdown';
-import { useState } from 'react';
-import { Dialog } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
-import { Course } from '@/types/api';
+"use client";
+import React from "react";
+import Dropdown from "../Dropdown/Dropdown";
+import { useState } from "react";
+import { Dialog } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
+import { Course } from "@/types/api";
 
 // TODO: fix the setOpen type
 export default function FilterModal({
@@ -16,16 +16,16 @@ export default function FilterModal({
   setFilters: any;
 }) {
   const faculties = [
-    'Arts',
-    'Business',
-    'Engineering',
-    'Law',
-    'Medicine',
-    'Science',
-    'UNSW Canberra',
+    "Arts",
+    "Business",
+    "Engineering",
+    "Law",
+    "Medicine",
+    "Science",
+    "UNSW Canberra",
   ];
 
-  const terms = ['Summer', 'Term 1', 'Term 2', 'Term 3', 'N/A'];
+  const terms = ["Summer", "Term 1", "Term 2", "Term 3", "N/A"];
 
   const [facultiesCheckedState, setFacultiesCheckedState] = useState(
     new Array(faculties.length).fill(false)
@@ -56,7 +56,11 @@ export default function FilterModal({
 
     faculties.map((faculty, index) => {
       if (facultiesCheckedState[index]) {
-        selectedFaculties.push(faculty);
+        if (faculty === "UNSW Canberra") {
+          selectedFaculties.push("UNSW_Canberra");
+        } else {
+          selectedFaculties.push(faculty);
+        }
       }
     });
 
@@ -74,12 +78,12 @@ export default function FilterModal({
   };
 
   const handleTagOnClick = (type: string, position: number) => {
-    if (type === 'faculty') {
+    if (type === "faculty") {
       const updatedCheckedState = facultiesCheckedState.map((item, index) =>
         index === position ? !item : item
       );
       setFacultiesCheckedState(updatedCheckedState);
-    } else if (type === 'term') {
+    } else if (type === "term") {
       const updatedCheckedState = termsCheckedState.map((item, index) =>
         index === position ? !item : item
       );
@@ -131,11 +135,11 @@ export default function FilterModal({
                   <div
                     key={`faculty-${index}`}
                     id={`faculty-label-${index}`}
-                    onClick={() => handleTagOnClick('faculty', index)}
+                    onClick={() => handleTagOnClick("faculty", index)}
                     className={`${
                       facultiesCheckedState[index]
-                        ? 'bg-unilectives-indigo text-white font-medium'
-                        : ' text-unilectives-indigo font-medium'
+                        ? "bg-unilectives-indigo text-white font-medium"
+                        : " text-unilectives-indigo font-medium"
                     } ' w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px]  border-unilectives-indigo '`}
                   >
                     {faculty}
@@ -153,11 +157,11 @@ export default function FilterModal({
                   <div
                     key={`term-${index}`}
                     id={`term-label-${index}`}
-                    onClick={() => handleTagOnClick('term', index)}
+                    onClick={() => handleTagOnClick("term", index)}
                     className={`${
                       termsCheckedState[index]
-                        ? 'bg-unilectives-indigo text-white font-medium'
-                        : ' text-unilectives-indigo font-medium'
+                        ? "bg-unilectives-indigo text-white font-medium"
+                        : " text-unilectives-indigo font-medium"
                     } ' w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px] border-unilectives-indigo '`}
                   >
                     {term}

@@ -240,8 +240,13 @@ export class CourseRepository {
     if (faculties !== "_") {
       // ['arts', 'law'] => `'%arts%', '%law%'`
       facultyFilters = faculties.split("&").map((faculty) => `%${faculty}%`);
+      const index = facultyFilters.indexOf("%UNSW_Canberra%");
+      if (index !== -1) {
+        facultyFilters[index] = "%unsw canberra%";
+      }
     }
 
+    //fix canberra
     console.log("faculties", facultyFilters);
 
     // const termFilterQuery = terms.split("&");
