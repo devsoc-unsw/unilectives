@@ -353,4 +353,36 @@ export class CourseRepository {
 
     return courses;
   }
+
+  async getHighestEnjoyability(): Promise<Course | null> {
+    const rawCourse = (await this.prisma.$queryRaw`
+    SELECT
+    c.course_code AS "courseCode",
+    c.archived,
+    c.attributes,
+    c.calendar,
+    c.campus,
+    c.description,
+    c.enrolment_rules AS "enrolmentRules",
+    c.equivalents,
+    c.exclusions,
+    c.faculty,
+    c.field_of_education AS "fieldOfEducation",
+    c.gen_ed AS "genEd",
+    c.level,
+    c.school,
+    c.study_level AS "studyLevel",
+    c.terms,
+    c.title,
+    c.uoc,
+    AVG(r.enjoyability) AS "enjoyability",
+    FROM courses c
+    LEFT JOIN reviews r ON c.course_code = r.course_code
+    GROUP BY c.course_code
+    ORDER BY "enjoyability" DESC
+    LIMIT 1;
+    `) as any[];
+    const course = CourseSchema.parse(rawCourse[0]);
+    return course;
+  }
 }
