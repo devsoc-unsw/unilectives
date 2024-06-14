@@ -13,6 +13,7 @@ import {
   CourseBody,
   CoursesSuccessResponse,
 } from "../api/schemas/course.schema";
+import { coerce } from "zod";
 
 export class CourseService {
   private logger = getLogger();
@@ -131,7 +132,24 @@ export class CourseService {
   }
 
   async getHighestEnjoyability() {
-    return { courseId: "COMP1511" };
+    const cachedCourse = await this.redis.get<Course>(
+      `course:highestEnjoyability`,
+    );
+    let course: Course | null;
+
+    if (!cachedCourse) {
+      this.logger.info(`Cache miss on course:highestEnjoyability`);
+      course = await this.courseRepository.getHighestEnjoyability();
+      if (!course) {
+        this.logger.error(`Could not find highest enjoyability course`);
+        throw new HTTPError(badRequest);
+      }
+      await this.redis.set(`course:highestEnjoyability`, course);
+    } else {
+      this.logger.info(`Cache hit on course:highestEnjoyability`);
+      course = cachedCourse;
+    }
+    return { courseCode: course.courseCode };
   }
 
   async flushKey(zid: string, key: string) {
