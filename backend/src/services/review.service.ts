@@ -8,6 +8,7 @@ import {
   BookmarkReview,
   PostReviewRequestBody,
   PutReviewRequestBody,
+  Review,
   ReviewId,
   ReviewsSuccessResponse,
   ReviewSuccessResponse,
@@ -230,12 +231,22 @@ export class ReviewService {
     };
   }
 
-  async getMostLikedReview(): Promise<ReviewId | undefined> {
-    const review = await this.reviewRepository.getMostLikedReview();
+  async getMostLiked(): Promise<ReviewId | undefined> {
+    const cachedReview = await this.redis.get<Review>(`review:mostLiked`);
+    let review: Review | null;
 
-    if (!review) {
-      this.logger.error(`Could not find review with the most likes`);
-      throw new HTTPError(badRequest);
+    if (!cachedReview) {
+      this.logger.info(`Cache miss on review:mostLiked`);
+      review = await this.reviewRepository.getMostLiked();
+      await this.redis.set(`review:mostLiked`, review);
+
+      if (!review) {
+        this.logger.error(`Could not find review with the most likes`);
+        throw new HTTPError(badRequest);
+      }
+    } else {
+      this.logger.info(`Cache hit on review:mostLiked`);
+      review = cachedReview;
     }
 
     this.logger.info(
