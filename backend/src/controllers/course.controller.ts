@@ -95,22 +95,14 @@ export class CourseController implements IController {
           async (req: Request, res: Response, next: NextFunction) => {
             this.logger.debug(`Received request in GET /course/filter`);
             try {
-              // console.log(req.query);
-              console.log("called");
-              // const terms = req.params.terms.split('&');
-              // const { options } = req.params;
-              console.log("req", req.params);
-              // console.log('terms', terms);
               const { terms, faculties, searchTerm } = req.params;
               const result = await this.courseService.filterCourse(
                 terms,
                 faculties,
                 searchTerm
               );
-              //console.log("res:", result?.courses.slice(0, 3));
               return res.status(200).json(result);
             } catch (err: any) {
-              console.log("lol error");
               this.logger.warn(
                 `An error occurred when trying to GET /course/filter ${formatError(
                   err

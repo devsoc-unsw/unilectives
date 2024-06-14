@@ -196,8 +196,6 @@ export class CourseRepository {
         c.course_code;
       `) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
-    console.log("SDKJF");
-    console.log(courses);
     return courses;
   }
 
@@ -206,13 +204,9 @@ export class CourseRepository {
     faculties: string,
     searchTerm: string
   ): Promise<Course[]> {
-    // HELP the facultyFilters does not currently work
-    // if u hardcode the faculty part, the terms work
-    console.log("search Param", searchTerm);
     // default filters (all options)
     let searchQuery = `%`;
     let termFilters = ["0", "1", "2", "3", "-1", "-2"];
-    // let termFilters = "0,1,2";
     let facultyFilters = [
       "%arts%",
       "%business%",
@@ -227,14 +221,11 @@ export class CourseRepository {
       searchQuery = `%${searchTerm}%`;
     }
 
-    console.log("searchQuery:", searchQuery);
     // there are selected terms
     if (terms !== "_") {
       // 0&1&2 =>  ["0", "1", "2"];
       termFilters = terms.split("&");
     }
-
-    console.log("terms", termFilters);
 
     // there are selected faculties
     if (faculties !== "_") {
@@ -245,61 +236,6 @@ export class CourseRepository {
         facultyFilters[index] = "%unsw canberra%";
       }
     }
-
-    //fix canberra
-    console.log("faculties", facultyFilters);
-
-    // const termFilterQuery = terms.split("&");
-
-    // ['arts', 'law'] => `'%arts%', '%law%'`
-    // const facultyFilters = faculties.split("&");
-    // const facultyFilterQuery = facultyFilters
-    //   .map((faculty) => `'%${faculty}%'`)
-    //   .join(", ");
-
-    // let filterQuery = "";
-    // // only faculties are selected
-    // if (terms === "_") {
-    //   const selectedFaculties = faculties
-    //     .split("&")
-    //     .map((faculty) => `'%${faculty}%'`)
-    //     .join(", ");
-    //   filterQuery = `WHERE c.faculty ILIKE ANY(ARRAY[${selectedFaculties}])`;
-    //   // only terms are selected
-    // } else if (faculties === "_") {
-    //   const selectedTerms = terms.split("&");
-    //   filterQuery = `WHERE c.terms && ARRAY[${selectedTerms}]::integer[]`;
-    //   // both are selected
-    // } else {
-    //   const selectedTerms = terms.split("&");
-    //   const selectedFaculties = faculties
-    //     .split("&")
-    //     .map((faculty) => `'%${faculty}%'`)
-    //     .join(", ");
-
-    //   filterQuery = `WHERE c.terms && ARRAY[${selectedTerms}]::integer[] AND
-    //   c.faculty ILIKE ANY(ARRAY[${selectedFaculties}])`;
-    // }
-
-    // console.log("query", filterQuery);
-
-    // const rawCourses = await this.prisma.courses.findMany({
-    //   where: {
-    //     AND: [
-    //       {
-    //         faculty: {
-    //           contains: "Business",
-    //         },
-    //       },
-    //       {
-    //         terms: {
-    //           has: 1,
-    //         },
-    //       },
-    //     ],
-    //   },
-    // });
-    // console.log(rawCourses[0]);
 
     const rawCourses = (await this.prisma.$queryRaw`
       SELECT
@@ -335,7 +271,6 @@ export class CourseRepository {
       ORDER BY "reviewCount" DESC;
       `) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
-    console.log(courses[0]);
     return courses;
   }
 }

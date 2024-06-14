@@ -93,16 +93,10 @@ export class CourseService {
     faculties: string,
     searchTerm: string
   ): Promise<CoursesSuccessResponse | undefined> {
-    // idk if this is right
-    console.log("called?");
-    this.logger.info("help filter");
     let courses = await this.redis.get<Course[]>(
       `filterCourses:${terms}&${faculties}&${searchTerm}`
     );
-    this.logger.info("banana");
-    //this.logger.info(courses);
-    // let courses: any = [];
-    if (true) {
+    if (!courses) {
       this.logger.info(
         `Cache miss on filterCourses:${terms}&${faculties}&${searchTerm}`
       );
@@ -111,7 +105,6 @@ export class CourseService {
         faculties,
         searchTerm
       );
-      // console.log("courses:", courses[1]);
       await this.redis.set(
         `filterCourses:${terms}&${faculties}&${searchTerm}`,
         courses

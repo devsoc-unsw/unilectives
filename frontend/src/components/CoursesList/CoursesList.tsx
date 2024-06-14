@@ -31,7 +31,6 @@ export default function CoursesList({
   const paginationOffset = 25;
 
   const loadMore = async (index: number) => {
-    console.log("load more", filters);
     const fetchCourses = async () => {
       let fetchedCourses: Course[] = [];
 
@@ -91,20 +90,16 @@ export default function CoursesList({
     }
 
     // EXAMPLE URL: /course/filter/1&3/art&engineering/comp
-    console.log("in courses", filters);
-    console.log("terms", typeof terms);
     try {
       const { courses } = (await get(
         `/course/filter/${terms}/${faculties}/${searchTerm}`
       )) as Courses;
       filteredCoursesRef.current = courses;
-      console.log(courses.slice(0, 50));
     } catch (err) {
       filteredCoursesRef.current = [];
     }
     setDisplayCourses(filteredCoursesRef.current.slice(0, paginationOffset));
     indexRef.current += paginationOffset;
-    console.log("filters", filters);
     setInitialLoading(false);
   };
 
