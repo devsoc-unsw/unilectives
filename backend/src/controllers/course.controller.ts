@@ -16,6 +16,24 @@ export class CourseController implements IController {
   setupRoutes(): Router {
     return Router()
       .get(
+        "/courses/all",
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(`Received request in GET /courses/all`);
+          try {
+            const allCourses = await this.courseService.getCourses();
+            this.logger.info(`Responding to client in GET /courses/all`);
+            return res.status(200).json(allCourses);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /courses/all ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
         "/courses",
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in GET /courses`);

@@ -146,53 +146,53 @@ export default function ReviewModal({
   return (
     <>
       {/* Modal */}
-      <div className="isolate">
+      <div className='isolate'>
         {/* Add Review button */}
         <button
           onClick={openModal}
-          className="flex items-center gap-1 px-4 py-2 bg-unilectives-icon text-white rounded-md hover:bg-unilectives-icon/95"
+          className='flex items-center gap-1 px-4 py-2 bg-unilectives-icon dark:bg-unilectives-icon/85 dark:hover:bg-unilectives-icon/80 text-white rounded-md hover:bg-unilectives-icon/95'
         >
-          <PencilSquareIcon className="h-4 w-4" />
+          <PencilSquareIcon className='h-4 w-4' />
           Add a review
         </button>
 
         <Transition appear show={isOpen} as={Fragment}>
-          <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Dialog as='div' className='relative z-10' onClose={closeModal}>
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
+              enter='ease-out duration-300'
+              enterFrom='opacity-0'
+              enterTo='opacity-100'
+              leave='ease-in duration-200'
+              leaveFrom='opacity-100'
+              leaveTo='opacity-0'
             >
               {/* Dark background behind modal */}
-              <div className="ml-[80px] fixed inset-0 bg-black/25" />
+              <div className='ml-[80px] fixed inset-0 bg-black/25' />
             </Transition.Child>
 
-            <div className="ml-[80px] fixed inset-0 overflow-y-auto">
-              <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className='ml-[80px] fixed inset-0 overflow-y-auto '>
+              <div className='flex min-h-full items-center justify-center p-4 text-center'>
                 <Transition.Child
                   as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 scale-95"
-                  enterTo="opacity-100 scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-95"
+                  enter='ease-out duration-300'
+                  enterFrom='opacity-0 scale-95'
+                  enterTo='opacity-100 scale-100'
+                  leave='ease-in duration-200'
+                  leaveFrom='opacity-100 scale-100'
+                  leaveTo='opacity-0 scale-95'
                 >
-                  <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal px-12 py-8 space-y-5 isolate">
+                  <Dialog.Panel className='w-full max-w-5xl transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all bg-unilectives-modal dark:bg-gray-700 px-12 py-8 space-y-5 isolate'>
                     {/* Modal title + close button */}
-                    <div className="flex justify-between items-center">
-                      <Dialog.Title as="h2" className="text-2xl font-bold">
+                    <div className='flex justify-between items-center'>
+                      <Dialog.Title as='h2' className='text-2xl font-bold'>
                         Submit a Review
                       </Dialog.Title>
                       <button onClick={closeModal}>
-                        <XMarkIcon className="w-6 h-6" />
+                        <XMarkIcon className='w-6 h-6' />
                       </button>
                     </div>
-                    <hr className="border-black/25" />
+                    <hr className='border-black/25' />
                     {/* Description */}
                     <p>
                       Please write your review below: make sure you read the
@@ -203,23 +203,23 @@ export default function ReviewModal({
                       an elective.
                     </p>
                     {/* Inputs */}
-                    <div className="flex md:flex-col gap-x-2 gap-y-5 z-10">
+                    <div className='flex md:flex-col gap-x-2 gap-y-5 z-10'>
                       <form
-                        name="submit-review"
-                        id="submit-review"
-                        className="space-y-5 w-full flex flex-col"
+                        name='submit-review'
+                        id='submit-review'
+                        className='space-y-5 w-full flex flex-col'
                         onSubmit={handleOnSubmit}
                       >
                         <input
-                          type="text"
-                          name="reviewTitle"
-                          title="Title"
-                          placeholder="Title"
-                          className="py-2 px-4 w-full border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input"
+                          type='text'
+                          name='reviewTitle'
+                          title='Title'
+                          placeholder='Title'
+                          className='py-2 px-4 w-full border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input'
                         />
                         <textarea
-                          name="reviewDescription"
-                          title="Description"
+                          name='reviewDescription'
+                          title='Description'
                           placeholder={
                             "Feel free to discuss:\n" +
                             "- Experience with the assessments, labs, final exams\n" +
@@ -228,10 +228,10 @@ export default function ReviewModal({
                             "- Overall enjoyability / interesting topics you found\n" +
                             "- How strongly you recommend it as an elective."
                           }
-                          className="py-2 px-4 w-full h-full md:h-96 border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input resize-none"
+                          className='py-2 px-4 w-full h-full md:h-96 border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input resize-none'
                         />
                       </form>
-                      <div className="flex flex-col items-center justify-around gap-y-5 px-12 lg:px-4 md:px-0 md:items-start text-center md:text-left z-10">
+                      <div className='flex flex-col items-center justify-around gap-y-5 px-12 lg:px-4 md:px-0 md:items-start text-center md:text-left z-10'>
                         {/* overallRating + enjoyability + usefulness + manageability */}
                         {[
                           {
@@ -288,23 +288,23 @@ export default function ReviewModal({
                             index: number
                           ) => {
                             return (
-                              <div className="space-y-2 text-3xl" key={index}>
+                              <div className='space-y-2 text-3xl' key={index}>
                                 <h2 className="text-lg font-bold after:content-['*'] after:text-red-500">
                                   {item.title}
                                 </h2>
                                 {item.title === "Overall Rating" ? (
                                   <ReviewRatingInput
-                                    color="purple"
+                                    color='purple'
                                     onChange={item.onChange}
                                     defaultValue={item.defaultValue}
-                                    type="star"
+                                    type='star'
                                   />
                                 ) : (
                                   <ReviewRatingInput
-                                    color="blue"
+                                    color='blue'
                                     onChange={item.onChange}
                                     defaultValue={item.defaultValue}
-                                    type="circle"
+                                    type='circle'
                                   />
                                 )}
                               </div>
@@ -315,40 +315,40 @@ export default function ReviewModal({
                         <div>
                           <h2>
                             <label
-                              htmlFor="modal-grade"
-                              className="text-lg font-bold"
+                              htmlFor='modal-grade'
+                              className='text-lg font-bold'
                             >
                               Grade
                             </label>
                           </h2>
                           <input
-                            name="reviewGrade"
-                            type="number"
+                            name='reviewGrade'
+                            type='number'
                             min={0}
                             max={100}
-                            form="submit-review"
-                            placeholder="Grade"
-                            className="py-2 px-2 border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input"
+                            form='submit-review'
+                            placeholder='Grade'
+                            className='py-2 px-2 border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input'
                           />
                         </div>
                         {/* Course Completion */}
-                        <div className="w-[270px] md:w-full space-y-2">
+                        <div className='w-[270px] md:w-full space-y-2'>
                           <h2>
                             <label
-                              htmlFor="modal-course-completion"
+                              htmlFor='modal-course-completion'
                               className="text-lg font-bold after:content-['*'] after:text-red-500"
                             >
                               Course Completion
                             </label>
                           </h2>
-                          <div className="w-full text-left">
+                          <div className='w-full text-left'>
                             <input
-                              type="text"
-                              name="course-completion"
-                              title="Course Completion"
-                              placeholder="Course Completion (e.g. 18S1, 23T1)"
-                              id="modal-course-completion"
-                              form="submit-review"
+                              type='text'
+                              name='course-completion'
+                              title='Course Completion'
+                              placeholder='Course Completion (e.g. 18S1, 23T1)'
+                              id='modal-course-completion'
+                              form='submit-review'
                               onChange={(event) => {
                                 setInputs((prevInputs: Inputs) => {
                                   const newInputs = { ...prevInputs };
@@ -356,47 +356,47 @@ export default function ReviewModal({
                                   return newInputs;
                                 });
                               }}
-                              className="py-2 px-4 w-full border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input"
+                              className='py-2 px-4 w-full border border-unilectives-headings/25 rounded-md outline-none focus:shadow-input'
                             />
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="space-y-2">
+                    <div className='space-y-2'>
                       {/* Display as anonymous */}
-                      <div className="flex items-center gap-2">
+                      <div className='flex items-center gap-2'>
                         <label
-                          htmlFor="display-anonymous"
-                          className="inline font-bold"
+                          htmlFor='display-anonymous'
+                          className='inline font-bold'
                         >
                           Display as anonymous
                         </label>
                         <input
-                          type="checkbox"
-                          id="display-anonymous"
-                          name="displayAnonymous"
-                          form="submit-review"
-                          className="w-4 h-4"
+                          type='checkbox'
+                          id='display-anonymous'
+                          name='displayAnonymous'
+                          form='submit-review'
+                          className='w-4 h-4'
                         />
                       </div>
-                      <div className="flex flex-wrap gap-5 justify-between items-center">
+                      <div className='flex flex-wrap gap-5 justify-between items-center'>
                         {/* Terms & Conditions */}
                         <p>
                           By clicking Submit, you have agreed to the{" "}
                           <Link
-                            href="/terms-and-conditions"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-unilectives-blue hover:underline focus:underline"
+                            href='/terms-and-conditions'
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='text-unilectives-blue hover:underline focus:underline'
                           >
                             Terms and Conditions
                           </Link>
                         </p>
                         {/* Submit button */}
                         <button
-                          type="submit"
-                          form="submit-review"
-                          className="flex items-center gap-1 px-4 py-2 bg-unilectives-icon text-white rounded-md hover:bg-unilectives-icon/95 font-bold disabled:opacity-50"
+                          type='submit'
+                          form='submit-review'
+                          className='flex items-center gap-1 px-4 py-2 bg-unilectives-icon text-white rounded-md hover:bg-unilectives-icon/95 font-bold disabled:opacity-50'
                           disabled={!readyToSubmit}
                         >
                           Submit

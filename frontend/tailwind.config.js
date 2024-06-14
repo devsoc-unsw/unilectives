@@ -2,6 +2,7 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
+  darkMode: "class",
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens: {
@@ -49,10 +50,10 @@ module.exports = {
       },
     },
     listStyleType: {
-      decimal: 'decimal',
-      roman: 'lower-roman',
-      latin: 'upper-Latin',
-      disc: 'disc',
+      decimal: "decimal",
+      roman: "lower-roman",
+      latin: "upper-Latin",
+      disc: "disc",
     },
   },
   plugins: [

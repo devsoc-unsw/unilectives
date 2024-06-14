@@ -88,10 +88,10 @@ export default function UserBookmarkedReviews({
   }, [bookmarked]);
 
   return (
-    <div className="space-y-5 isolate">
-      <div className="flex flex-wrap items-center gap-5 justify-between">
+    <div className='space-y-5 isolate'>
+      <div className='flex flex-wrap items-center gap-5 justify-between'>
         {/* Review order */}
-        <div className="min-w-[275px] max-w-[275px] sm:min-w-full [&>*]:z-10">
+        <div className='min-w-[275px] max-w-[275px] sm:min-w-full [&>*]:z-10'>
           <Dropdown
             options={[
               "Most Recent",
@@ -99,17 +99,17 @@ export default function UserBookmarkedReviews({
               "Highest Rating to Lowest Rating",
               "Lowest Rating to Highest Rating",
             ]}
-            placeholder="Sort by"
+            placeholder='Sort by'
             defaultValue={selected}
             onChange={setSelected}
           />
         </div>
         {/* Toggle Switch */}
-        <div className="flex ml-auto gap-2">
+        <div className='flex ml-auto gap-2'>
           <span>Card</span>
-          <div className="-scale-1">
+          <div className='-scale-1'>
             <ToggleSwitch
-              accessibleTitle="card-list-view"
+              accessibleTitle='card-list-view'
               defaultValue={cardView}
               onChange={setCardView}
             />
@@ -126,22 +126,22 @@ export default function UserBookmarkedReviews({
             .map((review: Review, index: number) => (
               <div
                 key={index}
-                className="flex justify-between items-center gap-2 sm:flex-wrap border border-transparent border-b-black/25 px-4 py-4"
+                className='flex justify-between items-center gap-2 sm:flex-wrap border border-transparent border-b-black/25 px-4 py-4'
               >
-                <div className="flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2">
+                <div className='flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2'>
                   {/* Title */}
-                  <h1 className="font-bold text-xl">{review.courseCode}</h1>
+                  <h1 className='font-bold text-xl'>{review.courseCode}</h1>
                   {/* Description */}
-                  <p className="text-unilectives-headings w-full truncate">
+                  <p className='text-unilectives-headings dark:text-gray-100 w-full truncate'>
                     {!review.description ? "-" : review.description}
                   </p>
                 </div>
                 {/* Icons */}
-                <div className="flex flex-1 flex-wrap gap-5 justify-end">
-                  <button className="duration-100 hover:text-unilectives-blue/75">
+                <div className='flex flex-1 flex-wrap gap-5 justify-end'>
+                  <button className='duration-100 hover:text-unilectives-blue/75'>
                     <BookmarkIcon
                       onClick={() => bookmarkReview(review)}
-                      className="w-6 h-6 inline-block"
+                      className='w-6 h-6 inline-block'
                     />
                   </button>
                 </div>
@@ -151,40 +151,40 @@ export default function UserBookmarkedReviews({
       )}
       {/* Card view */}
       {cardView && (
-        <div className="grid grid-cols-3 lg:grid-cols-1 gap-12">
+        <div className='grid grid-cols-3 lg:grid-cols-1 gap-12'>
           {reviews
             .slice((page - 1) * itemPerPage, page * itemPerPage)
             .map((review: Review, index: number) => (
               <div
                 key={index}
-                className="box-border isolate px-6 py-7 bg-unilectives-card shadow-lg rounded-xl space-y-4"
+                className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 shadow-lg shadow-gray-600 rounded-xl space-y-4'
               >
                 {/* Course courseCode + Ratings */}
-                <div className="flex flex-wrap justify-between text-2xl">
-                  <h1 className="font-bold block truncate">
+                <div className='flex flex-wrap justify-between text-2xl'>
+                  <h1 className='font-bold block truncate'>
                     {review.courseCode}
                   </h1>
-                  <div className="text-right">
+                  <div className='text-right'>
                     {/* StarRating */}
-                    <div className="text-2xl inline">
+                    <div className='text-2xl inline'>
                       <Rating
-                        color="purple"
-                        type="star"
+                        color='purple'
+                        type='star'
                         overallRating={review.overallRating}
                       />
                     </div>
                   </div>
                 </div>
                 {/* Description */}
-                <p className="text-unilectives-headings break-all line-clamp-3 h-[4.5rem]">
+                <p className='text-unilectives-headings dark:text-gray-100 break-all line-clamp-3 h-[4.5rem]'>
                   {!review.description ? "-" : review.description}
                 </p>
                 {/* Icons */}
-                <div className="flex flex-wrap ml-auto gap-5 w-fit">
-                  <button className="duration-100 hover:text-unilectives-blue/75">
+                <div className='flex flex-wrap ml-auto gap-5 w-fit'>
+                  <button className='duration-100 hover:text-unilectives-blue/75'>
                     <BookmarkIcon
                       onClick={() => bookmarkReview(review)}
-                      className="w-6 h-6 inline-block"
+                      className='w-6 h-6 inline-block'
                     />
                   </button>
                 </div>

@@ -162,9 +162,9 @@ export default function CoursesList({
           )
         )}
         {!initialLoading ? (
-          <p className="text-center opacity-50">No more courses</p>
+          <p className='text-center opacity-50'>No more courses</p>
         ) : (
-          <p className="text-center opacity-50">Loading courses...</p>
+          <p className='text-center opacity-50'>Loading courses...</p>
         )}
       </div>
     </>
