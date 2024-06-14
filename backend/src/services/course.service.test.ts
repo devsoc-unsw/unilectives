@@ -10,6 +10,7 @@ import { UserRepository } from "../repositories/user.repository";
 import { CourseRepository } from "../repositories/course.repository";
 import { BookmarkCourse } from "../api/schemas/course.schema";
 import RedisClient from "../modules/redis";
+import { undefined } from "zod";
 
 describe("CourseService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
@@ -80,6 +81,28 @@ describe("CourseService", () => {
 
       expect(service.getCourse("COMP1511")).resolves.toEqual({
         course: courses[0],
+      });
+    });
+  });
+
+  describe("getHighestEnjoyability", () => {
+    it("should throw HTTP 500 error if there is no course in database", () => {
+      const service = courseService();
+      courseRepository.getHighestEnjoyability = jest
+        .fn()
+        .mockResolvedValue(undefined);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getHighestEnjoyability()).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return the course with the highest enjoyability", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getHighestEnjoyability = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(service.getHighestEnjoyability()).resolves.toEqual({
+        courseCode: courses[0].courseCode,
       });
     });
   });

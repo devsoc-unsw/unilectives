@@ -130,6 +130,10 @@ export class CourseService {
     return { courses };
   }
 
+  async getHighestEnjoyability() {
+    return { courseId: "COMP1511" };
+  }
+
   async flushKey(zid: string, key: string) {
     const userInfo = await this.userRepository.getUser(zid);
     if (!userInfo) {
