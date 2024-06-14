@@ -89,7 +89,7 @@ export class ReviewRepository {
     });
   }
 
-  async getMostLikedReview() {
+  async getMostLiked() {
     const rawReview = (await this.prisma.$queryRaw`
       SELECT
       r.review_id AS "reviewId",

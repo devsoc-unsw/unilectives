@@ -50,7 +50,7 @@ export class ReviewController implements IController {
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in /reviews/mostLiked`);
           try {
-            const result = await this.reviewService.getMostLikedReview();
+            const result = await this.reviewService.getMostLiked();
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(

@@ -204,25 +204,21 @@ describe("ReviewService", () => {
     });
   });
 
-  describe("getMostLikedReview", () => {
+  describe("getMostLiked", () => {
     it("should throw HTTP 500 error if no reviews in database", () => {
       const service = reviewService();
-      reviewRepository.getMostLikedReview = jest
-        .fn()
-        .mockReturnValue(undefined);
+      reviewRepository.getMostLiked = jest.fn().mockReturnValue(undefined);
 
       const errorResult = new HTTPError(badRequest);
-      expect(service.getMostLikedReview()).rejects.toThrow(errorResult);
+      expect(service.getMostLiked()).rejects.toThrow(errorResult);
     });
 
     it("should retrieve the reviewId for the review with the most votes", async () => {
       const service = reviewService();
       const reviews = getMockReviews();
       const { reviewId } = reviews[1];
-      reviewRepository.getMostLikedReview = jest
-        .fn()
-        .mockResolvedValue({ reviewId });
-      expect(await service.getMostLikedReview()).toEqual({ reviewId });
+      reviewRepository.getMostLiked = jest.fn().mockResolvedValue({ reviewId });
+      expect(await service.getMostLiked()).toEqual({ reviewId });
     });
   });
 });
