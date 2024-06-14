@@ -43,26 +43,26 @@ describe("CourseService", () => {
     });
   });
 
-  // describe("searchCourses", () => {
-  //   it("should return empty list", () => {
-  //     const service = courseService();
-  //     courseRepository.searchCourse = jest.fn().mockResolvedValue([]);
+  describe("searchCourses", () => {
+    it("should return empty list", () => {
+      const service = courseService();
+      courseRepository.searchCourse = jest.fn().mockResolvedValue([]);
 
-  //     expect(service.searchCourse("xddddddd")).resolves.toEqual({
-  //       courses: [],
-  //     });
-  //   });
+      expect(service.searchCourse("xddddddd")).resolves.toEqual({
+        courses: [],
+      });
+    });
 
-  //   it("should return one course", () => {
-  //     const service = courseService();
-  //     const courses = getMockCourses();
-  //     courseRepository.searchCourse = jest.fn().mockResolvedValue(courses);
+    it("should return one course", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.searchCourse = jest.fn().mockResolvedValue(courses);
 
-  //     expect(service.searchCourse("comp1511")).resolves.toEqual({
-  //       courses,
-  //     });
-  //   });
-  // });
+      expect(service.searchCourse("comp1511")).resolves.toEqual({
+        courses,
+      });
+    });
+  });
 
   describe("getCourse", () => {
     it("should throw HTTP 500 error if there is no course in database", () => {

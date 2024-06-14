@@ -71,22 +71,22 @@ export class CourseService {
     return { course };
   }
 
-  // async searchCourse(
-  //   searchTerm: string
-  // ): Promise<CoursesSuccessResponse | undefined> {
-  //   let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
+  async searchCourse(
+    searchTerm: string
+  ): Promise<CoursesSuccessResponse | undefined> {
+    let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
 
-  //   if (!courses) {
-  //     this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
-  //     courses = await this.courseRepository.searchCourse(searchTerm);
-  //     await this.redis.set(`searchCourses:${searchTerm}`, courses);
-  //   } else {
-  //     this.logger.info(`Cache hit on searchCourses:${searchTerm}`);
-  //   }
+    if (!courses) {
+      this.logger.info(`Cache miss on searchCourses:${searchTerm}`);
+      courses = await this.courseRepository.searchCourse(searchTerm);
+      await this.redis.set(`searchCourses:${searchTerm}`, courses);
+    } else {
+      this.logger.info(`Cache hit on searchCourses:${searchTerm}`);
+    }
 
-  //   this.logger.info(`Found ${courses.length} courses.`);
-  //   return { courses };
-  // }
+    this.logger.info(`Found ${courses.length} courses.`);
+    return { courses };
+  }
 
   async filterCourse(
     terms: string,
@@ -96,15 +96,15 @@ export class CourseService {
     // idk if this is right
     console.log("called?");
     this.logger.info("help filter");
-    // let courses = await this.redis.get<Course[]>(
-    //   `filterCourses:${terms + "&" + faculties}`
-    // );
+    let courses = await this.redis.get<Course[]>(
+      `filterCourses:${terms}&${faculties}&${searchTerm}`
+    );
     this.logger.info("banana");
     //this.logger.info(courses);
-    let courses: any = [];
+    // let courses: any = [];
     if (true) {
       this.logger.info(
-        `Cache miss on filterCourses:${terms + "&" + faculties}`
+        `Cache miss on filterCourses:${terms}&${faculties}&${searchTerm}`
       );
       courses = await this.courseRepository.filterCourse(
         terms,
@@ -112,9 +112,14 @@ export class CourseService {
         searchTerm
       );
       // console.log("courses:", courses[1]);
-      await this.redis.set(`filterCourses:${terms + "&" + faculties}`, courses);
+      await this.redis.set(
+        `filterCourses:${terms}&${faculties}&${searchTerm}`,
+        courses
+      );
     } else {
-      this.logger.info(`Cache hit on filterCourses:${terms + "&" + faculties}`);
+      this.logger.info(
+        `Cache hit on filterCourses:${terms}&${faculties}&${searchTerm}`
+      );
     }
 
     this.logger.info(`Found ${courses.length} courses.`);

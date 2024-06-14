@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
 import { sortCourses } from "@/utils/sortCourses";
 import SortDropdown from "../SortDropdown/SortDropdown";
-import FilterModal from "../FilterModal.js/FilterModal";
+import FilterModal from "../FilterModal/FilterModal";
 
 export default function CoursesList({
   initialCourses,
@@ -35,6 +35,7 @@ export default function CoursesList({
     const fetchCourses = async () => {
       let fetchedCourses: Course[] = [];
 
+      // there are applied filters and search
       if (
         searchTerm !== "" ||
         filters.faculties.length !== 0 ||
