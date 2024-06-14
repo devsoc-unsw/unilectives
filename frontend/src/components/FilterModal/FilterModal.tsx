@@ -12,7 +12,7 @@ export default function FilterModal({
   setFilters,
 }: {
   filters: { terms: string[]; faculties: string[] };
-  setFilters: any;
+  setFilters: React.Dispatch<React.SetStateAction<object>>;
 }) {
   const faculties = [
     "Arts",
@@ -151,7 +151,6 @@ export default function FilterModal({
           {/* The actual dialog panel  */}
           <Dialog.Panel className="mx-auto max-w-sm p-8 rounded bg-white flex flex-col xs:w-full">
             <button className="w-6 h-6 place-self-end" onClick={handleClose}>
-              {/* TODO: IT WONT GO TO THE RIGHT */}
               <XMarkIcon />
             </button>
             <Dialog.Title className="text-2xl font-bold mb-4 text-unilectives-headings">
