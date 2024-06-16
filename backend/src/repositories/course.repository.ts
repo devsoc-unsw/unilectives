@@ -202,7 +202,7 @@ export class CourseRepository {
   async filterCourse(
     terms: string,
     faculties: string,
-    searchTerm: string
+    searchTerm: string,
   ): Promise<Course[]> {
     // default filters (all options)
     let searchQuery = `%`;
@@ -266,6 +266,81 @@ export class CourseRepository {
       LEFT JOIN reviews r ON c.course_code = r.course_code
       WHERE (c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}) AND
       c.terms && ARRAY[${termFilters}]::integer[] AND 
+      c.faculty ILIKE ANY(ARRAY[${facultyFilters}])
+      GROUP BY c.course_code
+      ORDER BY "reviewCount" DESC;
+      `) as any[];
+    const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    return courses;
+  }
+
+  async filterNotOfferedCourses(
+    terms: string,
+    faculties: string,
+    searchTerm: string,
+  ): Promise<Course[]> {
+    // default filters (all options)
+    let searchQuery = `%`;
+    let termFilters = ["0", "1", "2", "3", "-1", "-2"];
+    let facultyFilters = [
+      "%arts%",
+      "%business%",
+      "%engineering%",
+      "%law%",
+      "%medicine%",
+      "%science%",
+      "%unsw canberra%",
+    ];
+
+    if (searchTerm !== "_") {
+      searchQuery = `%${searchTerm}%`;
+    }
+
+    // there are selected terms
+    if (terms !== "_") {
+      // 0&1&2 =>  ["0", "1", "2"];
+      termFilters = terms.split("&").filter((term) => term !== "None");
+    }
+
+    // there are selected faculties
+    if (faculties !== "_") {
+      // ['arts', 'law'] => `'%arts%', '%law%'`
+      facultyFilters = faculties.split("&").map((faculty) => `%${faculty}%`);
+      const index = facultyFilters.indexOf("%UNSW_Canberra%");
+      if (index !== -1) {
+        facultyFilters[index] = "%unsw canberra%";
+      }
+    }
+
+    const rawCourses = (await this.prisma.$queryRaw`
+      SELECT
+      c.course_code AS "courseCode",
+      c.archived,
+      c.attributes,
+      c.calendar,
+      c.campus,
+      c.description,
+      c.enrolment_rules AS "enrolmentRules",
+      c.equivalents,
+      c.exclusions,
+      c.faculty,
+      c.field_of_education AS "fieldOfEducation",
+      c.gen_ed AS "genEd",
+      c.level,
+      c.school,
+      c.study_level AS "studyLevel",
+      c.terms,
+      c.title,
+      c.uoc,
+      AVG(r.overall_rating) AS "overallRating",
+      AVG(r.manageability) AS "manageability",
+      AVG(r.usefulness) AS "usefulness",
+      AVG(r.enjoyability) AS "enjoyability",
+      CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
+      FROM courses c
+      LEFT JOIN reviews r ON c.course_code = r.course_code
+      WHERE (c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}) AND
+      (c.terms && ARRAY[${termFilters}]::integer[] OR c.terms = ARRAY[]::integer[]) AND 
       c.faculty ILIKE ANY(ARRAY[${facultyFilters}])
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC;

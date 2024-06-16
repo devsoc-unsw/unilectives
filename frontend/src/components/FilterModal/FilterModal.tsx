@@ -45,11 +45,11 @@ export default function FilterModal({
   ];
 
   const [facultiesCheckedState, setFacultiesCheckedState] = useState(
-    new Array(faculties.length).fill(false)
+    new Array(faculties.length).fill(false),
   );
 
   const [termsCheckedState, setTermsCheckedState] = useState(
-    new Array(terms.length).fill(false)
+    new Array(terms.length).fill(false),
   );
 
   const [open, setOpen] = useState(false);
@@ -84,13 +84,13 @@ export default function FilterModal({
 
     // terms are 0, 1, 2, 3 (summer, t1, t2, t3)
     // semesters are -1, -2
-    // not offered is N/A
+    // not offered is "None"
 
     terms.map((term, index) => {
       // if selected
       if (termsCheckedState[index]) {
         if (term === "Not Offered") {
-          selectedTerms.push("N/A");
+          selectedTerms.push("None");
         } else if (term === "Summer") {
           selectedTerms.push("0");
         } else {
@@ -112,12 +112,12 @@ export default function FilterModal({
   const handleTagOnClick = (type: string, position: number) => {
     if (type === "faculty") {
       const updatedCheckedState = facultiesCheckedState.map((item, index) =>
-        index === position ? !item : item
+        index === position ? !item : item,
       );
       setFacultiesCheckedState(updatedCheckedState);
     } else if (type === "term") {
       const updatedCheckedState = termsCheckedState.map((item, index) =>
-        index === position ? !item : item
+        index === position ? !item : item,
       );
       setTermsCheckedState(updatedCheckedState);
     }

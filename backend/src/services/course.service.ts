@@ -19,7 +19,7 @@ export class CourseService {
   constructor(
     private readonly courseRepository: CourseRepository,
     private readonly userRepository: UserRepository,
-    private readonly redis: RedisClient
+    private readonly redis: RedisClient,
   ) {}
 
   async getCourses(): Promise<CoursesSuccessResponse | undefined> {
@@ -34,7 +34,7 @@ export class CourseService {
   }
 
   async getCoursesFromOffset(
-    offset: number
+    offset: number,
   ): Promise<CoursesSuccessResponse | undefined> {
     let courses = await this.redis.get<Course[]>(`courses:${offset}`);
 
@@ -72,7 +72,7 @@ export class CourseService {
   }
 
   async searchCourse(
-    searchTerm: string
+    searchTerm: string,
   ): Promise<CoursesSuccessResponse | undefined> {
     let courses = await this.redis.get<Course[]>(`searchCourses:${searchTerm}`);
 
@@ -91,27 +91,38 @@ export class CourseService {
   async filterCourse(
     terms: string,
     faculties: string,
-    searchTerm: string
+    searchTerm: string,
   ): Promise<CoursesSuccessResponse | undefined> {
     let courses = await this.redis.get<Course[]>(
-      `filterCourses:${terms}&${faculties}&${searchTerm}`
+      `filterCourses:${terms}&${faculties}&${searchTerm}`,
     );
     if (!courses) {
       this.logger.info(
-        `Cache miss on filterCourses:${terms}&${faculties}&${searchTerm}`
+        `Cache miss on filterCourses:${terms}&${faculties}&${searchTerm}`,
       );
-      courses = await this.courseRepository.filterCourse(
-        terms,
-        faculties,
-        searchTerm
-      );
+
+      if (terms.includes("None")) {
+        // filters for not offered courses
+        courses = await this.courseRepository.filterNotOfferedCourses(
+          terms,
+          faculties,
+          searchTerm,
+        );
+      } else {
+        courses = await this.courseRepository.filterCourse(
+          terms,
+          faculties,
+          searchTerm,
+        );
+      }
+
       await this.redis.set(
         `filterCourses:${terms}&${faculties}&${searchTerm}`,
-        courses
+        courses,
       );
     } else {
       this.logger.info(
-        `Cache hit on filterCourses:${terms}&${faculties}&${searchTerm}`
+        `Cache hit on filterCourses:${terms}&${faculties}&${searchTerm}`,
       );
     }
 
