@@ -128,13 +128,13 @@ export default function FilterModal({
       {/* filter button */}
       <div className="mt-4 min-w-[140px] xs:min-w-1/2">
         <button
-          className="relative flex items-center justify-between gap-2 w-full cursor-pointer py-2 px-4 text-left text-[#989898] border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
+          className="relative flex items-center dark:text-white dark:bg-gray-900 justify-between gap-2 w-full cursor-pointer py-2 px-4 text-left text-[#989898] border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
           onClick={() => {
             setOpen(true);
           }}
         >
           Filter
-          <AdjustmentsHorizontalIcon className="w-4 h-4 rounded-full text-black" />
+          <AdjustmentsHorizontalIcon className="w-4 h-4 rounded-full dark:text-white text-black" />
         </button>
       </div>
 
@@ -149,11 +149,11 @@ export default function FilterModal({
         {/* Full-screen container to center the panel */}
         <div className="fixed inset-0 flex w-screen items-center justify-center pl-20 z-10 ">
           {/* The actual dialog panel  */}
-          <Dialog.Panel className="mx-auto max-w-sm p-8 rounded bg-white flex flex-col xs:w-full">
+          <Dialog.Panel className="mx-auto max-w-sm p-8 rounded dark:bg-gray-900 bg-white flex flex-col xs:w-full">
             <button className="w-6 h-6 place-self-end" onClick={handleClose}>
               <XMarkIcon />
             </button>
-            <Dialog.Title className="text-2xl font-bold mb-4 text-unilectives-headings">
+            <Dialog.Title className="text-2xl dark:text-white font-bold mb-4 text-unilectives-headings">
               Filter by:
             </Dialog.Title>
             <Dialog.Description className="text-xl font-semibold mb-2 ">
@@ -171,7 +171,7 @@ export default function FilterModal({
                       facultiesCheckedState[index]
                         ? "bg-unilectives-indigo text-white font-medium"
                         : " text-unilectives-indigo font-medium"
-                    } ' w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px]  border-unilectives-indigo '`}
+                    } ' hover:bg-[#6f7fb3] hover:border-[#6f7fb3] hover:text-white w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px]  border-unilectives-indigo '`}
                   >
                     {faculty}
                   </button>
@@ -193,7 +193,7 @@ export default function FilterModal({
                       termsCheckedState[index]
                         ? "bg-unilectives-indigo text-white font-medium"
                         : " text-unilectives-indigo font-medium"
-                    } 'cursor-pointer w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px] border-unilectives-indigo '`}
+                    } ' hover:bg-[#6f7fb3] hover:border-[#6f7fb3] hover:text-white w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px] border-unilectives-indigo '`}
                   >
                     {term}
                   </button>
@@ -211,7 +211,7 @@ export default function FilterModal({
                       termsCheckedState[index]
                         ? "bg-unilectives-indigo text-white font-medium"
                         : " text-unilectives-indigo font-medium"
-                    } 'w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px] border-unilectives-indigo '`}
+                    } ' hover:bg-[#6f7fb3] hover:border-[#6f7fb3] hover:text-white w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px] border-unilectives-indigo '`}
                   >
                     {term}
                   </button>
@@ -221,7 +221,7 @@ export default function FilterModal({
 
             <div className="flex justify-between mt-4 xs:flex-col xs:gap-4">
               <button
-                className="flex items-center justify-center w-1/3 xs:w-full gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
+                className="flex items-center justify-center w-1/3 xs:w-full gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:border-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
                 onClick={handleClearAll}
               >
                 Clear All
