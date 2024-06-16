@@ -123,6 +123,28 @@ export default function FilterModal({
     }
   };
 
+  const styledFilterButton = (
+    type: string,
+    index: number,
+    isChecked: boolean,
+    label: string,
+  ) => {
+    return (
+      <button
+        key={`${type}-${index}`}
+        id={`${type}-label-${index}`}
+        onClick={() => handleTagOnClick(type, index)}
+        className={`${
+          isChecked
+            ? "bg-unilectives-indigo text-white dark:text-gray-900 font-medium"
+            : " text-unilectives-indigo font-medium"
+        } ' hover:bg-[#6f7fb3] hover:border-[#6f7fb3] hover:text-white  w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px]  border-unilectives-indigo '`}
+      >
+        {label}
+      </button>
+    );
+  };
+
   return (
     <>
       {/* filter button */}
@@ -162,19 +184,11 @@ export default function FilterModal({
             {/* display the faculty tags */}
             <div className="flex flex-wrap mb-4">
               {faculties.map((faculty, index) => {
-                return (
-                  <button
-                    key={`faculty-${index}`}
-                    id={`faculty-label-${index}`}
-                    onClick={() => handleTagOnClick("faculty", index)}
-                    className={`${
-                      facultiesCheckedState[index]
-                        ? "bg-unilectives-indigo text-white font-medium"
-                        : " text-unilectives-indigo font-medium"
-                    } ' hover:bg-[#6f7fb3] hover:border-[#6f7fb3] hover:text-white w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px]  border-unilectives-indigo '`}
-                  >
-                    {faculty}
-                  </button>
+                return styledFilterButton(
+                  "faculty",
+                  index,
+                  facultiesCheckedState[index],
+                  faculty,
                 );
               })}
             </div>
@@ -184,44 +198,28 @@ export default function FilterModal({
             {/* display the term tags */}
             <div className="sm:hidden flex flex-wrap mb-4">
               {terms.map((term, index) => {
-                return (
-                  <button
-                    key={`term-${index}`}
-                    id={`term-label-${index}`}
-                    onClick={() => handleTagOnClick("term", index)}
-                    className={`${
-                      termsCheckedState[index]
-                        ? "bg-unilectives-indigo text-white font-medium"
-                        : " text-unilectives-indigo font-medium"
-                    } ' hover:bg-[#6f7fb3] hover:border-[#6f7fb3] hover:text-white w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px] border-unilectives-indigo '`}
-                  >
-                    {term}
-                  </button>
+                return styledFilterButton(
+                  "term",
+                  index,
+                  termsCheckedState[index],
+                  term,
                 );
               })}
             </div>
             <div className="sm:flex hidden flex-wrap mb-4 ">
               {termsShortened.map((term, index) => {
-                return (
-                  <button
-                    key={`term-${index}`}
-                    id={`term-label-${index}`}
-                    onClick={() => handleTagOnClick("term", index)}
-                    className={`${
-                      termsCheckedState[index]
-                        ? "bg-unilectives-indigo text-white font-medium"
-                        : " text-unilectives-indigo font-medium"
-                    } ' hover:bg-[#6f7fb3] hover:border-[#6f7fb3] hover:text-white w-fit px-4 py-2 mx-1 my-1 rounded-full border-solid border-[1.5px] border-unilectives-indigo '`}
-                  >
-                    {term}
-                  </button>
+                return styledFilterButton(
+                  "term",
+                  index,
+                  termsCheckedState[index],
+                  term,
                 );
               })}
             </div>
 
             <div className="flex justify-between mt-4 xs:flex-col xs:gap-4">
               <button
-                className="flex items-center justify-center w-1/3 xs:w-full gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:border-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
+                className="flex items-center justify-center w-1/3 xs:w-full dark:hover:border-gray-900  gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:border-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
                 onClick={handleClearAll}
               >
                 Clear All
