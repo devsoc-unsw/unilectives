@@ -43,14 +43,35 @@ export class CourseController implements IController {
             if (offsetStr !== undefined) {
               offset = parseInt(offsetStr);
             }
-            const result = await this.courseService.getCoursesFromOffset(
-              offset,
-            );
+            const result =
+              await this.courseService.getCoursesFromOffset(offset);
             this.logger.info(`Responding to client in GET /courses`);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /courses ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
+        "/course/highest-enjoyability",
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(
+            `Received request in GET /course/highest-enjoyability`,
+          );
+          try {
+            const result = await this.courseService.getHighestEnjoyability();
+            this.logger.info(
+              `Responding to client in GET /course/highest-enjoyability`,
+            );
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /course/highest-enjoyability ${formatError(
                 err,
               )}`,
             );
