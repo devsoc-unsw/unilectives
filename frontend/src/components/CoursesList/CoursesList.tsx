@@ -24,7 +24,10 @@ export default function CoursesList({
     useState<Course[]>(initialCourses);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selected, setSelected] = useState("");
-  const [filters, setFilters] = useState<{ faculties: []; terms: [] }>({
+  const [filters, setFilters] = useState<{
+    faculties: string[];
+    terms: string[];
+  }>({
     faculties: [],
     terms: [],
   });
