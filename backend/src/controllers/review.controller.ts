@@ -46,9 +46,9 @@ export class ReviewController implements IController {
         },
       )
       .get(
-        "/reviews/mostLiked",
+        "/reviews/most-liked",
         async (req: Request, res: Response, next: NextFunction) => {
-          this.logger.debug(`Received request in /reviews/mostLiked`);
+          this.logger.debug(`Received request in /reviews/most-liked`);
           try {
             const result = await this.reviewService.getMostLiked();
             return res.status(200).json(result);
