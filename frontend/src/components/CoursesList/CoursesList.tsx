@@ -46,7 +46,7 @@ export default function CoursesList({
         // default courses
         try {
           const { courses } = (await get(
-            `/courses?offset=${index}`
+            `/courses?offset=${index}`,
           )) as Courses;
           fetchedCourses = courses;
         } catch (err) {
@@ -92,7 +92,7 @@ export default function CoursesList({
     // EXAMPLE URL: /course/filter/1&3/art&engineering/comp
     try {
       const { courses } = (await get(
-        `/course/filter/${terms}/${faculties}/${searchTerm}`
+        `/course/filter/${terms}/${faculties}/${searchTerm}`,
       )) as Courses;
       filteredCoursesRef.current = courses;
     } catch (err) {
@@ -159,12 +159,12 @@ export default function CoursesList({
                 terms={c.terms}
               />
             </a>
-          )
+          ),
         )}
         {!initialLoading ? (
-          <p className='text-center opacity-50'>No more courses</p>
+          <p className="text-center opacity-50">No more courses</p>
         ) : (
-          <p className='text-center opacity-50'>Loading courses...</p>
+          <p className="text-center opacity-50">Loading courses...</p>
         )}
       </div>
     </>

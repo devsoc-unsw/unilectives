@@ -12,7 +12,9 @@ export default function FilterModal({
   setFilters,
 }: {
   filters: { terms: string[]; faculties: string[] };
-  setFilters: React.Dispatch<React.SetStateAction<object>>;
+  setFilters: React.Dispatch<
+    React.SetStateAction<{ faculties: string[]; terms: string[] }>
+  >;
 }) {
   const faculties = [
     "Arts",
@@ -68,8 +70,8 @@ export default function FilterModal({
   };
 
   const handleApply = () => {
-    const selectedFaculties: String[] = [];
-    const selectedTerms: String[] = [];
+    const selectedFaculties: string[] = [];
+    const selectedTerms: string[] = [];
 
     faculties.map((faculty, index) => {
       // if selected
@@ -85,7 +87,6 @@ export default function FilterModal({
     // terms are 0, 1, 2, 3 (summer, t1, t2, t3)
     // semesters are -1, -2
     // not offered is "None"
-
     terms.map((term, index) => {
       // if selected
       if (termsCheckedState[index]) {
