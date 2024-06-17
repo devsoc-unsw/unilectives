@@ -375,11 +375,15 @@ export class CourseRepository {
     c.terms,
     c.title,
     c.uoc,
+    AVG(r.overall_rating) AS "overallRating",
+    AVG(r.manageability) AS "manageability",
+    AVG(r.usefulness) AS "usefulness",
     AVG(r.enjoyability) AS "enjoyability",
+    CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
     FROM courses c
     LEFT JOIN reviews r ON c.course_code = r.course_code
     GROUP BY c.course_code
-    ORDER BY "enjoyability" DESC
+    ORDER BY "enjoyability" DESC NULLS LAST
     LIMIT 1;
     `) as any[];
     const course = CourseSchema.parse(rawCourse[0]);
