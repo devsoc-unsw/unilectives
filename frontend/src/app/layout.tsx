@@ -40,7 +40,7 @@ export default async function RootLayout({
           <AlertProvider>
             <ThemeProviderComponent>
               <Navbar userZid={session?.user?.id} />
-              <div className='ml-20 xs:ml-15 h-screen overflow-y-scroll'>
+              <div className='ml-20 xs:ml-15'>
                 {children}
               </div>
             </ThemeProviderComponent>
