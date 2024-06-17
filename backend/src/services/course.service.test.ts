@@ -106,4 +106,26 @@ describe("CourseService", () => {
       });
     });
   });
+
+  describe("getHighestUsefulness", () => {
+    it("should throw HTTP 500 error if there is no course in database", () => {
+      const service = courseService();
+      courseRepository.getHighestUsefulness = jest
+        .fn()
+        .mockResolvedValue(undefined);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getHighestUsefulness()).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return the course with the highest usefulness", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getHighestUsefulness = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(service.getHighestUsefulness()).resolves.toEqual({
+        courseCode: courses[0].courseCode,
+      });
+    });
+  });
 });

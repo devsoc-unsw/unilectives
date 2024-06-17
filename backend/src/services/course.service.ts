@@ -152,6 +152,27 @@ export class CourseService {
     return { courseCode: course.courseCode };
   }
 
+  async getHighestUsefulness() {
+    const cachedCourse = await this.redis.get<Course>(
+      `course:highestUsefulness`,
+    );
+    let course: Course | null;
+
+    if (!cachedCourse) {
+      this.logger.info(`Cache miss on course:highestUsefulness`);
+      course = await this.courseRepository.getHighestUsefulness();
+      if (!course) {
+        this.logger.error(`Could not find course with highest usefulness`);
+        throw new HTTPError(badRequest);
+      }
+      await this.redis.set(`course:highestUsefulness`, course);
+    } else {
+      this.logger.info(`Cache hit on course:highestUsefulness`);
+      course = cachedCourse;
+    }
+    return { courseCode: course.courseCode };
+  }
+
   async flushKey(zid: string, key: string) {
     const userInfo = await this.userRepository.getUser(zid);
     if (!userInfo) {
