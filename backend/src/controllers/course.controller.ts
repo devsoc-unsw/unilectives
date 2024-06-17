@@ -80,6 +80,28 @@ export class CourseController implements IController {
         },
       )
       .get(
+        "/course/highest-usefulness",
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(
+            `Received request in GET /course/highest-usefulness`,
+          );
+          try {
+            const result = await this.courseService.getHighestUsefulness();
+            this.logger.info(
+              `Responding to client in GET /course/highest-usefulness`,
+            );
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /course/highest-usefulness ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
         "/course/:courseCode",
         async (
           req: Request<{ courseCode: string }, unknown>,
