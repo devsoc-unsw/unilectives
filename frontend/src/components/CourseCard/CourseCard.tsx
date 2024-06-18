@@ -41,7 +41,7 @@ export default function CourseCard({
         </div>
       </div>
       {/* Course title */}
-      <p className='text-sm text-unilectives-headings dark:text-gray-200 h-16 break-all line-clamp-3'>
+      <p className='text-sm text-unilectives-headings dark:text-gray-200 h-16 line-clamp-3'>
         {title}
       </p>
       {/* Terms */}
