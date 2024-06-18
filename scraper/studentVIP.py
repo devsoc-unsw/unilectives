@@ -34,10 +34,11 @@ for course_code in course_codes:
 
             course_reviews.append(review_object)
 
-        reviews.append({
-            "course": course_code,
-            "reviews": course_reviews
-        })
+        if course_reviews:
+            reviews.append({
+                "course": course_code,
+                "reviews": course_reviews
+            })
     except:
         print(f"Could not process reviews for {course_code}")
 
