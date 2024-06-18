@@ -29,6 +29,8 @@ for course_code in course_codes:
             review_object["authorName"] = review.find("h2").get_text(strip=True)
             # year = review.find("p", class_="text-sm").get_text(strip=True)
 
+            course_reviews.append(review_object)
+
         reviews.append({
             "course": course_code,
             "reviews": course_reviews
