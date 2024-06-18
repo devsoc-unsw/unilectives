@@ -173,6 +173,27 @@ export class CourseService {
     return { courseCode: course.courseCode };
   }
 
+  async getHighestManageability() {
+    const cachedCourse = await this.redis.get<Course>(
+      `course:highestManageability`,
+    );
+    let course: Course | null;
+
+    if (!cachedCourse) {
+      this.logger.info(`Cache miss on course:highestManageability`);
+      course = await this.courseRepository.getHighestManageability();
+      if (!course) {
+        this.logger.error(`Could not find course with highest manageability`);
+        throw new HTTPError(badRequest);
+      }
+      await this.redis.set(`course:highestManageability`, course);
+    } else {
+      this.logger.info(`Cache hit on course:highestManageability`);
+      course = cachedCourse;
+    }
+    return { courseCode: course.courseCode };
+  }
+
   async flushKey(zid: string, key: string) {
     const userInfo = await this.userRepository.getUser(zid);
     if (!userInfo) {

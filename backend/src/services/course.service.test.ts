@@ -128,4 +128,26 @@ describe("CourseService", () => {
       });
     });
   });
+
+  describe("getHighestManageability", () => {
+    it("should throw HTTP 500 error if there is no course in database", () => {
+      const service = courseService();
+      courseRepository.getHighestManageability = jest
+        .fn()
+        .mockResolvedValue(undefined);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getHighestManageability()).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return the course with the highest manageability", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getHighestManageability = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(service.getHighestManageability()).resolves.toEqual({
+        courseCode: courses[0].courseCode,
+      });
+    });
+  });
 });
