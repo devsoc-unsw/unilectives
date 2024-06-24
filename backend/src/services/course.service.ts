@@ -194,6 +194,24 @@ export class CourseService {
     return { courseCode: course.courseCode };
   }
 
+  async getHighestRatedCourseInTerm(term: string) {
+    // Should we include summer term?
+    const validTerms = new Set(["1", "2", "3"]);
+    if (!validTerms.has(term) || term == "") {
+      this.logger.error(`${term} is not a valid term`);
+      throw new HTTPError(badRequest);
+    }
+
+    const course =
+      await this.courseRepository.getHighestRatedCourseInTerm(term);
+    if (!course) {
+      this.logger.error(`Could not find highest rated course in term`);
+      throw new HTTPError(badRequest);
+    }
+    console.log(course);
+    return { courseCode: course.courseCode };
+  }
+
   async flushKey(zid: string, key: string) {
     const userInfo = await this.userRepository.getUser(zid);
     if (!userInfo) {
