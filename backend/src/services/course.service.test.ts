@@ -150,4 +150,28 @@ describe("CourseService", () => {
       });
     });
   });
+
+  describe("getHighestRatedCourseInTerm", () => {
+    it("should throw HTTP 500 error if given an invalid term", () => {
+      const service = courseService();
+      courseRepository.getHighestRatedCourseInTerm = jest
+        .fn()
+        .mockResolvedValue(undefined);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getHighestRatedCourseInTerm("21")).rejects.toThrow(
+        errorResult,
+      );
+    });
+
+    it("should resolve and return the course with the highest rating in a term", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getHighestRatedCourseInTerm = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(service.getHighestRatedCourseInTerm("1")).resolves.toEqual({
+        courseCode: courses[0].courseCode,
+      });
+    });
+  });
 });
