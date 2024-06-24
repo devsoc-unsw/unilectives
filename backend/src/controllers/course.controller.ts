@@ -58,6 +58,34 @@ export class CourseController implements IController {
         },
       )
       .get(
+        "/course/highest-rated/:term",
+        async (
+          req: Request<{ term: string }, unknown>,
+          res: Response,
+          next: NextFunction,
+        ) => {
+          this.logger.debug(
+            `Received request in GET /course/highest-rated/:term`,
+          );
+          try {
+            const term: string = req.params.term;
+            const result =
+              await this.courseService.getHighestRatedCourseInTerm(term);
+            this.logger.info(
+              `Responding to client in GET /course/highest-rated/${term}`,
+            );
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /course/highest-rated ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
         "/course/highest-enjoyability",
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(
