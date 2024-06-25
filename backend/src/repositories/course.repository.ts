@@ -496,7 +496,7 @@ export class CourseRepository {
     LEFT JOIN reviews r ON c.course_code = r.course_code
     WHERE c.terms @> ARRAY[${term}]::integer[]
     GROUP BY c.course_code
-    ORDER BY "overallRating" DESC NULLS LAST
+    ORDER BY "overallRating" DESC NULLS LAST, "reviewCount" DESC NULLS LAST
     LIMIT 1;
     `) as any[];
     const course = CourseSchema.parse(rawCourse[0]);
