@@ -195,20 +195,31 @@ export class CourseService {
   }
 
   async getHighestRatedCourseInTerm(term: string) {
-    // Should we include summer term?
     const validTerms = new Set(["1", "2", "3"]);
-    if (!validTerms.has(term) || term == "") {
+    if (!validTerms.has(term)) {
       this.logger.error(`${term} is not a valid term`);
       throw new HTTPError(badRequest);
     }
 
-    const course =
-      await this.courseRepository.getHighestRatedCourseInTerm(term);
-    if (!course) {
-      this.logger.error(`Could not find highest rated course in term`);
-      throw new HTTPError(badRequest);
+    const cachedCourse = await this.redis.get<Course>(
+      `highestRatedCoursePerTerm:${term}`,
+    );
+    let course: Course | null;
+
+    if (!cachedCourse) {
+      this.logger.info(`Cache miss on highestRatedCoursePerTerm:${term}`);
+
+      course = await this.courseRepository.getHighestRatedCourseInTerm(term);
+      if (!course) {
+        this.logger.error(`Could not find highest rated course in term`);
+        throw new HTTPError(badRequest);
+      }
+      await this.redis.set(`highestRatedCoursePerTerm:${term}`, course);
+    } else {
+      this.logger.info(`Cache hit on highestRatedCoursePerTerm:${term}`);
+      course = cachedCourse;
     }
-    console.log(course);
+
     return { courseCode: course.courseCode };
   }
 
