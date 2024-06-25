@@ -265,8 +265,8 @@ export class CourseRepository {
       FROM courses c
       LEFT JOIN reviews r ON c.course_code = r.course_code
       WHERE (c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}) AND
-      c.terms && ARRAY[${termFilters}]::integer[] AND 
-      c.faculty ILIKE ANY(ARRAY[${facultyFilters}])
+      c.terms && ${termFilters}::integer[] AND 
+      c.faculty ILIKE ANY(${facultyFilters})
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC;
       `) as any[];
@@ -281,7 +281,7 @@ export class CourseRepository {
   ): Promise<Course[]> {
     // default filters (all options)
     let searchQuery = `%`;
-    let termFilters = ["0", "1", "2", "3", "-1", "-2"];
+    let termFilters: number[] = [];
     let facultyFilters = [
       "%arts%",
       "%business%",
@@ -299,7 +299,11 @@ export class CourseRepository {
     // there are selected terms
     if (terms !== "_") {
       // 0&1&2 =>  ["0", "1", "2"];
-      termFilters = terms.split("&").filter((term) => term !== "None");
+
+      termFilters = terms
+        .split("&")
+        .filter((term) => term !== "None")
+        .map((term) => parseInt(term, 10));
     }
 
     // there are selected faculties
@@ -340,12 +344,13 @@ export class CourseRepository {
       FROM courses c
       LEFT JOIN reviews r ON c.course_code = r.course_code
       WHERE (c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}) AND
-      (c.terms && ARRAY[${termFilters}]::integer[] OR c.terms = ARRAY[]::integer[]) AND 
-      c.faculty ILIKE ANY(ARRAY[${facultyFilters}])
+      (c.terms = ARRAY[]::integer[] OR c.terms && ${termFilters}::integer[]) AND 
+      c.faculty ILIKE ANY(${facultyFilters})
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC;
       `) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
+
     return courses;
   }
 }
