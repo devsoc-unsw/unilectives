@@ -9,7 +9,6 @@ import {
   PostReviewRequestBody,
   PutReviewRequestBody,
   Review,
-  ReviewId,
   ReviewsSuccessResponse,
   ReviewSuccessResponse,
   UpvoteReview,
