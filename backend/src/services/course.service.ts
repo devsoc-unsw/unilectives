@@ -13,7 +13,6 @@ import {
   CourseBody,
   CoursesSuccessResponse,
 } from "../api/schemas/course.schema";
-import { coerce } from "zod";
 
 export class CourseService {
   private logger = getLogger();

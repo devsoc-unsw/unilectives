@@ -384,7 +384,7 @@ export class CourseRepository {
     LEFT JOIN reviews r ON c.course_code = r.course_code
     WHERE cardinality(c.terms) > 0
     GROUP BY c.course_code
-    ORDER BY "enjoyability" DESC NULLS LAST
+    ORDER BY "enjoyability" DESC NULLS LAST, "reviewCount" DESC NULLS LAST
     LIMIT 1;
     `) as any[];
     const course = CourseSchema.parse(rawCourse[0]);
@@ -421,7 +421,7 @@ export class CourseRepository {
     LEFT JOIN reviews r ON c.course_code = r.course_code
     WHERE cardinality(c.terms) > 0
     GROUP BY c.course_code
-    ORDER BY "usefulness" DESC NULLS LAST
+    ORDER BY "usefulness" DESC NULLS LAST, "reviewCount" DESC NULLS LAST
     LIMIT 1;
     `) as any[];
     const course = CourseSchema.parse(rawCourse[0]);
@@ -458,7 +458,7 @@ export class CourseRepository {
     LEFT JOIN reviews r ON c.course_code = r.course_code
     WHERE cardinality(c.terms) > 0
     GROUP BY c.course_code
-    ORDER BY "manageability" DESC NULLS LAST
+    ORDER BY "manageability" DESC NULLS LAST, "reviewCount" DESC NULLS LAST
     LIMIT 1;
     `) as any[];
     const course = CourseSchema.parse(rawCourse[0]);
