@@ -10,7 +10,6 @@ import { UserRepository } from "../repositories/user.repository";
 import { CourseRepository } from "../repositories/course.repository";
 import { BookmarkCourse } from "../api/schemas/course.schema";
 import RedisClient from "../modules/redis";
-import { undefined } from "zod";
 
 describe("CourseService", () => {
   jest.useFakeTimers().setSystemTime(new Date("2020-01-01"));
@@ -152,6 +151,17 @@ describe("CourseService", () => {
   });
 
   describe("getHighestRatedCourseInTerm", () => {
+    it("should throw HTTP 500 if there is no course in the database", () => {
+      const service = courseService();
+      courseRepository.getHighestRatedCourseInTerm = jest
+        .fn()
+        .mockResolvedValue(undefined);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getHighestRatedCourseInTerm("1")).rejects.toThrow(
+        errorResult,
+      );
+    });
+
     it("should throw HTTP 500 error if given an invalid term", () => {
       const service = courseService();
       courseRepository.getHighestRatedCourseInTerm = jest
