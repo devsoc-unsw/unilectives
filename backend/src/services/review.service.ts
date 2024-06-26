@@ -231,7 +231,7 @@ export class ReviewService {
     };
   }
 
-  async getMostLiked(): Promise<ReviewId | undefined> {
+  async getMostLiked() {
     const cachedReview = await this.redis.get<Review>(`review:mostLiked`);
     let review: Review | null;
 
