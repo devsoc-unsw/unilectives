@@ -309,7 +309,6 @@ export class CourseRepository {
   }
 
   async getHighestRatedCourseInTerm(term: string) {
-    // Assume we have passed in a valid term in the valid format
     const rawCourse = (await this.prisma.$queryRaw`
     SELECT
     c.course_code AS "courseCode",
