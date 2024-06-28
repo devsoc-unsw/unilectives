@@ -107,6 +107,30 @@ export class CourseController implements IController {
           }
         },
       )
+      .get(
+        "/course/filter/:terms/:faculties/:searchTerm",
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(`Received request in GET /course/filter`);
+          try {
+            const { terms, faculties, searchTerm } = req.params;
+
+            const result = await this.courseService.filterCourse(
+              terms,
+              faculties,
+              searchTerm,
+            );
+
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /course/filter ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
       .delete(
         "/cached/flush",
         async (
