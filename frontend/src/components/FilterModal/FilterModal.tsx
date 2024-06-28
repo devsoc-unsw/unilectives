@@ -220,7 +220,7 @@ export default function FilterModal({
 
             <div className="flex justify-between mt-4 xs:flex-col xs:gap-4">
               <button
-                className="flex items-center justify-center w-1/3 xs:w-full dark:hover:border-gray-900  gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:border-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
+                className="flex items-center justify-center xs:w-full dark:hover:border-gray-900 gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:border-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
                 onClick={handleClearAll}
               >
                 Clear All
