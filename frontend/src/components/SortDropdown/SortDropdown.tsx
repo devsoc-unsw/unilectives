@@ -1,6 +1,6 @@
-"use client";
-import React from "react";
-import Dropdown from "../Dropdown/Dropdown";
+'use client';
+import React from 'react';
+import Dropdown from '../Dropdown/Dropdown';
 
 export default function SortDropdownBar({
   selected,
@@ -10,16 +10,16 @@ export default function SortDropdownBar({
   setSelected: (str: string) => void;
 }) {
   return (
-    <div className="w-5/6">
-      <div className="mt-4 flex-1 min-w-[150px] max-w-[200px] xs:min-w-full z-10">
+    <div className="min-w-[180px] xs:min-w-1/2">
+      <div className=" w-full mt-4 ">
         <Dropdown
           options={[
-            "Alphabetical (A-Z)",
-            "Alphabetical (Z-A)",
-            "Overall Rating",
-            "Enjoyability",
-            "Usefulness",
-            "Manageability",
+            'Alphabetical (A-Z)',
+            'Alphabetical (Z-A)',
+            'Overall Rating',
+            'Enjoyability',
+            'Usefulness',
+            'Manageability',
           ]}
           defaultValue={selected}
           onChange={setSelected}

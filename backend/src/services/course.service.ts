@@ -88,6 +88,48 @@ export class CourseService {
     return { courses };
   }
 
+  async filterCourse(
+    terms: string,
+    faculties: string,
+    searchTerm: string,
+  ): Promise<CoursesSuccessResponse | undefined> {
+    let courses = await this.redis.get<Course[]>(
+      `filterCourses:${terms}&${faculties}&${searchTerm}`,
+    );
+    if (!courses) {
+      this.logger.info(
+        `Cache miss on filterCourses:${terms}&${faculties}&${searchTerm}`,
+      );
+
+      if (terms.includes("None")) {
+        // filters for not offered courses
+        courses = await this.courseRepository.filterNotOfferedCourses(
+          terms,
+          faculties,
+          searchTerm,
+        );
+      } else {
+        courses = await this.courseRepository.filterCourse(
+          terms,
+          faculties,
+          searchTerm,
+        );
+      }
+
+      await this.redis.set(
+        `filterCourses:${terms}&${faculties}&${searchTerm}`,
+        courses,
+      );
+    } else {
+      this.logger.info(
+        `Cache hit on filterCourses:${terms}&${faculties}&${searchTerm}`,
+      );
+    }
+
+    this.logger.info(`Found ${courses.length} courses.`);
+    return { courses };
+  }
+
   async flushKey(zid: string, key: string) {
     const userInfo = await this.userRepository.getUser(zid);
     if (!userInfo) {
