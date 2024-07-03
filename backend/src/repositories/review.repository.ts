@@ -1,7 +1,6 @@
 import { PrismaClient, reviews } from "@prisma/client";
 import {
   PostReviewRequestBody,
-  ReviewIdSchema,
   ReviewSchema,
 } from "../api/schemas/review.schema";
 
