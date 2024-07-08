@@ -11,6 +11,7 @@ course_codes = courses
 url_prefix = "https://studentvip.com.au/unsw/subjects/"
 reviews = []
 
+
 for course_code in course_codes:
     page = requests.get(url_prefix + course_code)
     soup = BeautifulSoup(page.content, "html.parser")
@@ -29,8 +30,10 @@ for course_code in course_codes:
 
             name, term, year = review.find("small").get_text(strip=True).split(",")
             review_object["authorName"] = name.strip()
-            review_object["termTaken"] = term.strip()
-            review_object["createdTimestamp"] = year.strip()
+            termTaken = term.split(' ')
+            yearTaken = year.strip()
+            # Will format according to how backend wants (18S1, 19T2 Automatically changes to S and T)
+            review_object["termTaken"] = yearTaken[2:] + termTaken[1][0] + termTaken[2]
 
             course_reviews.append(review_object)
 
