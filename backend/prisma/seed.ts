@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import dataJson from "../src/data/studentVIP_reviews.json";
+import dataJson from "../data/studentVIP_reviews.json";
 const prisma = new PrismaClient();
 
 async function main() {
