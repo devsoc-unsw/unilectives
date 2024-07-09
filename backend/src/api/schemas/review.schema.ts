@@ -1,3 +1,4 @@
+import { title } from "process";
 import { z } from "zod";
 
 const CommonReviewSchema = z
@@ -118,3 +119,17 @@ const ReviewsSuccessResponseSchema = z
 export type ReviewsSuccessResponse = z.infer<
   typeof ReviewsSuccessResponseSchema
 >;
+
+export const ReviewStudentVIPSchema = z
+  .object({
+    reviewId: z.string(),
+    courseCode: z.string(),
+    authorName: z.string(),
+    title: z.string(),
+    termTaken: z.string(),
+    upvotes: z.string().array(),
+    overallRating: z.number(),
+  })
+  .strict();
+
+export type ReviewStudentVIP = z.infer<typeof ReviewStudentVIPSchema>;
