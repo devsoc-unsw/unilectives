@@ -84,67 +84,64 @@ describe("CourseService", () => {
     });
   });
 
-  describe("getHighestEnjoyability", () => {
-    it("should throw HTTP 500 error if there is no course in database", () => {
+  describe("getCourseWithHighestRatedAttribute", () => {
+    it("should throw HTTP 500 if there is no course in the database", () => {
       const service = courseService();
-      courseRepository.getHighestEnjoyability = jest
+      courseRepository.getCourseWithHighestRatedAttribute = jest
         .fn()
         .mockResolvedValue(undefined);
       const errorResult = new HTTPError(badRequest);
-      expect(service.getHighestEnjoyability()).rejects.toThrow(errorResult);
+      expect(
+        service.getCourseWithHighestRatedAttribute("manageability"),
+      ).rejects.toThrow(errorResult);
     });
 
-    it("should resolve and return the course with the highest enjoyability", () => {
+    it("should throw HTTP 500 error if given an invalid attribute", () => {
       const service = courseService();
-      const courses = getMockCourses();
-      courseRepository.getHighestEnjoyability = jest
-        .fn()
-        .mockResolvedValue(courses[0]);
-      expect(service.getHighestEnjoyability()).resolves.toEqual({
-        courseCode: courses[0].courseCode,
-      });
-    });
-  });
-
-  describe("getHighestUsefulness", () => {
-    it("should throw HTTP 500 error if there is no course in database", () => {
-      const service = courseService();
-      courseRepository.getHighestUsefulness = jest
+      courseRepository.getHighestRatedCourseInTerm = jest
         .fn()
         .mockResolvedValue(undefined);
       const errorResult = new HTTPError(badRequest);
-      expect(service.getHighestUsefulness()).rejects.toThrow(errorResult);
-    });
-
-    it("should resolve and return the course with the highest usefulness", () => {
-      const service = courseService();
-      const courses = getMockCourses();
-      courseRepository.getHighestUsefulness = jest
-        .fn()
-        .mockResolvedValue(courses[0]);
-      expect(service.getHighestUsefulness()).resolves.toEqual({
-        courseCode: courses[0].courseCode,
-      });
-    });
-  });
-
-  describe("getHighestManageability", () => {
-    it("should throw HTTP 500 error if there is no course in database", () => {
-      const service = courseService();
-      courseRepository.getHighestManageability = jest
-        .fn()
-        .mockResolvedValue(undefined);
-      const errorResult = new HTTPError(badRequest);
-      expect(service.getHighestManageability()).rejects.toThrow(errorResult);
+      expect(
+        service.getCourseWithHighestRatedAttribute("ratings"),
+      ).rejects.toThrow(errorResult);
     });
 
     it("should resolve and return the course with the highest manageability", () => {
       const service = courseService();
       const courses = getMockCourses();
-      courseRepository.getHighestManageability = jest
+      courseRepository.getCourseWithHighestRatedAttribute = jest
         .fn()
         .mockResolvedValue(courses[0]);
-      expect(service.getHighestManageability()).resolves.toEqual({
+      expect(
+        service.getCourseWithHighestRatedAttribute("manageability"),
+      ).resolves.toEqual({
+        courseCode: courses[0].courseCode,
+      });
+    });
+
+    it("should resolve and return the course with the highest usefulness", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getCourseWithHighestRatedAttribute = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(
+        service.getCourseWithHighestRatedAttribute("usefulness"),
+      ).resolves.toEqual({
+        courseCode: courses[0].courseCode,
+      });
+    });
+
+    it("should resolve and return the course with the highest enjoyability", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getCourseWithHighestRatedAttribute = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(
+        service.getCourseWithHighestRatedAttribute("enjoyability"),
+      ).resolves.toEqual({
         courseCode: courses[0].courseCode,
       });
     });

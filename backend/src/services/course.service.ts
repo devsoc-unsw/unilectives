@@ -130,72 +130,9 @@ export class CourseService {
     return { courses };
   }
 
-  async getHighestEnjoyability() {
-    const cachedCourse = await this.redis.get<Course>(
-      `course:highestEnjoyability`,
-    );
-    let course: Course | null;
-
-    if (!cachedCourse) {
-      this.logger.info(`Cache miss on course:highestEnjoyability`);
-      course = await this.courseRepository.getHighestEnjoyability();
-      if (!course) {
-        this.logger.error(`Could not find highest enjoyability course`);
-        throw new HTTPError(badRequest);
-      }
-      await this.redis.set(`course:highestEnjoyability`, course);
-    } else {
-      this.logger.info(`Cache hit on course:highestEnjoyability`);
-      course = cachedCourse;
-    }
-    return { courseCode: course.courseCode };
-  }
-
-  async getHighestUsefulness() {
-    const cachedCourse = await this.redis.get<Course>(
-      `course:highestUsefulness`,
-    );
-    let course: Course | null;
-
-    if (!cachedCourse) {
-      this.logger.info(`Cache miss on course:highestUsefulness`);
-      course = await this.courseRepository.getHighestUsefulness();
-      if (!course) {
-        this.logger.error(`Could not find course with highest usefulness`);
-        throw new HTTPError(badRequest);
-      }
-      await this.redis.set(`course:highestUsefulness`, course);
-    } else {
-      this.logger.info(`Cache hit on course:highestUsefulness`);
-      course = cachedCourse;
-    }
-    return { courseCode: course.courseCode };
-  }
-
-  async getHighestManageability() {
-    const cachedCourse = await this.redis.get<Course>(
-      `course:highestManageability`,
-    );
-    let course: Course | null;
-
-    if (!cachedCourse) {
-      this.logger.info(`Cache miss on course:highestManageability`);
-      course = await this.courseRepository.getHighestManageability();
-      if (!course) {
-        this.logger.error(`Could not find course with highest manageability`);
-        throw new HTTPError(badRequest);
-      }
-      await this.redis.set(`course:highestManageability`, course);
-    } else {
-      this.logger.info(`Cache hit on course:highestManageability`);
-      course = cachedCourse;
-    }
-    return { courseCode: course.courseCode };
-  }
-
   async getHighestRatedCourseInTerm(term: string) {
-    const validTerms = new Set(["1", "2", "3"]);
-    if (!validTerms.has(term)) {
+    const validTerms = ["1", "2", "3"];
+    if (!validTerms.includes(term)) {
       this.logger.error(`${term} is not a valid term`);
       throw new HTTPError(badRequest);
     }
@@ -216,6 +153,36 @@ export class CourseService {
       await this.redis.set(`highestRatedCoursePerTerm:${term}`, course);
     } else {
       this.logger.info(`Cache hit on highestRatedCoursePerTerm:${term}`);
+      course = cachedCourse;
+    }
+
+    return { courseCode: course.courseCode };
+  }
+
+  async getCourseWithHighestRatedAttribute(attribute: string) {
+    const attributes = ["manageability", "usefulness", "enjoyability"];
+    if (!attributes.includes(attribute)) {
+      this.logger.error(`${attribute} is not a valid attribute`);
+      throw new HTTPError(badRequest);
+    }
+    let course: Course | null;
+    const cachedCourse = await this.redis.get<Course>(
+      `highestRatedAttribute:${attribute}`,
+    );
+
+    if (!cachedCourse) {
+      this.logger.info(`Cache miss on highestRatedAttribute:${attribute}`);
+      course =
+        await this.courseRepository.getCourseWithHighestRatedAttribute(
+          attribute,
+        );
+      if (!course) {
+        this.logger.error(`Could not find course with highest ${attribute}`);
+        throw new HTTPError(badRequest);
+      }
+      await this.redis.set(`highestRatedAttribute:${attribute}`, course);
+    } else {
+      this.logger.info(`Cache hit on highestRatedAttribute:${attribute}`);
       course = cachedCourse;
     }
 
