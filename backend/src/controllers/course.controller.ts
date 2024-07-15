@@ -93,7 +93,7 @@ export class CourseController implements IController {
           next: NextFunction,
         ) => {
           this.logger.debug(
-            `Received request in GET /course/highest-rated/:term`,
+            `Received request in GET /course/highest-attribute/:attribute`,
           );
           try {
             const attribute: string = req.params.attribute;
