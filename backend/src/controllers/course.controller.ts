@@ -86,64 +86,28 @@ export class CourseController implements IController {
         },
       )
       .get(
-        "/course/highest-enjoyability",
-        async (req: Request, res: Response, next: NextFunction) => {
+        "/course/highest-attribute/:attribute",
+        async (
+          req: Request<{ attribute: string }, unknown>,
+          res: Response,
+          next: NextFunction,
+        ) => {
           this.logger.debug(
-            `Received request in GET /course/highest-enjoyability`,
+            `Received request in GET /course/highest-rated/:term`,
           );
           try {
-            const result = await this.courseService.getHighestEnjoyability();
+            const attribute: string = req.params.attribute;
+            const result =
+              await this.courseService.getCourseWithHighestRatedAttribute(
+                attribute,
+              );
             this.logger.info(
-              `Responding to client in GET /course/highest-enjoyability`,
+              `Responding to client in GET /course/highest-attribute/${attribute}`,
             );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /course/highest-enjoyability ${formatError(
-                err,
-              )}`,
-            );
-            return next(err);
-          }
-        },
-      )
-      .get(
-        "/course/highest-usefulness",
-        async (req: Request, res: Response, next: NextFunction) => {
-          this.logger.debug(
-            `Received request in GET /course/highest-usefulness`,
-          );
-          try {
-            const result = await this.courseService.getHighestUsefulness();
-            this.logger.info(
-              `Responding to client in GET /course/highest-usefulness`,
-            );
-            return res.status(200).json(result);
-          } catch (err: any) {
-            this.logger.warn(
-              `An error occurred when trying to GET /course/highest-usefulness ${formatError(
-                err,
-              )}`,
-            );
-            return next(err);
-          }
-        },
-      )
-      .get(
-        "/course/highest-manageability",
-        async (req: Request, res: Response, next: NextFunction) => {
-          this.logger.debug(
-            `Received request in GET /course/highest-manageability`,
-          );
-          try {
-            const result = await this.courseService.getHighestManageability();
-            this.logger.info(
-              `Responding to client in GET /course/highest-manageability`,
-            );
-            return res.status(200).json(result);
-          } catch (err: any) {
-            this.logger.warn(
-              `An error occurred when trying to GET /course/highest-manageability ${formatError(
+              `An error occurred when trying to GET /course/highest-attribute ${formatError(
                 err,
               )}`,
             );
