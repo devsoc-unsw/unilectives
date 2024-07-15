@@ -4,8 +4,6 @@ import {
   CourseCodeSchema,
   CourseSchema,
 } from "../api/schemas/course.schema";
-import e from "express";
-import { Console } from "console";
 
 export class CourseRepository {
   constructor(private readonly prisma: PrismaClient) {}
