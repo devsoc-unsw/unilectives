@@ -34,6 +34,7 @@ export default async function RootLayout({
               `,
           }}
         />
+        <script defer data-domain="unilectives.devsoc.app" src="https://plausible.io/js/script.js"></script>
       </head>
       <body className="bg-white dark:bg-slate-800 dark:text-gray-200">
         <Provider session={session}>
