@@ -72,12 +72,12 @@ export class CourseController implements IController {
             const result =
               await this.courseService.getHighestRatedCourseInTerm(term);
             this.logger.info(
-              `Responding to client in GET /course/highest-rated/${term}`,
+              `Responding to client in GET /wrapped/course/highest-rated/${term}`,
             );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /course/highest-rated ${formatError(
+              `An error occurred when trying to GET /wrapped/course/highest-rated ${formatError(
                 err,
               )}`,
             );
@@ -93,7 +93,7 @@ export class CourseController implements IController {
           next: NextFunction,
         ) => {
           this.logger.debug(
-            `Received request in GET /course/highest-attribute/:attribute`,
+            `Received request in GET /wrapped/course/highest-attribute/:attribute`,
           );
           try {
             const attribute: string = req.params.attribute;
@@ -102,12 +102,12 @@ export class CourseController implements IController {
                 attribute,
               );
             this.logger.info(
-              `Responding to client in GET /course/highest-attribute/${attribute}`,
+              `Responding to client in GET /wrapped/course/highest-attribute/${attribute}`,
             );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /course/highest-attribute ${formatError(
+              `An error occurred when trying to GET /wrapped/course/highest-attribute ${formatError(
                 err,
               )}`,
             );

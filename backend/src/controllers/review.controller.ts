@@ -48,13 +48,16 @@ export class ReviewController implements IController {
       .get(
         "/wrapped/reviews/most-liked",
         async (req: Request, res: Response, next: NextFunction) => {
-          this.logger.debug(`Received request in /reviews/most-liked`);
+          this.logger.debug(`Received request in /wrapped/reviews/most-liked`);
           try {
             const result = await this.reviewService.getMostLiked();
+            this.logger.info(
+              `Responding to client in GET /wrapped/reviews/most-liked`,
+            );
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
-              `An error occurred when trying to GET /reviews/mostLiked ${formatError(
+              `An error occurred when trying to GET /wrapped/reviews/most-liked ${formatError(
                 err,
               )}`,
             );
