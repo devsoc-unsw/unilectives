@@ -8,6 +8,7 @@ import {
   BookmarkReview,
   PostReviewRequestBody,
   PutReviewRequestBody,
+  Review,
   ReviewsSuccessResponse,
   ReviewSuccessResponse,
   UpvoteReview,
@@ -226,6 +227,33 @@ export class ReviewService {
 
     return {
       review: review,
+    };
+  }
+
+  async getMostLiked() {
+    const cachedReview = await this.redis.get<Review>(`review:mostLiked`);
+    let review: Review | null;
+
+    if (!cachedReview) {
+      this.logger.info(`Cache miss on review:mostLiked`);
+      review = await this.reviewRepository.getMostLiked();
+      await this.redis.set(`review:mostLiked`, review);
+
+      if (!review) {
+        this.logger.error(`Could not find review with the most likes`);
+        throw new HTTPError(badRequest);
+      }
+    } else {
+      this.logger.info(`Cache hit on review:mostLiked`);
+      review = cachedReview;
+    }
+
+    this.logger.info(
+      `Sucessfully found review with reviewId ${review.reviewId} which contains the most votes`,
+    );
+
+    return {
+      reviewId: review.reviewId,
     };
   }
 }
