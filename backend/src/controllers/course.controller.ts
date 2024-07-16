@@ -58,7 +58,7 @@ export class CourseController implements IController {
         },
       )
       .get(
-        "/course/highest-rated/:term",
+        "/wrapped/course/highest-rated/:term",
         async (
           req: Request<{ term: string }, unknown>,
           res: Response,
@@ -86,7 +86,7 @@ export class CourseController implements IController {
         },
       )
       .get(
-        "/course/highest-attribute/:attribute",
+        "/wrapped/course/highest-attribute/:attribute",
         async (
           req: Request<{ attribute: string }, unknown>,
           res: Response,
