@@ -46,6 +46,26 @@ export class ReviewController implements IController {
         },
       )
       .get(
+        "/wrapped/reviews/most-liked",
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(`Received request in /wrapped/reviews/most-liked`);
+          try {
+            const result = await this.reviewService.getMostLiked();
+            this.logger.info(
+              `Responding to client in GET /wrapped/reviews/most-liked`,
+            );
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /wrapped/reviews/most-liked ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
         "/reviews/:courseCode",
         async (
           req: Request<{ courseCode: string }, unknown>,
@@ -55,9 +75,8 @@ export class ReviewController implements IController {
           this.logger.debug(`Received request in /reviews/:courseCode`);
           try {
             const courseCode: string = req.params.courseCode;
-            const result = await this.reviewService.getCourseReviews(
-              courseCode,
-            );
+            const result =
+              await this.reviewService.getCourseReviews(courseCode);
             this.logger.info(
               `Responding to client in GET /reviews/${courseCode}`,
             );
@@ -72,6 +91,7 @@ export class ReviewController implements IController {
           }
         },
       )
+
       .post(
         "/reviews",
         [verifyToken, validationMiddleware(PostReviewSchema, "body")],
@@ -167,9 +187,8 @@ export class ReviewController implements IController {
           try {
             const reviewDetails = req.body;
             if (!reviewDetails) throw new HTTPError(badRequest);
-            const result = await this.reviewService.bookmarkReview(
-              reviewDetails,
-            );
+            const result =
+              await this.reviewService.bookmarkReview(reviewDetails);
             this.logger.info(`Responding to client in POST /reviews/bookmark`);
             return res.status(200).json(result);
           } catch (err: any) {

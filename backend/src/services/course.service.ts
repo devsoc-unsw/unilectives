@@ -130,6 +130,65 @@ export class CourseService {
     return { courses };
   }
 
+  async getHighestRatedCourseInTerm(term: string) {
+    const validTerms = ["1", "2", "3"];
+    if (!validTerms.includes(term)) {
+      this.logger.error(`${term} is not a valid term`);
+      throw new HTTPError(badRequest);
+    }
+
+    const cachedCourse = await this.redis.get<Course>(
+      `highestRatedCoursePerTerm:${term}`,
+    );
+    let course: Course | null;
+
+    if (!cachedCourse) {
+      this.logger.info(`Cache miss on highestRatedCoursePerTerm:${term}`);
+
+      course = await this.courseRepository.getHighestRatedCourseInTerm(term);
+      if (!course) {
+        this.logger.error(`Could not find highest rated course in term`);
+        throw new HTTPError(badRequest);
+      }
+      await this.redis.set(`highestRatedCoursePerTerm:${term}`, course);
+    } else {
+      this.logger.info(`Cache hit on highestRatedCoursePerTerm:${term}`);
+      course = cachedCourse;
+    }
+
+    return { courseCode: course.courseCode };
+  }
+
+  async getCourseWithHighestRatedAttribute(attribute: string) {
+    const attributes = ["manageability", "usefulness", "enjoyability"];
+    if (!attributes.includes(attribute)) {
+      this.logger.error(`${attribute} is not a valid attribute`);
+      throw new HTTPError(badRequest);
+    }
+    let course: Course | null;
+    const cachedCourse = await this.redis.get<Course>(
+      `highestRatedAttribute:${attribute}`,
+    );
+
+    if (!cachedCourse) {
+      this.logger.info(`Cache miss on highestRatedAttribute:${attribute}`);
+      course =
+        await this.courseRepository.getCourseWithHighestRatedAttribute(
+          attribute,
+        );
+      if (!course) {
+        this.logger.error(`Could not find course with highest ${attribute}`);
+        throw new HTTPError(badRequest);
+      }
+      await this.redis.set(`highestRatedAttribute:${attribute}`, course);
+    } else {
+      this.logger.info(`Cache hit on highestRatedAttribute:${attribute}`);
+      course = cachedCourse;
+    }
+
+    return { courseCode: course.courseCode };
+  }
+
   async flushKey(zid: string, key: string) {
     const userInfo = await this.userRepository.getUser(zid);
     if (!userInfo) {

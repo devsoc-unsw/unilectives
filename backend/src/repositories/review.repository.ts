@@ -1,5 +1,8 @@
 import { PrismaClient, reviews } from "@prisma/client";
-import { PostReviewRequestBody } from "../api/schemas/review.schema";
+import {
+  PostReviewRequestBody,
+  ReviewSchema,
+} from "../api/schemas/review.schema";
 
 export class ReviewRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -83,5 +86,31 @@ export class ReviewRepository {
         reviewId: reviewId,
       },
     });
+  }
+
+  async getMostLiked() {
+    const rawReview = (await this.prisma.$queryRaw`
+      SELECT
+      r.review_id AS "reviewId",
+      r.zid,
+      r.course_code AS "courseCode",
+      r.author_name AS "authorName",
+      r.title,
+      r.description,
+      r.grade,
+      r.term_taken AS "termTaken",
+      r.created_timestamp AS "createdTimestamp",
+      r.updated_timestamp AS "updatedTimestamp",
+      r.upvotes,
+      r.manageability,
+      r.enjoyability,
+      r.usefulness,
+      r.overall_rating AS "overallRating"
+      FROM reviews r
+      ORDER BY cardinality(r.upvotes) DESC
+      LIMIT 1;
+    `) as any[];
+    const review = ReviewSchema.parse(rawReview[0]);
+    return review;
   }
 }

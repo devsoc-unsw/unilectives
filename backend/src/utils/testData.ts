@@ -227,7 +227,7 @@ export const getMockReviews = (date = new Date()): Review[] => {
       termTaken: "T2",
       createdTimestamp: date,
       updatedTimestamp: date,
-      upvotes: ["z513131"],
+      upvotes: ["z513131", "z5123451"],
       manageability: 3,
       enjoyability: 3,
       usefulness: 3,
