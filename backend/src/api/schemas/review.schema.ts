@@ -134,7 +134,7 @@ export const ReviewStudentVIPSchema = z
 
 export const ReviewStudentVIPSuccessResponseSchema = z
   .object({
-    reviews: z.array(ReviewStudentVIPSchema),
+    reviewsStudentVIP: z.array(ReviewStudentVIPSchema),
   })
   .strict();
 

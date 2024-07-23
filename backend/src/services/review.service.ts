@@ -44,7 +44,7 @@ export class ReviewService {
       throw new HTTPError(internalServerError);
     }
     return {
-      reviews: reviews,
+      reviewsStudentVIP: reviews,
     };
   }
 
@@ -97,7 +97,7 @@ export class ReviewService {
     }
     this.logger.info(`Found ${reviews.length} reviews.`);
     return {
-      reviews: reviews.map((review) => {
+      reviewsStudentVIP: reviews.map((review) => {
         return {
           ...review,
           courseCode,
