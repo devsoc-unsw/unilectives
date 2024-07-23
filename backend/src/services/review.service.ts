@@ -9,10 +9,11 @@ import {
   PostReviewRequestBody,
   PutReviewRequestBody,
   ReviewsSuccessResponse,
+  ReviewStudentVIPSuccessResponse,
   ReviewSuccessResponse,
   UpvoteReview,
 } from "../api/schemas/review.schema";
-import { reviews } from "@prisma/client";
+import { reviews, reviewsStudentVIP } from "@prisma/client";
 
 export class ReviewService {
   private logger = getLogger();
@@ -33,6 +34,20 @@ export class ReviewService {
     };
   }
 
+  async getAllReviewsStudentVIP(): Promise<
+    ReviewStudentVIPSuccessResponse | undefined
+  > {
+    const reviews: reviewsStudentVIP[] =
+      await this.reviewRepository.getAllReviewsStudentVIP();
+    if (reviews.length === 0) {
+      this.logger.error("Database returned with no reviews.");
+      throw new HTTPError(internalServerError);
+    }
+    return {
+      reviews: reviews,
+    };
+  }
+
   async getCourseReviews(
     courseCode: string,
   ): Promise<ReviewsSuccessResponse | undefined> {
@@ -44,6 +59,36 @@ export class ReviewService {
       await this.redis.set(`reviews:${courseCode}`, reviews);
     } else {
       this.logger.info(`Cache hit on reviews:${courseCode}`);
+    }
+
+    if (reviews.length === 0) {
+      this.logger.error("Database returned with no reviews.");
+      throw new HTTPError(internalServerError);
+    }
+    this.logger.info(`Found ${reviews.length} reviews.`);
+    return {
+      reviews: reviews.map((review) => {
+        return {
+          ...review,
+          courseCode,
+        };
+      }),
+    };
+  }
+
+  async getCourseReviewsStudentVIP(
+    courseCode: string,
+  ): Promise<ReviewStudentVIPSuccessResponse | undefined> {
+    let reviews = await this.redis.get<reviewsStudentVIP[]>(
+      `reviewsStudentVIP:${courseCode}`,
+    );
+    if (!reviews) {
+      this.logger.info(`Cache miss on reviewsStudentVIP:${courseCode}`);
+      reviews =
+        await this.reviewRepository.getCourseReviewsStudentVIP(courseCode);
+      await this.redis.set(`reviewsStudentVIP:${courseCode}`, reviews);
+    } else {
+      this.logger.info(`Cache hit on reviewsStudentVIP:${courseCode}`);
     }
 
     if (reviews.length === 0) {

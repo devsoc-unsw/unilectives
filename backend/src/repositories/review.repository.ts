@@ -1,8 +1,5 @@
 import { PrismaClient, reviews, reviewsStudentVIP } from "@prisma/client";
-import {
-  PostReviewRequestBody,
-  ReviewStudentVIP,
-} from "../api/schemas/review.schema";
+import { PostReviewRequestBody } from "../api/schemas/review.schema";
 
 export class ReviewRepository {
   constructor(private readonly prisma: PrismaClient) {}

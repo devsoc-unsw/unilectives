@@ -2,6 +2,11 @@ import { PrismaClient } from "@prisma/client";
 import dataJson from "../data/studentVIP_reviews.json";
 const prisma = new PrismaClient();
 
+/**
+ * Seed the database with the data from the JSON file for studentVIP reviews
+ * @returns void
+ * @throws Error
+ */
 async function main() {
   // Read JSON file
   const data = dataJson;

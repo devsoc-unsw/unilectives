@@ -45,5 +45,5 @@ for course_code in course_codes:
     except:
         print(f"Could not process reviews for {course_code}")
 
-    with open('studentVIP_reviews.json', 'w') as f:
+    with open('../backend/data/studentVIP_reviews.json', 'w') as f:
         json.dump(reviews, f, indent=2)

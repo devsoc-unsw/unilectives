@@ -132,4 +132,12 @@ export const ReviewStudentVIPSchema = z
   })
   .strict();
 
-export type ReviewStudentVIP = z.infer<typeof ReviewStudentVIPSchema>;
+export const ReviewStudentVIPSuccessResponseSchema = z
+  .object({
+    reviews: z.array(ReviewStudentVIPSchema),
+  })
+  .strict();
+
+export type ReviewStudentVIPSuccessResponse = z.infer<
+  typeof ReviewStudentVIPSuccessResponseSchema
+>;
