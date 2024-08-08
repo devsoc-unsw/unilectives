@@ -79,7 +79,7 @@ export class ReviewController implements IController {
             this.logger.info(
               `Responding to client in GET /reviews/${courseCode}`,
             );
-            console.log({ ...result });
+            return res.status(200).json({ ...result });
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /reviews ${formatError(
