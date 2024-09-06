@@ -61,14 +61,71 @@ export class CourseController implements IController {
             if (offsetStr !== undefined) {
               offset = parseInt(offsetStr);
             }
-            const result = await this.courseService.getCoursesFromOffset(
-              offset,
-            );
+            const result =
+              await this.courseService.getCoursesFromOffset(offset);
             this.logger.info(`Responding to client in GET /courses`);
             return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /courses ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
+        "/wrapped/course/highest-rated/:term",
+        async (
+          req: Request<{ term: string }, unknown>,
+          res: Response,
+          next: NextFunction,
+        ) => {
+          this.logger.debug(
+            `Received request in GET /course/highest-rated/:term`,
+          );
+          try {
+            const term: string = req.params.term;
+            const result =
+              await this.courseService.getHighestRatedCourseInTerm(term);
+            this.logger.info(
+              `Responding to client in GET /wrapped/course/highest-rated/${term}`,
+            );
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /wrapped/course/highest-rated ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
+        "/wrapped/course/highest-attribute/:attribute",
+        async (
+          req: Request<{ attribute: string }, unknown>,
+          res: Response,
+          next: NextFunction,
+        ) => {
+          this.logger.debug(
+            `Received request in GET /wrapped/course/highest-attribute/:attribute`,
+          );
+          try {
+            const attribute: string = req.params.attribute;
+            const result =
+              await this.courseService.getCourseWithHighestRatedAttribute(
+                attribute,
+              );
+            this.logger.info(
+              `Responding to client in GET /wrapped/course/highest-attribute/${attribute}`,
+            );
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /wrapped/course/highest-attribute ${formatError(
                 err,
               )}`,
             );
@@ -118,6 +175,30 @@ export class CourseController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /course/search ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
+        "/course/filter/:terms/:faculties/:searchTerm",
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(`Received request in GET /course/filter`);
+          try {
+            const { terms, faculties, searchTerm } = req.params;
+
+            const result = await this.courseService.filterCourse(
+              terms,
+              faculties,
+              searchTerm,
+            );
+
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /course/filter ${formatError(
                 err,
               )}`,
             );

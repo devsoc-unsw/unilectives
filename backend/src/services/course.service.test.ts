@@ -83,4 +83,102 @@ describe("CourseService", () => {
       });
     });
   });
+
+  describe("getCourseWithHighestRatedAttribute", () => {
+    it("should throw HTTP 500 if there is no course in the database", () => {
+      const service = courseService();
+      courseRepository.getCourseWithHighestRatedAttribute = jest
+        .fn()
+        .mockResolvedValue(undefined);
+      const errorResult = new HTTPError(badRequest);
+      expect(
+        service.getCourseWithHighestRatedAttribute("manageability"),
+      ).rejects.toThrow(errorResult);
+    });
+
+    it("should throw HTTP 500 error if given an invalid attribute", () => {
+      const service = courseService();
+      courseRepository.getHighestRatedCourseInTerm = jest
+        .fn()
+        .mockResolvedValue(undefined);
+      const errorResult = new HTTPError(badRequest);
+      expect(
+        service.getCourseWithHighestRatedAttribute("ratings"),
+      ).rejects.toThrow(errorResult);
+    });
+
+    it("should resolve and return the course with the highest manageability", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getCourseWithHighestRatedAttribute = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(
+        service.getCourseWithHighestRatedAttribute("manageability"),
+      ).resolves.toEqual({
+        courseCode: courses[0].courseCode,
+      });
+    });
+
+    it("should resolve and return the course with the highest usefulness", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getCourseWithHighestRatedAttribute = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(
+        service.getCourseWithHighestRatedAttribute("usefulness"),
+      ).resolves.toEqual({
+        courseCode: courses[0].courseCode,
+      });
+    });
+
+    it("should resolve and return the course with the highest enjoyability", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getCourseWithHighestRatedAttribute = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(
+        service.getCourseWithHighestRatedAttribute("enjoyability"),
+      ).resolves.toEqual({
+        courseCode: courses[0].courseCode,
+      });
+    });
+  });
+
+  describe("getHighestRatedCourseInTerm", () => {
+    it("should throw HTTP 500 if there is no course in the database", () => {
+      const service = courseService();
+      courseRepository.getHighestRatedCourseInTerm = jest
+        .fn()
+        .mockResolvedValue(undefined);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getHighestRatedCourseInTerm("1")).rejects.toThrow(
+        errorResult,
+      );
+    });
+
+    it("should throw HTTP 500 error if given an invalid term", () => {
+      const service = courseService();
+      courseRepository.getHighestRatedCourseInTerm = jest
+        .fn()
+        .mockResolvedValue(undefined);
+      const errorResult = new HTTPError(badRequest);
+      expect(service.getHighestRatedCourseInTerm("21")).rejects.toThrow(
+        errorResult,
+      );
+    });
+
+    it("should resolve and return the course with the highest rating in a term", () => {
+      const service = courseService();
+      const courses = getMockCourses();
+      courseRepository.getHighestRatedCourseInTerm = jest
+        .fn()
+        .mockResolvedValue(courses[0]);
+      expect(service.getHighestRatedCourseInTerm("1")).resolves.toEqual({
+        courseCode: courses[0].courseCode,
+      });
+    });
+  });
 });

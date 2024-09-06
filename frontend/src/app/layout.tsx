@@ -34,6 +34,10 @@ export default async function RootLayout({
               `,
           }}
         />
+<<<<<<< HEAD
+=======
+      <script defer data-domain="cselectives.staging.csesoc.unsw.edu.au" src="https://plausible.io/js/script.js"></script>
+>>>>>>> a1bc05b182c2fc6b252f171c1007ad3167e8fe88
       </head>
       <body className="bg-white dark:bg-slate-800 dark:text-gray-200">
         <Provider session={session}>
