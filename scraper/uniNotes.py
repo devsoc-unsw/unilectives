@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import json
 import re
 import requests
-import openai
+# import openai
 
 # Get all course codes from localhost:3030/api/v1/courses/code/all
 url = "http://localhost:3030/api/v1/courses/code/all"
@@ -14,6 +14,7 @@ url_prefix = "https://uninotes.com/university-subjects/university-of-new-south-w
 reviews = []
 
 for course_code in course_codes:
+    print(f"Processing reviews for {course_code}...")
     page = requests.get(url_prefix + course_code)
     soup = BeautifulSoup(page.content, "html.parser")
 

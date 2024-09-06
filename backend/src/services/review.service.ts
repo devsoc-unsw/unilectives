@@ -14,7 +14,7 @@ import {
   ReviewSuccessResponse,
   UpvoteReview,
 } from "../api/schemas/review.schema";
-import { reviews, reviewsStudentVIP } from "@prisma/client";
+import { reviews, reviewsStudentVIP, reviewsUniNotes } from "@prisma/client";
 
 export class ReviewService {
   private logger = getLogger();
@@ -46,6 +46,20 @@ export class ReviewService {
     }
     return {
       reviewsStudentVIP: reviews,
+    };
+  }
+
+  async getAllReviewsUniNotes(): Promise<
+    ReviewsSuccessResponse | undefined
+  > {
+    const reviews: reviewsUniNotes[] = 
+      await this.reviewRepository.getAllReviewsUniNotes();
+    if (reviews.length === 0) {
+      this.logger.error("Database returned with no reviews.");
+      throw new HTTPError(internalServerError);
+    }
+    return {
+      reviewsUniNotes: reviews,
     };
   }
 

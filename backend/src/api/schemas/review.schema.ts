@@ -141,3 +141,5 @@ export const ReviewStudentVIPSuccessResponseSchema = z
 export type ReviewStudentVIPSuccessResponse = z.infer<
   typeof ReviewStudentVIPSuccessResponseSchema
 >;
+
+// TODO: Add schema for uni notes (FALCO)

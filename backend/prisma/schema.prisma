@@ -36,6 +36,7 @@ model courses {
   rating            Float
   reviews           reviews[]
   reviewsStudentVIP reviewsStudentVIP[]
+  reviewUniNotes    reviewsUniNotes[]
 }
 
 model reports {
@@ -79,6 +80,17 @@ model reviewsStudentVIP {
   termTaken     String   @map("term_taken")
   upvotes       String[]
   overallRating Float    @map("overall_rating")
+  courses       courses  @relation(fields: [courseCode], references: [courseCode], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
+}
+
+model reviewsUniNotes {
+  reviewId      String   @id(map: "pk_review_uniNotes_id") @default(dbgenerated("gen_random_uuid()")) @map("review_uniNotes_id") @db.Uuid
+  courseCode    String   @map("course_code")
+  authorName    String   @map("author_name")
+  description   String
+  rating        Float
+  grade         String
+  termTaken     String   @map("term_taken")
   courses       courses  @relation(fields: [courseCode], references: [courseCode], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
 }
 
