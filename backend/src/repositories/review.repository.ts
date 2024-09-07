@@ -29,6 +29,16 @@ export class ReviewRepository {
     });
   }
 
+  async getCourseReviewsUniNotes(
+    courseCode: string
+  ): Promise<reviewsUniNotes[]> {
+    return await this.prisma.reviewsUniNotes.findMany({
+      where: {
+        courseCode,
+      },
+    });
+  };
+
   async getCourseReviews(courseCode: string): Promise<reviews[]> {
     return await this.prisma.reviews.findMany({
       where: {

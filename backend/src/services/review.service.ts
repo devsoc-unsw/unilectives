@@ -12,6 +12,7 @@ import {
   ReviewsSuccessResponse,
   ReviewStudentVIPSuccessResponse,
   ReviewSuccessResponse,
+  ReviewUniNotesSuccessResponse,
   UpvoteReview,
 } from "../api/schemas/review.schema";
 import { reviews, reviewsStudentVIP, reviewsUniNotes } from "@prisma/client";
@@ -50,7 +51,7 @@ export class ReviewService {
   }
 
   async getAllReviewsUniNotes(): Promise<
-    ReviewsSuccessResponse | undefined
+    ReviewUniNotesSuccessResponse | undefined
   > {
     const reviews: reviewsUniNotes[] = 
       await this.reviewRepository.getAllReviewsUniNotes();
@@ -113,6 +114,35 @@ export class ReviewService {
     this.logger.info(`Found ${reviews.length} reviews.`);
     return {
       reviewsStudentVIP: reviews.map((review) => {
+        return {
+          ...review,
+          courseCode,
+        };
+      }),
+    };
+  }
+
+  async getCourseReviewsUniNotes(
+    courseCode: string,
+  ): Promise<ReviewUniNotesSuccessResponse | undefined> {
+    let reviews = await this.redis.get<reviewsUniNotes[]>(
+      `reviewsUniNotes:${courseCode}`,
+    );
+    if (!reviews) {
+      this.logger.info(`Cache miss on reviewsUniNotes:${courseCode}`);
+      reviews = await this.reviewRepository.getCourseReviewsUniNotes(courseCode);
+      await this.redis.set(`reviewsUniNotes:${courseCode}`, reviews);
+    } else {
+      this.logger.info(`Cache hit on reviewsUniNotes:${courseCode}`);
+    }
+
+    if (reviews.length === 0) {
+      this.logger.error("Database returned with no reviews.");
+      throw new HTTPError(internalServerError);
+    }
+    this.logger.info(`Found ${reviews.length} reviews.`);
+    return {
+      reviewsUniNotes: reviews.map((review) => {
         return {
           ...review,
           courseCode,

@@ -142,4 +142,22 @@ export type ReviewStudentVIPSuccessResponse = z.infer<
   typeof ReviewStudentVIPSuccessResponseSchema
 >;
 
-// TODO: Add schema for uni notes (FALCO)
+export const ReviewUniNotesSchema = z
+  .object({
+    reviewId: z.string(),
+    courseCode: z.string(),
+    authorName: z.string(),
+    description: z.string(),
+    rating: z.number(),
+    grade: z.string(),
+    termTaken: z.string(),
+  }).strict();
+
+export const ReviewUniNotesSuccessResponseSchema = z
+ .object({
+    reviewsUniNotes: z.array(ReviewUniNotesSchema),
+ }).strict();
+
+export type ReviewUniNotesSuccessResponse = z.infer<
+  typeof ReviewUniNotesSuccessResponseSchema
+>;

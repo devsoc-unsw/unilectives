@@ -65,6 +65,24 @@ export class ReviewController implements IController {
         },
       )
       .get(
+        "/reviews/uniNotes",
+        async (req: Request, res: Response, next: NextFunction) => {
+          this.logger.debug(`Received request in /reviews/uniNotes`);
+          try {
+            const result = await this.reviewService.getAllReviewsUniNotes();
+            this.logger.info(`Responding to client in GET /reviews/uniNotes`);
+            return res.status(200).json({ ...result });
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /reviews/uniNotes ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        }
+      )
+      .get(
       "/wrapped/reviews/most-liked",
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in /wrapped/reviews/most-liked`);
@@ -131,6 +149,29 @@ export class ReviewController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /reviews/studentVIP ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .get(
+        "/reviews/uniNotes/:courseCode",
+        async (
+          req: Request<{ courseCode: string }, unknown>,
+          res: Response, 
+          next: NextFunction,
+        ) => {
+          this.logger.debug(`Received request in /reviews/uniNotes/:courseCode`);
+          try {
+            const courseCode: string = req.params.courseCode;
+            const result = await this.reviewService.getCourseReviewsUniNotes(courseCode);
+            this.logger.info(`Responding to client in GET /reviews/uniNotes/${courseCode}`);
+            return res.status(200).json({ ...result });
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /reviews/uniNotes ${formatError(
                 err,
               )}`,
             );
