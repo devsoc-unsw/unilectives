@@ -37,7 +37,7 @@ export class ReviewRepository {
         courseCode,
       },
     });
-  };
+  }
 
   async getCourseReviews(courseCode: string): Promise<reviews[]> {
     return await this.prisma.reviews.findMany({
