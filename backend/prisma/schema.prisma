@@ -73,7 +73,7 @@ model reviews {
 }
 
 model reviewsStudentVIP {
-  reviewId      String   @id(map: "pk_review_studentVIP_id") @default(dbgenerated("gen_random_uuid()")) @map("review_studentVIP_id") @db.Uuid
+  reviewId      String   @id(map: "pk_review_studentvip_id") @default(dbgenerated("gen_random_uuid()")) @map("review_studentvip_id") @db.Uuid
   courseCode    String   @map("course_code")
   authorName    String   @map("author_name")
   title         String
@@ -81,10 +81,12 @@ model reviewsStudentVIP {
   upvotes       String[]
   overallRating Float    @map("overall_rating")
   courses       courses  @relation(fields: [courseCode], references: [courseCode], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
+
+  @@map("reviews_studentvip")
 }
 
 model reviewsUniNotes {
-  reviewId      String   @id(map: "pk_review_uniNotes_id") @default(dbgenerated("gen_random_uuid()")) @map("review_uniNotes_id") @db.Uuid
+  reviewId      String   @id(map: "pk_review_uninotes_id") @default(dbgenerated("gen_random_uuid()")) @map("review_uninotes_id") @db.Uuid
   courseCode    String   @map("course_code")
   authorName    String   @map("author_name")
   description   String
@@ -92,6 +94,8 @@ model reviewsUniNotes {
   grade         String
   termTaken     String   @map("term_taken")
   courses       courses  @relation(fields: [courseCode], references: [courseCode], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
+
+  @@map("reviews_uninotes")
 }
 
 model users {
