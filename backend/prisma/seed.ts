@@ -1,17 +1,19 @@
 import { PrismaClient } from "@prisma/client";
-import dataJson from "../data/studentVIP_reviews.json";
+import studentVIPJson from "../data/studentVIP_reviews.json";
+import uniNotesJson from "../data/uninotes_reviews.json";
+
 const prisma = new PrismaClient();
 
 /**
- * Seed the database with the data from the JSON file for studentVIP reviews
+ * Seed the database with the data from the JSON file for studentVIP and Uninotes reviews
  * @returns void
  * @throws Error
  */
 async function main() {
   // Read JSON file
-  const data = dataJson;
+  const studentVIPData = studentVIPJson;
 
-  for (const course of data) {
+  for (const course of studentVIPData) {
     const courseCode = course.course;
     for (const review of course.reviews) {
       await prisma.reviewsStudentVIP.create({
@@ -26,6 +28,25 @@ async function main() {
       });
     }
   }
+
+  const uniNotesData = uniNotesJson;
+
+  for (const course of uniNotesData) {
+    const courseCode = course.course;
+    for (const review of course.reviews) {
+      await prisma.reviewsUniNotes.create({
+        data: {
+          courseCode,
+          authorName: review.authorName,
+          description: review.description,
+          rating: review.rating,
+          grade: review.grade,
+          termTaken: review.termTaken
+        }
+      })
+    }
+  }
+
 }
 
 main()
