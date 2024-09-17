@@ -22,6 +22,7 @@ async function main() {
           authorName: review.authorName,
           title: review.description,
           termTaken: review.termTaken,
+          createdTimestamp: new Date(),
           upvotes: [],
           overallRating: review.rating,
         },
@@ -41,7 +42,8 @@ async function main() {
           description: review.description,
           rating: review.rating,
           grade: review.grade,
-          termTaken: review.termTaken
+          termTaken: review.termTaken,
+          createdTimestamp: new Date()
         }
       })
     }
