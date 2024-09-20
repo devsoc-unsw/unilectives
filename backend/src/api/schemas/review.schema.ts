@@ -126,6 +126,7 @@ export const ReviewStudentVIPSchema = z
     courseCode: z.string(),
     authorName: z.string(),
     title: z.string(),
+    description: z.string().nullable(),
     termTaken: z.string(),
     upvotes: z.string().array(),
     overallRating: z.number(),
@@ -147,10 +148,11 @@ export const ReviewUniNotesSchema = z
     reviewId: z.string(),
     courseCode: z.string(),
     authorName: z.string(),
-    description: z.string(),
-    rating: z.number(),
-    grade: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
     termTaken: z.string(),
+    upvotes: z.string().array(),
+    overallRating: z.number(),
   }).strict();
 
 export const ReviewUniNotesSuccessResponseSchema = z

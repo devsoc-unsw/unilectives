@@ -20,7 +20,8 @@ async function main() {
         data: {
           courseCode,
           authorName: review.authorName,
-          title: review.description,
+          title: "-",
+          description: review.description,
           termTaken: review.termTaken,
           createdTimestamp: new Date(),
           upvotes: [],
@@ -39,11 +40,12 @@ async function main() {
         data: {
           courseCode,
           authorName: review.authorName,
+          title: "-",
           description: review.description,
-          rating: review.rating,
-          grade: review.grade,
           termTaken: review.termTaken,
-          createdTimestamp: new Date()
+          createdTimestamp: new Date(),
+          upvotes: [],
+          overallRating: review.rating,
         }
       })
     }

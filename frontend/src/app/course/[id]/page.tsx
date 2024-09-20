@@ -4,7 +4,7 @@ import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
 import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
 import TermsGroup from "@/components/TermsGroup/TermsGroup";
 import { authOptions } from "@/lib/auth";
-import { Course, Reviews } from "@/types/api";
+import { Course, Reviews, Review, ReviewNative, ReviewStudentVIP, ReviewsNative } from "@/types/api";
 import { get, validatedReq } from "@/utils/request";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import { Metadata } from "next";
@@ -52,6 +52,16 @@ export default async function ReviewPage({
   const { reviews } = (await get(
     `/reviews/${course.courseCode.toUpperCase()}`
   )) as Reviews;
+
+  const { reviews: reviewsStudentVIP } = (await get(
+    `/reviews/studentVIP/${course.courseCode.toUpperCase()}`
+  )) as Reviews;
+
+  const { reviews: reviewsUniNotes } = (await get(
+    `/reviews/uniNotes/${course.courseCode.toUpperCase()}`
+  )) as Reviews;
+
+  const allReviews: Review[] = [...reviews, ...reviewsStudentVIP, ...reviewsUniNotes];
 
   let userCourseInfo: string[] = [];
   if (session?.user) {
@@ -221,7 +231,7 @@ export default async function ReviewPage({
           <Suspense fallback={<div>Loading...</div>}>
             <ReviewsBar
               courseCode={course.courseCode}
-              reviews={reviews}
+              reviews={allReviews}
               bookmarkedReviews={userCourseInfo}
             />
           </Suspense>

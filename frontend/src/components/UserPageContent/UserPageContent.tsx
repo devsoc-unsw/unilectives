@@ -1,7 +1,7 @@
 "use client";
 
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
-import { Course, Report, Review, TabsType } from "@/types/api";
+import { Course, Report, Review, ReviewNative, TabsType } from "@/types/api";
 import UserReviews from "../UserReviews/UserReviews";
 import UserReports from "../UserReports/UserReports";
 import Dropdown from "../Dropdown/Dropdown";
@@ -77,7 +77,7 @@ export default function UserPageContent({
       {/* My reviews */}
       {tabs["My reviews"].current && (
         <UserReviews
-          reviews={tabs["My reviews"].data as Review[]}
+          reviews={tabs["My reviews"].data as ReviewNative[]}
           setTabs={setTabs}
         />
       )}
