@@ -4,6 +4,7 @@ CREATE TABLE "reviews_studentvip" (
     "course_code" TEXT NOT NULL,
     "author_name" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "description" TEXT,
     "term_taken" TEXT NOT NULL,
     "created_timestamp" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "upvotes" TEXT[],
@@ -17,11 +18,12 @@ CREATE TABLE "reviews_uninotes" (
     "review_uninotes_id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "course_code" TEXT NOT NULL,
     "author_name" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "rating" DOUBLE PRECISION NOT NULL,
-    "grade" TEXT NOT NULL,
     "term_taken" TEXT NOT NULL,
     "created_timestamp" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "upvotes" TEXT[],
+    "overall_rating" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "pk_review_uninotes_id" PRIMARY KEY ("review_uninotes_id")
 );
