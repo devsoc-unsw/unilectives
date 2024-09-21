@@ -46,7 +46,7 @@ export class ReviewService {
       throw new HTTPError(internalServerError);
     }
     return {
-      reviewsStudentVIP: reviews,
+      reviews: reviews,
     };
   }
 
@@ -60,7 +60,7 @@ export class ReviewService {
       throw new HTTPError(internalServerError);
     }
     return {
-      reviewsUniNotes: reviews,
+      reviews: reviews,
     };
   }
 
@@ -113,7 +113,7 @@ export class ReviewService {
     }
     this.logger.info(`Found ${reviews.length} reviews.`);
     return {
-      reviewsStudentVIP: reviews.map((review) => {
+      reviews: reviews.map((review) => {
         return {
           ...review,
           courseCode,
@@ -142,7 +142,7 @@ export class ReviewService {
     }
     this.logger.info(`Found ${reviews.length} reviews.`);
     return {
-      reviewsUniNotes: reviews.map((review) => {
+      reviews: reviews.map((review) => {
         return {
           ...review,
           courseCode,

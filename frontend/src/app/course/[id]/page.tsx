@@ -61,7 +61,11 @@ export default async function ReviewPage({
     `/reviews/uniNotes/${course.courseCode.toUpperCase()}`
   )) as Reviews;
 
-  const allReviews: Review[] = [...reviews, ...reviewsStudentVIP, ...reviewsUniNotes];
+  const allReviews: Review[] = [
+    ...(reviews || []),
+    ...(reviewsStudentVIP || []),
+    ...(reviewsUniNotes || [])
+  ];
 
   let userCourseInfo: string[] = [];
   if (session?.user) {

@@ -135,7 +135,7 @@ export const ReviewStudentVIPSchema = z
 
 export const ReviewStudentVIPSuccessResponseSchema = z
   .object({
-    reviewsStudentVIP: z.array(ReviewStudentVIPSchema),
+    reviews: z.array(ReviewStudentVIPSchema),
   })
   .strict();
 
@@ -157,7 +157,7 @@ export const ReviewUniNotesSchema = z
 
 export const ReviewUniNotesSuccessResponseSchema = z
  .object({
-    reviewsUniNotes: z.array(ReviewUniNotesSchema),
+    reviews: z.array(ReviewUniNotesSchema),
  }).strict();
 
 export type ReviewUniNotesSuccessResponse = z.infer<
