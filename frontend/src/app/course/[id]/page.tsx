@@ -4,7 +4,7 @@ import ReviewSearchbar from "@/components/ReviewSearchBar/ReviewSearchBar";
 import ReviewsBar from "@/components/ReviewsBar/ReviewsBar";
 import TermsGroup from "@/components/TermsGroup/TermsGroup";
 import { authOptions } from "@/lib/auth";
-import { Course, Reviews, Review, ReviewNative, ReviewStudentVIP, ReviewsNative } from "@/types/api";
+import { Course, Reviews, Review } from "@/types/api";
 import { get, validatedReq } from "@/utils/request";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import { Metadata } from "next";

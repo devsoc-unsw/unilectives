@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Course, Report, Review, ReviewNative, TabsType } from "@/types/api";
 import UserReviews from "../UserReviews/UserReviews";
 import UserReports from "../UserReports/UserReports";

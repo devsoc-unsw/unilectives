@@ -128,6 +128,7 @@ export const ReviewStudentVIPSchema = z
     title: z.string(),
     description: z.string().nullable(),
     termTaken: z.string(),
+    createdTimestamp: z.date(),
     upvotes: z.string().array(),
     overallRating: z.number(),
   })
@@ -151,6 +152,7 @@ export const ReviewUniNotesSchema = z
     title: z.string(),
     description: z.string().nullable(),
     termTaken: z.string(),
+    createdTimestamp: z.date(),
     upvotes: z.string().array(),
     overallRating: z.number(),
   }).strict();
