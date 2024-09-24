@@ -20,6 +20,7 @@ module.exports = {
         "unilectives-bg": "#FDFDFD",
       },
       colors: {
+        "unilectives-pink": "#EE82C7",
         "unilectives-blue": "#1279F2",
         "unilectives-headings": "#202020",
         "unilectives-subheadings": "#989898",
