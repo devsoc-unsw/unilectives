@@ -120,9 +120,10 @@ export type ReviewsSuccessResponse = z.infer<
   typeof ReviewsSuccessResponseSchema
 >;
 
-export const ReviewStudentVIPSchema = z
+export const ReviewScrapedSchema = z
   .object({
     reviewId: z.string(),
+    source: z.string(),
     courseCode: z.string(),
     authorName: z.string(),
     title: z.string(),
@@ -134,34 +135,12 @@ export const ReviewStudentVIPSchema = z
   })
   .strict();
 
-export const ReviewStudentVIPSuccessResponseSchema = z
+export const ReviewScrapedSuccessResponseSchema = z
   .object({
-    reviews: z.array(ReviewStudentVIPSchema),
+    reviews: z.array(ReviewScrapedSchema),
   })
   .strict();
 
-export type ReviewStudentVIPSuccessResponse = z.infer<
-  typeof ReviewStudentVIPSuccessResponseSchema
->;
-
-export const ReviewUniNotesSchema = z
-  .object({
-    reviewId: z.string(),
-    courseCode: z.string(),
-    authorName: z.string(),
-    title: z.string(),
-    description: z.string().nullable(),
-    termTaken: z.string(),
-    createdTimestamp: z.date(),
-    upvotes: z.string().array(),
-    overallRating: z.number(),
-  }).strict();
-
-export const ReviewUniNotesSuccessResponseSchema = z
- .object({
-    reviews: z.array(ReviewUniNotesSchema),
- }).strict();
-
-export type ReviewUniNotesSuccessResponse = z.infer<
-  typeof ReviewUniNotesSuccessResponseSchema
+export type ReviewScrapedSuccessResponse = z.infer<
+  typeof ReviewScrapedSuccessResponseSchema
 >;

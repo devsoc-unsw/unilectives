@@ -35,8 +35,7 @@ model courses {
   uoc               Int
   rating            Float
   reviews           reviews[]
-  reviewsStudentVIP reviewsStudentVIP[]
-  reviewUniNotes    reviewsUniNotes[]
+  reviewsScraped    reviewsScraped[]
 }
 
 model reports {
@@ -72,8 +71,9 @@ model reviews {
   users            users     @relation(fields: [zid], references: [zid], onDelete: NoAction, onUpdate: NoAction, map: "fk_zid")
 }
 
-model reviewsStudentVIP {
-  reviewId         String   @id(map: "pk_review_studentvip_id") @default(dbgenerated("gen_random_uuid()")) @map("review_studentvip_id") @db.Uuid
+model reviewsScraped {
+  reviewId         String   @id(map: "pk_review_scraped_id") @default(dbgenerated("gen_random_uuid()")) @map("review_scraped_id") @db.Uuid
+  source           String
   courseCode       String   @map("course_code")
   authorName       String   @map("author_name")
   title            String
@@ -84,22 +84,7 @@ model reviewsStudentVIP {
   overallRating    Float    @map("overall_rating")
   courses          courses  @relation(fields: [courseCode], references: [courseCode], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
 
-  @@map("reviews_studentvip")
-}
-
-model reviewsUniNotes {
-  reviewId         String   @id(map: "pk_review_uninotes_id") @default(dbgenerated("gen_random_uuid()")) @map("review_uninotes_id") @db.Uuid
-  courseCode       String   @map("course_code")
-  authorName       String   @map("author_name")
-  title            String
-  description      String
-  termTaken        String   @map("term_taken")
-  createdTimestamp DateTime @default(now()) @map("created_timestamp") @db.Timestamp(6)
-  upvotes          String[]
-  overallRating    Float    @map("overall_rating")
-  courses          courses  @relation(fields: [courseCode], references: [courseCode], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
-
-  @@map("reviews_uninotes")
+  @@map("reviews_scraped")
 }
 
 model users {

@@ -10,12 +10,11 @@ import {
   PutReviewRequestBody,
   Review,
   ReviewsSuccessResponse,
-  ReviewStudentVIPSuccessResponse,
+  ReviewScrapedSuccessResponse,
   ReviewSuccessResponse,
-  ReviewUniNotesSuccessResponse,
   UpvoteReview,
 } from "../api/schemas/review.schema";
-import { reviews, reviewsStudentVIP, reviewsUniNotes } from "@prisma/client";
+import { reviews, reviewsScraped } from "@prisma/client";
 
 export class ReviewService {
   private logger = getLogger();
@@ -36,25 +35,11 @@ export class ReviewService {
     };
   }
 
-  async getAllReviewsStudentVIP(): Promise<
-    ReviewStudentVIPSuccessResponse | undefined
+  async getAllReviewsScraped(): Promise<
+    ReviewScrapedSuccessResponse | undefined
   > {
-    const reviews: reviewsStudentVIP[] =
-      await this.reviewRepository.getAllReviewsStudentVIP();
-    if (reviews.length === 0) {
-      this.logger.error("Database returned with no reviews.");
-      throw new HTTPError(internalServerError);
-    }
-    return {
-      reviews: reviews,
-    };
-  }
-
-  async getAllReviewsUniNotes(): Promise<
-    ReviewUniNotesSuccessResponse | undefined
-  > {
-    const reviews: reviewsUniNotes[] = 
-      await this.reviewRepository.getAllReviewsUniNotes();
+    const reviews: reviewsScraped[] =
+      await this.reviewRepository.getAllReviewsScraped();
     if (reviews.length === 0) {
       this.logger.error("Database returned with no reviews.");
       throw new HTTPError(internalServerError);
@@ -92,48 +77,19 @@ export class ReviewService {
     };
   }
 
-  async getCourseReviewsStudentVIP(
+  async getCourseReviewsScraped(
     courseCode: string,
-  ): Promise<ReviewStudentVIPSuccessResponse | undefined> {
-    let reviews = await this.redis.get<reviewsStudentVIP[]>(
-      `reviewsStudentVIP:${courseCode}`,
+  ): Promise<ReviewScrapedSuccessResponse | undefined> {
+    let reviews = await this.redis.get<reviewsScraped[]>(
+      `reviewsScraped:${courseCode}`,
     );
     if (!reviews) {
-      this.logger.info(`Cache miss on reviewsStudentVIP:${courseCode}`);
+      this.logger.info(`Cache miss on reviewsScraped:${courseCode}`);
       reviews =
-        await this.reviewRepository.getCourseReviewsStudentVIP(courseCode);
-      await this.redis.set(`reviewsStudentVIP:${courseCode}`, reviews);
+        await this.reviewRepository.getCourseReviewsScraped(courseCode);
+      await this.redis.set(`reviewsScraped:${courseCode}`, reviews);
     } else {
-      this.logger.info(`Cache hit on reviewsStudentVIP:${courseCode}`);
-    }
-
-    if (reviews.length === 0) {
-      this.logger.error("Database returned with no reviews.");
-      throw new HTTPError(internalServerError);
-    }
-    this.logger.info(`Found ${reviews.length} reviews.`);
-    return {
-      reviews: reviews.map((review) => {
-        return {
-          ...review,
-          courseCode,
-        };
-      }),
-    };
-  }
-
-  async getCourseReviewsUniNotes(
-    courseCode: string,
-  ): Promise<ReviewUniNotesSuccessResponse | undefined> {
-    let reviews = await this.redis.get<reviewsUniNotes[]>(
-      `reviewsUniNotes:${courseCode}`,
-    );
-    if (!reviews) {
-      this.logger.info(`Cache miss on reviewsUniNotes:${courseCode}`);
-      reviews = await this.reviewRepository.getCourseReviewsUniNotes(courseCode);
-      await this.redis.set(`reviewsUniNotes:${courseCode}`, reviews);
-    } else {
-      this.logger.info(`Cache hit on reviewsUniNotes:${courseCode}`);
+      this.logger.info(`Cache hit on reviewsScraped:${courseCode}`);
     }
 
     if (reviews.length === 0) {

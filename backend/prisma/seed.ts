@@ -16,9 +16,10 @@ async function main() {
   for (const course of studentVIPData) {
     const courseCode = course.course;
     for (const review of course.reviews) {
-      await prisma.reviewsStudentVIP.create({
+      await prisma.reviewsScraped.create({
         data: {
           courseCode,
+          source: "StudentVIP",
           authorName: review.authorName,
           title: "-",
           description: review.description,
@@ -35,9 +36,10 @@ async function main() {
   for (const course of uniNotesData) {
     const courseCode = course.course;
     for (const review of course.reviews) {
-      await prisma.reviewsUniNotes.create({
+      await prisma.reviewsScraped.create({
         data: {
           courseCode,
+          source: "Uninotes",
           authorName: review.authorName,
           title: "-",
           description: review.description,

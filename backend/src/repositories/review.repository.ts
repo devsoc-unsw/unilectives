@@ -1,4 +1,4 @@
-import { PrismaClient, reviews, reviewsStudentVIP, reviewsUniNotes } from "@prisma/client";
+import { PrismaClient, reviews, reviewsScraped } from "@prisma/client";
 import {
   PostReviewRequestBody,
   ReviewSchema,
@@ -11,28 +11,14 @@ export class ReviewRepository {
     return await this.prisma.reviews.findMany();
   }
 
-  async getAllReviewsStudentVIP(): Promise<reviewsStudentVIP[]> {
-    return await this.prisma.reviewsStudentVIP.findMany();
+  async getAllReviewsScraped(): Promise<reviewsScraped[]> {
+    return await this.prisma.reviewsScraped.findMany();
   }
 
-  async getAllReviewsUniNotes(): Promise<reviewsUniNotes[]> {
-    return await this.prisma.reviewsUniNotes.findMany();
-  }
-
-  async getCourseReviewsStudentVIP(
+  async getCourseReviewsScraped(
     courseCode: string,
-  ): Promise<reviewsStudentVIP[]> {
-    return await this.prisma.reviewsStudentVIP.findMany({
-      where: {
-        courseCode,
-      },
-    });
-  }
-
-  async getCourseReviewsUniNotes(
-    courseCode: string
-  ): Promise<reviewsUniNotes[]> {
-    return await this.prisma.reviewsUniNotes.findMany({
+  ): Promise<reviewsScraped[]> {
+    return await this.prisma.reviewsScraped.findMany({
       where: {
         courseCode,
       },
