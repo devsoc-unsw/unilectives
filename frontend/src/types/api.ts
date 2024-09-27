@@ -3,7 +3,7 @@ export type ApiError = {
   errorMessage: string;
 };
 
-export type Review = ReviewNative | ReviewStudentVIP | ReviewUniNotes;
+export type Review = ReviewNative | ReviewScraped;
 
 export type ReviewNative = {
   reviewId: string;
@@ -22,19 +22,7 @@ export type ReviewNative = {
   overallRating: number;
 };
 
-export type ReviewStudentVIP = {
-  reviewId: string;
-  courseCode: string;
-  authorName: string;
-  title: string;
-  description: string;
-  termTaken: string;
-  createdTimestamp: string;
-  upvotes: string[];
-  overallRating: number;
-};
-
-export type ReviewUniNotes = {
+export type ReviewScraped = {
   reviewId: string;
   courseCode: string;
   authorName: string;

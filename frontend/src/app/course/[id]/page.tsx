@@ -53,18 +53,13 @@ export default async function ReviewPage({
     `/reviews/${course.courseCode.toUpperCase()}`
   )) as Reviews;
 
-  const { reviews: reviewsStudentVIP } = (await get(
-    `/reviews/studentVIP/${course.courseCode.toUpperCase()}`
-  )) as Reviews;
-
-  const { reviews: reviewsUniNotes } = (await get(
-    `/reviews/uniNotes/${course.courseCode.toUpperCase()}`
+  const { reviews: reviewsScraped } = (await get(
+    `/reviews/scraped/${course.courseCode.toUpperCase()}`
   )) as Reviews;
 
   const allReviews: Review[] = [
     ...(reviews || []),
-    ...(reviewsStudentVIP || []),
-    ...(reviewsUniNotes || [])
+    ...(reviewsScraped || [])
   ];
 
   let userCourseInfo: string[] = [];
