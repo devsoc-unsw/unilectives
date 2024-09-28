@@ -22,6 +22,7 @@ module.exports = {
       colors: {
         "unilectives-pink": "#EE82C7",
         "unilectives-blue": "#1279F2",
+        "unilectives-yellow": "#CCFD51",
         "unilectives-headings": "#202020",
         "unilectives-subheadings": "#989898",
         "unilectives-placeholder": "#606060",
