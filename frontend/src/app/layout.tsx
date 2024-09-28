@@ -3,8 +3,8 @@ import Provider from "@/lib/session-context";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { AlertProvider } from "@/lib/snackbar-context";
-import Navbar from "@/components/Navbar/Navbar";
 import ThemeProviderComponent from "@/components/ThemeComponents/ThemeProvider";
+import ClientNavbarWrapper from './ClientNavbarWrapper';
 
 export default async function RootLayout({
   children,
@@ -40,10 +40,9 @@ export default async function RootLayout({
         <Provider session={session}>
           <AlertProvider>
             <ThemeProviderComponent>
-              <Navbar userZid={session?.user?.id} />
-              <div className='ml-20 xs:ml-15'>
+              <ClientNavbarWrapper session={session}>
                 {children}
-              </div>
+              </ClientNavbarWrapper>
             </ThemeProviderComponent>
           </AlertProvider>
         </Provider>
