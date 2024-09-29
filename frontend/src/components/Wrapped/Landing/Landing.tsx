@@ -24,8 +24,8 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen flex flex-col items-center justify-center bg-unilectives-blue bg-blend-color-burn bg-[url('@../../../../public/wrapped-grid-bg.png')] bg-repeat">
-      {/* <Navbar /> */}
+    <div className="relative w-screen h-screen flex flex-col items-center justify-between bg-unilectives-blue bg-blend-color-burn bg-[url('@../../../../public/wrapped-grid-bg.png')] bg-repeat">
+      <Navbar />
       {/* <GridLines
         className="grid-area"
         cellWidth={60}
@@ -53,7 +53,7 @@ export default function Landing() {
         </div>
       </div>
       {/* idk if position: absolute is bad practice */}
-      <div className=" scroll-down-element flex items-center mb-60">
+      <div className=" scroll-down-element flex items-center mb-20">
         <Image className="w-[40px] h-[40px]" src={downIcon} alt="Scroll Down" />
         <p className="text-xl font-bold ml-2.5 !text-white">Scroll Down</p>
       </div>
