@@ -3,8 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { gsap } from "gsap";
-import Landing from "@/components/Wrapped/Landing/landing";
-
+import Landing from "@/components/Wrapped/Landing/Landing";
 
 export default function Home() {
   const container = useRef<HTMLDivElement | null>(null);
@@ -21,12 +20,21 @@ export default function Home() {
         duration: 4,
         stagger: 0.1,
       });
-      tl.to(".transition-bg", { backgroundColor: "#1279F2", duration: 5 }, "<");
+      tl.to(
+        ".transition-bg",
+        {
+          backgroundColor: "#1279F2",
+          // TODO FIX THE WHITE BACKGROUND SHIT
+          // background: 'no-repeat url("../../media/examples/lizard.png")',
+          duration: 5,
+        },
+        "<",
+      );
       tl.set(".intro-transition", { display: "none" }, ">-0.5");
-      tl.to(".landing", {display: "block", opacity: 1, duration: 0.5}, "<-2");
+      tl.to(".landing", { display: "block", opacity: 1, duration: 0.5 }, "<-2");
       tl.play();
     },
-    { scope: container }
+    { scope: container },
   );
 
   const genColoursArray = (n: number) => {
@@ -41,7 +49,6 @@ export default function Home() {
   return (
     <div className="w-screen h-screen overflow-hidden" ref={container}>
       <main className="transition-bg relative w-full h-full bg-unilectives-pink">
-        
         <div className="intro-transition absolute flex flex-col w-full h-full">
           {genColoursArray(7).map((colour: string) => (
             <p
@@ -52,11 +59,10 @@ export default function Home() {
             </p>
           ))}
         </div>
-        
+
         <div className="landing hidden opacity-0">
           <Landing />
         </div>
-
       </main>
     </div>
   );

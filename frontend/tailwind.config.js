@@ -36,6 +36,7 @@ module.exports = {
         "unilectives-modal": "#EEEEEE",
         "unilectives-icon": "#60A8D8",
         "unilectives-tags-pink": "#F7D6E0",
+        "unilectives-wrapped-purple": "#5347F5",
       },
       boxShadow: {
         btn: "-0.313rem 0.313rem 0.625rem -0.063rem rgb(0 0 0 / 15%)",
