@@ -40,7 +40,7 @@ export default function Landing() {
           <p className="text-8xl font-extrabold !text-white">UNILECTIVES</p>
           <p className="text-8xl font-extrabold !text-white">WRAPPED</p>
           <div className="bg-unilectives-wrapped-purple px-6 py-3 rounded-full w-fit mt-2">
-            <p className="text-xl font-bold !text-white">DEVSOC REPRESENTS</p>
+            <p className="text-xl font-bold !text-white">DEVSOC PRESENTS</p>
           </div>
         </div>
         <div className="flex items-center justify-center ml-[-100px] mb-[-50px]">
