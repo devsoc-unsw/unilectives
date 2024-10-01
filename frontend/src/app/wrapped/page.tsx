@@ -11,11 +11,10 @@ export default function Home() {
 
   useGSAP(
     () => {
-      // gsap.registerPlugin("attr");
       const tl = gsap.timeline();
       tl.set(".unilectives-intro-banner", {
         translateX: "100%",
-        display: "block",
+        display: "flex",
       });
       tl.to(".unilectives-intro-banner", {
         translateX: "-100%",
@@ -26,25 +25,17 @@ export default function Home() {
         ".transition-bg",
         {
           backgroundColor: "#1279F2",
-          // TODO: HELP cant add the grid background when it transitions
-          // backgroundImage: `url(${gridBg})`,
-          // backgroundRepeat: "repeat",
-          // css: {
-          //   backgroundImage: `url(${gridBg})`,
-          //   backgroundRepeat: "repeat",
-          // },
-          // background:
-          //   "#1279F2 url('@/../../frontend/public/wrapped-grid-bg.png')",
-          // background: url
-          // bg-blend-color-burn bg-[url('@../../../../public/wrapped-grid-bg.png')]
-          // TODO FIX THE WHITE BACKGROUND SHIT
-          // background: 'no-repeat url("../../media/examples/lizard.png")',
           duration: 5,
+          opacity: 0,
         },
         "<",
       );
-      tl.set(".intro-transition", { display: "none" }, ">-0.5");
-      tl.to(".landing", { display: "block", opacity: 1, duration: 0.5 }, "<-1");
+      tl.set(".intro-transition", { display: "none" }, ">-1");
+      tl.to(
+        ".landing",
+        { display: "block", opacity: 1, duration: 1.5 },
+        ">-0.5",
+      );
       tl.play();
     },
     { scope: container },
@@ -61,25 +52,27 @@ export default function Home() {
 
   return (
     <div className="w-screen h-screen overflow-hidden" ref={container}>
-      <main className="transition-bg relative w-full h-full bg-unilectives-pink">
-        <div className="intro-transition absolute flex flex-col w-full h-full">
+      <div className="intro-transition absolute flex flex-col w-full h-full">
+        <div className="transition-bg w-full h-full bg-unilectives-pink" />
+        <div className="absolute w-full h-full flex flex-col">
           {genColoursArray(7).map((colour: string) => (
-            <p
-              className="unilectives-intro-banner translate-x-full flex-1 text-8xl w-max font-bold whitespace-nowrap"
+            <div
+              className="unilectives-intro-banner flex-1 text-8xl w-max font-bold whitespace-nowrap justify-center items-center"
               style={{
                 backgroundColor: colour,
                 color: colour === "#CCFD51" ? "black" : "white",
               }}
             >
               UNILECTIVES WRAPPED 2024 UNILECTIVES WRAPPED 2024
-            </p>
+            </div>
           ))}
         </div>
-
-        <div className="landing hidden opacity-0">
+      </div>
+      <div className="landing-bg  w-full h-full bg-unilectives-blue bg-blend-color-burn bg-[url('@../../../../public/wrapped-grid-bg.png')] bg-repeat">
+        <div className="landing hidden absolute opacity-0">
           <Landing />
         </div>
-      </main>
+      </div>
     </div>
   );
 }

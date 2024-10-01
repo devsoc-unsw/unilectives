@@ -47,7 +47,7 @@ export default function Landing() {
           <Image
             className="year-bg w-[200px] h-[200px]"
             src={year}
-            alt="Scroll Down"
+            alt="year"
           />
           <p className="absolute text-2xl !text-black font-extrabold">2024</p>
         </div>
