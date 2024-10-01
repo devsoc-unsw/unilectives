@@ -37,7 +37,13 @@ export class CourseRepository {
       AVG(r.enjoyability) AS "enjoyability",
       CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
       FROM courses c
-      LEFT JOIN reviews r ON c.course_code = r.course_code
+      LEFT JOIN 
+        (
+          SELECT course_code, review_id, overall_rating, manageability, usefulness, enjoyability FROM unilectives.reviews
+          UNION ALL
+          SELECT course_code, review_scraped_id, overall_rating, NULL AS manageability, NULL AS usefulness, NULL AS enjoyability FROM unilectives.reviews_scraped
+        )
+        AS r USING(course_code)
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC
       `) as any[];
@@ -86,7 +92,13 @@ export class CourseRepository {
     AVG(r.enjoyability) AS "enjoyability",
     CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
     FROM courses c
-    LEFT JOIN reviews r ON c.course_code = r.course_code
+    LEFT JOIN 
+      (
+        SELECT course_code, review_id, overall_rating, manageability, usefulness, enjoyability FROM unilectives.reviews
+        UNION ALL
+        SELECT course_code, review_scraped_id, overall_rating, NULL AS manageability, NULL AS usefulness, NULL AS enjoyability FROM unilectives.reviews_scraped
+      )
+      AS r USING(course_code)
     GROUP BY c.course_code
     ORDER BY "reviewCount" DESC, c.course_code ASC
     LIMIT 25 OFFSET ${offset};
