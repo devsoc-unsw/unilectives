@@ -53,7 +53,7 @@ export default function NavbarToggle() {
       {showNavbar && ( // Conditional rendering based on showNavbar state
         <div
           ref={navbarRef}
-          className="fixed bottom-0 left-0 w-full h-full bg-unilectives-yellow z-50 flex-col p-12 space-y-6"
+          className="fixed bottom-0 left-0 w-full h-full bg-unilectives-yellow z-50 flex-col p-12 space-y-6 !text-black"
           style={{ display: "none" }} // Start with the div hidden
         >
           <div className="flex justify-between w-full ">
