@@ -23,6 +23,7 @@ module.exports = {
         "unilectives-pink": "#EE82C7",
         "unilectives-blue": "#1279F2",
         "unilectives-yellow": "#CCFD51",
+        "unilectives-yellow-hover": "#BFEE49",
         "unilectives-headings": "#202020",
         "unilectives-subheadings": "#989898",
         "unilectives-placeholder": "#606060",
@@ -47,6 +48,7 @@ module.exports = {
       },
       fontFamily: {
         custom: ["TT Commons Pro Variable", "Segoe UI", "Arial", "sans-serif"],
+        neuemetana: ["NeueMetana", "sans-serif"],
       },
       scale: {
         "-1": "-1",

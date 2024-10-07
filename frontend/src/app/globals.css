@@ -8,6 +8,20 @@
     src: url("../assets/TT_Commons_Pro_Variable.woff2") format("woff2");
   }
 
+  @font-face {
+    font-family: "NeueMetana";
+    src: url("../assets/NeueMetana-Regular.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "NeueMetana";
+    src: url("../assets/NeueMetana-Bold.otf") format("opentype");
+    font-weight: bold;
+    font-style: normal;
+  }
+
   p {
     @apply dark:text-gray-200;
   }

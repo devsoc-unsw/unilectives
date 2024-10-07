@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import Image from "next/image";
 import navbarIcon from "../../../../public/wrapped-navbar.svg";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Facebook, Twitter, Instagram } from "lucide-react";
 import ItemCard from "./ItemCard";
 
 export default function NavbarToggle() {
@@ -53,7 +54,7 @@ export default function NavbarToggle() {
       {showNavbar && ( // Conditional rendering based on showNavbar state
         <div
           ref={navbarRef}
-          className="fixed bottom-0 left-0 w-full h-full bg-unilectives-yellow z-50 flex-col p-12 space-y-6 !text-black"
+          className="fixed bottom-0 left-0 w-full h-full bg-unilectives-yellow z-50 flex-col p-12 space-y-10 !text-black"
           style={{ display: "none" }} // Start with the div hidden
         >
           <div className="flex justify-between w-full ">
@@ -64,14 +65,14 @@ export default function NavbarToggle() {
             />
           </div>
           <div className="flex flex-col h-full space-y-3">
-            <div className="grid grid-cols-5 gap-3 h-full">
+            <div className="grid lg:grid-cols-1 grid-cols-5 gap-3 h-full">
               <ItemCard title="INTRO" link="" />
               <ItemCard title="MOST POPULAR COURSE" link="" />
               <ItemCard title="HIGHEST RATED COURSE PER TERM" link="" />
               <ItemCard title="MOST LIKED REVIEW" link="" />
               <ItemCard title="PEOPLE CHOICE" link="" />
             </div>
-            <div className="grid grid-cols-4 gap-3 h-full">
+            <div className="grid lg:grid-cols-1 grid-cols-4 gap-3 h-full">
               <ItemCard title="INDUSTRY AWARD" link="" />
               <ItemCard title="WAM BOOSTER" link="" />
               <ItemCard title="SUMMARY" link="" />
@@ -79,10 +80,10 @@ export default function NavbarToggle() {
             </div>
           </div>
 
-          <div className="flex">
-            <XMarkIcon className="w-8 h-8 cursor-pointer" />
-            <XMarkIcon className="w-8 h-8 cursor-pointer" />
-            <XMarkIcon className="w-8 h-8 cursor-pointer" />
+          <div className="flex space-x-3">
+            <Facebook className="w-8 h-8 cursor-pointer" />
+            <Instagram className="w-8 h-8 cursor-pointer" />
+            <Twitter className="w-8 h-8 cursor-pointer" />
           </div>
         </div>
       )}

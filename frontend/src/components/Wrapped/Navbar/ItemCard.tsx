@@ -11,9 +11,9 @@ type CardProps = {
 export default function ItemCard({ title, link, size = "base" }: CardProps) {
   return (
     <button
-      className={`block p-6 h-full w-full text-left rounded-lg hover:bg-black hover:text-white transition-colors cursor-pointer border border-black ${size}`}
+      className={`block p-6 h-full w-full text-left rounded-lg hover:bg-unilectives-yellow-hover transition-colors cursor-pointer border border-black ${size}`}
     >
-      <h1 className="font-bold text-3xl">{title}</h1>
+      <h1 className="font-bold text-3xl md:text-xl sm:text-lg">{title}</h1>
     </button>
   );
 }

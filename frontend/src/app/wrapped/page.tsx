@@ -51,7 +51,10 @@ export default function Home() {
   };
 
   return (
-    <div className="w-screen h-screen overflow-hidden" ref={container}>
+    <div
+      className="w-screen h-screen overflow-hidden font-neuemetana"
+      ref={container}
+    >
       <div className="intro-transition absolute flex flex-col w-full h-full">
         <div className="transition-bg w-full h-full bg-unilectives-pink" />
         <div className="absolute w-full h-full flex flex-col">
