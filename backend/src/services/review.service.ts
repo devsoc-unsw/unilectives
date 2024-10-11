@@ -181,9 +181,10 @@ export class ReviewService {
   async bookmarkReview(
     reviewDetails: BookmarkReview,
   ): Promise<ReviewSuccessResponse | undefined> {
-    const review = await this.reviewRepository.getReview(
-      reviewDetails.reviewId,
-    );
+
+    const review = reviewDetails.scraped ?
+      await this.reviewRepository.getReviewScraped(reviewDetails.reviewId) :
+      await this.reviewRepository.getReview(reviewDetails.reviewId) ;
 
     if (!review) {
       this.logger.error(
@@ -229,7 +230,9 @@ export class ReviewService {
   }
 
   async upvoteReview(upvoteDetails: UpvoteReview) {
-    let review = await this.reviewRepository.getReview(upvoteDetails.reviewId);
+    let review = upvoteDetails.scraped ?
+      await this.reviewRepository.getReviewScraped(upvoteDetails.reviewId) :
+      await this.reviewRepository.getReview(upvoteDetails.reviewId) ;
 
     if (!review) {
       this.logger.error(
@@ -254,13 +257,19 @@ export class ReviewService {
       );
     }
 
-    review = await this.reviewRepository.updateUpvotes(review);
+    review = upvoteDetails.scraped ?
+      await this.reviewRepository.updateScrapedUpvotes(review) :
+      await this.reviewRepository.updateUpvotes(review);
 
-    const reviews = await this.reviewRepository.getCourseReviews(
-      review.courseCode,
-    );
+    const reviews = upvoteDetails.scraped ?
+      await this.reviewRepository.getCourseReviewsScraped(review.courseCode) :
+      await this.reviewRepository.getCourseReviews(review.courseCode);
 
-    await this.redis.set(`reviews:${review.courseCode}`, reviews);
+    if (upvoteDetails.scraped) {
+      await this.redis.set(`reviewsScraped:${review.courseCode}`, reviews);
+    } else {
+      await this.redis.set(`reviews:${review.courseCode}`, reviews);
+    }
 
     this.logger.info(
       `Successfully ${
