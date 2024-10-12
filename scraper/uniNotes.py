@@ -1,8 +1,6 @@
 from bs4 import BeautifulSoup
-import json
 import re
 import requests
-# import openai
 
 # Get all course codes from localhost:3030/api/v1/courses/code/all
 url = "http://localhost:3030/api/v1/courses/code/all"
@@ -11,7 +9,8 @@ courses = response.json()
 
 course_codes = courses
 url_prefix = "https://uninotes.com/university-subjects/university-of-new-south-wales-unsw/"
-reviews = []
+review_values = []
+count = 0
 
 for course_code in course_codes:
     print(f"Processing reviews for {course_code}...")
@@ -19,35 +18,41 @@ for course_code in course_codes:
     soup = BeautifulSoup(page.content, "html.parser")
 
     try:
-        res = soup \
-        .find_all(attrs={"id": re.compile(r'^review')})
-
-        course_reviews = []
+        res = soup.find_all(attrs={"id": re.compile(r'^review')})
 
         for review in res:
-            review_object = {}
-            review_object["authorName"] = review.find("h2").get_text(strip=True)
+            author_name = review.find("h2").get_text(strip=True).replace("'", "''")
 
             unformattedDesc = '\n'.join(review.find(class_="details").stripped_strings)
 
-            # Description is after the title "Comments" and before "Contact Hours"
-            review_object["description"] = re.search(r"Comments\n(.+?)\nContact Hours", unformattedDesc, re.DOTALL).group(1).strip().replace("\n", " ")
-            review_object["rating"] = float(re.search(r"Overall Rating\n([0-9.]+)/5", unformattedDesc).group(1))
-            review_object["grade"] = re.search(r"Your Mark / Grade\n([\dA-Z ]+)", unformattedDesc).group(1).strip()
+            description = re.search(r"Comments\n(.+?)\nContact Hours", unformattedDesc, re.DOTALL)
+            description = description.group(1).strip().replace("\n", " ").replace("'", "''") if description else ""
+
+            rating = re.search(r"Overall Rating\n([0-9.]+)/5", unformattedDesc)
+            rating = float(rating.group(1)) if rating else 0
+
+            grade = re.search(r"Your Mark / Grade\n([\dA-Z ]+)", unformattedDesc)
+            grade = grade.group(1).strip().replace("'", "''") if grade else "Unknown"
+
             term_taken_match = re.search(r'Year & (Trimester|Semester) Of Completion\n(.+?)\nYour Mark / Grade', unformattedDesc)
-            if term_taken_match:
-                review_object["termTaken"] = term_taken_match.group(2)
-            else:
-                review_object["termTaken"] = "Unknown"
-            course_reviews.append(review_object)
+            term_taken = term_taken_match.group(2).replace("'", "''") if term_taken_match else "Unknown"
 
-        if course_reviews:
-            reviews.append({
-                "course": course_code,
-                "reviews": course_reviews
-            })
-    except:
-        print(f"Could not process reviews for {course_code}")
+            review_values.append(
+                f"('{course_code}', 'UniNotes', 'Review #{count}', {rating}, '{description}', '{author_name}', '{term_taken}', {[]})"
+            )
+            count += 1
 
-    with open('uninotes_reviews.json', 'w') as f:
-        json.dump(reviews, f, indent=2)
+    except Exception as e:
+        print(f"Could not process reviews for {course_code}: {str(e)}")
+
+# Write SQL statements to a file
+with open('../backend/data/uninotes_reviews.sql', 'w') as f:
+    f.write("-- UniNotes Reviews SQL Import\n\n")
+
+    batch_size = 1000
+    for i in range(0, len(review_values), batch_size):
+        batch = review_values[i:i+batch_size]
+        sql = f"INSERT INTO reviews_scraped (course_code, source, review_number, overall_rating, description, author_name, term_taken, upvotes) VALUES {', '.join(batch)};\n"
+        f.write(sql)
+
+print(f"SQL file created with {len(review_values)} reviews in multi-insert statements.")
