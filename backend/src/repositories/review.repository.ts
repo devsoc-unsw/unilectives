@@ -68,6 +68,17 @@ export class ReviewRepository {
     });
   }
 
+  async updateScrapedUpvotes(review: { reviewId: string; upvotes: string[] }) {
+    return await this.prisma.reviewsScraped.update({
+      where: {
+        reviewId: review.reviewId,
+      },
+      data: {
+        upvotes: review.upvotes,
+      },
+    });
+  }
+
   async getReviewsByUser(zid: string): Promise<reviews[]> {
     return await this.prisma.reviews.findMany({
       where: {
@@ -88,6 +99,14 @@ export class ReviewRepository {
 
   async getReview(reviewId: string): Promise<reviews | null> {
     return await this.prisma.reviews.findUnique({
+      where: {
+        reviewId: reviewId,
+      },
+    });
+  }
+
+  async getReviewScraped(reviewId: string): Promise<reviewsScraped | null> {
+    return await this.prisma.reviewsScraped.findUnique({
       where: {
         reviewId: reviewId,
       },

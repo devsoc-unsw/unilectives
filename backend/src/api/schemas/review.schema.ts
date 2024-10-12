@@ -38,6 +38,7 @@ export const BookmarkReviewSchema = z
     reviewId: z.string(),
     zid: z.string(),
     bookmark: z.boolean(),
+    scraped: z.boolean(),
   })
   .strict();
 
@@ -48,6 +49,7 @@ export const UpvoteReviewSchema = z
     reviewId: z.string(),
     zid: z.string(),
     upvote: z.boolean(),
+    scraped: z.boolean(),
   })
   .strict();
 

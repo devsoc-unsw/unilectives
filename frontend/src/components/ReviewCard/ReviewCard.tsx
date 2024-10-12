@@ -36,6 +36,7 @@ export default function ReviewCard({
       reviewId: review.reviewId,
       zid: session?.user?.id,
       upvote,
+      scraped: !('enjoyability' in review), // no scraped review has enjoyability
     };
     await validatedReq(
       "POST",
@@ -65,13 +66,14 @@ export default function ReviewCard({
       reviewId: review.reviewId,
       zid: session?.user?.id,
       bookmark: !bookmarked,
+      scraped: !('enjoyability' in review), // no scraped review has enjoyability
     };
     await validatedReq(
       "POST",
       "/reviews/bookmark",
       session?.user?.accessToken ?? "",
       session?.user?.id ?? "",
-      body
+      body,
     );
     // Optimistic UI update for bookmark
     setAllBookmarkedReviews((prev: string[]) => {
