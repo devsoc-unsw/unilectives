@@ -23,15 +23,19 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         delay: 0.4,
         duration: 0.6,
       });
+      tl.to(".transition-bg-3", {
+        translateY: "-100%",
+        duration: 0,
+      });
     },
     { scope: container }
   );
 
   return (
     <div className='w-screen h-screen overflow-hidden font-neuemetana' ref={container}>
-      <div className="transition-bg-3 absolute w-full h-full bg-unilectives-blue"></div>
-      <div className="transition-bg-2 absolute w-full h-full bg-unilectives-yellow"></div>
-      <div className="transition-bg-1 absolute w-full h-full bg-unilectives-pink"></div>
+      <div className="transition-bg-3 absolute w-full h-full bg-unilectives-blue z-10"></div>
+      <div className="transition-bg-2 absolute w-full h-full bg-unilectives-yellow z-10"></div>
+      <div className="transition-bg-1 absolute w-full h-full bg-unilectives-pink z-10" ></div>
       <div className="page-content w-full h-full">
         {children}
       </div>
