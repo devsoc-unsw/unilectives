@@ -21,9 +21,24 @@
         font-weight: bold;
         font-style: normal;
     }
+
     @font-face {
         font-family: "Inter";
         src: url("../assets/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+    }
+
+    @font-face {
+        font-family: 'Days One';
+        src: url("../assets/DaysOne-Regular.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Zen Dots';
+        src: url("../assets/ZenDots-Regular.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
     }
 
     p {
