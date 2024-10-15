@@ -33,7 +33,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <div className='w-screen h-screen overflow-hidden font-neuemetana' ref={container}>
-      <div className="transition-bg-3 absolute w-full h-full bg-unilectives-blue z-10"></div>
+      <div className="transition-bg-3 absolute w-full h-full bg-unilectives-wrapped-purple z-10"></div>
       <div className="transition-bg-2 absolute w-full h-full bg-unilectives-yellow z-10"></div>
       <div className="transition-bg-1 absolute w-full h-full bg-unilectives-pink z-10" ></div>
       <div className="page-content w-full h-full">
