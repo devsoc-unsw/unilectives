@@ -51,6 +51,8 @@ module.exports = {
                 neuemetana: ["NeueMetana", "sans-serif"],
                 timesnewroman: ["Times New Roman"],
                 inter: ["Inter", "sans-serif"],
+                daysone: ["Days One", "sans-serif"],
+                zendots: ["Zen Dots", "sans-serif"],
             },
             scale: {
                 "-1": "-1",
