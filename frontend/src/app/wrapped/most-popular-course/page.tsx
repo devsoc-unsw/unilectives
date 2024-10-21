@@ -14,15 +14,15 @@ export default function MostPopularCoursePage() {
           <Navbar />
         </div>
         <div className="flex flex-col mx-24">
-          <h1 className="text-9xl text-unilectives-blue font-neuemetana uppercase border-b-2 border-unilectives-blue py-8">
+          <h1 className="text-8xl text-unilectives-blue font-neuemetana uppercase border-b-2 border-unilectives-blue py-8">
             COMP1511
           </h1>
           <div className="flex flex-row mt-16 justify-between">
             <div className="flex flex-col gap-y-6">
-              <h2 className="text-3xl text-unilectives-blue font-neuemetana uppercase font-semibold">
+              <h2 className="text-2xl text-unilectives-blue font-neuemetana uppercase font-semibold">
                 Most Popular Course
               </h2>
-              <h1 className="text-6xl text-unilectives-blue font-neuemetana uppercase font-semibold leading-tight">
+              <h1 className="text-5xl text-unilectives-blue font-neuemetana uppercase font-semibold leading-tight">
                 Programming
                 <br />
                 Fundamentals
@@ -36,13 +36,13 @@ export default function MostPopularCoursePage() {
               </Link>
             </div>
             <div className="flex flex-col gap-y-6 mr-48">
-              <h2 className="text-3xl text-unilectives-blue font-neuemetana uppercase font-semibold">
+              <h2 className="text-2xl text-unilectives-blue font-neuemetana uppercase font-semibold">
                 Visited
               </h2>
-              <h1 className="text-6xl text-unilectives-blue font-neuemetana uppercase font-semibold">
+              <h1 className="text-5xl text-unilectives-blue font-neuemetana uppercase font-semibold">
                 10,0000
               </h1>
-              <h3 className="text-2xl text-unilectives-blue font-neuemetana uppercase">
+              <h3 className="text-xl text-unilectives-blue font-neuemetana uppercase">
                 Times
               </h3>
             </div>
