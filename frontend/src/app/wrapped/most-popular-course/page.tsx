@@ -1,5 +1,3 @@
-"use client";
-
 import Navbar from "@/components/Wrapped/Navbar/Navbar";
 import PageTransition from "@/components/Wrapped/Transition/DefaultTransition";
 import Link from "next/link";
