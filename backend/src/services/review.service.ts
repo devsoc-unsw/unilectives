@@ -9,9 +9,10 @@ import {
   PostReviewRequestBody,
   PutReviewRequestBody,
   Review,
-  ReviewsSuccessResponse,
-  ReviewScrapedSuccessResponse,
   ReviewSuccessResponse,
+  ReviewsSuccessResponse,
+  ReviewsScrapedSuccessResponse,
+  AllReviewSuccessResponse,
   UpvoteReview,
 } from "../api/schemas/review.schema";
 import { reviews, reviewsScraped } from "@prisma/client";
@@ -36,7 +37,7 @@ export class ReviewService {
   }
 
   async getAllReviewsScraped(): Promise<
-    ReviewScrapedSuccessResponse | undefined
+    ReviewsScrapedSuccessResponse | undefined
   > {
     const reviews: reviewsScraped[] =
       await this.reviewRepository.getAllReviewsScraped();
@@ -79,7 +80,7 @@ export class ReviewService {
 
   async getCourseReviewsScraped(
     courseCode: string,
-  ): Promise<ReviewScrapedSuccessResponse | undefined> {
+  ): Promise<ReviewsScrapedSuccessResponse | undefined> {
     let reviews = await this.redis.get<reviewsScraped[]>(
       `reviewsScraped:${courseCode}`,
     );
@@ -180,7 +181,7 @@ export class ReviewService {
 
   async bookmarkReview(
     reviewDetails: BookmarkReview,
-  ): Promise<ReviewSuccessResponse | undefined> {
+  ): Promise<AllReviewSuccessResponse | undefined> {
 
     const review = reviewDetails.scraped ?
       await this.reviewRepository.getReviewScraped(reviewDetails.reviewId) :

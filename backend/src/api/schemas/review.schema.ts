@@ -137,12 +137,32 @@ export const ReviewScrapedSchema = z
   })
   .strict();
 
-export const ReviewScrapedSuccessResponseSchema = z
+const ReviewScrapedSuccessResponseSchema = z
   .object({
-    reviews: z.array(ReviewScrapedSchema),
+    review: z.array(ReviewScrapedSchema),
   })
   .strict();
 
 export type ReviewScrapedSuccessResponse = z.infer<
   typeof ReviewScrapedSuccessResponseSchema
 >;
+
+const ReviewsScrapedSuccessResponseSchema = z
+  .object({
+    reviews: z.array(ReviewScrapedSchema),
+  })
+  .strict();
+
+export type ReviewsScrapedSuccessResponse = z.infer<
+  typeof ReviewsScrapedSuccessResponseSchema
+>
+
+const AllReviewSuccessResponseSchema = z
+  .object({
+    review: z.union([ReviewSchema, ReviewScrapedSchema]),
+  })
+  .strict()
+
+export type AllReviewSuccessResponse = z.infer<
+  typeof AllReviewSuccessResponseSchema
+>
