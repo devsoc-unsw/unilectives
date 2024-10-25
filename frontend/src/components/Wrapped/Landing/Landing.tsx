@@ -1,5 +1,4 @@
 import Navbar from "../Navbar/Navbar";
-import GridLines from "react-gridlines";
 // import grid from "../../../assets/grid.png";
 import downIcon from "../../../../public/wrapped-chevrons-down.svg";
 import year from "../../../../public/wrapped-year.svg";
