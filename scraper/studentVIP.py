@@ -30,7 +30,8 @@ for course_code in course_codes:
             year_taken = year.strip()
             term_taken = year_taken[2:] + term_taken[1][0] + term_taken[2]
 
-            review_values.append(f"('{course_code}', 'StudentVIP', {f"Review #{count}"}, {rating}, '{description}', '{author_name}', '{term_taken}', {[]})")
+            review_values.append(f"('{course_code}', 'StudentVIP', 'Review #{count}', {rating}, '{description}', '{author_name}', '{term_taken}', '{{}}')")
+            print("Scraped review for course ", course_code)
             count += 1
 
     except Exception as e:
@@ -41,7 +42,7 @@ with open('../backend/data/studentVIP_reviews.sql', 'w') as f:
     f.write("-- StudentVIP Reviews SQL Import\n\n")
     for i in range(0, len(review_values), batch_size):
         batch = review_values[i:i+batch_size]
-        sql = f"INSERT INTO reviews_scraped (course_code, source, title, overall_rating, description, author_name, term_taken, upvotes) VALUES {', '.join(batch)};\n"
+        sql = f"INSERT INTO unilectives.reviews_scraped (course_code, source, title, overall_rating, description, author_name, term_taken, upvotes) VALUES {', '.join(batch)};\n"
         f.write(sql)
 
 print(f"SQL file created with {len(review_values)} INSERT statements.")

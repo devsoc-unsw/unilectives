@@ -38,7 +38,7 @@ for course_code in course_codes:
             term_taken = term_taken_match.group(2).replace("'", "''") if term_taken_match else "Unknown"
 
             review_values.append(
-                f"('{course_code}', 'UniNotes', 'Review #{count}', {rating}, '{description}', '{author_name}', '{term_taken}', {[]})"
+                f"('{course_code}', 'UniNotes', 'Review #{count}', {rating}, '{description}', '{author_name}', '{term_taken}', '{{}}')"
             )
             count += 1
 
@@ -52,7 +52,7 @@ with open('../backend/data/uninotes_reviews.sql', 'w') as f:
     batch_size = 1000
     for i in range(0, len(review_values), batch_size):
         batch = review_values[i:i+batch_size]
-        sql = f"INSERT INTO reviews_scraped (course_code, source, review_number, overall_rating, description, author_name, term_taken, upvotes) VALUES {', '.join(batch)};\n"
+        sql = f"INSERT INTO unilectives.reviews_scraped (course_code, source, title, overall_rating, description, author_name, term_taken, upvotes) VALUES {', '.join(batch)};\n"
         f.write(sql)
 
 print(f"SQL file created with {len(review_values)} reviews in multi-insert statements.")
