@@ -217,7 +217,7 @@ export default async function ReviewPage({
         {/* Show reviews is separated as another client component "ReviewsBar"
         so the review page can stay as a server side component to ensure server side
         rendering */}
-        <section className="space-y-4 w-1/2 md:w-full mb-8">
+        <section className="space-y-4 w-full max-w-[50%] md:max-w-full mb-8">
           <Suspense fallback={<div>Loading...</div>}>
             <ReviewsBar
               courseCode={course.courseCode}
