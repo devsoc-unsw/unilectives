@@ -25,7 +25,7 @@ export async function generateMetadata(props: {
   };
 }): Promise<Metadata> {
   const { course } = (await get(
-    `/course/${props.params.id.toUpperCase()}`
+    `/course/${props.params.id.toUpperCase()}`,
   )) as {
     course: Course;
   };
@@ -50,7 +50,7 @@ export default async function ReviewPage({
   if (!course) notFound();
 
   const { reviews } = (await get(
-    `/reviews/${course.courseCode.toUpperCase()}`
+    `/reviews/${course.courseCode.toUpperCase()}`,
   )) as Reviews;
 
   let userCourseInfo: string[] = [];
@@ -60,7 +60,7 @@ export default async function ReviewPage({
         "GET",
         `/user/course/${params.id.toUpperCase()}`,
         session?.user?.accessToken ?? "",
-        session?.user?.id ?? ""
+        session?.user?.id ?? "",
       )) as { userCourseInfo: string[] };
       userCourseInfo = res.userCourseInfo;
     } catch (err) {
@@ -91,7 +91,7 @@ export default async function ReviewPage({
   // };
 
   return (
-    <div className='isolate bg-white dark:bg-slate-800 duration-150'>
+    <div className="isolate bg-white dark:bg-slate-800 duration-150">
       {/* Structured data */}
       <Head>
         <script
@@ -119,53 +119,53 @@ export default async function ReviewPage({
         />
       </Head>
       {/* Header */}
-      <div className='relative'>
-        <div className='w-1/2 ml-auto md:w-full pr-16 md:px-8 py-8'>
+      <div className="relative">
+        <div className="w-1/2 ml-auto md:w-full pr-16 md:px-8 py-8">
           {/* Search bar */}
           <ReviewSearchbar />
         </div>
         {/* Waves */}
         <Image
-          className='w-full h-full absolute object-cover top-0 -z-10 dark:opacity-75'
+          className="w-full h-full absolute object-cover top-0 -z-10 dark:opacity-75"
           src={waves}
-          alt='Waves'
+          alt="Waves"
         />
       </div>
       {/* Course details */}
-      <div className='flex gap-8 pt-12 px-16 md:px-8 lg:pt-8 md:flex-wrap'>
+      <div className="flex gap-8 pt-12 px-16 md:px-8 lg:pt-8 md:flex-wrap">
         <Suspense fallback={<div>Loading...</div>}>
           {/* <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
           /> */}
-          <section className='space-y-4 w-full block md:static md:max-h-full sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-none'>
-            <h1 className='text-6xl font-bold break-words'>
+          <section className="space-y-4 w-full block md:static md:max-h-full sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-none">
+            <h1 className="text-6xl font-bold break-words">
               {course.courseCode}
             </h1>
-            <h2 className='text-3xl font-bold break-words'>{course.title}</h2>
+            <h2 className="text-3xl font-bold break-words">{course.title}</h2>
             {/* Terms */}
             <TermsGroup
-              className='py-1 px-2 rounded-full bg-unilectives-tags-pink font-bold text-black/50'
+              className="py-1 px-2 rounded-full bg-unilectives-tags-pink font-bold text-black/50"
               terms={course.terms}
             />
             {/* Link to handbook */}
             <Link
-              target='_blank'
-              rel='noopener noreferrer'
+              target="_blank"
+              rel="noopener noreferrer"
               href={`//www.handbook.unsw.edu.au/undergraduate/courses/${new Date().getFullYear()}/${
                 course.courseCode
               }`}
-              className='flex items-center w-fit gap-1 text-unilectives-blue hover:underline flex-1'
+              className="flex items-center w-fit gap-1 text-unilectives-blue hover:underline flex-1"
             >
-              <LinkIcon className='w-4 h-4' />
+              <LinkIcon className="w-4 h-4" />
               {course.courseCode} Handbook Page
             </Link>
             {/* StarRating */}
-            <div className='space-x-2'>
-              <div className='text-2xl inline'>
+            <div className="space-x-2">
+              <div className="text-2xl inline">
                 <Rating
-                  type='star'
-                  color='purple'
+                  type="star"
+                  color="purple"
                   overallRating={course.overallRating}
                 />
               </div>
@@ -182,7 +182,7 @@ export default async function ReviewPage({
               </span>
             </div>
             {/* Doughnut Charts */}
-            <div className='flex flex-wrap justify-around'>
+            <div className="flex flex-wrap justify-around">
               {[
                 { metric: course.enjoyability, title: "Enjoyment" },
                 { metric: course.usefulness, title: "Usefulness" },
@@ -194,22 +194,22 @@ export default async function ReviewPage({
                     width={90}
                     strokeWidth={9}
                   />
-                  <p className='text-center font-bold'>{item.title}</p>
+                  <p className="text-center font-bold">{item.title}</p>
                 </div>
               ))}
             </div>
             {/* Pre-requisites group */}
             {course.enrolmentRules ? (
               <div>
-                <h3 className='font-bold'>Enrolment Rules</h3>
+                <h3 className="font-bold">Enrolment Rules</h3>
                 <p>{course.enrolmentRules}</p>
               </div>
             ) : (
               <div></div>
             )}
             <div>
-              <h3 className='font-bold'>Description</h3>
-              <p className='whitespace-pre-line'>{course.description}</p>
+              <h3 className="font-bold">Description</h3>
+              <p className="whitespace-pre-line">{course.description}</p>
             </div>
           </section>
         </Suspense>
@@ -217,7 +217,7 @@ export default async function ReviewPage({
         {/* Show reviews is separated as another client component "ReviewsBar"
         so the review page can stay as a server side component to ensure server side
         rendering */}
-        <section className='space-y-4 w-full mb-8'>
+        <section className="space-y-4 w-full max-w-[50%] md:max-w-full mb-8">
           <Suspense fallback={<div>Loading...</div>}>
             <ReviewsBar
               courseCode={course.courseCode}
