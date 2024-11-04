@@ -7,3 +7,4 @@ temp/
 dist/
 coverage/
 .DS_Store
+data/
