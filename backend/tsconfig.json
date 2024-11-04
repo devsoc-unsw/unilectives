@@ -24,8 +24,6 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["node"]
   },
   "include": ["src/**/*", "config/*"],
   "exclude": ["src/**/*.test.ts"]
