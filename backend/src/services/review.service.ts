@@ -108,6 +108,17 @@ export class ReviewService {
     };
   }
 
+  async getSourceReviewScrapedMaxId(source: string) {
+    const res = await this.reviewRepository.getSourceReviewScrapedMaxId(source);
+    let maxId = 0;
+    if (res._max && res._max.sourceId) {
+      maxId = res._max.sourceId;
+    }
+    return {
+      maxId: maxId
+    }
+  }
+
   async postReview(
     reviewDetails: PostReviewRequestBody,
   ): Promise<ReviewSuccessResponse | undefined> {

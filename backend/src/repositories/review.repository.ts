@@ -113,6 +113,17 @@ export class ReviewRepository {
     });
   }
 
+  async getSourceReviewScrapedMaxId(source: string) {
+    return await this.prisma.reviewsScraped.aggregate({
+      where: {
+        source: source
+      },
+      _max: {
+        sourceId: true
+      }
+    })
+  }
+
   async deleteReview(reviewId: string) {
     return await this.prisma.reviews.delete({
       where: {

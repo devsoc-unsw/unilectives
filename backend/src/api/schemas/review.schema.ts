@@ -126,6 +126,7 @@ export const ReviewScrapedSchema = z
   .object({
     reviewId: z.string(),
     source: z.string(),
+    sourceId: z.number(),
     courseCode: z.string(),
     authorName: z.string(),
     title: z.string(),

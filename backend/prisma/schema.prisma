@@ -74,6 +74,7 @@ model reviews {
 model reviewsScraped {
   reviewId         String   @id(map: "pk_review_scraped_id") @default(dbgenerated("gen_random_uuid()")) @map("review_scraped_id") @db.Uuid
   source           String
+  sourceId         Int      @map("source_id")
   courseCode       String   @map("course_code")
   authorName       String   @map("author_name")
   title            String

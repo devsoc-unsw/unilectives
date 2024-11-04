@@ -2,6 +2,7 @@
 CREATE TABLE "reviews_scraped" (
     "review_scraped_id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "source" TEXT NOT NULL,
+    "source_id" INTEGER NOT NULL,
     "course_code" TEXT NOT NULL,
     "author_name" TEXT NOT NULL,
     "title" TEXT NOT NULL,

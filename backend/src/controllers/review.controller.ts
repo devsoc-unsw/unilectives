@@ -138,6 +138,34 @@ export class ReviewController implements IController {
           }
         },
       )
+      .get(
+        "/reviews/scraped/maxId/:source",
+        async (
+          req: Request<{ source: string }, unknown>,
+          res: Response,
+          next: NextFunction,
+        ) => {
+          this.logger.debug(
+            `Received request in /reviews/scraped/maxId/:source`,
+          );
+          try {
+            const source: string = req.params.source;
+            const result =
+              await this.reviewService.getSourceReviewScrapedMaxId(source);
+            this.logger.info(
+              `Responding to client in GET /reviews/scraped/maxId/${source}`,
+            );
+            return res.status(200).json({ ...result });
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to GET /reviews/scraped/maxId ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
       .post(
         "/reviews",
         [verifyToken, validationMiddleware(PostReviewSchema, "body")],
