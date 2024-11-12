@@ -49,6 +49,7 @@ module.exports = {
             fontFamily: {
                 custom: ["TT Commons Pro Variable", "Segoe UI", "Arial", "sans-serif"],
                 neuemetana: ["NeueMetana", "sans-serif"],
+                poppins: ["Poppins", "sans-serif"],
                 timesnewroman: ["Times New Roman"],
                 inter: ["Inter", "sans-serif"],
                 daysone: ["Days One", "sans-serif"],
