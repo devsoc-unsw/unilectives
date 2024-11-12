@@ -43,9 +43,8 @@ export default function IndustryAwardPage() {
   }, []);
 
   useEffect(() => {
-    // TODO: Need to properly define what industry award is so that we can fetch the data
     async function fetchCourseCode() {
-      const code = await get(`/wrapped/course/highest-rated/1`);
+      const code = await get(`/wrapped/course/highest-attribute/usefulness`);
       return code;
     };
 
@@ -57,7 +56,6 @@ export default function IndustryAwardPage() {
       return get(`/course/${data.courseCode}`);
     })
     .then(async (courseData) => {
-      console.log(courseData.course);
       const data = courseData.course;
       setCourseName(data.title)
 
@@ -73,18 +71,16 @@ export default function IndustryAwardPage() {
   }, []);
 
   useEffect(() => {
-    function updateRightSectionFontSize() {
+    function updateFontSize() {
       if (rightSectionRef.current) {
         const sectionWidth = rightSectionRef.current.offsetWidth;
         const newFontSize = sectionWidth * 0.08; 
         setRightTitleSize(`${newFontSize}px`);
       }
-    }
-
-    function updateLeftSectionFontSize() {
+      
       if (courseTitleBoxRef.current) {
         const sectionWidth = courseTitleBoxRef.current.offsetWidth;
-        const newCourseCodeSize = sectionWidth * 0.135; 
+        const newCourseCodeSize = sectionWidth * 0.13; 
         setCourseCodeSize(`${newCourseCodeSize}px`);
 
         const newCourseTitleSize = sectionWidth * 0.04;
@@ -92,13 +88,10 @@ export default function IndustryAwardPage() {
       }
     }
 
-    updateRightSectionFontSize();
-    updateLeftSectionFontSize();
-    window.addEventListener('resize', updateRightSectionFontSize);
-    window.addEventListener('resize', updateLeftSectionFontSize);
+    updateFontSize();
+    window.addEventListener('resize', updateFontSize);
     return () => {
-      window.removeEventListener('resize', updateRightSectionFontSize)
-      window.removeEventListener('resize', updateLeftSectionFontSize)
+      window.removeEventListener('resize', updateFontSize);
     }
   }, []);
   
@@ -119,7 +112,7 @@ export default function IndustryAwardPage() {
 
         <section key="left-content" className="w-1/2 flex flex-col">
           <div className="h-2/3 flex justify-center items-center">
-            <DegreeHatIcon/>
+            <DegreeHatIcon className="w-auto h-[80%]"/>
           </div>
           <div ref={courseTitleBoxRef} className="h-1/3 flex flex-col gap-2 justify-center items-center bg-unilectives-wrapped-purple rounded-xl">
             <p className="text-6xl font-bold" style={{ fontSize: courseCodeSize || "24px" }}>{courseCode}</p>
