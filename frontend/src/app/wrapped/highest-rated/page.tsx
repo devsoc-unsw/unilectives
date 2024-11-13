@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { get } from "@/utils/request";
 import CardBackComponent from "@/components/Wrapped/HighestRated/CardBackComponent";
 import PageTransition from '@/components/Wrapped/Transition/DefaultTransition';
 import Navbar from "@/components/Wrapped/Navbar/Navbar"
@@ -23,11 +24,36 @@ const Card = ({ index, course, flipped, onFlip }: {
 
 export default function HighestRated() {
 
-  const placeholderCourses = [
-    { code: 'COMP3981', name: 'Extended Operating Systems' },
-    { code: 'COMP1511', name: 'Programming Fundamentals' },
-    { code: 'COMP1511', name: 'Programming Fundamentals' },
-  ];
+  const [highestRatedCourses, setHighestRatedCourses] = useState<{ code: string, name: string }[]>([]);
+  
+  useEffect(() => {
+    async function fetchHighestRated(term: string) {
+      try {
+        const response = await get(`/wrapped/course/highest-rated/${term}`);
+        const courseCode = response.courseCode;
+        const courseDetails = await get(`/course/${courseCode}`)
+        return {
+          code: courseCode,
+          name: courseDetails.course.title
+        };
+      } catch (error) {
+        console.error(`Error fetching highest-rated course for term ${term}:`, error);
+        return null;
+      }
+    }
+
+    async function fetchCourses() {
+      const terms = ['1', '2', '3'];
+
+      for (const term of terms) {
+        const result = await fetchHighestRated(term);
+        if (result) {
+          setHighestRatedCourses((prevCourses) => [...prevCourses, result]);
+        }
+      }
+    }
+    fetchCourses();
+  }, []);
 
   const [flippedCards, setFlippedCards] = useState([false, false, false]);
 
@@ -45,7 +71,7 @@ export default function HighestRated() {
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="flex items-center justify-between w-[1320px]">
-            {placeholderCourses.map((course, index) => (
+            {highestRatedCourses.map((course, index) => (
                 <Card 
                   key={index} 
                   index={index} 
