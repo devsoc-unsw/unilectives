@@ -11,7 +11,7 @@ import Link from "next/link";
 import ShareIcon from "@/assets/share-icon.svg";
 import BoxComponent from "@/components/Wrapped/BoxComponent/BoxComponent";
 
-export default function PeoplesChoicePage() {
+export default function PeoplesChoice() {
   useGSAP(() => {
     gsap.to(".year-bg", {
       rotation: -360,
@@ -80,4 +80,3 @@ export default function PeoplesChoicePage() {
     </PageTransition>
   );
 }
-

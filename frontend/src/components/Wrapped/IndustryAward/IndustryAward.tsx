@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { get } from "@/utils/request";
 import { set } from "lodash";
 
-export default function IndustryAwardPage() {
+export default function IndustryAward() {
   const rightSectionRef = useRef<HTMLDivElement>(null);
   const [rightTitleSize, setRightTitleSize] = useState<string | null>("16px");
 
@@ -31,7 +31,7 @@ export default function IndustryAwardPage() {
   const [link, setLink] = useState<string>("https://unilectives.devsoc.app/");
   const handleVisitCourse = () => {
     window.open(link, "_blank");
-  }
+  };
 
   useGSAP(() => {
     gsap.to(".year-bg", {
@@ -46,41 +46,41 @@ export default function IndustryAwardPage() {
     async function fetchCourseCode() {
       const code = await get(`/wrapped/course/highest-attribute/usefulness`);
       return code;
-    };
+    }
 
     fetchCourseCode()
-    .then(async (data) => {
-      setCourseCode(data.courseCode);
-      const newLink = `https://unilectives.devsoc.app/course/${data.courseCode}`;
-      setLink(newLink);
-      return get(`/course/${data.courseCode}`);
-    })
-    .then(async (courseData) => {
-      const data = courseData.course;
-      setCourseName(data.title)
+      .then(async (data) => {
+        setCourseCode(data.courseCode);
+        const newLink = `https://unilectives.devsoc.app/course/${data.courseCode}`;
+        setLink(newLink);
+        return get(`/course/${data.courseCode}`);
+      })
+      .then(async (courseData) => {
+        const data = courseData.course;
+        setCourseName(data.title);
 
-      const enjoyability = Math.round(data.enjoyability * 100) / 100;
-      const usefulness = Math.round(data.usefulness * 100) / 100;
-      const usability = Math.round(data.manageability * 100) / 100;
-      const overall = Math.round(data.overallRating * 100) / 100
-      setEnjoymentRating(enjoyability);
-      setUsefulnessRating(usefulness);
-      setUsabilityRating(usability);
-      setOverallRating(overall);
-    });
+        const enjoyability = Math.round(data.enjoyability * 100) / 100;
+        const usefulness = Math.round(data.usefulness * 100) / 100;
+        const usability = Math.round(data.manageability * 100) / 100;
+        const overall = Math.round(data.overallRating * 100) / 100;
+        setEnjoymentRating(enjoyability);
+        setUsefulnessRating(usefulness);
+        setUsabilityRating(usability);
+        setOverallRating(overall);
+      });
   }, []);
 
   useEffect(() => {
     function updateFontSize() {
       if (rightSectionRef.current) {
         const sectionWidth = rightSectionRef.current.offsetWidth;
-        const newFontSize = sectionWidth * 0.08; 
+        const newFontSize = sectionWidth * 0.08;
         setRightTitleSize(`${newFontSize}px`);
       }
-      
+
       if (courseTitleBoxRef.current) {
         const sectionWidth = courseTitleBoxRef.current.offsetWidth;
-        const newCourseCodeSize = sectionWidth * 0.13; 
+        const newCourseCodeSize = sectionWidth * 0.13;
         setCourseCodeSize(`${newCourseCodeSize}px`);
 
         const newCourseTitleSize = sectionWidth * 0.04;
@@ -89,17 +89,18 @@ export default function IndustryAwardPage() {
     }
 
     updateFontSize();
-    window.addEventListener('resize', updateFontSize);
+    window.addEventListener("resize", updateFontSize);
     return () => {
-      window.removeEventListener('resize', updateFontSize);
-    }
+      window.removeEventListener("resize", updateFontSize);
+    };
   }, []);
-  
+
   return (
-    <div
-      className="w-screen h-screen overflow-hidden font-neuemetana bg-unilectives-wrapped-purple flex justify-center items-center"
-    >
-      <main key="main-frame" className="bg-white w-2/3 h-2/3 rounded-[2rem] p-12 flex gap-10 relative">
+    <div className="w-screen h-screen overflow-hidden font-neuemetana bg-unilectives-wrapped-purple flex justify-center items-center">
+      <main
+        key="main-frame"
+        className="bg-white w-2/3 h-2/3 rounded-[2rem] p-12 flex gap-10 relative"
+      >
         {/* TODO: Remove hardcoding of rotation and top and left position */}
         <div className="absolute -top-[60px] -left-[60px] flex items-center justify-center -rotate-[40deg]">
           <Image
@@ -112,20 +113,32 @@ export default function IndustryAwardPage() {
 
         <section key="left-content" className="w-1/2 flex flex-col">
           <div className="h-2/3 flex justify-center items-center">
-            <DegreeHatIcon className="w-auto h-[80%]"/>
+            <DegreeHatIcon className="w-auto h-[80%]" />
           </div>
-          <div ref={courseTitleBoxRef} className="h-1/3 flex flex-col gap-2 justify-center items-center bg-unilectives-wrapped-purple rounded-xl">
-            <p className="text-6xl font-bold" style={{ fontSize: courseCodeSize || "24px" }}>{courseCode}</p>
+          <div
+            ref={courseTitleBoxRef}
+            className="h-1/3 flex flex-col gap-2 justify-center items-center bg-unilectives-wrapped-purple rounded-xl"
+          >
+            <p
+              className="text-6xl font-bold"
+              style={{ fontSize: courseCodeSize || "24px" }}
+            >
+              {courseCode}
+            </p>
             <p style={{ fontSize: courseTitleSize || "16px" }}>{courseName}</p>
           </div>
         </section>
 
-        <section ref={rightSectionRef} key="right-content" className="w-1/2 flex flex-col gap-8 justify-center items-center">
+        <section
+          ref={rightSectionRef}
+          key="right-content"
+          className="w-1/2 flex flex-col gap-8 justify-center items-center"
+        >
           <div
             className="text-unilectives-wrapped-purple font-bold"
             style={{ fontSize: rightTitleSize || "16px" }}
           >
-          {rightTitle}
+            {rightTitle}
           </div>
           <div key="score-table" className="w-[100%] flex flex-col px-2">
             <div className="text-black flex items-center justify-between p-2 h-12">
@@ -157,7 +170,9 @@ export default function IndustryAwardPage() {
               </div>
             </div>
             <div className="text-black flex items-center justify-between p-2 h-12">
-              <div className="font-bold text-unilectives-wrapped-purple">Overall</div>
+              <div className="font-bold text-unilectives-wrapped-purple">
+                Overall
+              </div>
               <div>
                 <div className="flex-grow-0 flex gap-2">
                   {overallRating}
@@ -166,8 +181,11 @@ export default function IndustryAwardPage() {
               </div>
             </div>
           </div>
-          <div className="flex gap-4 hover:text-gray-700 cursor-pointer group" onClick={handleVisitCourse}>
-            <ShareIcon className="w-6 h-6 stroke-unilectives-wrapped-purple group-hover:stroke-gray-700"/>
+          <div
+            className="flex gap-4 hover:text-gray-700 cursor-pointer group"
+            onClick={handleVisitCourse}
+          >
+            <ShareIcon className="w-6 h-6 stroke-unilectives-wrapped-purple group-hover:stroke-gray-700" />
             <div className="text-unilectives-wrapped-purple text-base underline group-hover:text-gray-700">
               Visit course on Unilectives
             </div>
@@ -175,5 +193,5 @@ export default function IndustryAwardPage() {
         </section>
       </main>
     </div>
-  )
+  );
 }

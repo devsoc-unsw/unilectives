@@ -4,7 +4,7 @@ import Link from "next/link";
 import { SquareArrowOutUpRightIcon } from "lucide-react";
 import BoxComponent from "@/components/Wrapped/BoxComponent/BoxComponent";
 
-export default function MostPopularCoursePage() {
+export default function MostPopularCourse() {
   return (
     <PageTransition>
       <div className="bg-white w-full h-screen flex flex-col">
