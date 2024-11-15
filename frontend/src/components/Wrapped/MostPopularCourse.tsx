@@ -13,7 +13,7 @@ export default function MostPopularCourse() {
         </div>
         <div className="flex flex-col mx-24">
           <h1 className="text-8xl text-unilectives-blue font-neuemetana uppercase border-b-2 border-unilectives-blue py-8">
-            COMP1511
+            COMP3121
           </h1>
           <div className="flex flex-row mt-16 justify-between">
             <div className="flex flex-col gap-y-6">
@@ -21,9 +21,9 @@ export default function MostPopularCourse() {
                 Most Popular Course
               </h2>
               <h1 className="text-5xl text-unilectives-blue font-neuemetana uppercase font-semibold leading-tight">
-                Programming
+                Algorithm Design
                 <br />
-                Fundamentals
+                and Analysis
               </h1>
               <Link
                 className="text-unilectives-blue flex items-start gap-3 font-semibold underline"
@@ -38,7 +38,7 @@ export default function MostPopularCourse() {
                 Visited
               </h2>
               <h1 className="text-5xl text-unilectives-blue font-neuemetana uppercase font-semibold">
-                10,0000
+                143
               </h1>
               <h3 className="text-xl text-unilectives-blue font-neuemetana uppercase">
                 Times
@@ -48,19 +48,19 @@ export default function MostPopularCourse() {
           <div className="grid grid-cols-3 grid-rows-1 gap-8 mt-20">
             <BoxComponent
               title={"Enjoyment"}
-              rating={"4.7"}
+              rating={"3.1"}
               textColor="text-unilectives-blue"
               borderColor="border-unilectives-blue"
             />
             <BoxComponent
               title={"Usefulness"}
-              rating={"4.8"}
+              rating={"4.5"}
               textColor="text-unilectives-blue"
               borderColor="border-unilectives-blue"
             />
             <BoxComponent
               title={"Manageability"}
-              rating={"4.7"}
+              rating={"3.2"}
               textColor="text-unilectives-blue"
               borderColor="border-unilectives-blue"
             />

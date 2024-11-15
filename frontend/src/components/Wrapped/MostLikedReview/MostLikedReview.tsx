@@ -107,21 +107,20 @@ export default function MostLikedReview() {
         <div className="flex items-center justify-center">
           <div className="p-8 my-14 flex flex-col bg-white font-poppins z-[1] h-[914px] w-[671px]">
             <div className="p-8 pt-14 bg-unilectives-pink font-medium text-white text-base h-[661px]">
-              <p className="text-xl/9">
-                The course was absolutely amazing in every aspect except for the
-                lectures. Unfortunately Sri was quite difficult to understand at
-                times and his teaching involved far too much theory and of him
-                rote reading the slides.
+              <p className="text-sm">
+                Pros: <br />
+                - They teach JS/TS and Git if you haven't used those before
                 <br />
                 <br />
-                The assessments and labs taught a great deal to students and got
-                them very very comfortable with both C and Mips, alot of which
-                did end up being self directed however since lectures felt quite
-                subpar.
+                Cons:<br />
+                - Incredibly poorly structured labs and assignments that often have broken/unclear specification, randomly failing CI pipelines (which are how your work is marked):<br />
+                - 60% (and now 90% since they removed the exam) of your mark comes from a group project in groups of 5 where you can only pick one person and the rest are random. It is incredibly important to get good group members if you want to do well/not be stressed every deadline...:<br />
+                - Course infrastructure is awful, so the GitLab instance responsible for all of your lab and assignment work will lag out and completely die before every single assignment deadline, costing everyone hours of critical time:<br />
+                - The final exam for term 3 was insanely difficult and much worse than the previous terms. It was an 8-hour long exam that required everyone to do more work than the hardest parts of the assignment, on their own. It got so bad that the final exam has been removed for 2024, but now the group project is weighted more which I think is somehow worse...:<br />
+                - A lot of the course is just outdated. They use old Git commands, are several major versions behind on Node (which means newer functions are missing), etc.
                 <br />
                 <br />
-                The content taught gave tastes of a few different flavours of
-                CS, like a little...
+                In my opinion, regardless of if you're a technically capable student who can get high marks, avoid this course at all costs. Try to get an RPL approved if you can.
               </p>
             </div>
             <div>
@@ -131,13 +130,13 @@ export default function MostLikedReview() {
               <div className="flex flex-col justify-between h-[90px]">
                 <div>
                   <span className="font-bold">
-                    COMP1521 Computer System Fundamentals{" "}
+                    COMP1531 Software Engineering Fundamentals{" "}
                   </span>
                   <span className="font-regular">
-                    Very good course that teaches you alot
+                    Pray for a good group... (or try to RPL the course)
                   </span>
                 </div>
-                <span className="font-light">24/08/2023</span>
+                <span className="font-light">23/02/2024</span>
               </div>
             </div>
           </div>

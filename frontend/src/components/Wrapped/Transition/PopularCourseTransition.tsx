@@ -85,7 +85,7 @@ export default function PopularCourseTransition({ children }: { children: ReactN
         }, "<0.9");
         tl.to(".transition-bg-2", {
           translateY: "-100%",
-          duration: 1,
+          duration: 0.5,
           delay: -0.8,
         });
         tl.to(".transition-bg-3", {
