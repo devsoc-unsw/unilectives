@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import re
 import requests
+import signal
+import time
 
 website = "UniNotes"
 
@@ -11,20 +13,26 @@ courses = response.json()
 
 # Get latest studentvip review ID
 start_id = requests.get(f"http://localhost:3030/api/v1/reviews/scraped/maxId/{website}").json()['maxId']
-
 course_codes = courses
 url_prefix = "https://uninotes.com/university-subjects/university-of-new-south-wales-unsw/"
 review_values = []
 count = 0
 
+# Define a timeout handler
+def handler(signum, frame):
+    raise TimeoutError("Loop iteration timed out")
+
+# Set the timeout duration (in seconds) in case the scraping takes too long
+timeout_duration = 10
+
 for course_code in course_codes:
-    print(f"Processing reviews for {course_code}...")
-    page = requests.get(url_prefix + course_code)
-    soup = BeautifulSoup(page.content, "html.parser")
-
+    signal.signal(signal.SIGALRM, handler)  
+    signal.alarm(timeout_duration)         
+    
     try:
+        page = requests.get(url_prefix + course_code)
+        soup = BeautifulSoup(page.content, "html.parser")
         res = soup.find_all(attrs={"id": re.compile(r'^review')})
-
         for review in res:
             author_name = review.find("h2").get_text(strip=True).replace("'", "''")
 
@@ -47,9 +55,14 @@ for course_code in course_codes:
             review_values.append(
                 f"('{course_code}', '{website}', '{cur_id}', 'Review #{cur_id}', {rating}, '{description}', '{author_name}', '{term_taken}', '{{}}')"
             )
-
+        if len(res) > 0:
+            print(f"Scraped reviews for {course_code}...")
+    except TimeoutError:
+        print(f"Iteration timed out, moving to next iteration.")
     except Exception as e:
         print(f"Could not process reviews for {course_code}: {str(e)}")
+    finally:
+        signal.alarm(0)  # Disable the alarm after each iteration
 
 # Write SQL statements to a file
 with open('../backend/data/uninotes_reviews.sql', 'w') as f:
