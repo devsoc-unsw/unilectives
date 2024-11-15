@@ -59,8 +59,9 @@ export default function IntroAnimation() {
       <div className="intro-transition absolute flex flex-col w-full h-full">
         <div className="transition-bg w-full h-full bg-unilectives-pink" />
         <div className="absolute w-full h-full flex flex-col">
-          {genColoursArray(7).map((colour: string) => (
+          {genColoursArray(7).map((colour: string, index: number) => (
             <div
+              key={index}
               className="unilectives-intro-banner flex-1 text-8xl w-max font-bold whitespace-nowrap justify-center items-center"
               style={{
                 backgroundColor: colour,
@@ -73,7 +74,7 @@ export default function IntroAnimation() {
         </div>
       </div>
       <div className="landing-bg h-full w-full bg-unilectives-blue bg-blend-color-burn bg-[url('@../../../../public/wrapped-grid-bg.png')] bg-repeat">
-        <div className="landing hidden block opacity-0">
+        <div className="landing hidden opacity-0">
           <Landing />
         </div>
       </div>

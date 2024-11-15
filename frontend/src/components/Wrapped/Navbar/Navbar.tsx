@@ -7,9 +7,10 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import ItemCard from "./ItemCard";
 import { useInView } from "react-intersection-observer";
+import Link from "next/link";
 
-interface NavbarProps { 
-  introInView: boolean;
+interface NavbarProps {
+  landingInView: boolean;
   popularInView: boolean;
   ratedInView: boolean;
   reviewInView: boolean;
@@ -19,15 +20,22 @@ interface NavbarProps {
   summaryInView: boolean;
 }
 
-export default function NavbarToggle({ introInView, popularInView, ratedInView, reviewInView, peopleInView, industryInView, wamInView, summaryInView }: NavbarProps) {
+export default function NavbarToggle({
+  landingInView,
+  popularInView,
+  ratedInView,
+  reviewInView,
+  peopleInView,
+  industryInView,
+  wamInView,
+  summaryInView,
+}: NavbarProps) {
   const [showNavbar, setShowNavbar] = useState(false);
   const [currentSection, setCurrentSection] = useState("INTRO");
   const navbarRef = useRef(null);
 
-
-
   useEffect(() => {
-    if (introInView) setCurrentSection("INTRO");
+    if (landingInView) setCurrentSection("INTRO");
     else if (popularInView) setCurrentSection("MOST POPULAR COURSE");
     else if (ratedInView) setCurrentSection("HIGHEST RATED COURSE PER TERM");
     else if (reviewInView) setCurrentSection("MOST LIKED REVIEW");
@@ -35,7 +43,16 @@ export default function NavbarToggle({ introInView, popularInView, ratedInView, 
     else if (industryInView) setCurrentSection("INDUSTRY AWARD");
     else if (wamInView) setCurrentSection("WAM BOOSTER");
     else if (summaryInView) setCurrentSection("SUMMARY");
-  }, [introInView, popularInView, ratedInView, reviewInView, peopleInView, industryInView, wamInView, summaryInView]);
+  }, [
+    landingInView,
+    popularInView,
+    ratedInView,
+    reviewInView,
+    peopleInView,
+    industryInView,
+    wamInView,
+    summaryInView,
+  ]);
 
   // Scroll to section function
   const scrollToSection = (sectionId: string) => {
@@ -101,64 +118,84 @@ export default function NavbarToggle({ introInView, popularInView, ratedInView, 
           </div>
           <div className="flex flex-col h-full space-y-3">
             <div className="grid lg:grid-cols-1 grid-cols-5 gap-3 h-full">
-              <ItemCard 
-                title="INTRO" 
-                link="" 
+              <ItemCard
+                title="INTRO"
+                link=""
                 isActive={currentSection === "INTRO"}
-                onClick={() => scrollToSection("intro")} 
+                onClick={() => scrollToSection("intro")}
               />
-              <ItemCard 
-                title="MOST POPULAR COURSE" 
-                link="" 
+              <ItemCard
+                title="MOST POPULAR COURSE"
+                link=""
                 isActive={currentSection === "MOST POPULAR COURSE"}
-                onClick={() => scrollToSection("popular")} 
+                onClick={() => scrollToSection("popular")}
               />
-              <ItemCard 
-                title="HIGHEST RATED COURSE PER TERM" 
-                link="" 
+              <ItemCard
+                title="HIGHEST RATED COURSE PER TERM"
+                link=""
                 isActive={currentSection === "HIGHEST RATED COURSE PER TERM"}
-                onClick={() => scrollToSection("rated")} 
+                onClick={() => scrollToSection("rated")}
               />
-              <ItemCard 
-                title="MOST LIKED REVIEW" 
-                link="" 
+              <ItemCard
+                title="MOST LIKED REVIEW"
+                link=""
                 isActive={currentSection === "MOST LIKED REVIEW"}
-                onClick={() => scrollToSection("review")} 
+                onClick={() => scrollToSection("review")}
               />
-              <ItemCard 
-                title="PEOPLE CHOICE" 
-                link="" 
+              <ItemCard
+                title="PEOPLE CHOICE"
+                link=""
                 isActive={currentSection === "PEOPLE CHOICE"}
-                onClick={() => scrollToSection("people")} 
+                onClick={() => scrollToSection("people")}
               />
             </div>
             <div className="grid lg:grid-cols-1 grid-cols-4 gap-3 h-full">
-              <ItemCard 
-                title="INDUSTRY AWARD" 
-                link="" 
+              <ItemCard
+                title="INDUSTRY AWARD"
+                link=""
                 isActive={currentSection === "INDUSTRY AWARD"}
-                onClick={() => scrollToSection("industry")} 
+                onClick={() => scrollToSection("industry")}
               />
-              <ItemCard 
-                title="WAM BOOSTER" 
-                link="" 
+              <ItemCard
+                title="WAM BOOSTER"
+                link=""
                 isActive={currentSection === "WAM BOOSTER"}
-                onClick={() => scrollToSection("wam")} 
+                onClick={() => scrollToSection("wam")}
               />
-              <ItemCard 
-                title="SUMMARY" 
-                link="" 
+              <ItemCard
+                title="SUMMARY"
+                link=""
                 isActive={currentSection === "SUMMARY"}
-                onClick={() => scrollToSection("summary")} 
+                onClick={() => scrollToSection("summary")}
               />
-              <ItemCard title="GO BACK TO UNILECTIVES" link="" />
+              <Link href="/" className="h-full">
+                <ItemCard title="GO BACK TO UNILECTIVES" link="" />
+              </Link>
             </div>
           </div>
 
           <div className="flex space-x-3">
-            <Facebook className="w-8 h-8 cursor-pointer" />
-            <Instagram className="w-8 h-8 cursor-pointer" />
-            <Twitter className="w-8 h-8 cursor-pointer" />
+            <a
+              href="https://www.facebook.com/devsocUNSW"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Facebook className="w-8 h-8 cursor-pointer" />
+            </a>
+            <a
+              href="https://www.instagram.com/devsoc_unsw?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Instagram className="w-8 h-8 cursor-pointer" />
+            </a>
+            <a
+              href="https://x.com/UNSWCOMPUTING"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Twitter className="w-8 h-8 cursor-pointer" />
+            </a>
           </div>
         </div>
       )}

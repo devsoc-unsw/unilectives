@@ -12,6 +12,7 @@ import { useInView } from "react-intersection-observer";
 
 export default function WrappedPage() {
   const [introRef, introInView] = useInView({ threshold: 0.5 });
+  const [landingRef, landingInView] = useInView({ threshold: 0.5 });
   const [popularRef, popularInView] = useInView({ threshold: 0.5 });
   const [ratedRef, ratedInView] = useInView({ threshold: 0.5 });
   const [reviewRef, reviewInView] = useInView({ threshold: 0.5 });
@@ -19,24 +20,38 @@ export default function WrappedPage() {
   const [industryRef, industryInView] = useInView({ threshold: 0.5 });
   const [wamRef, wamInView] = useInView({ threshold: 0.5 });
   const [summaryRef, summaryInView] = useInView({ threshold: 0.5 });
-  
+
   return (
     <main className="snap-y snap-mandatory h-screen overflow-scroll">
-      <div className="sticky z-50 top-0 flex justify-center">
-        <Navbar introInView={introInView} popularInView={popularInView} ratedInView={ratedInView} reviewInView={reviewInView} peopleInView={peopleInView} industryInView={industryInView} wamInView={wamInView} summaryInView={summaryInView} />
+      <div
+        className={`sticky z-50 top-0 flex justify-center ${introInView ? "hidden" : ""}`}
+      >
+        <Navbar
+          landingInView={landingInView}
+          popularInView={popularInView}
+          ratedInView={ratedInView}
+          reviewInView={reviewInView}
+          peopleInView={peopleInView}
+          industryInView={industryInView}
+          wamInView={wamInView}
+          summaryInView={summaryInView}
+        />
       </div>
-      <div ref={introRef} id="intro"></div>
-      <IntroAnimation />
+      <div ref={introRef}>
+        <div ref={landingRef}>
+          <IntroAnimation />
+        </div>
+      </div>
       <div ref={popularRef} id="popular"></div>
       <MostPopularCourse />
       <div ref={ratedRef} id="rated"></div>
-      <HighestRated/>
+      <HighestRated />
       <div ref={reviewRef} id="review"></div>
-      <MostLikedReview/>
+      <MostLikedReview />
       <div ref={peopleRef} id="people"></div>
-      <PeoplesChoice/>
+      <PeoplesChoice />
       <div ref={industryRef} id="industry"></div>
-      <IndustryAward/>
+      <IndustryAward />
     </main>
   );
 }

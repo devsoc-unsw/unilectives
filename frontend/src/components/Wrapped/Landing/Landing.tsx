@@ -4,6 +4,7 @@ import year from "../../../../public/wrapped-year.svg";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import Navbar from "@/components/Wrapped/Navbar/Navbar";
 
 export default function Landing() {
   useGSAP(() => {
@@ -23,7 +24,6 @@ export default function Landing() {
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-between bg-unilectives-blue bg-blend-color-burn bg-[url('@../../../../public/wrapped-grid-bg.png')] bg-repeat">
-
       {/* <GridLines
         className="grid-area"
         cellWidth={60}
@@ -32,6 +32,16 @@ export default function Landing() {
       >
         <h1>Gridlines demo</h1>
       </GridLines> */}
+      <Navbar
+        landingInView={true}
+        popularInView={false}
+        ratedInView={false}
+        reviewInView={false}
+        peopleInView={false}
+        industryInView={false}
+        wamInView={false}
+        summaryInView={false}
+      />
       <div className="flex flex-row h-full items-center justify-center">
         {/* TODO this text is either responsive / wrong size */}
         <div className="flex-col">
