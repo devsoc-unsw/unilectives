@@ -3,7 +3,7 @@
 import PageTransition from "@/components/Wrapped/Transition/DefaultTransition";
 import Navbar from "@/components/Wrapped/Navbar/Navbar";
 import Image from "next/image";
-import year from "../../../../public/wrapped-year.svg";
+import year from "../../../public/wrapped-year.svg";
 import WrappedTrophy from "@/assets/wrapped-trophy.png";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
@@ -77,6 +77,6 @@ export default function PeoplesChoice() {
           </div>
         </div>
       </div>
-    </PageTransition>
+     </PageTransition>
   );
 }

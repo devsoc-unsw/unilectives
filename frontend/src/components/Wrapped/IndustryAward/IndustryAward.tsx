@@ -96,7 +96,7 @@ export default function IndustryAward() {
   }, []);
 
   return (
-    <div className="w-screen h-screen overflow-hidden font-neuemetana bg-unilectives-wrapped-purple flex justify-center items-center">
+    <div className="w-screen h-screen snap-start overflow-hidden font-neuemetana bg-unilectives-wrapped-purple flex justify-center items-center">
       <main
         key="main-frame"
         className="bg-white w-2/3 h-2/3 rounded-[2rem] p-12 flex gap-10 relative"
