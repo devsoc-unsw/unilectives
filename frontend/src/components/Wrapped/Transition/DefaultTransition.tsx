@@ -67,7 +67,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <div className='w-screen h-screen snap-center overflow-hidden font-neuemetana' ref={container}>
-      <div className="page-content w-full h-full relative z-10">
+      <div className={`page-content w-full h-full relative z-10 ${!isAnimationComplete ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
         {children}
       </div>
       {shouldShowOverlay && (
