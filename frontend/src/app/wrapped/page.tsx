@@ -22,7 +22,7 @@ export default function WrappedPage() {
   const [summaryRef, summaryInView] = useInView({ threshold: 0.5 });
 
   return (
-    <main className="snap-y snap-mandatory h-screen overflow-scroll">
+    <main className="overflow-x-hidden scrollbar-hidden snap-y snap-mandatory h-screen overflow-scroll">
       <div
         className={`sticky z-50 top-0 flex justify-center ${introInView ? "hidden" : ""}`}
       >

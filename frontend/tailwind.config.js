@@ -67,7 +67,7 @@ module.exports = {
         },
     },
     plugins: [
-        plugin(function ({addBase}) {
+        plugin(({addBase}) => {
             addBase({
                 img: {
                     "max-width": "none",
@@ -78,6 +78,19 @@ module.exports = {
                     height: "100%",
                 },
             });
+        }),
+        plugin(({ addUtilities }) => {
+            addUtilities({
+                /* Chrome, Safari and Opera */
+                ".scrollbar-hidden::-webkit-scrollbar": {
+                  display: "none",
+                },
+        
+                ".scrollbar-hidden": {
+                  "scrollbar-width": "none" /* Firefox */,
+                  "-ms-overflow-style": "none" /* IE and Edge */,
+                },
+              })
         }),
         require("tailwind-scrollbar"),
     ],
