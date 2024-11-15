@@ -56,9 +56,9 @@ export default function IntroAnimation() {
       id="intro"
       ref={container}
     >
-      <div className="intro-transition absolute flex flex-col w-full h-full">
+      <div className="intro-transition absolute flex flex-col w-full h-full overflow-x-hidden">
         <div className="transition-bg w-full h-full bg-unilectives-pink" />
-        <div className="absolute w-full h-full flex flex-col">
+        <div className="absolute w-full h-full flex flex-col overflow-x-hidden">
           {genColoursArray(7).map((colour: string, index: number) => (
             <div
               key={index}
