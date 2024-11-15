@@ -51,7 +51,7 @@ export default function Landing() {
             <p className="text-xl font-bold !text-white">DEVSOC PRESENTS</p>
           </div>
         </div>
-        <div className="flex items-center justify-center ml-[-100px] mb-[-50px]">
+        <div className="flex items-center justify-center ml-[-100px] mb-[-200px]">
           <Image
             className="year-bg w-[200px] h-[200px]"
             src={year}

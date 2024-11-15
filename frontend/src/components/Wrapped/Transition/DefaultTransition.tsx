@@ -60,6 +60,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           translateY: "-100%",
           duration: 0,
         });
+        tl.to(".page-content", {
+          opacity: 1,
+          duration: 0.3,
+        },
+        "<-0.9",
+        );
       }
     },
     { scope: container, dependencies: [isVisible] }
@@ -67,7 +73,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <div className='w-screen h-screen snap-center overflow-hidden font-neuemetana' ref={container}>
-      <div className={`page-content w-full h-full relative z-10 ${!isAnimationComplete ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
+      <div className={'page-content w-full h-full relative z-10 opacity-0'}>
         {children}
       </div>
       {shouldShowOverlay && (

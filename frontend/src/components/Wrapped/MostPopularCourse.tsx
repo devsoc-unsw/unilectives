@@ -3,10 +3,11 @@ import PageTransition from "@/components/Wrapped/Transition/DefaultTransition";
 import Link from "next/link";
 import { SquareArrowOutUpRightIcon } from "lucide-react";
 import BoxComponent from "@/components/Wrapped/BoxComponent/BoxComponent";
+import PopularCourseTransition from "@/components/Wrapped/Transition/PopularCourseTransition";
 
 export default function MostPopularCourse() {
   return (
-    <PageTransition>
+    <PopularCourseTransition>
       <div className="bg-white w-full h-screen flex flex-col" id="popular">
         <div className="flex justify-center mb-4">
         </div>
@@ -66,6 +67,6 @@ export default function MostPopularCourse() {
           </div>
         </div>
       </div>
-    </PageTransition>
+    </PopularCourseTransition>
   );
 }
