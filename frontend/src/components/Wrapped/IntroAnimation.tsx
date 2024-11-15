@@ -52,7 +52,7 @@ export default function IntroAnimation() {
 
   return (
     <div
-      className="w-screen h-screen overflow-hidden font-neuemetana"
+      className="w-screen h-screen snap-start overflow-hidden font-neuemetana"
       ref={container}
     >
       <div className="intro-transition absolute flex flex-col w-full h-full">
@@ -71,8 +71,8 @@ export default function IntroAnimation() {
           ))}
         </div>
       </div>
-      <div className="landing-bg  w-full h-full bg-unilectives-blue bg-blend-color-burn bg-[url('@../../../../public/wrapped-grid-bg.png')] bg-repeat">
-        <div className="landing hidden absolute opacity-0">
+      <div className="landing-bg h-full w-full bg-unilectives-blue bg-blend-color-burn bg-[url('@../../../../public/wrapped-grid-bg.png')] bg-repeat">
+        <div className="landing hidden block opacity-0">
           <Landing />
         </div>
       </div>
