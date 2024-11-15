@@ -53,6 +53,7 @@ export default function IntroAnimation() {
   return (
     <div
       className="w-screen h-screen snap-start overflow-hidden font-neuemetana"
+      id="intro"
       ref={container}
     >
       <div className="intro-transition absolute flex flex-col w-full h-full">

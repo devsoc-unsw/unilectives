@@ -7,9 +7,8 @@ import BoxComponent from "@/components/Wrapped/BoxComponent/BoxComponent";
 export default function MostPopularCourse() {
   return (
     <PageTransition>
-      <div className="bg-white w-full h-screen flex flex-col">
+      <div className="bg-white w-full h-screen flex flex-col" id="popular">
         <div className="flex justify-center mb-4">
-          <Navbar />
         </div>
         <div className="flex flex-col mx-24">
           <h1 className="text-8xl text-unilectives-blue font-neuemetana uppercase border-b-2 border-unilectives-blue py-8">

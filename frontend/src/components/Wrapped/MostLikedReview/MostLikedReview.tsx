@@ -86,6 +86,7 @@ export default function MostLikedReview() {
       <div
         ref={containerRef}
         className="absolute w-full h-screen z-[1] overflow-hidden"
+        id="review"
       >
         <div
           ref={glassRef}
@@ -97,11 +98,6 @@ export default function MostLikedReview() {
             alt=""
             className="pointer-events-none transform -translate-x-[1120px] -translate-y-[1240px]"
           />
-        </div>
-      </div>
-      <div className="absolute top-0 left-0 w-full flex justify-center mb-4">
-        <div className="z-[2]">
-          <Navbar />
         </div>
       </div>
       <div className="absolute bg-unilectives-blue w-full h-screen justify-center flex flex-col z-[-1] overflow-hidden">

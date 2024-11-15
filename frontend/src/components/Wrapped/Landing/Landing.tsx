@@ -1,4 +1,3 @@
-import Navbar from "../Navbar/Navbar";
 // import grid from "../../../assets/grid.png";
 import downIcon from "../../../../public/wrapped-chevrons-down.svg";
 import year from "../../../../public/wrapped-year.svg";
@@ -24,7 +23,7 @@ export default function Landing() {
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-between bg-unilectives-blue bg-blend-color-burn bg-[url('@../../../../public/wrapped-grid-bg.png')] bg-repeat">
-      <Navbar />
+
       {/* <GridLines
         className="grid-area"
         cellWidth={60}
@@ -33,7 +32,7 @@ export default function Landing() {
       >
         <h1>Gridlines demo</h1>
       </GridLines> */}
-      <div className="flex flex-row items-end">
+      <div className="flex flex-row h-full items-center justify-center">
         {/* TODO this text is either responsive / wrong size */}
         <div className="flex-col">
           <p className="text-8xl font-extrabold !text-white">UNILECTIVES</p>

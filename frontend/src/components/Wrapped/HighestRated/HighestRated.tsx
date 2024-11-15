@@ -67,8 +67,7 @@ export default function HighestRated() {
 
   return (
     <PageTransition>
-      <div className="relative w-screen h-screen flex flex-col items-center justify-center bg-unilectives-pink bg-blend-color-burn">
-        <Navbar />
+      <div className="relative w-screen h-screen flex flex-col items-center justify-center bg-unilectives-pink bg-blend-color-burn" id="rated">
         <div className="flex-grow flex items-center justify-center">
           <div className="flex items-center justify-between w-[1320px]">
             {highestRatedCourses.map((course, index) => (

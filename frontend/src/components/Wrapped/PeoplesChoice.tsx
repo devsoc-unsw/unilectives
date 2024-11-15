@@ -23,10 +23,7 @@ export default function PeoplesChoice() {
 
   return (
     <PageTransition>
-      <div className="bg-unilectives-pink w-full h-screen flex flex-col">
-        <div className="flex justify-center mb-4">
-          <Navbar />
-        </div>
+      <div className="bg-unilectives-pink w-full h-screen flex flex-col" id="people">
         <div className="flex-grow grid grid-cols-12 mx-20 mb-8 overflow-hidden">
           <div className="md:col-span-12 col-span-5 flex flex-col">
             <h1 className="text-8xl font-bold italic text-center text-white font-timesnewroman uppercase mb-4">
