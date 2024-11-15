@@ -77,30 +77,25 @@ export default function PopularCourseTransition({ children }: { children: ReactN
       });
         tl.to(".transition-bg-1", {
           translateY: "-100%",
-          duration: 3,
+          duration: 2,
         }, "<");
         tl.set([".transition-bg-2", ".transition-bg-3"], {
           translateY: "0%",
           opacity: 1,
-        }, "<0.9");
+        }, "<0.7");
         tl.to(".transition-bg-2", {
           translateY: "-100%",
-          duration: 0.5,
-          delay: -0.8,
-        });
-        tl.to(".transition-bg-3", {
-          translateY: "-100%",
-          duration: 0,
+          duration: 1.2,
+          delay: -0.6,
         });
         tl.to(".transition-bg-3", {
           opacity: 0,
-          delay: 0.4,
-          duration: 0.6,
+          duration: 0.2,
         });
         tl.to(".page-content", {
           opacity: 1,
           duration: 0.3,
-        }, "<-0.5");
+        }, "<-0.1");
       }
     },
     { scope: container, dependencies: [isVisible] },
