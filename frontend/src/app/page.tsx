@@ -95,10 +95,19 @@ export default async function Home() {
             <p className="my-4 sm:text-xs sm:my-1">Proudly sponsored by</p>
             {/* Flex box to hold all sponsors */}
             <div className="flex flex-col justify-evenly items-center bg-[#94B4D1] dark:bg-slate-700 rounded-md h-22 py-3 sm:py-5 duration-150">
-              {/* Platinum Tier */}
-              <p className="font-bold text-2xl sm:text-lg text-white dark:text-white">Platinum Tier</p>
-              <div className="flex flex-row justify-center items-center space-x-8 my-4">
-                <div className="w-40 h-32 relative md:w-36 sm:w-24">
+              <div className="flex items-center flex-col relative w-full">
+                <div className="flex bg-[#94B4D1] dark:bg-slate-700 z-10">
+                  <p className="font-semibold text-3xl sm:text-lg text-white dark:text-white mt-5 tracking-wide relative z-10">
+                    Platinum Tier
+                    {/* Add a divider bar behind the text using `before` */}
+                  </p>
+                </div>
+                {/* Divider bar positioned behind the text */}
+                <span className="absolute bottom-3.5 left-0 w-full h-[2px] bg-[#D1E8FF] dark:bg-slate-500 z-0"></span>
+              </div>
+              
+              <div className="flex flex-row justify-center items-center space-x-8">
+              <a href="https://www.arista.com" target="_blank" rel="noopener noreferrer" className="w-52 h-44 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={AristaLogo}
                     alt="Arista Logo"
@@ -106,8 +115,8 @@ export default async function Home() {
                     objectFit="contain"
                     className="dark:filter"
                   />
-                </div>
-                <div className="w-40 h-32 relative md:w-36 sm:w-24">
+                </a>
+                <a href="https://www.thetradedesk.com" target="_blank" rel="noopener noreferrer" className="w-52 h-44 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={TheTradeDeskLogo}
                     alt="The Trade Desk Logo"
@@ -115,13 +124,13 @@ export default async function Home() {
                     objectFit="contain"
                     className="dark:filter"
                   />
-                </div>
+                </a>
               </div>
 
               {/* Gold Tier */}
-              <p className="font-bold text-2xl sm:text-lg text-white dark:text-white mt-6">Gold Tier</p>
-              <div className="flex flex-row justify-center items-center space-x-8 my-4">
-                <div className="w-40 h-32 relative md:w-36 sm:w-24">
+              <p className="font-semibold text-2xl sm:text-lg text-white dark:text-white mt-0 tracking-wide">Gold Tier</p>
+              <div className="flex flex-row justify-center items-center space-x-8">
+                <a href="https://www.janestreet.com" target="_blank" rel="noopener noreferrer" className="w-40 h-32 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={JaneStreetLogo}
                     alt="Jane Street Logo"
@@ -129,8 +138,8 @@ export default async function Home() {
                     objectFit="contain"
                     className="dark:filter"
                   />
-                </div>
-                <div className="w-40 h-32 relative md:w-36 sm:w-24">
+                </a>
+                <a href="https://www.safetyculture.com" target="_blank" rel="noopener noreferrer" className="w-40 h-32 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={SafetyCultureLogo}
                     alt="SafetyCulture Logo"
@@ -138,7 +147,7 @@ export default async function Home() {
                     objectFit="contain"
                     className="dark:filter"
                   />
-                </div>
+                </a>
               </div>
             </div>
           </div>
