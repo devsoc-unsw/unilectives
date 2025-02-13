@@ -1,8 +1,11 @@
 import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import navbar from "@/assets/navbar.svg";
-import JaneStreetLogo from "@/assets/jane-street-logo.svg";
+import JaneStreetLogo from "@/assets/janestreet.svg";
 import TikTokLogo from "@/assets/tiktok-logo.svg";
+import SafetyCultureLogo from "@/assets/sc.png";
+import AristaLogo from "@/assets/arista.png";
+import TheTradeDeskLogo from "@/assets/thetradedesk.png";
 import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
@@ -90,24 +93,52 @@ export default async function Home() {
             </p>
             {/* Sponsors Section */}
             <p className="my-4 sm:text-xs sm:my-1">Proudly sponsored by</p>
-            <div className="flex flex-row justify-evenly items-center bg-gray-100 dark:bg-slate-700 rounded-md h-16 py-10 sm:py-5 duration-150">
-              <div className="w-40 h-32 relative items-center md:w-36 sm:w-24">
-                <Image
-                  src={JaneStreetLogo}
-                  alt="Jane Street Logo"
-                  layout="fill"
-                  objectFit="contain"
-                  className="dark:filter dark:invert"
-                />
+            {/* Flex box to hold all sponsors */}
+            <div className="flex flex-col justify-evenly items-center bg-[#94B4D1] dark:bg-slate-700 rounded-md h-22 py-3 sm:py-5 duration-150">
+              {/* Platinum Tier */}
+              <p className="font-bold text-2xl sm:text-lg text-white dark:text-white">Platinum Tier</p>
+              <div className="flex flex-row justify-center items-center space-x-8 my-4">
+                <div className="w-40 h-32 relative md:w-36 sm:w-24">
+                  <Image
+                    src={AristaLogo}
+                    alt="Arista Logo"
+                    layout="fill"
+                    objectFit="contain"
+                    className="dark:filter"
+                  />
+                </div>
+                <div className="w-40 h-32 relative md:w-36 sm:w-24">
+                  <Image
+                    src={TheTradeDeskLogo}
+                    alt="The Trade Desk Logo"
+                    layout="fill"
+                    objectFit="contain"
+                    className="dark:filter"
+                  />
+                </div>
               </div>
-              <div className="w-32 h-32 relative items-center md:w-28 sm:w-16">
-                <Image
-                  src={TikTokLogo}
-                  alt="TikTok Logo"
-                  layout="fill"
-                  objectFit="contain"
-                  className="dark:filter dark:invert"
-                />
+
+              {/* Gold Tier */}
+              <p className="font-bold text-2xl sm:text-lg text-white dark:text-white mt-6">Gold Tier</p>
+              <div className="flex flex-row justify-center items-center space-x-8 my-4">
+                <div className="w-40 h-32 relative md:w-36 sm:w-24">
+                  <Image
+                    src={JaneStreetLogo}
+                    alt="Jane Street Logo"
+                    layout="fill"
+                    objectFit="contain"
+                    className="dark:filter"
+                  />
+                </div>
+                <div className="w-40 h-32 relative md:w-36 sm:w-24">
+                  <Image
+                    src={SafetyCultureLogo}
+                    alt="SafetyCulture Logo"
+                    layout="fill"
+                    objectFit="contain"
+                    className="dark:filter"
+                  />
+                </div>
               </div>
             </div>
           </div>
