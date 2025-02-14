@@ -95,19 +95,28 @@ export default async function Home() {
             <p className="my-4 sm:text-xs sm:my-1">Proudly sponsored by</p>
             {/* Flex box to hold all sponsors */}
             <div className="flex flex-col justify-evenly items-center bg-[#94B4D1] dark:bg-slate-700 rounded-md h-22 py-3 sm:py-5 duration-150">
-              <div className="flex items-center flex-col relative w-full">
-                <div className="flex bg-[#94B4D1] dark:bg-slate-700 z-10">
-                  <p className="font-semibold text-3xl sm:text-lg text-white dark:text-white mt-5 tracking-wide relative z-10">
-                    Platinum Tier
-                    {/* Add a divider bar behind the text using `before` */}
-                  </p>
+              {/* Flex box to hold platinum text and bar */}
+              <div className="flex flex-col items-center z-10 relative w-full">
+                {/* Platinum text */}
+                <p className="font-semibold text-3xl sm:text-lg text-white dark:text-white mt-5 tracking-wide z-10 relative">
+                  Platinum Tier
+                </p>
+                {/* <!-- Divider Bar Split Into 3 Sections --> */}
+                <div className="absolute bottom-4 w-[95%] flex z-0">
+                  {/* <!-- Left Section (colored) --> */}
+                  <div className="flex-1 h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                  
+                  {/* <!-- Middle Section (transparent) --> */}
+                  <div className="flex-1 h-[2px] bg-transparent"></div>
+                  
+                  {/* <!-- Right Section (colored) --> */}
+                  <div className="flex-1 h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
                 </div>
-                {/* Divider bar positioned behind the text */}
-                <span className="absolute bottom-3.5 left-0 w-full h-[2px] bg-[#D1E8FF] dark:bg-slate-500 z-0"></span>
+                
               </div>
-              
+              {/* Flex box to hold platinum links */}
               <div className="flex flex-row justify-center items-center space-x-8">
-              <a href="https://www.arista.com" target="_blank" rel="noopener noreferrer" className="w-52 h-44 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
+                <a href="https://www.arista.com" target="_blank" rel="noopener noreferrer" className="w-52 h-44 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={AristaLogo}
                     alt="Arista Logo"
@@ -116,7 +125,7 @@ export default async function Home() {
                     className="dark:filter"
                   />
                 </a>
-                <a href="https://www.thetradedesk.com" target="_blank" rel="noopener noreferrer" className="w-52 h-44 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
+                <a href="https://www.thetradedesk.com" target="_blank" rel="noopener noreferrer" className="w-64 h-48 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={TheTradeDeskLogo}
                     alt="The Trade Desk Logo"
@@ -128,7 +137,22 @@ export default async function Home() {
               </div>
 
               {/* Gold Tier */}
-              <p className="font-semibold text-2xl sm:text-lg text-white dark:text-white mt-0 tracking-wide">Gold Tier</p>
+              {/* Flex box to hold platinum text and bar */}
+              <div className="flex flex-col items-center z-10 relative w-full">
+                <p className="font-semibold text-2xl sm:text-lg text-white dark:text-white mt-0 tracking-wide">Gold Tier</p>
+                  {/* <!-- Divider Bar Split Into 3 Sections --> */}
+                  <div className="absolute bottom-4 w-[95%] flex z-0">
+                  {/* <!-- Left Section (colored) --> */}
+                  <div className="flex-1 h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                  
+                  {/* <!-- Middle Section (transparent) --> */}
+                  <div className="flex-1 h-[2px] bg-transparent"></div>
+                  
+                  {/* <!-- Right Section (colored) --> */}
+                  <div className="flex-1 h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                </div>
+              </div>
+              
               <div className="flex flex-row justify-center items-center space-x-8">
                 <a href="https://www.janestreet.com" target="_blank" rel="noopener noreferrer" className="w-40 h-32 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
