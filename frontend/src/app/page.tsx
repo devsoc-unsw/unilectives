@@ -107,7 +107,7 @@ export default async function Home() {
                   <div className="flex-[1] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
                   
                   {/* <!-- Middle Section (transparent) --> */}
-                  <div className="sm:flex-[2] md:flex-[2] lg:flex-[1.5] flex-[1] h-[2px] bg-transparent"></div>
+                  <div className="sm:flex-[3] md:flex-[2] lg:flex-[1.5] flex-[1] h-[2px] bg-transparent"></div>
                   
                   {/* <!-- Right Section (colored) --> */}
                   <div className="flex-[1] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
@@ -152,7 +152,7 @@ export default async function Home() {
                     <div className="flex-[2] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
                 </div>
               </div>
-              
+              {/* Flex box to hold gold tier linkss */}
               <div className="flex flex-row justify-center items-center space-x-8 mt-5 mb-5">
                 <a href="https://www.janestreet.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
