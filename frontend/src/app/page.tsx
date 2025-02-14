@@ -104,13 +104,13 @@ export default async function Home() {
                 {/* <!-- Divider Bar Split Into 3 Sections --> */}
                 <div className="absolute bottom-4 sm:bottom-3 md:bottom-4 lg:bottom-4 w-[95%] flex z-0">
                   {/* <!-- Left Section (colored) --> */}
-                  <div className="flex-[1] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                  <div className="flex-[1] sm:h-[1px] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
                   
                   {/* <!-- Middle Section (transparent) --> */}
-                  <div className="sm:flex-[3] md:flex-[2] lg:flex-[1.5] flex-[1] h-[2px] bg-transparent"></div>
+                  <div className="sm:flex-[3] sm:h-[1px] md:flex-[2] lg:flex-[1.5] flex-[1] h-[2px] bg-transparent"></div>
                   
                   {/* <!-- Right Section (colored) --> */}
-                  <div className="flex-[1] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                  <div className="flex-[1] sm:h-[1px] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
                 </div>
                 
               </div>
@@ -143,18 +143,18 @@ export default async function Home() {
                   {/* <!-- Divider Bar Split Into 3 Sections --> */}
                   <div className="absolute bottom-4 sm:bottom-3 w-[95%] flex z-0">
                     {/* <!-- Left Section (colored) --> */}
-                    <div className="flex-[2] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                    <div className="flex-[2] sm:h-[1px] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
                     
                     {/* <!-- Middle Section (transparent) --> */}
-                    <div className="flex-[1.5] sm:flex-[3] md:flex-[2] h-[2px] bg-transparent"></div>
+                    <div className="flex-[1.5] sm:h-[1px] sm:flex-[3] md:flex-[2] h-[2px] bg-transparent"></div>
                     
                     {/* <!-- Right Section (colored) --> */}
-                    <div className="flex-[2] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                    <div className="flex-[2] sm:h-[1px] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
                 </div>
               </div>
               {/* Flex box to hold gold tier linkss */}
               <div className="flex flex-row justify-center items-center space-x-8 mt-5 mb-5">
-                <a href="https://www.janestreet.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
+                <a href="https://www.janestreet.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-20 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={JaneStreetLogo}
                     alt="Jane Street Logo"
@@ -163,7 +163,7 @@ export default async function Home() {
                     className="dark:filter"
                   />
                 </a>
-                <a href="https://www.safetyculture.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
+                <a href="https://www.safetyculture.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-20 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={SafetyCultureLogo}
                     alt="SafetyCulture Logo"
