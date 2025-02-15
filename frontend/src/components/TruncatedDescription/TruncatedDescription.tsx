@@ -35,7 +35,6 @@ export default function TruncatedDescription({
         newMax++;
         index++;
       }
-      
       if (index === content.length) {
         setShortenedContent(content);
       } else {
@@ -51,7 +50,7 @@ export default function TruncatedDescription({
   }, [content])
 
   return (
-    <div className="break-words">
+    <div>
       <p className="whitespace-pre-line text-justify">
         {showFullContent ? content : shortenedContent}
       </p>
