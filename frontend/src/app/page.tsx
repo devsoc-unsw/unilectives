@@ -1,8 +1,11 @@
 import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import navbar from "@/assets/navbar.svg";
-import JaneStreetLogo from "@/assets/jane-street-logo.svg";
+import JaneStreetLogo from "@/assets/janestreet.svg";
 import TikTokLogo from "@/assets/tiktok-logo.svg";
+import SafetyCultureLogo from "@/assets/sc.png";
+import AristaLogo from "@/assets/arista.png";
+import TheTradeDeskLogo from "@/assets/thetradedesk.png";
 import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
@@ -90,24 +93,85 @@ export default async function Home() {
             </p>
             {/* Sponsors Section */}
             <p className="my-4 sm:text-xs sm:my-1">Proudly sponsored by</p>
-            <div className="flex flex-row justify-evenly items-center bg-gray-100 dark:bg-slate-700 rounded-md h-16 py-10 sm:py-5 duration-150">
-              <div className="w-40 h-32 relative items-center md:w-36 sm:w-24">
-                <Image
-                  src={JaneStreetLogo}
-                  alt="Jane Street Logo"
-                  layout="fill"
-                  objectFit="contain"
-                  className="dark:filter dark:invert"
-                />
+            {/* Flex box to hold all sponsors */}
+            <div className="flex flex-col justify-evenly items-center bg-[#94B4D1] dark:bg-slate-700 rounded-md h-22 py-1 sm:py-1 duration-150">
+              {/* Flex box to hold platinum text and bar */}
+              <div className="flex flex-col items-center z-10 relative w-full">
+                {/* Platinum text */}
+                <p className="font-semibold text-3xl sm:text-lg text-white dark:text-white mt-7 sm:mt-1 tracking-wide z-10 relative">
+                  Platinum Tier
+                </p>
+                {/* <!-- Divider Bar Split Into 3 Sections --> */}
+                <div className="absolute bottom-4 sm:bottom-3 md:bottom-4 lg:bottom-4 w-[95%] flex z-0">
+                  {/* <!-- Left Section (colored) --> */}
+                  <div className="flex-[1] sm:h-[1px] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                  
+                  {/* <!-- Middle Section (transparent) --> */}
+                  <div className="sm:flex-[3] sm:h-[1px] md:flex-[2] lg:flex-[1.5] flex-[0.9] h-[2px] bg-transparent"></div>
+                  
+                  {/* <!-- Right Section (colored) --> */}
+                  <div className="flex-[1] sm:h-[1px] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                </div>
+                
               </div>
-              <div className="w-32 h-32 relative items-center md:w-28 sm:w-16">
-                <Image
-                  src={TikTokLogo}
-                  alt="TikTok Logo"
-                  layout="fill"
-                  objectFit="contain"
-                  className="dark:filter dark:invert"
-                />
+              {/* Flex box to hold platinum links */}
+              <div className="flex flex-row justify-center items-center sm:space-x-8 md:space-x-12 lg:space-x-20 space-x-24 mt-7 mb-8">
+                <a href="https://www.arista.com" target="_blank" rel="noopener noreferrer" className="w-48 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
+                  <Image
+                    src={AristaLogo}
+                    alt="Arista Logo"
+                    layout="intrinsic"
+                    objectFit="contain"
+                    className="dark:filter"
+                  />
+                </a>
+                <a href="https://www.thetradedesk.com" target="_blank" rel="noopener noreferrer" className="w-60 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
+                  <Image
+                    src={TheTradeDeskLogo}
+                    alt="The Trade Desk Logo"
+                    layout="intrinsic"
+                    objectFit="contain"
+                    className="dark:filter"
+                  />
+                </a>
+              </div>
+
+              {/* Gold Tier */}
+              {/* Flex box to hold gold text and bar */}
+              <div className="flex flex-col items-center z-10 relative w-full">
+                <p className="font-semibold text-2xl sm:text-lg text-white dark:text-white mt-0 tracking-wide">Gold Tier</p>
+                  {/* <!-- Divider Bar Split Into 3 Sections --> */}
+                  <div className="absolute bottom-4 sm:bottom-3 w-[95%] flex z-0">
+                    {/* <!-- Left Section (colored) --> */}
+                    <div className="flex-[2] sm:h-[1px] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                    
+                    {/* <!-- Middle Section (transparent) --> */}
+                    <div className="flex-[1.5] sm:h-[1px] sm:flex-[3] md:flex-[2] h-[2px] bg-transparent"></div>
+                    
+                    {/* <!-- Right Section (colored) --> */}
+                    <div className="flex-[2] sm:h-[1px] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
+                </div>
+              </div>
+              {/* Flex box to hold gold tier linkss */}
+              <div className="flex flex-row justify-center items-center space-x-8 mt-5 mb-5">
+                <a href="https://www.janestreet.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-20 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
+                  <Image
+                    src={JaneStreetLogo}
+                    alt="Jane Street Logo"
+                    layout="intrinsic"
+                    objectFit="contain"
+                    className="dark:filter"
+                  />
+                </a>
+                <a href="https://www.safetyculture.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-20 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
+                  <Image
+                    src={SafetyCultureLogo}
+                    alt="SafetyCulture Logo"
+                    layout="intrinsic"
+                    objectFit="contain"
+                    className="dark:filter"
+                  />
+                </a>
               </div>
             </div>
           </div>
@@ -120,3 +184,5 @@ export default async function Home() {
     </div>
   );
 }
+
+
