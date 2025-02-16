@@ -89,6 +89,7 @@ jobs:
         with:
           repository: csesoc/deployment
           token: ${{ secrets.GH_TOKEN }}
+          ref: develop
       - name: Install yq - portable yaml processor
         uses: mikefarah/yq@v4.27.2
       - name: Update deployment
@@ -104,5 +105,5 @@ jobs:
           git add .
           git commit -m "feat(unilectives/prod): update image"
           git push -u origin update/unilectives-prod/${{ github.sha }}
-          gh pr create --title "feat(unilectives/prod): update image" --body "Updates the image for the unilectives v2 (prod) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
+          gh pr create --base develop --title "feat(unilectives/prod): update image" --body "Updates the image for the unilectives v2 (prod) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
           gh pr merge $(cat URL) --squash -d
