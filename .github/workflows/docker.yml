@@ -89,6 +89,7 @@ jobs:
         with:
           repository: csesoc/deployment
           token: ${{ secrets.GH_TOKEN }}
+          ref: develop
       - name: Install yq - portable yaml processor
         uses: mikefarah/yq@v4.27.2
       - name: Update deployment
