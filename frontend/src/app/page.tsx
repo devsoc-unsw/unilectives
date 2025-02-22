@@ -10,8 +10,8 @@ import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
 import { Course, Courses } from "@/types/api";
-import { useEffect } from "react";
-import { notification } from "antd";
+import SubcomRecruitmentPopup from "@/components/SubcomRecruitmentPopup/SubcomRecruitmentPopup"; 
+
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -65,37 +65,9 @@ export default async function Home() {
     })),
   };
 
-  // useEffect to determine popup status - can remove once no longer required for 2025 recruitment
-  useEffect(() => {
-    const lastShown = localStorage.getItem("popupLastShown");
-    const now = new Date();
-    const showPopup = !lastShown || new Date(lastShown).getTime() < now.getTime() - 7 * 24 * 60 * 60 * 1000;
-
-    if (showPopup) {
-      notification.info({
-        message: "Interested in working on Unilectives?",
-        description: (
-          <>
-            Interested in working on Unilectives or one of our other student-led projects? DevSoc is
-            currently recruiting members for our 2025 subcommittee!
-            <br />
-            <br />
-            Find out more at{' '}
-            <a href="https://devsoc.app/get-involved" target="_blank" rel="noopener noreferrer">
-              devsoc.app/get-involved
-            </a>
-          </>
-        ),
-        placement: "bottomRight",
-      });
-
-      // Update localStorage with the current date to prevent showing the popup for another week
-      localStorage.setItem("popupLastShown", now.toISOString());
-    }
-  }, []);
-
   return (
     <div className='mb-20 bg-white dark:bg-slate-800 transition-color duration-150'>
+      <SubcomRecruitmentPopup/>
       {/* Landing page graphic */}
       <Image
         src={navbar}
