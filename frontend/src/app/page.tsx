@@ -1,15 +1,7 @@
 import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import navbar from "@/assets/navbar.svg";
-<<<<<<< HEAD
-import JaneStreetLogo from "@/assets/janestreet.svg";
-import TikTokLogo from "@/assets/tiktok-logo.svg";
-import SafetyCultureLogo from "@/assets/sc.png";
-import AristaLogo from "@/assets/arista.png";
-import TheTradeDeskLogo from "@/assets/thetradedesk.png";
-=======
 import Sponsorships from "@/components/SponsorshipsSection/Sponsorships"
->>>>>>> main
 import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
