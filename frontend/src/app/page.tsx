@@ -94,15 +94,15 @@ export default async function Home() {
             {/* Sponsors Section */}
             <p className="my-4 sm:text-xs sm:my-1">Proudly sponsored by</p>
             {/* Flex box to hold all sponsors */}
-            <div className="flex flex-col justify-evenly items-center bg-[#94B4D1] dark:bg-slate-700 rounded-md h-22 py-1 sm:py-1 duration-150">
+            <div className="flex flex-col justify-evenly items-center bg-[#94B4D1] dark:bg-slate-700 rounded-md h-22 py-1 sm:py-1 duration-150 z-5">
               {/* Flex box to hold platinum text and bar */}
-              <div className="flex flex-col items-center z-10 relative w-full">
+              <div className="flex flex-col items-center z-5 relative w-full">
                 {/* Platinum text */}
-                <p className="font-semibold text-3xl sm:text-lg text-white dark:text-white mt-7 sm:mt-1 tracking-wide z-10 relative">
+                <p className="font-semibold text-3xl sm:text-lg text-white dark:text-white mt-7 sm:mt-1 tracking-wide z-5 relative">
                   Platinum Tier
                 </p>
                 {/* <!-- Divider Bar Split Into 3 Sections --> */}
-                <div className="absolute bottom-4 sm:bottom-3 md:bottom-4 lg:bottom-4 w-[95%] flex z-0">
+                <div className="absolute bottom-4 sm:bottom-3 md:bottom-4 lg:bottom-4 w-[95%] flex z-5">
                   {/* <!-- Left Section (colored) --> */}
                   <div className="flex-[1] sm:h-[1px] h-[2px] bg-[#D1E8FF] dark:bg-slate-500"></div>
                   
@@ -115,7 +115,7 @@ export default async function Home() {
                 
               </div>
               {/* Flex box to hold platinum links */}
-              <div className="flex flex-row justify-center items-center sm:space-x-8 md:space-x-12 lg:space-x-20 space-x-24 mt-7 mb-8">
+              <div className="flex flex-row justify-center items-center sm:space-x-8 md:space-x-12 lg:space-x-20 space-x-24 mt-7 mb-8 z-5">
                 <a href="https://www.arista.com" target="_blank" rel="noopener noreferrer" className="w-48 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={AristaLogo}
@@ -138,7 +138,7 @@ export default async function Home() {
 
               {/* Gold Tier */}
               {/* Flex box to hold gold text and bar */}
-              <div className="flex flex-col items-center z-10 relative w-full">
+              <div className="flex flex-col items-center z-5 relative w-full">
                 <p className="font-semibold text-2xl sm:text-lg text-white dark:text-white mt-0 tracking-wide">Gold Tier</p>
                   {/* <!-- Divider Bar Split Into 3 Sections --> */}
                   <div className="absolute bottom-4 sm:bottom-3 w-[95%] flex z-0">
@@ -153,7 +153,7 @@ export default async function Home() {
                 </div>
               </div>
               {/* Flex box to hold gold tier linkss */}
-              <div className="flex flex-row justify-center items-center space-x-8 mt-5 mb-5">
+              <div className="flex flex-row justify-center items-center space-x-8 mt-5 mb-5 z-5">
                 <a href="https://www.janestreet.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-20 hover:transform hover:translate-y-[-5px] transition-transform duration-300">
                   <Image
                     src={JaneStreetLogo}
