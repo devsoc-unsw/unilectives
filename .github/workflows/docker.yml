@@ -73,7 +73,7 @@ jobs:
           git add .
           git commit -m "feat(cselectives/staging): update image"
           git push -u origin update/unilectives-staging/${{ github.sha }}
-          gh pr create --title "feat(cselectives/staging): update image" --body "Updates the image for the cselectives v2 (staging) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
+          gh pr create -B develop --title "feat(cselectives/staging): update image" --body "Updates the image for the cselectives v2 (staging) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
           gh pr merge $(cat URL) --squash -d
   deploy-prod:
     name: Deploy Production (CD)
@@ -106,5 +106,5 @@ jobs:
           git add .
           git commit -m "feat(unilectives/prod): update image"
           git push -u origin update/unilectives-prod/${{ github.sha }}
-          gh pr create --base develop --title "feat(unilectives/prod): update image" --body "Updates the image for the unilectives v2 (prod) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
+          gh pr create -B develop --title "feat(unilectives/prod): update image" --body "Updates the image for the unilectives v2 (prod) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
           gh pr merge $(cat URL) --squash -d
