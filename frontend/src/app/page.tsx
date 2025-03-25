@@ -92,6 +92,7 @@ export default async function Home() {
             </p>
             {/* Sponsors Section */}
             <Sponsorships/>
+            
           </div>
         </div>
       </div>
