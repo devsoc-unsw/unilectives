@@ -6,7 +6,6 @@ import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
 import { Course, Courses } from "@/types/api";
-import SubcomRecruitmentPopup from "@/components/SubcomRecruitmentPopup/SubcomRecruitmentPopup"; 
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -63,7 +62,6 @@ export default async function Home() {
 
   return (
     <div className='mb-20 bg-white dark:bg-slate-800 transition-color duration-150'>
-      <SubcomRecruitmentPopup/>
       {/* Landing page graphic */}
       <Image
         src={navbar}
@@ -92,7 +90,6 @@ export default async function Home() {
             </p>
             {/* Sponsors Section */}
             <Sponsorships/>
-            
           </div>
         </div>
       </div>

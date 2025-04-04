@@ -5,7 +5,6 @@ import { notification } from "antd";
 
 const SubcomRecruitmentPopup = () => {
   useEffect(() => {
-    console.log('TESTING');
     const lastShown = localStorage.getItem("popupLastShown");
     const now = new Date();
     const showPopup = !lastShown || new Date(lastShown).getTime() < now.getTime() - 24 * 60 * 60 * 1000;
