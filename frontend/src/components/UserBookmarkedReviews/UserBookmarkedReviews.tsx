@@ -200,7 +200,7 @@ export default function UserBookmarkedReviews({
           onPageChange={(page: number) => setPage(page)}
         />
       ):(
-        <div>No bookmarked reviews.</div>
+        <div className="text-center">No reviews bookmarked yet.</div>
       )}
     </div>
   );
