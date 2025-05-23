@@ -13,6 +13,11 @@ export default function SearchBar({
 
   const handleOnChange = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
+      // Check if user entered the secret phrase
+      if (event.target.value.trim().toLowerCase() === "i'm looking for a flag!") {
+        alert("Congrats! You found the flag: FLAG{leave_a_review}!");
+      }
+
       onSearchChange(event.target.value.trim().replaceAll(" ", "%20"));
     }, 300),
     []

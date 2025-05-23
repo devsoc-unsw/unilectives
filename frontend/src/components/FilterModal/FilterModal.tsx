@@ -105,6 +105,15 @@ export default function FilterModal({
       }
     });
 
+    // Show secret message if specific filters are selected
+    if (
+      selectedFaculties.includes("Arts") &&
+      selectedTerms.includes("-1") &&
+      selectedTerms.includes("-2")
+    ) {
+      alert("Alss aol zlhyjo ihy, \"P't svvrpun mvy h mshn!\"");
+    }
+
     setFilters({ faculties: selectedFaculties, terms: selectedTerms });
 
     setOpen(false);
