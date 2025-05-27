@@ -111,7 +111,7 @@ export default function FilterModal({
       selectedTerms.includes("-1") &&
       selectedTerms.includes("-2")
     ) {
-      alert("Alss aol zlhyjo ihy, \"P't svvrpun mvy h mshn!\"");
+      alert("Alss aol zlhyjo ihy...");
     }
 
     setFilters({ faculties: selectedFaculties, terms: selectedTerms });
