@@ -1,6 +1,6 @@
 "use client";
 
-import { Course, Review, Reviews, TabsType } from "@/types/api";
+import { ReviewNative, TabsType, ReviewsNative } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Rating from "../Rating/Rating";
@@ -12,7 +12,7 @@ import RemoveReviewModal from "../RemoveReviewModal/RemoveReviewModal";
 export default function UserReviews({
   reviews,
   setTabs,
-}: Reviews & {
+}: ReviewsNative & {
   setTabs: Dispatch<SetStateAction<TabsType>>;
 }) {
   const [selected, setSelected] = useState("");
@@ -32,23 +32,23 @@ export default function UserReviews({
     switch (selected) {
       case "Most Recent":
         sortedReviews.sort(
-          (r1: Review, r2: Review) =>
+          (r1: ReviewNative, r2: ReviewNative) =>
             Date.parse(r2.createdTimestamp) - Date.parse(r1.createdTimestamp)
         );
         break;
       case "Most Recently Taken":
-        sortedReviews.sort((r1: Review, r2: Review) =>
+        sortedReviews.sort((r1: ReviewNative, r2: ReviewNative) =>
           r2.termTaken.localeCompare(r1.termTaken)
         );
         break;
       case "Highest Rating to Lowest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r2.overallRating - r1.overallRating
+          (r1: ReviewNative, r2: ReviewNative) => r2.overallRating - r1.overallRating
         );
         break;
       case "Lowest Rating to Highest Rating":
         sortedReviews.sort(
-          (r1: Review, r2: Review) => r1.overallRating - r2.overallRating
+          (r1: ReviewNative, r2: ReviewNative) => r1.overallRating - r2.overallRating
         );
         break;
     }
@@ -123,7 +123,7 @@ export default function UserReviews({
         <div className='grid grid-cols-1'>
           {reviews
             .slice((page - 1) * itemPerPage, page * itemPerPage)
-            .map((review: Review, index: number) => (
+            .map((review: ReviewNative, index: number) => (
               <div
                 key={index}
                 className='flex justify-between items-center gap-2 sm:flex-wrap border border-transparent border-b-black/25 px-4 py-4'
@@ -150,7 +150,7 @@ export default function UserReviews({
         <div className='grid grid-cols-3 lg:grid-cols-1 gap-12'>
           {reviews
             .slice((page - 1) * itemPerPage, page * itemPerPage)
-            .map((review: Review, index: number) => (
+            .map((review: ReviewNative, index: number) => (
               <div
                 key={index}
                 className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 shadow-lg shadow-gray-600 rounded-xl space-y-4'
@@ -185,15 +185,11 @@ export default function UserReviews({
         </div>
       )}
       {/* Pagination */}
-      {reviews.length > 0 ? (
-        <Pagination
-          totalItems={reviews.length}
-          itemPerPage={itemPerPage}
-          onPageChange={(page: number) => setPage(page)}
-        />
-      ) : (
-        <div className="text-center">No courses reviewed yet.</div>
-      )}
+      <Pagination
+        totalItems={reviews.length}
+        itemPerPage={itemPerPage}
+        onPageChange={(page: number) => setPage(page)}
+      />
     </div>
   );
 }

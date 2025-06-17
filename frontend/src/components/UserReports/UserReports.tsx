@@ -10,7 +10,6 @@ import {
 } from "react";
 import Dropdown from "../Dropdown/Dropdown";
 import Pagination from "../Pagination/Pagination";
-import ReviewCard from "../ReviewCard/ReviewCard";
 
 type STATUS = {
   UNSEEN: boolean;
@@ -183,15 +182,11 @@ export default function UserReports({
           ))}
       </div>
       {/* Pagination */}
-      {reports.length > 0 ? (
-        <Pagination
-          totalItems={reports.length}
-          itemPerPage={itemPerPage}
-          onPageChange={(page: number) => setPage(page)}
-        />
-      ) : (
-        <div className="text-center">No reports made yet.</div>
-      )}
+      <Pagination
+        totalItems={reports.length}
+        itemPerPage={itemPerPage}
+        onPageChange={(page: number) => setPage(page)}
+      />
     </div>
   );
 }

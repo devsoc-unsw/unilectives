@@ -15,26 +15,27 @@ enum report_status {
 }
 
 model courses {
-  courseCode       String    @id(map: "pk_course_code") @map("course_code")
-  archived         Boolean
-  attributes       String[]
-  calendar         String
-  campus           String
-  description      String
-  enrolmentRules   String    @map("enrolment_rules")
-  equivalents      String[]
-  exclusions       String[]
-  faculty          String
-  fieldOfEducation String    @map("field_of_education")
-  genEd            Boolean   @map("gen_ed")
-  level            Int
-  school           String
-  studyLevel       String    @map("study_level")
-  terms            Int[]
-  title            String
-  uoc              Int
-  rating           Float
-  reviews          reviews[]
+  courseCode        String              @id(map: "pk_course_code") @map("course_code")
+  archived          Boolean
+  attributes        String[]
+  calendar          String
+  campus            String
+  description       String
+  enrolmentRules    String              @map("enrolment_rules")
+  equivalents       String[]
+  exclusions        String[]
+  faculty           String
+  fieldOfEducation  String              @map("field_of_education")
+  genEd             Boolean             @map("gen_ed")
+  level             Int
+  school            String
+  studyLevel        String              @map("study_level")
+  terms             Int[]
+  title             String
+  uoc               Int
+  rating            Float
+  reviews           reviews[]
+  reviewsScraped    reviewsScraped[]
 }
 
 model reports {
@@ -68,6 +69,23 @@ model reviews {
   reports          reports[]
   courses          courses   @relation(fields: [courseCode], references: [courseCode], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
   users            users     @relation(fields: [zid], references: [zid], onDelete: NoAction, onUpdate: NoAction, map: "fk_zid")
+}
+
+model reviewsScraped {
+  reviewId         String   @id(map: "pk_review_scraped_id") @default(dbgenerated("gen_random_uuid()")) @map("review_scraped_id") @db.Uuid
+  source           String
+  sourceId         Int      @map("source_id")
+  courseCode       String   @map("course_code")
+  authorName       String   @map("author_name")
+  title            String
+  description      String?
+  termTaken        String   @map("term_taken")
+  createdTimestamp DateTime @default(now()) @map("created_timestamp") @db.Timestamp(6)
+  upvotes          String[]
+  overallRating    Float    @map("overall_rating")
+  courses          courses  @relation(fields: [courseCode], references: [courseCode], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_code")
+
+  @@map("reviews_scraped")
 }
 
 model users {
