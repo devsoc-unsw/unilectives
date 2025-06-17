@@ -185,11 +185,15 @@ export default function UserReviews({
         </div>
       )}
       {/* Pagination */}
-      <Pagination
-        totalItems={reviews.length}
-        itemPerPage={itemPerPage}
-        onPageChange={(page: number) => setPage(page)}
-      />
+      {reviews.length > 0 ? (
+        <Pagination
+          totalItems={reviews.length}
+          itemPerPage={itemPerPage}
+          onPageChange={(page: number) => setPage(page)}
+        />
+      ) : (
+        <div className="text-center">No courses reviewed yet.</div>
+      )}
     </div>
   );
 }
