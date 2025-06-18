@@ -141,7 +141,6 @@ describe("ReviewService", () => {
         reviewId: reviews.reviewId,
         zid: reviews.zid,
         bookmark: true,
-        scraped: false
       };
 
       const errorResult = new HTTPError(badRequest);
@@ -159,7 +158,6 @@ describe("ReviewService", () => {
         reviewId: reviews[0].reviewId,
         zid: reviews[0].zid,
         bookmark: true,
-        scraped: false
       };
 
       const errorResult = new HTTPError(badRequest);
@@ -179,7 +177,6 @@ describe("ReviewService", () => {
         reviewId: reviews[0].reviewId,
         zid: reviews[0].zid,
         bookmark: true,
-        scraped: false
       };
 
       expect(service.bookmarkReview(request)).resolves.toEqual({
@@ -200,7 +197,6 @@ describe("ReviewService", () => {
         reviewId: reviews[0].reviewId,
         zid: reviews[0].zid,
         bookmark: false,
-        scraped: false
       };
       expect(service.bookmarkReview(request)).resolves.toEqual({
         review: reviews[0],

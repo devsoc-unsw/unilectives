@@ -15,7 +15,6 @@
     "@types/node": "18.15.11",
     "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",
-    "antd": "^5.24.1",
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
     "next": "^13.4.4",

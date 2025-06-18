@@ -7,7 +7,6 @@ import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
 import { Course, Courses } from "@/types/api";
 
-
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `Home | Unilectives - UNSW Course Reviews`,

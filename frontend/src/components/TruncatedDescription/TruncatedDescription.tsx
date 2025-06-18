@@ -9,7 +9,7 @@ export default function TruncatedDescription({
   content: string;
   maxCharacters: number;
 }) {
-  
+
   const [showFullContent, setShowFullContent] = useState(false);
   const [exceed, setExceed] = useState(false);
   const [shortenedContent, setShortenedContent] = useState(" ");
@@ -17,7 +17,7 @@ export default function TruncatedDescription({
   /**
    * If the content exceeds the maxCharacters, find the next whitespace
    * and make the cutoff point there so the break does not happen mid-word
-   * 
+   *
    * If the new cutoff point is the end of the entire content, make it so
    * the See More/Less button does not appear
    */
@@ -35,7 +35,7 @@ export default function TruncatedDescription({
         newMax++;
         index++;
       }
-      
+
       if (index === content.length) {
         setShortenedContent(content);
       } else {
@@ -52,11 +52,11 @@ export default function TruncatedDescription({
 
   return (
     <div className="break-words">
-      <p className="whitespace-pre-line text-justify">
+      <p className="whitespace-pre-line text-left">
         {showFullContent ? content : shortenedContent}
       </p>
       <div className="mt-1">
-        {exceed && 
+        {exceed &&
           (
             <button
               className="text-unilectives-blue hover:underline"

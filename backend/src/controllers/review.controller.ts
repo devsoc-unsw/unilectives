@@ -34,8 +34,7 @@ export class ReviewController implements IController {
           this.logger.debug(`Received request in /reviews`);
           try {
             const result = await this.reviewService.getAllReviews();
-            this.logger.info(`Responding to client in GET /reviews`);
-            return res.status(200).json({ ...result });
+            return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /reviews ${formatError(
@@ -47,25 +46,7 @@ export class ReviewController implements IController {
         },
       )
       .get(
-        "/reviews/scraped",
-        async (req: Request, res: Response, next: NextFunction) => {
-          this.logger.debug(`Received request in /reviews/scraped`);
-          try {
-            const result = await this.reviewService.getAllReviewsScraped();
-            this.logger.info(`Responding to client in GET /reviews/scraped`);
-            return res.status(200).json({ ...result });
-          } catch (err: any) {
-            this.logger.warn(
-              `An error occurred when trying to GET /reviews/scraped ${formatError(
-                err,
-              )}`,
-            );
-            return next(err);
-          }
-        },
-      )
-      .get(
-      "/wrapped/reviews/most-liked",
+        "/wrapped/reviews/most-liked",
         async (req: Request, res: Response, next: NextFunction) => {
           this.logger.debug(`Received request in /wrapped/reviews/most-liked`);
           try {
@@ -99,7 +80,7 @@ export class ReviewController implements IController {
             this.logger.info(
               `Responding to client in GET /reviews/${courseCode}`,
             );
-            return res.status(200).json({ ...result });
+            return res.status(200).json(result);
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /reviews ${formatError(
@@ -110,62 +91,7 @@ export class ReviewController implements IController {
           }
         },
       )
-      .get(
-        "/reviews/scraped/:courseCode",
-        async (
-          req: Request<{ courseCode: string }, unknown>,
-          res: Response,
-          next: NextFunction,
-        ) => {
-          this.logger.debug(
-            `Received request in /reviews/scraped/:courseCode`,
-          );
-          try {
-            const courseCode: string = req.params.courseCode;
-            const result =
-              await this.reviewService.getCourseReviewsScraped(courseCode);
-            this.logger.info(
-              `Responding to client in GET /reviews/scraped/${courseCode}`,
-            );
-            return res.status(200).json({ ...result });
-          } catch (err: any) {
-            this.logger.warn(
-              `An error occurred when trying to GET /reviews/scraped ${formatError(
-                err,
-              )}`,
-            );
-            return next(err);
-          }
-        },
-      )
-      .get(
-        "/reviews/scraped/maxId/:source",
-        async (
-          req: Request<{ source: string }, unknown>,
-          res: Response,
-          next: NextFunction,
-        ) => {
-          this.logger.debug(
-            `Received request in /reviews/scraped/maxId/:source`,
-          );
-          try {
-            const source: string = req.params.source;
-            const result =
-              await this.reviewService.getSourceReviewScrapedMaxId(source);
-            this.logger.info(
-              `Responding to client in GET /reviews/scraped/maxId/${source}`,
-            );
-            return res.status(200).json({ ...result });
-          } catch (err: any) {
-            this.logger.warn(
-              `An error occurred when trying to GET /reviews/scraped/maxId ${formatError(
-                err,
-              )}`,
-            );
-            return next(err);
-          }
-        },
-      )
+
       .post(
         "/reviews",
         [verifyToken, validationMiddleware(PostReviewSchema, "body")],

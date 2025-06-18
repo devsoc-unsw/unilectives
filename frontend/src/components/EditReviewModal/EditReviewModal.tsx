@@ -1,6 +1,6 @@
 "use client";
 
-import { ReviewNative } from "@/types/api";
+import { Review } from "@/types/api";
 import { Dialog, Transition } from "@headlessui/react";
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { FormEvent, Fragment, useState } from "react";
@@ -14,7 +14,7 @@ export default function EditReviewModal({
   review,
   setEdited,
 }: {
-  review: ReviewNative;
+  review: Review;
   setEdited: (detail: {
     reviewId: string;
     authorName: string;

@@ -1,4 +1,4 @@
-import { PrismaClient, reviews, reviewsScraped } from "@prisma/client";
+import { PrismaClient, reviews } from "@prisma/client";
 import {
   PostReviewRequestBody,
   ReviewSchema,
@@ -9,20 +9,6 @@ export class ReviewRepository {
 
   async getAllReviews(): Promise<reviews[]> {
     return await this.prisma.reviews.findMany();
-  }
-
-  async getAllReviewsScraped(): Promise<reviewsScraped[]> {
-    return await this.prisma.reviewsScraped.findMany();
-  }
-
-  async getCourseReviewsScraped(
-    courseCode: string,
-  ): Promise<reviewsScraped[]> {
-    return await this.prisma.reviewsScraped.findMany({
-      where: {
-        courseCode,
-      },
-    });
   }
 
   async getCourseReviews(courseCode: string): Promise<reviews[]> {
@@ -68,17 +54,6 @@ export class ReviewRepository {
     });
   }
 
-  async updateScrapedUpvotes(review: { reviewId: string; upvotes: string[] }) {
-    return await this.prisma.reviewsScraped.update({
-      where: {
-        reviewId: review.reviewId,
-      },
-      data: {
-        upvotes: review.upvotes,
-      },
-    });
-  }
-
   async getReviewsByUser(zid: string): Promise<reviews[]> {
     return await this.prisma.reviews.findMany({
       where: {
@@ -103,25 +78,6 @@ export class ReviewRepository {
         reviewId: reviewId,
       },
     });
-  }
-
-  async getReviewScraped(reviewId: string): Promise<reviewsScraped | null> {
-    return await this.prisma.reviewsScraped.findUnique({
-      where: {
-        reviewId: reviewId,
-      },
-    });
-  }
-
-  async getSourceReviewScrapedMaxId(source: string) {
-    return await this.prisma.reviewsScraped.aggregate({
-      where: {
-        source: source
-      },
-      _max: {
-        sourceId: true
-      }
-    })
   }
 
   async deleteReview(reviewId: string) {

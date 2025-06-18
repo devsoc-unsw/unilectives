@@ -10,6 +10,7 @@ import {
   useContext,
   useMemo,
   useState,
+  useEffect,
 } from "react";
 import ReviewRatingInput from "../ReviewRatingInput/ReviewRatingInput";
 import { validatedReq } from "@/utils/request";
@@ -39,6 +40,13 @@ export default function ReviewModal({
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const { setAlert } = useContext(AlertContext);
+
+  // Show secret message if the review modal is open for the right course
+  useEffect(() => {
+    if (isOpen && courseCode === "ARTS2821") {
+      alert("aSdtIGxvb2tpbmcgZm9yIGEgZmxhZyE=");
+    }
+  }, [isOpen, courseCode]);
 
   // States: Modal Inputs
   const defaultInputs = {

@@ -193,11 +193,15 @@ export default function UserBookmarkedReviews({
         </div>
       )}
       {/* Pagination */}
-      <Pagination
-        totalItems={reviews.length}
-        itemPerPage={itemPerPage}
-        onPageChange={(page: number) => setPage(page)}
-      />
+      {reviews.length > 0 ? (
+        <Pagination
+          totalItems={reviews.length}
+          itemPerPage={itemPerPage}
+          onPageChange={(page: number) => setPage(page)}
+        />
+      ):(
+        <div className="text-center">No reviews bookmarked yet.</div>
+      )}
     </div>
   );
 }
