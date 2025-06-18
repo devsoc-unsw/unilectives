@@ -178,7 +178,7 @@ export default function FilterModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="mx-auto max-w-sm p-8 rounded dark:bg-gray-900 bg-white flex flex-col xs:w-full">
+              <Dialog.Panel className="mx-auto max-w-sm p-8 rounded dark:bg-gray-900 bg-white flex flex-col xs:w-full pl-20">
                     <button className="w-6 h-6 place-self-end" onClick={handleClose}>
                       <XMarkIcon />
                     </button>
