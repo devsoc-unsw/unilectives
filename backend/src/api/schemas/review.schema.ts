@@ -1,3 +1,4 @@
+import { title } from "process";
 import { z } from "zod";
 
 const CommonReviewSchema = z
@@ -37,6 +38,7 @@ export const BookmarkReviewSchema = z
     reviewId: z.string(),
     zid: z.string(),
     bookmark: z.boolean(),
+    scraped: z.boolean(),
   })
   .strict();
 
@@ -47,6 +49,7 @@ export const UpvoteReviewSchema = z
     reviewId: z.string(),
     zid: z.string(),
     upvote: z.boolean(),
+    scraped: z.boolean(),
   })
   .strict();
 
@@ -118,3 +121,49 @@ const ReviewsSuccessResponseSchema = z
 export type ReviewsSuccessResponse = z.infer<
   typeof ReviewsSuccessResponseSchema
 >;
+
+export const ReviewScrapedSchema = z
+  .object({
+    reviewId: z.string(),
+    source: z.string(),
+    sourceId: z.number(),
+    courseCode: z.string(),
+    authorName: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    termTaken: z.string(),
+    createdTimestamp: z.date(),
+    upvotes: z.string().array(),
+    overallRating: z.number(),
+  })
+  .strict();
+
+const ReviewScrapedSuccessResponseSchema = z
+  .object({
+    review: z.array(ReviewScrapedSchema),
+  })
+  .strict();
+
+export type ReviewScrapedSuccessResponse = z.infer<
+  typeof ReviewScrapedSuccessResponseSchema
+>;
+
+const ReviewsScrapedSuccessResponseSchema = z
+  .object({
+    reviews: z.array(ReviewScrapedSchema),
+  })
+  .strict();
+
+export type ReviewsScrapedSuccessResponse = z.infer<
+  typeof ReviewsScrapedSuccessResponseSchema
+>
+
+const AllReviewSuccessResponseSchema = z
+  .object({
+    review: z.union([ReviewSchema, ReviewScrapedSchema]),
+  })
+  .strict()
+
+export type AllReviewSuccessResponse = z.infer<
+  typeof AllReviewSuccessResponseSchema
+>

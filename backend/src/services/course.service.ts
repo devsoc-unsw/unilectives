@@ -33,6 +33,17 @@ export class CourseService {
     return { courses };
   }
 
+  async getAllCourseCodes(): Promise<string[] | undefined> {
+    const courseCodes = await this.courseRepository.getAllCourseCodes();
+    if (courseCodes.length === 0) {
+      this.logger.error("Database returned with no course codes.");
+      throw new HTTPError(internalServerError);
+    }
+
+    this.logger.info(`Found ${courseCodes.length} course codes.`);
+    return courseCodes;
+  }
+
   async getCoursesFromOffset(
     offset: number,
   ): Promise<CoursesSuccessResponse | undefined> {

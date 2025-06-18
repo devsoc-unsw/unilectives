@@ -9,11 +9,13 @@ import {
   PostReviewRequestBody,
   PutReviewRequestBody,
   Review,
-  ReviewsSuccessResponse,
   ReviewSuccessResponse,
+  ReviewsSuccessResponse,
+  ReviewsScrapedSuccessResponse,
+  AllReviewSuccessResponse,
   UpvoteReview,
 } from "../api/schemas/review.schema";
-import { reviews } from "@prisma/client";
+import { reviews, reviewsScraped } from "@prisma/client";
 
 export class ReviewService {
   private logger = getLogger();
@@ -25,6 +27,20 @@ export class ReviewService {
 
   async getAllReviews(): Promise<ReviewsSuccessResponse | undefined> {
     const reviews: reviews[] = await this.reviewRepository.getAllReviews();
+    if (reviews.length === 0) {
+      this.logger.error("Database returned with no reviews.");
+      throw new HTTPError(internalServerError);
+    }
+    return {
+      reviews: reviews,
+    };
+  }
+
+  async getAllReviewsScraped(): Promise<
+    ReviewsScrapedSuccessResponse | undefined
+  > {
+    const reviews: reviewsScraped[] =
+      await this.reviewRepository.getAllReviewsScraped();
     if (reviews.length === 0) {
       this.logger.error("Database returned with no reviews.");
       throw new HTTPError(internalServerError);
@@ -60,6 +76,47 @@ export class ReviewService {
         };
       }),
     };
+  }
+
+  async getCourseReviewsScraped(
+    courseCode: string,
+  ): Promise<ReviewsScrapedSuccessResponse | undefined> {
+    let reviews = await this.redis.get<reviewsScraped[]>(
+      `reviewsScraped:${courseCode}`,
+    );
+    if (!reviews) {
+      this.logger.info(`Cache miss on reviewsScraped:${courseCode}`);
+      reviews =
+        await this.reviewRepository.getCourseReviewsScraped(courseCode);
+      await this.redis.set(`reviewsScraped:${courseCode}`, reviews);
+    } else {
+      this.logger.info(`Cache hit on reviewsScraped:${courseCode}`);
+    }
+
+    if (reviews.length === 0) {
+      this.logger.error("Database returned with no reviews.");
+      throw new HTTPError(internalServerError);
+    }
+    this.logger.info(`Found ${reviews.length} reviews.`);
+    return {
+      reviews: reviews.map((review) => {
+        return {
+          ...review,
+          courseCode,
+        };
+      }),
+    };
+  }
+
+  async getSourceReviewScrapedMaxId(source: string) {
+    const res = await this.reviewRepository.getSourceReviewScrapedMaxId(source);
+    let maxId = 0;
+    if (res._max && res._max.sourceId) {
+      maxId = res._max.sourceId;
+    }
+    return {
+      maxId: maxId
+    }
   }
 
   async postReview(
@@ -135,10 +192,11 @@ export class ReviewService {
 
   async bookmarkReview(
     reviewDetails: BookmarkReview,
-  ): Promise<ReviewSuccessResponse | undefined> {
-    const review = await this.reviewRepository.getReview(
-      reviewDetails.reviewId,
-    );
+  ): Promise<AllReviewSuccessResponse | undefined> {
+
+    const review = reviewDetails.scraped ?
+      await this.reviewRepository.getReviewScraped(reviewDetails.reviewId) :
+      await this.reviewRepository.getReview(reviewDetails.reviewId) ;
 
     if (!review) {
       this.logger.error(
@@ -184,7 +242,9 @@ export class ReviewService {
   }
 
   async upvoteReview(upvoteDetails: UpvoteReview) {
-    let review = await this.reviewRepository.getReview(upvoteDetails.reviewId);
+    let review = upvoteDetails.scraped ?
+      await this.reviewRepository.getReviewScraped(upvoteDetails.reviewId) :
+      await this.reviewRepository.getReview(upvoteDetails.reviewId) ;
 
     if (!review) {
       this.logger.error(
@@ -209,13 +269,19 @@ export class ReviewService {
       );
     }
 
-    review = await this.reviewRepository.updateUpvotes(review);
+    review = upvoteDetails.scraped ?
+      await this.reviewRepository.updateScrapedUpvotes(review) :
+      await this.reviewRepository.updateUpvotes(review);
 
-    const reviews = await this.reviewRepository.getCourseReviews(
-      review.courseCode,
-    );
+    const reviews = upvoteDetails.scraped ?
+      await this.reviewRepository.getCourseReviewsScraped(review.courseCode) :
+      await this.reviewRepository.getCourseReviews(review.courseCode);
 
-    await this.redis.set(`reviews:${review.courseCode}`, reviews);
+    if (upvoteDetails.scraped) {
+      await this.redis.set(`reviewsScraped:${review.courseCode}`, reviews);
+    } else {
+      await this.redis.set(`reviews:${review.courseCode}`, reviews);
+    }
 
     this.logger.info(
       `Successfully ${
