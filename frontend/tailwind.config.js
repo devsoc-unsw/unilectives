@@ -25,7 +25,7 @@ module.exports = {
         "unilectives-subheadings": "#989898",
         "unilectives-placeholder": "#606060",
         "unilectives-tags": "#CCEBF6",
-        "unilectives-card": "#FAFAFA",
+        "unilectives-card": "#f6f6f6",
         "unilectives-light-blue": "#84CEE7",
         "unilectives-purple": "#B789E5",
         "unilectives-indigo": "#9BADE8",

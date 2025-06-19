@@ -88,7 +88,7 @@ export default function ReviewCard({
   };
 
   return (
-    <div className='px-10 py-5 space-y-2 shadow-review-card rounded-md bg-white dark:bg-slate-800 dark:shadow-slate-700/90 duration-150 isolate'>
+    <div className='px-10 py-5 space-y-2 shadow-review-card rounded-md bg-[#fafafa] dark:bg-[#273346] dark:shadow-slate-700/90 duration-150 isolate'>
       {/* Title + Date */}
       <div className='flex items-center gap-2 flex-wrap justify-between'>
         <h2 className='font-bold'>{review.title ? review.title : "-"}</h2>
