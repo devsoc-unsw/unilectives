@@ -9,6 +9,7 @@ import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import Pagination from "../Pagination/Pagination";
 import { validatedReq } from "@/utils/request";
 import { useSession } from "next-auth/react";
+import BookmarkedReviewModal from "../BookmarkedReviewModal/BookmarkedReviewModal";
 
 export default function UserBookmarkedReviews({
   reviews,
@@ -20,6 +21,8 @@ export default function UserBookmarkedReviews({
   const [cardView, setCardView] = useState(true);
   const [bookmarked, setBookmarked] = useState<string>();
   const [page, setPage] = useState(1);
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: session, status } = useSession();
   const itemPerPage = 9;
 
@@ -87,6 +90,12 @@ export default function UserBookmarkedReviews({
     });
   }, [bookmarked]);
 
+  // Handle review click to open modal
+  const handleReviewClick = (review: Review) => {
+    setSelectedReview(review);
+    setIsModalOpen(true);
+  };
+
   return (
     <div className='space-y-5 isolate'>
       <div className='flex flex-wrap items-center gap-5 justify-between'>
@@ -126,7 +135,8 @@ export default function UserBookmarkedReviews({
             .map((review: Review, index: number) => (
               <div
                 key={index}
-                className='flex justify-between items-center gap-2 sm:flex-wrap border border-transparent border-b-black/25 px-4 py-4'
+                className='flex justify-between items-center gap-2 sm:flex-wrap border border-transparent border-b-black/25 px-4 py-4 cursor-pointer'
+                onClick={() => handleReviewClick(review)}
               >
                 <div className='flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2'>
                   {/* Title */}
@@ -157,7 +167,8 @@ export default function UserBookmarkedReviews({
             .map((review: Review, index: number) => (
               <div
                 key={index}
-                className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 shadow-lg shadow-gray-600 rounded-xl space-y-4'
+                className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 shadow-lg shadow-gray-600 rounded-xl space-y-4 cursor-pointer'
+                onClick={() => handleReviewClick(review)}
               >
                 {/* Course courseCode + Ratings */}
                 <div className='flex flex-wrap justify-between text-2xl'>
@@ -202,6 +213,13 @@ export default function UserBookmarkedReviews({
       ):(
         <div className="text-center">No reviews bookmarked yet.</div>
       )}
+
+      {/* Bookmarked Review Modal */}
+      <BookmarkedReviewModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        review={selectedReview}
+      />
     </div>
   );
 }
