@@ -157,7 +157,7 @@ export default function UserBookmarkedReviews({
             .map((review: Review, index: number) => (
               <div
                 key={index}
-                className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 shadow-lg shadow-gray-600 rounded-xl space-y-4'
+                className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 hover:bg-[#eff0f2] dark:hover:bg-slate-700/10 shadow-lg shadow-gray-600 rounded-xl space-y-4'
               >
                 {/* Course courseCode + Ratings */}
                 <div className='flex flex-wrap justify-between text-2xl'>
