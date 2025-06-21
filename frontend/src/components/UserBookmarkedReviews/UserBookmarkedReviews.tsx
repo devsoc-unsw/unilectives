@@ -4,7 +4,7 @@ import { Review, Reviews, TabsType } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Rating from "../Rating/Rating";
-import { BookmarkIcon } from "@heroicons/react/24/solid";
+import { BookmarkIcon, LinkIcon } from "@heroicons/react/24/solid";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import Pagination from "../Pagination/Pagination";
 import { validatedReq } from "@/utils/request";
