@@ -168,9 +168,15 @@ export default function UserBookmarkedReviews({
               >
                 {/* Course courseCode + Ratings */}
                 <div className='flex flex-wrap justify-between text-2xl'>
-                  <h1 className='font-bold block truncate'>
-                    {review.courseCode}
-                  </h1>
+                <a
+                  href={`/course/${review.courseCode}`}
+                  className='font-bold hover:text-unilectives-blue/75 duration-150 truncate'
+                >
+                  <div className='flex items-center gap-2'>
+                    <LinkIcon className='w-6 h-6' />
+                    <span className='block truncate'>{review.courseCode}</span>
+                  </div>
+                </a>
                   <div className='text-right'>
                     {/* StarRating */}
                     <div className='text-2xl inline'>
