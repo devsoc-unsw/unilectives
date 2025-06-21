@@ -4,7 +4,7 @@ import { Review, Reviews, TabsType } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Rating from "../Rating/Rating";
-import { BookmarkIcon } from "@heroicons/react/24/solid";
+import { BookmarkIcon, LinkIcon } from "@heroicons/react/24/solid";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import Pagination from "../Pagination/Pagination";
 import { validatedReq } from "@/utils/request";
@@ -130,7 +130,14 @@ export default function UserBookmarkedReviews({
               >
                 <div className='flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2'>
                   {/* Title */}
-                  <h1 className='font-bold text-xl'>{review.courseCode}</h1>
+                  <a
+                    href={`/course/${review.courseCode}`}
+                    className='flex items-center gap-2 font-bold hover:text-unilectives-blue/75 duration-150'
+                  >
+                    <LinkIcon className='w-5 h-5' />
+                    <span className='truncate'>{review.courseCode}</span>
+                  </a>
+
                   {/* Description */}
                   <p className='text-unilectives-headings dark:text-gray-100 w-full truncate'>
                     {!review.description ? "-" : review.description}
@@ -161,9 +168,15 @@ export default function UserBookmarkedReviews({
               >
                 {/* Course courseCode + Ratings */}
                 <div className='flex flex-wrap justify-between text-2xl'>
-                  <h1 className='font-bold block truncate'>
-                    {review.courseCode}
-                  </h1>
+                <a
+                  href={`/course/${review.courseCode}`}
+                  className='font-bold hover:text-unilectives-blue/75 duration-150 truncate'
+                >
+                  <div className='flex items-center gap-2'>
+                    <LinkIcon className='w-6 h-6' />
+                    <span className='block truncate'>{review.courseCode}</span>
+                  </div>
+                </a>
                   <div className='text-right'>
                     {/* StarRating */}
                     <div className='text-2xl inline'>
