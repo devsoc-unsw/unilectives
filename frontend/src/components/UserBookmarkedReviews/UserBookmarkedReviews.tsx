@@ -130,7 +130,14 @@ export default function UserBookmarkedReviews({
               >
                 <div className='flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2'>
                   {/* Title */}
-                  <h1 className='font-bold text-xl'>{review.courseCode}</h1>
+                  <a
+                    href={`/course/${review.courseCode}`}
+                    className='flex items-center gap-2 font-bold hover:text-unilectives-blue/75 duration-150'
+                  >
+                    <LinkIcon className='w-5 h-5' />
+                    <span className='truncate'>{review.courseCode}</span>
+                  </a>
+
                   {/* Description */}
                   <p className='text-unilectives-headings dark:text-gray-100 w-full truncate'>
                     {!review.description ? "-" : review.description}
