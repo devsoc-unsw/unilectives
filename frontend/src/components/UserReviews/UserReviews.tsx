@@ -105,17 +105,19 @@ export default function UserReviews({
           />
         </div>
         {/* Toggle Switch */}
-        <div className='flex ml-auto gap-2'>
-          <span>Card</span>
-          <div className='-scale-1'>
-            <ToggleSwitch
-              accessibleTitle='card-list-view'
-              defaultValue={cardView}
-              onChange={setCardView}
-            />
+        {reviews.length > 0 && (
+          <div className='flex ml-auto gap-2'>
+            <span>Card</span>
+            <div className='-scale-1'>
+              <ToggleSwitch
+                accessibleTitle='card-list-view'
+                defaultValue={cardView}
+                onChange={setCardView}
+              />
+            </div>
+            <span>List</span>
           </div>
-          <span>List</span>
-        </div>
+        )}
       </div>
       {/* Reviews */}
       {/* List view */}
