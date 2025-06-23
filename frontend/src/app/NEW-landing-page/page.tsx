@@ -1,11 +1,14 @@
 import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import navbar from "@/assets/navbar.svg";
-import Sponsorships from "@/components/SponsorshipsSection/Sponsorships";
+import OldSponsorships from "@/components/SponsorshipsSection/Sponsorships";
 import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
 import { Course, Courses } from "@/types/api";
+import Header from "./Header";
+import Features from "./Features";
+import Sponsorships from "./Sponsors";
 
 // Metadata to assist SEO - provies metadata for HTML head section
 export async function generateMetadata(): Promise<Metadata> {
@@ -67,19 +70,14 @@ export default async function LandingPage() {
 
   return (
     <div>
-      {/* TOP OF PAGE */}
       {/* SCRIPT FOR SEO - do not touch*/}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
       />
-      {/* SECTION 1 - HEADER */}
-      <p> Header section below</p>
-      {/* SECTION 2 - "OUR FEATURES" */}
-      <p> Features section below</p>
-      {/* SECTION 3 - "PROUDLY SPONSORED BY" */}
-      <p> Sponsors section below</p>
-      {/* BOTTOM OF PAGE */}
+      <Header />
+      <Sponsorships />
+      <Features />
     </div>
   );
 }
