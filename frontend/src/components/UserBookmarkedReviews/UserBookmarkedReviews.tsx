@@ -175,8 +175,8 @@ export default function UserBookmarkedReviews({
                   className='font-bold hover:text-unilectives-blue/75 duration-150 truncate'
                 >
                   <div className='flex items-center gap-2'>
-                    <LinkIcon className='w-6 h-6' />
                     <span className='block truncate'>{review.courseCode}</span>
+                    <LinkIcon className='w-4 h-4' />
                   </div>
                 </a>
                   <div className='text-right'>
