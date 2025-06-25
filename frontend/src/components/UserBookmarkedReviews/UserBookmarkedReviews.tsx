@@ -105,17 +105,19 @@ export default function UserBookmarkedReviews({
           />
         </div>
         {/* Toggle Switch */}
-        <div className='flex ml-auto gap-2'>
-          <span>Card</span>
-          <div className='-scale-1'>
-            <ToggleSwitch
-              accessibleTitle='card-list-view'
-              defaultValue={cardView}
-              onChange={setCardView}
-            />
+        {reviews.length > 0 && (
+          <div className='flex ml-auto gap-2'>
+            <span>Card</span>
+            <div className='-scale-1'>
+              <ToggleSwitch
+                accessibleTitle='card-list-view'
+                defaultValue={cardView}
+                onChange={setCardView}
+              />
+            </div>
+            <span>List</span>
           </div>
-          <span>List</span>
-        </div>
+        )}
       </div>
       {/* Reviews */}
       {/* List view */}
@@ -164,7 +166,7 @@ export default function UserBookmarkedReviews({
             .map((review: Review, index: number) => (
               <div
                 key={index}
-                className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 shadow-lg shadow-gray-600 rounded-xl space-y-4'
+                className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 hover:bg-[#eff0f2] dark:hover:bg-slate-700/10 shadow-lg shadow-gray-600 rounded-xl space-y-4'
               >
                 {/* Course courseCode + Ratings */}
                 <div className='flex flex-wrap justify-between text-2xl'>
