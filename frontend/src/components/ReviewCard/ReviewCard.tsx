@@ -36,6 +36,7 @@ export default function ReviewCard({
       reviewId: review.reviewId,
       zid: session?.user?.id,
       upvote,
+      scraped: !('enjoyability' in review), // no scraped review has enjoyability
     };
     await validatedReq(
       "POST",
@@ -65,13 +66,14 @@ export default function ReviewCard({
       reviewId: review.reviewId,
       zid: session?.user?.id,
       bookmark: !bookmarked,
+      scraped: !('enjoyability' in review), // no scraped review has enjoyability
     };
     await validatedReq(
       "POST",
       "/reviews/bookmark",
       session?.user?.accessToken ?? "",
       session?.user?.id ?? "",
-      body
+      body,
     );
     // Optimistic UI update for bookmark
     setAllBookmarkedReviews((prev: string[]) => {
@@ -109,12 +111,15 @@ export default function ReviewCard({
       {/* Term taken + Grade */}
       <div className='flex items-center gap-2 flex-wrap justify-between'>
         <p>Term taken: {review.termTaken}</p>
-        <p className='text-unilectives-subheadings'>
-          Grade: {!review.grade ? "-" : review.grade}
-        </p>
+        {'grade' in review && (
+          <p className='text-unilectives-subheadings'>
+            Grade: {!review.grade ? "-" : review.grade}
+          </p>
+        )}
       </div>
       {/* Circle rating */}
-      <div className='flex flex-wrap gap-2 justify-around'>
+      {'enjoyability' in review && (
+        <div className='flex flex-wrap gap-2 justify-around'>
         {/* Enjoyability */}
         <div className='flex flex-col items-center'>
           <p className='font-bold text-center'>Enjoyment</p>
@@ -143,6 +148,7 @@ export default function ReviewCard({
           />
         </div>
       </div>
+      )}
       {/* Description */}
       <TruncatedDescription content={review.description} maxCharacters={500} />
       {/* Icons */}
@@ -151,12 +157,10 @@ export default function ReviewCard({
         <button
           className={
             session?.user?.id
-              ? `flex items-center gap-1 ${
-                  !upvote ? "text-unilectives-blue" : ""
-                } hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer`
-              : `flex items-center gap-1 ${
-                  !upvote ? "text-unilectives-blue" : ""
-                }`
+              ? `flex items-center gap-1 ${!upvote ? "text-unilectives-blue" : ""
+              } hover:text-unilectives-blue focus:text-unilectives-blue cursor-pointer`
+              : `flex items-center gap-1 ${!upvote ? "text-unilectives-blue" : ""
+              }`
           }
           onClick={handleUpvotes}
           disabled={!session?.user?.id}

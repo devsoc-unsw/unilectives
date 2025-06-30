@@ -3,7 +3,9 @@ export type ApiError = {
   errorMessage: string;
 };
 
-export type Review = {
+export type Review = ReviewNative | ReviewScraped;
+
+export type ReviewNative = {
   reviewId: string;
   courseCode: string;
   authorName: string;
@@ -20,8 +22,24 @@ export type Review = {
   overallRating: number;
 };
 
+export type ReviewScraped = {
+  reviewId: string;
+  courseCode: string;
+  authorName: string;
+  title: string;
+  description: string;
+  termTaken: string;
+  createdTimestamp: string;
+  upvotes: string[];
+  overallRating: number;
+};
+
 export type Reviews = {
   reviews: Review[];
+};
+
+export type ReviewsNative = {
+  reviews: ReviewNative[];
 };
 
 export type ReportStatus = "UNSEEN" | "SEEN" | "REMOVED" | "SETTLED";

@@ -37,11 +37,31 @@ export class CourseRepository {
       AVG(r.enjoyability) AS "enjoyability",
       CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
       FROM courses c
-      LEFT JOIN reviews r ON c.course_code = r.course_code
+      LEFT JOIN 
+        (
+          SELECT course_code, review_id, overall_rating, manageability, usefulness, enjoyability FROM unilectives.reviews
+          UNION ALL
+          SELECT course_code, review_scraped_id, overall_rating, NULL AS manageability, NULL AS usefulness, NULL AS enjoyability FROM unilectives.reviews_scraped
+        )
+        AS r USING(course_code)
       GROUP BY c.course_code
       ORDER BY "reviewCount" DESC
       `) as any[];
     const courses = rawCourses.map((course) => CourseSchema.parse(course));
+    return courses;
+  }
+
+  async getAllCourseCodes(): Promise<string[]> {
+    const rawCourses = await this.prisma.courses.findMany({
+      select: {
+        courseCode: true,
+      },
+    });
+
+    const courses = rawCourses.map((course) =>
+      CourseCodeSchema.parse(course.courseCode),
+    );
+
     return courses;
   }
 
@@ -72,7 +92,13 @@ export class CourseRepository {
     AVG(r.enjoyability) AS "enjoyability",
     CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
     FROM courses c
-    LEFT JOIN reviews r ON c.course_code = r.course_code
+    LEFT JOIN 
+      (
+        SELECT course_code, review_id, overall_rating, manageability, usefulness, enjoyability FROM unilectives.reviews
+        UNION ALL
+        SELECT course_code, review_scraped_id, overall_rating, NULL AS manageability, NULL AS usefulness, NULL AS enjoyability FROM unilectives.reviews_scraped
+      )
+      AS r USING(course_code)
     GROUP BY c.course_code
     ORDER BY "reviewCount" DESC, c.course_code ASC
     LIMIT 25 OFFSET ${offset};
@@ -109,7 +135,13 @@ export class CourseRepository {
     AVG(r.enjoyability) AS "enjoyability",
     CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
     FROM courses c
-    LEFT JOIN reviews r ON c.course_code = r.course_code
+    LEFT JOIN 
+      (
+        SELECT course_code, review_id, overall_rating, manageability, usefulness, enjoyability FROM unilectives.reviews
+        UNION ALL
+        SELECT course_code, review_scraped_id, overall_rating, NULL AS manageability, NULL AS usefulness, NULL AS enjoyability FROM unilectives.reviews_scraped
+      )
+      AS r USING(course_code)
     WHERE c.course_code IN (${courseCodesString})
     GROUP BY c.course_code
     ORDER BY "reviewCount" DESC;
@@ -146,7 +178,13 @@ export class CourseRepository {
     AVG(r.enjoyability) AS "enjoyability",
     CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
     FROM courses c
-    LEFT JOIN reviews r ON c.course_code = r.course_code
+    LEFT JOIN 
+      (
+        SELECT course_code, review_id, overall_rating, manageability, usefulness, enjoyability FROM unilectives.reviews
+        UNION ALL
+        SELECT course_code, review_scraped_id, overall_rating, NULL AS manageability, NULL AS usefulness, NULL AS enjoyability FROM unilectives.reviews_scraped
+      )
+      AS r USING(course_code)
     WHERE c.course_code = '${courseCode}'
     GROUP BY c.course_code
     ORDER BY "reviewCount" DESC;
@@ -183,7 +221,13 @@ export class CourseRepository {
       AVG(r.enjoyability) AS "enjoyability",
       CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
       FROM courses c
-      LEFT JOIN reviews r ON c.course_code = r.course_code
+      LEFT JOIN 
+        (
+          SELECT course_code, review_id, overall_rating, manageability, usefulness, enjoyability FROM unilectives.reviews
+          UNION ALL
+          SELECT course_code, review_scraped_id, overall_rating, NULL AS manageability, NULL AS usefulness, NULL AS enjoyability FROM unilectives.reviews_scraped
+        )
+        AS r USING(course_code)
       WHERE c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}
       GROUP BY c.course_code
       ORDER BY
@@ -263,7 +307,13 @@ export class CourseRepository {
       AVG(r.enjoyability) AS "enjoyability",
       CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
       FROM courses c
-      LEFT JOIN reviews r ON c.course_code = r.course_code
+      LEFT JOIN 
+        (
+          SELECT course_code, review_id, overall_rating, manageability, usefulness, enjoyability FROM unilectives.reviews
+          UNION ALL
+          SELECT course_code, review_scraped_id, overall_rating, NULL AS manageability, NULL AS usefulness, NULL AS enjoyability FROM unilectives.reviews_scraped
+        )
+        AS r USING(course_code)
       WHERE (c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}) AND
       c.terms && ${termFilters}::integer[] AND 
       c.faculty ILIKE ANY(${facultyFilters})
@@ -342,7 +392,13 @@ export class CourseRepository {
       AVG(r.enjoyability) AS "enjoyability",
       CAST(COUNT(r.review_id) AS INT) AS "reviewCount"
       FROM courses c
-      LEFT JOIN reviews r ON c.course_code = r.course_code
+      LEFT JOIN 
+        (
+          SELECT course_code, review_id, overall_rating, manageability, usefulness, enjoyability FROM unilectives.reviews
+          UNION ALL
+          SELECT course_code, review_scraped_id, overall_rating, NULL AS manageability, NULL AS usefulness, NULL AS enjoyability FROM unilectives.reviews_scraped
+        )
+        AS r USING(course_code)
       WHERE (c.course_code ILIKE ${searchQuery} OR c.title ILIKE ${searchQuery}) AND
       (c.terms = ARRAY[]::integer[] OR c.terms && ${termFilters}::integer[]) AND 
       c.faculty ILIKE ANY(${facultyFilters})
