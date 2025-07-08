@@ -67,7 +67,7 @@ export default function Navbar({ userZid }: NavbarProps) {
       ref={ref}
       className={
         collapsed
-          ? "fixed flex flex-col items-center w-20 h-screen gap-4 p-4 duration-150 bg-gray-50 dark:bg-slate-700 z-50 xs:p-2 xs:w-15 xs:gap-2"
+          ? "fixed flex flex-col items-center w-20 h-screen gap-4 p-4 duration-150 bg-gray-100 dark:bg-slate-700 z-50 xs:p-2 xs:w-15 xs:gap-2"
           : "fixed flex flex-col w-72 h-screen gap-4 p-4 bg-gray-50 dark:bg-slate-700 z-40 duration-150"
       }
     >
