@@ -20,7 +20,6 @@ export default function ReviewsBar({
   const [currentReviews, setCurrentReviews] = useState(reviews ? reviews : []);
   const [allBookmarkedReviews, setAllBookmarkedReviews] =
     useState(bookmarkedReviews);
-  const displayTextReview = true;
   const [selected, setSelected] = useState("Most Recent");
 
   // Change review sorting based on dropdown
