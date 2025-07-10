@@ -21,7 +21,7 @@ export default function ReviewsBar({
   const [currentReviews, setCurrentReviews] = useState(reviews ? reviews : []);
   const [allBookmarkedReviews, setAllBookmarkedReviews] =
     useState(bookmarkedReviews);
-  const [displayTextReview, setDisplayTextReview] = useState(false);
+  // const [displayTextReview, setDisplayTextReview] = useState(true);
   const [selected, setSelected] = useState("Most Recent");
 
   // Change review sorting based on dropdown
@@ -51,14 +51,10 @@ export default function ReviewsBar({
         break;
     }
 
-    if (!displayTextReview) {
-      return setCurrentReviews(sortedReviews);
-    }
-
     setCurrentReviews(
       sortedReviews.filter((r: Review) => r.title || r.description)
     );
-  }, [displayTextReview, selected]);
+  }, [selected]);
 
   return (
     <div className="space-y-5 isolate">
@@ -90,14 +86,14 @@ export default function ReviewsBar({
       {/* Switch */}
       {currentReviewRef.current && currentReviewRef.current.length !== 0 && (
         <>
-          <div className="flex items-center flex-wrap gap-1">
+          {/* <div className="flex items-center flex-wrap gap-1">
             <ToggleSwitch
               defaultValue={displayTextReview}
               onChange={setDisplayTextReview}
               accessibleTitle="Text only reviews"
             />
             <span>Text only reviews</span>
-          </div>
+          </div> */}
           {/* Reviews */}
           {currentReviews.map((review: Review, index: number) => (
             <ReviewCard
