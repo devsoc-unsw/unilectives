@@ -4,7 +4,7 @@ import { Review, Reviews, TabsType } from "@/types/api";
 import Dropdown from "../Dropdown/Dropdown";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Rating from "../Rating/Rating";
-import { BookmarkIcon } from "@heroicons/react/24/solid";
+import { BookmarkIcon, LinkIcon } from "@heroicons/react/24/solid";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import Pagination from "../Pagination/Pagination";
 import { validatedReq } from "@/utils/request";
@@ -105,17 +105,19 @@ export default function UserBookmarkedReviews({
           />
         </div>
         {/* Toggle Switch */}
-        <div className='flex ml-auto gap-2'>
-          <span>Card</span>
-          <div className='-scale-1'>
-            <ToggleSwitch
-              accessibleTitle='card-list-view'
-              defaultValue={cardView}
-              onChange={setCardView}
-            />
+        {reviews.length > 0 && (
+          <div className='flex ml-auto gap-2'>
+            <span>Card</span>
+            <div className='-scale-1'>
+              <ToggleSwitch
+                accessibleTitle='card-list-view'
+                defaultValue={cardView}
+                onChange={setCardView}
+              />
+            </div>
+            <span>List</span>
           </div>
-          <span>List</span>
-        </div>
+        )}
       </div>
       {/* Reviews */}
       {/* List view */}
@@ -130,7 +132,14 @@ export default function UserBookmarkedReviews({
               >
                 <div className='flex w-1/2 sm:w-full sm:flex-col sm:items-start items-center gap-2'>
                   {/* Title */}
-                  <h1 className='font-bold text-xl'>{review.courseCode}</h1>
+                  <a
+                    href={`/course/${review.courseCode}`}
+                    className='flex items-center gap-2 font-bold hover:text-unilectives-blue/75 duration-150'
+                  >
+                    <LinkIcon className='w-5 h-5' />
+                    <span className='truncate'>{review.courseCode}</span>
+                  </a>
+
                   {/* Description */}
                   <p className='text-unilectives-headings dark:text-gray-100 w-full truncate'>
                     {!review.description ? "-" : review.description}
@@ -157,13 +166,19 @@ export default function UserBookmarkedReviews({
             .map((review: Review, index: number) => (
               <div
                 key={index}
-                className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 shadow-lg shadow-gray-600 rounded-xl space-y-4'
+                className='box-border isolate px-6 py-7 bg-unilectives-card dark:bg-slate-700 hover:bg-[#eff0f2] dark:hover:bg-slate-700/10 shadow-lg shadow-gray-600 rounded-xl space-y-4'
               >
                 {/* Course courseCode + Ratings */}
                 <div className='flex flex-wrap justify-between text-2xl'>
-                  <h1 className='font-bold block truncate'>
-                    {review.courseCode}
-                  </h1>
+                <a
+                  href={`/course/${review.courseCode}`}
+                  className='font-bold hover:text-unilectives-blue/75 duration-150 truncate'
+                >
+                  <div className='flex items-center gap-2'>
+                    <span className='block truncate'>{review.courseCode}</span>
+                    <LinkIcon className='w-4 h-4' />
+                  </div>
+                </a>
                   <div className='text-right'>
                     {/* StarRating */}
                     <div className='text-2xl inline'>
