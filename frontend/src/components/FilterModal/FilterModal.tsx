@@ -149,100 +149,107 @@ export default function FilterModal({
 
   return (
     <>
-    <div>
-      {/* filter button */}
-      <div className="mt-4 min-w-[140px] xs:min-w-1/2">
-        <button
-          className="relative flex items-center dark:text-white dark:bg-gray-900 justify-between gap-2 w-full cursor-pointer py-2 px-4 text-left text-[#989898] border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          Filter
-          <AdjustmentsHorizontalIcon className="w-4 h-4 rounded-full dark:text-white text-black" />
-        </button>
-      </div>
+      <div>
+        {/* filter button */}
+        <div className="mt-4 min-w-[140px] xs:min-w-1/2">
+          <button
+            className="relative flex items-center dark:text-white dark:bg-gray-900 justify-between gap-2 w-full cursor-pointer py-2 px-4 text-left text-[#989898] border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            Filter
+            <AdjustmentsHorizontalIcon className="w-4 h-4 rounded-full dark:text-white text-black" />
+          </button>
+        </div>
 
-      {/* filter dialog */}
-      <Transition show={open}>
-        <Dialog open={open} onClose={handleClose} className="fixed inset-0 z-10">
-          {/* Backdrop */}
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-          {/* Modal content wrapper */}
-          <div className="fixed inset-0 flex items-center justify-center p-4 ">
-            <Transition.Child
-              enter="transition-transform ease-out duration-700"
-              enterFrom="opacity-0 scale-90"
-              enterTo="opacity-100 scale-100"
-              leave="transition-transform ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="mx-auto max-w-sm p-8 rounded dark:bg-gray-900 bg-white flex flex-col xs:w-full pl-20">
-                    <button className="w-6 h-6 place-self-end" onClick={handleClose}>
-                      <XMarkIcon />
+        {/* filter dialog */}
+        <Transition show={open}>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            className="fixed inset-0 z-10"
+          >
+            {/* Backdrop */}
+            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
+            {/* Modal content wrapper */}
+            <div className="fixed left-20 right-0 top-0 bottom-0 flex items-center justify-center p-4">
+              <Transition.Child
+                enter="transition-transform ease-out duration-700"
+                enterFrom="opacity-0 scale-90"
+                enterTo="opacity-100 scale-100"
+                leave="transition-transform ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="mx-auto w-full max-w-[350px] p-6 rounded dark:bg-gray-900 bg-white flex flex-col">
+                  <button
+                    className="w-6 h-6 place-self-end"
+                    onClick={handleClose}
+                  >
+                    <XMarkIcon />
+                  </button>
+                  <Dialog.Title className="text-2xl dark:text-white font-bold mb-4 text-unilectives-headings">
+                    Filter by:
+                  </Dialog.Title>
+                  <Dialog.Description className="text-xl font-semibold mb-2 ">
+                    Faculty
+                  </Dialog.Description>
+                  {/* display the faculty tags */}
+                  <div className="flex flex-wrap mb-4">
+                    {faculties.map((faculty, index) => {
+                      return styledFilterButton(
+                        "faculty",
+                        index,
+                        facultiesCheckedState[index],
+                        faculty,
+                      );
+                    })}
+                  </div>
+                  <Dialog.Description className="text-xl font-semibold mb-2">
+                    Term
+                  </Dialog.Description>
+                  {/* display the term tags */}
+                  <div className="sm:hidden flex flex-wrap mb-4">
+                    {terms.map((term, index) => {
+                      return styledFilterButton(
+                        "term",
+                        index,
+                        termsCheckedState[index],
+                        term,
+                      );
+                    })}
+                  </div>
+                  <div className="sm:flex hidden flex-wrap mb-4 ">
+                    {termsShortened.map((term, index) => {
+                      return styledFilterButton(
+                        "term",
+                        index,
+                        termsCheckedState[index],
+                        term,
+                      );
+                    })}
+                  </div>
+
+                  <div className="flex justify-between mt-4 xs:flex-col xs:gap-4">
+                    <button
+                      className="flex items-center justify-center xs:w-full dark:hover:border-gray-900 gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:border-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
+                      onClick={handleClearAll}
+                    >
+                      Clear All
                     </button>
-                    <Dialog.Title className="text-2xl dark:text-white font-bold mb-4 text-unilectives-headings">
-                      Filter by:
-                    </Dialog.Title>
-                    <Dialog.Description className="text-xl font-semibold mb-2 ">
-                      Faculty
-                    </Dialog.Description>
-                    {/* display the faculty tags */}
-                    <div className="flex flex-wrap mb-4">
-                      {faculties.map((faculty, index) => {
-                        return styledFilterButton(
-                          "faculty",
-                          index,
-                          facultiesCheckedState[index],
-                          faculty,
-                        );
-                      })}
-                    </div>
-                    <Dialog.Description className="text-xl font-semibold mb-2">
-                      Term
-                    </Dialog.Description>
-                    {/* display the term tags */}
-                    <div className="sm:hidden flex flex-wrap mb-4">
-                      {terms.map((term, index) => {
-                        return styledFilterButton(
-                          "term",
-                          index,
-                          termsCheckedState[index],
-                          term,
-                        );
-                      })}
-                    </div>
-                    <div className="sm:flex hidden flex-wrap mb-4 ">
-                      {termsShortened.map((term, index) => {
-                        return styledFilterButton(
-                          "term",
-                          index,
-                          termsCheckedState[index],
-                          term,
-                        );
-                      })}
-                    </div>
-
-                    <div className="flex justify-between mt-4 xs:flex-col xs:gap-4">
-                      <button
-                        className="flex items-center justify-center xs:w-full dark:hover:border-gray-900 gap-1 px-4 py-2 text-unilectives-button border-2 border-unilectives-button rounded-md hover:bg-unilectives-icon/95 hover:border-unilectives-icon/95 hover:text-white hover:border-white font-bold disabled:opacity-50"
-                        onClick={handleClearAll}
-                      >
-                        Clear All
-                      </button>
-                      <button
-                        className="flex items-center justify-center w-1/3 xs:w-full gap-1 px-4 py-2 bg-unilectives-button text-white rounded-md hover:bg-unilectives-icon/95 font-bold disabled:opacity-50"
-                        onClick={handleApply}
-                      >
-                        Apply
-                      </button>
-                    </div>
-                  </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
+                    <button
+                      className="flex items-center justify-center w-1/3 xs:w-full gap-1 px-4 py-2 bg-unilectives-button text-white rounded-md hover:bg-unilectives-icon/95 font-bold disabled:opacity-50"
+                      onClick={handleApply}
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
       </div>
     </>
   );
