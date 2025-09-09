@@ -44,6 +44,7 @@ module.exports = {
       },
       fontFamily: {
         custom: ["TT Commons Pro Variable", "Segoe UI", "Arial", "sans-serif"],
+        roboto: ['Roboto', 'sans-serif'],
       },
       scale: {
         "-1": "-1",
