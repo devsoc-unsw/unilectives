@@ -9,14 +9,14 @@ import Image from "next/image";
 export default function NewSponsorships() {
   return (
     <div className="flex flex-col items-center justify-center">
-      <p className="text-4xl">Proudly Sponsored By</p>
+      <p className="text-4xl font-medium">Proudly Sponsored By</p>
       {/* Sponsor Tiers */}
-      <div className="pt-6">
+      <div className="pt-7">
         <p>Platinum Tier Sponsors</p>
         <hr className="border-black dark:border-white"/>
 
         {/* Platinum Sponsors Links */}
-        <div className="flex flex-row justify-center items-center sm:space-x-4 md:space-x-6 lg:space-x-10 space-x-10 mt-7 mb-8 z-5 px-3">
+        <div className="flex flex-row justify-center items-center sm:space-x-4 md:space-x-6 lg:space-x-10 space-x-10 mt-8 mb-8 z-5 px-3">
           <a href="https://www.arista.com" target="_blank" rel="noopener noreferrer" className="w-48 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300" aria-label="Arista">
             <Image
               src={AristaLogo}
@@ -52,7 +52,7 @@ export default function NewSponsorships() {
           <hr className="border-black dark:border-white"/>
 
           {/* Gold Sponsors Links */}
-          <div className="flex flex-row justify-center items-center space-x-8 mt-5 mb-5 z-5">
+          <div className="flex flex-row justify-center items-center space-x-8 mt-7 mb-5 z-5">
             <a href="https://www.janestreet.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-20 hover:transform hover:translate-y-[-5px] transition-transform duration-300" aria-label="Jane Street">
               <Image
                 src={JaneStreetLogo}
