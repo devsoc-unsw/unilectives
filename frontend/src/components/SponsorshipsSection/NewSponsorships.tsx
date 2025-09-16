@@ -1,7 +1,9 @@
 import JaneStreetLogo from "@/assets/janestreet.svg";
 import SafetyCultureLogo from "@/assets/sc.png";
+import SafetyCultureLogoLight from "@/assets/SafetyCultureLight.png";
 import AristaLogo from "@/assets/arista.png";
 import TheTradeDeskLogo from "@/assets/thetradedesk.png";
+import TheTradeDeskLogoDark from "@/assets/the-trade-desk-dark.svg";
 import Image from "next/image";
 
 export default function NewSponsorships() {
@@ -21,16 +23,25 @@ export default function NewSponsorships() {
               alt="Arista Logo"
               layout="intrinsic"
               objectFit="contain"
-              className="dark:filter"
+              className="invert dark:invert-0"
             />
           </a>
           <a href="https://www.thetradedesk.com" target="_blank" rel="noopener noreferrer" className="w-60 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300" aria-label="The Trade Desk">
+            {/* Dark Mode Logo */}
             <Image
               src={TheTradeDeskLogo}
               alt="The Trade Desk Logo"
               layout="intrinsic"
               objectFit="contain"
-              className="dark:filter"
+              className="hidden dark:block"
+            />
+            {/* Light Mode Logo */}
+            <Image
+              src={TheTradeDeskLogoDark}
+              alt="The Trade Desk Logo"
+              layout="intrinsic"
+              objectFit="contain"
+              className="dark:hidden"
             />
           </a>
         </div>
@@ -48,16 +59,25 @@ export default function NewSponsorships() {
                 alt="Jane Street Logo"
                 layout="intrinsic"
                 objectFit="contain"
-                className="dark:filter"
+                className="invert dark:invert-0"
               />
             </a>
             <a href="https://www.safetyculture.com" target="_blank" rel="noopener noreferrer" className="w-40 relative md:w-36 sm:w-20 hover:transform hover:translate-y-[-5px] transition-transform duration-300" aria-label="Safety Culture">
+              {/* Dark Mode Logo */}
               <Image
                 src={SafetyCultureLogo}
                 alt="SafetyCulture Logo"
                 layout="intrinsic"
                 objectFit="contain"
-                className="dark:filter"
+                className="hidden dark:block"
+              />
+              {/* Light Mode Logo */}
+              <Image
+                src={SafetyCultureLogoLight}
+                alt="SafetyCulture Logo"
+                layout="intrinsic"
+                objectFit="contain"
+                className="dark:hidden"
               />
             </a>
           </div>
