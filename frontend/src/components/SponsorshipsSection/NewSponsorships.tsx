@@ -7,14 +7,14 @@ import Image from "next/image";
 export default function NewSponsorships() {
   return (
     <div className="flex flex-col items-center justify-center">
-      <p className="text-5xl">Proudly Sponsored By</p>
+      <p className="text-4xl">Proudly Sponsored By</p>
       {/* Sponsor Tiers */}
-      <div className="pt-7">
+      <div className="pt-6">
         <p>Platinum Tier Sponsors</p>
         <hr />
 
         {/* Platinum Sponsors Links */}
-        <div className="flex flex-row justify-center items-center sm:space-x-8 md:space-x-12 lg:space-x-20 space-x-24 mt-7 mb-8 z-5">
+        <div className="flex flex-row justify-center items-center sm:space-x-4 md:space-x-6 lg:space-x-10 space-x-10 mt-7 mb-8 z-5 px-3">
           <a href="https://www.arista.com" target="_blank" rel="noopener noreferrer" className="w-48 relative md:w-36 sm:w-24 hover:transform hover:translate-y-[-5px] transition-transform duration-300" aria-label="Arista">
             <Image
               src={AristaLogo}

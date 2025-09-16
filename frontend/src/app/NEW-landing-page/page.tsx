@@ -80,8 +80,6 @@ export default async function LandingPage() {
       <p> Features section below</p>
       {/* SECTION 3 - "PROUDLY SPONSORED BY" */}
       <p> Sponsors section below</p>
-      <Sponsorships />
-      <br />
       <NewSponsorships />
       {/* BOTTOM OF PAGE */}
     </div>
