@@ -13,7 +13,7 @@ export default function NewSponsorships() {
       {/* Sponsor Tiers */}
       <div className="pt-6">
         <p>Platinum Tier Sponsors</p>
-        <hr />
+        <hr className="border-black dark:border-white"/>
 
         {/* Platinum Sponsors Links */}
         <div className="flex flex-row justify-center items-center sm:space-x-4 md:space-x-6 lg:space-x-10 space-x-10 mt-7 mb-8 z-5 px-3">
@@ -49,7 +49,7 @@ export default function NewSponsorships() {
         {/* Gold Tier Sponsors */}
         <div>
           <p>Gold Tier Sponsors</p>
-          <hr />
+          <hr className="border-black dark:border-white"/>
 
           {/* Gold Sponsors Links */}
           <div className="flex flex-row justify-center items-center space-x-8 mt-5 mb-5 z-5">
