@@ -73,7 +73,7 @@ export default function Navbar({ userZid }: NavbarProps) {
       // >
       <div
         ref={ref}
-        className={`fixed top-0 left-0 w-full h-16 flex items-center gap-4 px-6 bg-transparent backdrop-blur-md z-50 duration-150 ${
+        className={`fixed top-0 left-0 w-full h-16 flex items-center gap-4 px-6 bg-white backdrop-blur-md z-50 duration-150 ${
           collapsed ? "justify-center" : "justify-between"
         }`}
       >
