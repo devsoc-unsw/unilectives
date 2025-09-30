@@ -20,7 +20,7 @@ export default async function CourseLibraryPage() {
       {/* TOP OF PAGE */}
       {/* Title here */}
       <div className='flex flex-col w-full gap-3'>
-        <h1 className='justify-center font-bold text-unilectives-blue text-5xl sm:text-4xl mt-20 ml-[6.25rem]'>
+        <h1 className='justify-center font-bold text-unilectives-blue text-5xl sm:text-4xl mt-28 ml-[6.25rem]'>
           Search Your Courses
         </h1>
       </div>

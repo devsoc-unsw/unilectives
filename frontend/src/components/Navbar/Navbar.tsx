@@ -10,8 +10,8 @@ import {
   UserCircleIcon,
   BarsArrowDownIcon,
   BarsArrowUpIcon,
-  ArrowRightOnRectangleIcon,
-  ArrowLeftOnRectangleIcon,
+  ArrowRightStartOnRectangleIcon,
+  ArrowLeftEndOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import Tooltip from "@/components/Tooltip/Tooltip";
 import { signIn, signOut } from "next-auth/react";
@@ -218,19 +218,19 @@ export default function Navbar({ userZid }: NavbarProps) {
                     : "hover:bg-slate-200 dark:hover:bg-slate-800"
                     }`}
                 >
-                  <ArrowRightOnRectangleIcon className='w-12 h-12 p-3' />
+                  <ArrowRightStartOnRectangleIcon className='w-12 h-12 p-3' />
                 </button>
               </Tooltip>
             ) : (
               <button
                 onClick={(e) => handleLogout(e)}
                 onMouseLeave={() => setLogout(false)}
-                className={`flex flex-row items-center justify-center rounded-xl gap-2 ${logout
+                className={`flex flex-row items-center justify-center w-12 h-12 rounded-xl gap-2 ${logout
                   ? "hover:text-red-600 hover:bg-red-100 dark:hover:bg-red-100"
                   : "hover:bg-slate-200 dark:hover:bg-slate-800"
                   }`}
               >
-                <ArrowRightOnRectangleIcon className='w-6 h-12 py-3' />
+                <ArrowRightStartOnRectangleIcon className='w-6 h-12 py-3' />
                 {!logout ? (
                   <span className='whitespace-nowrap'>Logout</span>
                 ) : (
@@ -244,7 +244,7 @@ export default function Navbar({ userZid }: NavbarProps) {
                 onClick={() => signIn("csesoc")}
                 className='flex flex-row items-center justify-center rounded-xl gap-2 hover:bg-slate-200 dark:hover:bg-slate-800'
               >
-                <ArrowLeftOnRectangleIcon className='w-12 h-12 rotate-180 p-3' />
+                <ArrowLeftEndOnRectangleIcon className='w-12 h-12 rotate-180 p-3' />
               </button>
             </Tooltip>
           ) : (
@@ -252,7 +252,7 @@ export default function Navbar({ userZid }: NavbarProps) {
               onClick={() => signIn("csesoc")}
               className='flex flex-row items-center justify-center rounded-xl gap-2 hover:bg-slate-200 dark:hover:bg-slate-800'
             >
-              <ArrowLeftOnRectangleIcon className='w-6 h-12 rotate-180 py-3' />
+              <ArrowLeftEndOnRectangleIcon className='w-6 h-12 rotate-180 py-3' />
               <span>Login</span>
             </button>
           )}
