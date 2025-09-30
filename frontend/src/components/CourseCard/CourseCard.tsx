@@ -22,7 +22,7 @@ export default function CourseCard({
     <div className='box-border px-6 py-7 bg-unilectives-card dark:bg-slate-700/40 hover:bg-[#eff0f2] dark:hover:bg-slate-700/10 shadow-lg rounded-xl space-y-2 cursor-pointer duration-150'>
       {/* Course courseCode + Ratings */}
       <div className='flex flex-wrap justify-between text-2xl gap-x-4'>
-        <h2 className='font-bold w-[8ch] text-black dark:text-white'>
+        <h2 className='font-normal w-[8ch] text-black dark:text-white'>
           {courseCode}
         </h2>
         <div className='text-left'>
