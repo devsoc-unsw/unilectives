@@ -140,10 +140,9 @@ export default function CoursesList({
 
   return (
     <>
-      {/* SortDropdown Bar and Filter Buttion*/}
+      {/* SortDropdown Bar*/}
       <div className="flex justify-start w-5/6 gap-4 xs:flex-col xs:gap-1">
         <SortDropdown selected={selected} setSelected={setSelected} />
-        {/* <FilterModal filters={filters} setFilters={setFilters} /> */}
       </div>
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
         {sortCourses(displayCourses, selected).map(
