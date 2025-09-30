@@ -37,7 +37,6 @@ export default function LandingPageContent({
         />
       )}
 
-      {/* <CoursesList initialCourses={initialCourses} searchTerm={searchTerm} /> */}
       <CoursesList
         initialCourses={initialCourses}
         searchTerm={searchTerm}

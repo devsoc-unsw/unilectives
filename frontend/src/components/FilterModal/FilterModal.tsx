@@ -58,8 +58,6 @@ export default function FilterModal({
     new Array(terms.length).fill(false),
   );
 
-  // const [open, setOpen] = useState(false);
-
   const handleClose = () => {
     // if no filters were applied then clear all
     if (filters.terms.length === 0 && filters.faculties.length === 0) {
@@ -162,19 +160,6 @@ export default function FilterModal({
 
   return (
     <>
-      {/* filter button */}
-      {/* <div className="mt-4 min-w-[140px] xs:min-w-1/2">
-        <button
-          className="relative flex items-center dark:text-white dark:bg-gray-900 justify-between gap-2 w-full cursor-pointer py-2 px-4 text-left text-[#989898] border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          Filter
-          <AdjustmentsHorizontalIcon className="w-4 h-4 rounded-full dark:text-white text-black" />
-        </button>
-      </div> */}
-
       {/* filter dialog */}
       <Dialog open={open} onClose={onClose}>
         {/* the blurred backdrop */}
