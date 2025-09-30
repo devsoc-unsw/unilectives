@@ -11,9 +11,11 @@ import FilterModal from "../FilterModal/FilterModal";
 export default function CoursesList({
   initialCourses,
   searchTerm,
+  filters
 }: {
   initialCourses: Course[];
   searchTerm: string;
+  filters: { faculties: string[]; terms: string[] };
 }) {
   const courseFinishedRef = useRef(false);
   const indexRef = useRef(initialCourses.length);
@@ -24,13 +26,6 @@ export default function CoursesList({
     useState<Course[]>(initialCourses);
   const [initialLoading, setInitialLoading] = useState(true);
   const [selected, setSelected] = useState("");
-  const [filters, setFilters] = useState<{
-    faculties: string[];
-    terms: string[];
-  }>({
-    faculties: [],
-    terms: [],
-  });
   const paginationOffset = 25;
 
   const loadMore = async (index: number) => {
@@ -146,9 +141,9 @@ export default function CoursesList({
   return (
     <>
       {/* SortDropdown Bar and Filter Buttion*/}
-      <div className="flex justify-end w-5/6 gap-4 xs:flex-col xs:gap-1">
+      <div className="flex justify-start w-5/6 gap-4 xs:flex-col xs:gap-1">
         <SortDropdown selected={selected} setSelected={setSelected} />
-        <FilterModal filters={filters} setFilters={setFilters} />
+        {/* <FilterModal filters={filters} setFilters={setFilters} /> */}
       </div>
       <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
         {sortCourses(displayCourses, selected).map(

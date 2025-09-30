@@ -14,7 +14,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang='en' className='font-custom '>
+    <html lang='en' className='font-custom'>
       <head>
         {/* Only used in Safari - Change Navbar to slate-800 colors when dark mode */}
         <meta name="theme-color" content="#ffffff" />

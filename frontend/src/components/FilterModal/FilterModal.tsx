@@ -10,11 +10,15 @@ import { Course } from "@/types/api";
 export default function FilterModal({
   filters,
   setFilters,
+  open,
+  onClose,
 }: {
   filters: { terms: string[]; faculties: string[] };
   setFilters: React.Dispatch<
     React.SetStateAction<{ faculties: string[]; terms: string[] }>
   >;
+  open: boolean;
+  onClose: () => void;
 }) {
   const faculties = [
     "Arts",
@@ -54,14 +58,14 @@ export default function FilterModal({
     new Array(terms.length).fill(false),
   );
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const handleClose = () => {
     // if no filters were applied then clear all
     if (filters.terms.length === 0 && filters.faculties.length === 0) {
       handleClearAll();
     }
-    setOpen(false);
+    onClose();
   };
 
   const handleClearAll = () => {
@@ -116,7 +120,8 @@ export default function FilterModal({
 
     setFilters({ faculties: selectedFaculties, terms: selectedTerms });
 
-    setOpen(false);
+    // setOpen(false);
+    onClose();
   };
 
   const handleTagOnClick = (type: string, position: number) => {
@@ -158,7 +163,7 @@ export default function FilterModal({
   return (
     <>
       {/* filter button */}
-      <div className="mt-4 min-w-[140px] xs:min-w-1/2">
+      {/* <div className="mt-4 min-w-[140px] xs:min-w-1/2">
         <button
           className="relative flex items-center dark:text-white dark:bg-gray-900 justify-between gap-2 w-full cursor-pointer py-2 px-4 text-left text-[#989898] border border-unilectives-subheadings rounded-md shadow-review-card aria-expanded:border-b-transparent aria-expanded:rounded-b-none"
           onClick={() => {
@@ -168,10 +173,10 @@ export default function FilterModal({
           Filter
           <AdjustmentsHorizontalIcon className="w-4 h-4 rounded-full dark:text-white text-black" />
         </button>
-      </div>
+      </div> */}
 
       {/* filter dialog */}
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={onClose}>
         {/* the blurred backdrop */}
         <div
           className="fixed inset-0 bg-black/30 backdrop-blur-sm z-10"
@@ -182,7 +187,7 @@ export default function FilterModal({
         <div className="fixed inset-0 flex w-screen items-center justify-center pl-20 z-10 ">
           {/* The actual dialog panel  */}
           <Dialog.Panel className="mx-auto max-w-sm p-8 rounded dark:bg-gray-900 bg-white flex flex-col xs:w-full">
-            <button className="w-6 h-6 place-self-end" onClick={handleClose}>
+            <button className="w-6 h-6 place-self-end" onClick={onClose}>
               <XMarkIcon />
             </button>
             <Dialog.Title className="text-2xl dark:text-white font-bold mb-4 text-unilectives-headings">

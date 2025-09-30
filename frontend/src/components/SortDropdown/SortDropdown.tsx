@@ -23,7 +23,7 @@ export default function SortDropdownBar({
           ]}
           defaultValue={selected}
           onChange={setSelected}
-          placeholder="Sort by"
+          placeholder="Select..."
         />
       </div>
     </div>

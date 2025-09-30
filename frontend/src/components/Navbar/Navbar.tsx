@@ -63,14 +63,20 @@ export default function Navbar({ userZid }: NavbarProps) {
 
   return (
     // Enlarged (non-collapsed) View
-    <div
-      ref={ref}
-      className={
-        collapsed
-          ? "fixed flex flex-col items-center w-20 h-screen gap-4 p-4 duration-150 bg-gray-100 dark:bg-slate-700 z-50 xs:p-2 xs:w-15 xs:gap-2"
-          : "fixed flex flex-col w-72 h-screen gap-4 p-4 bg-gray-50 dark:bg-slate-700 z-40 duration-150"
-      }
-    >
+      // <div
+      //   ref={ref}
+      //   className={
+      //     collapsed
+      //       ? "fixed flex flex-row items-center w-20 h-screen gap-4 p-4 duration-150 bg-gray-100 dark:bg-slate-700 z-50 xs:p-2 xs:w-15 xs:gap-2"
+      //       : "fixed flex flex-col w-72 h-screen gap-4 p-4 bg-gray-50 dark:bg-slate-700 z-40 duration-150"
+      //   }
+      // >
+      <div
+        ref={ref}
+        className={`fixed top-0 left-0 w-full h-16 flex items-center gap-4 px-6 bg-transparent backdrop-blur-md z-50 duration-150 ${
+          collapsed ? "justify-center" : "justify-between"
+        }`}
+      >
       {/* Logo */}
       <div className='flex flex-row items-center justify-between h-10 p-2'>
         <Tooltip tooltip={collapsed ? "" : ""}>
@@ -95,10 +101,10 @@ export default function Navbar({ userZid }: NavbarProps) {
         />
       </div>
       {/* Navbar Container */}
-      <div className='flex flex-col h-full w-full justify-between border-t-2 border-gray-200 dark:border-slate-500'>
+      <div className='flex flex-row h-full w-full justify-between border-t-2 border-gray-200 dark:border-slate-500'>
         {/* Review Options */}
         <div
-          className={`flex flex-col gap-3 py-3 ${collapsed ? "items-center" : "items-left"
+          className={`flex flex-row gap-3 py-3 ${collapsed ? "items-center" : "items-left"
             }`}
         >
           <a
@@ -107,9 +113,9 @@ export default function Navbar({ userZid }: NavbarProps) {
                 ? "flex"
                 : "flex flex-row items-center hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl"
             }
-            href='/'
+            href='/NEW-course-library-page'
           >
-            <Tooltip tooltip={collapsed ? "Browse Courses" : ""}>
+            <Tooltip tooltip={collapsed ? "Browse Courses" : ""} position="bottom">
               <BookOpenIcon className='w-12 h-12 p-3 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl' />
             </Tooltip>
             <span className={collapsed ? "hidden" : "whitespace-nowrap"}>
@@ -154,17 +160,17 @@ export default function Navbar({ userZid }: NavbarProps) {
         </div>
         {/* Account Options */}
         <div
-          className={`flex flex-col gap-4 py-2 ${collapsed ? "items-center" : "items-left"
+          className={`flex flex-row gap-4 py-2 ${collapsed ? "items-center" : "items-left"
             }`}
         >
           <div
             className={
               collapsed
-                ? "flex flex-col gap-3 cursor-pointer"
+                ? "flex flex-row gap-3 cursor-pointer"
                 : "flex flex-row justify-between gap-2 cursor-pointer"
             }
           >
-            <Tooltip tooltip={"Expand"}>
+            {/* <Tooltip tooltip={"Expand"}>
               <BarsArrowUpIcon
                 onClick={() => setCollapsed(false)}
                 className={
@@ -173,7 +179,7 @@ export default function Navbar({ userZid }: NavbarProps) {
                     : "hidden"
                 }
               />
-            </Tooltip>
+            </Tooltip> */}
             {collapsed ? (
               <Tooltip tooltip={zid ? `${zid}` : "My Account"}>
                 <a
@@ -251,7 +257,7 @@ export default function Navbar({ userZid }: NavbarProps) {
             </button>
           )}
 
-          <div className='flex flex-col gap-3 max-h-20'>
+          <div className='flex flex-row gap-3 max-h-20'>
             <span className={collapsed ? "hidden" : "text-xs"}>
               By using this site, you agree to the{" "}
               <a
