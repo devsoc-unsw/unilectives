@@ -144,7 +144,7 @@ export default function CoursesList({
       <div className="flex justify-start w-5/6 gap-4 xs:flex-col xs:gap-1">
         <SortDropdown selected={selected} setSelected={setSelected} />
       </div>
-      <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-12 mt-10 w-5/6 items-center">
+      <div className="grid grid-rows-3 grid-cols-3 lg:grid-rows-1 lg:grid-cols-1 gap-8 mt-8 w-3/4 items-center">
         {sortCourses(displayCourses, selected).map(
           (c: Course, index: number) => (
             <a href={`/course/${c.courseCode}`} key={index}>
