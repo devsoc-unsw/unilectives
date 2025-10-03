@@ -11,7 +11,7 @@ import FilterModal from "../FilterModal/FilterModal";
 export default function CoursesList({
   initialCourses,
   searchTerm,
-  filters
+  filters,
 }: {
   initialCourses: Course[];
   searchTerm: string;
@@ -55,10 +55,16 @@ export default function CoursesList({
       return fetchedCourses;
     };
 
-    if (window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+    const scrollBuffer = 150; // pixels before the bottom to trigger loading
+    if (
+      window.innerHeight + window.pageYOffset <
+      document.body.offsetHeight - scrollBuffer
+    ) {
+      console.log("NOT REACHED BOTTOM. NOT LOADING MORE");
       return;
     }
     if (courseFinishedRef.current) {
+      console.log("UNKNOWN ERROR");
       return;
     }
 
@@ -122,12 +128,22 @@ export default function CoursesList({
     };
 
     const loadOnScroll = () => {
+      // if (
+      //   window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
+      //   !courseFinishedRef.current
+      // ) {
+      //
+      //   loadMore(indexRef.current);
+      //   indexRef.current += paginationOffset;
+      // }
+      const scrollPosition = window.innerHeight + window.pageYOffset;
+      const threshold = 100;
       if (
-        window.innerHeight + window.pageYOffset >= document.body.offsetHeight &&
+        scrollPosition + threshold >= document.body.offsetHeight &&
         !courseFinishedRef.current
       ) {
+        console.log("LOADING MORE");
         loadMore(indexRef.current);
-        indexRef.current += paginationOffset;
       }
     };
 

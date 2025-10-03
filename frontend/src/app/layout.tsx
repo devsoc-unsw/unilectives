@@ -14,7 +14,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang='en' className='font-custom'>
+    <html lang="en" className="font-custom">
       <head>
         {/* Only used in Safari - Change Navbar to slate-800 colors when dark mode */}
         <meta name="theme-color" content="#ffffff" />
@@ -34,20 +34,24 @@ export default async function RootLayout({
               `,
           }}
         />
-      <script defer data-domain="unilectives.devsoc.app" src="https://plausible.unilectives.com/js/script.outbound-links.tagged-events.js"></script>
+        <script
+          defer
+          data-domain="unilectives.devsoc.app"
+          src="https://plausible.unilectives.com/js/script.outbound-links.tagged-events.js"
+        ></script>
       </head>
       <body className="bg-white dark:bg-slate-800 dark:text-gray-200">
         <Provider session={session}>
           <AlertProvider>
             <ThemeProviderComponent>
               <Navbar userZid={session?.user?.id} />
-              <div className='ml-20 xs:ml-15'>
+              <div className="pt-16 xs:pt-15">
                 {children}
               </div>
             </ThemeProviderComponent>
           </AlertProvider>
         </Provider>
       </body>
-    </html >
+    </html>
   );
 }
