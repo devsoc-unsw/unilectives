@@ -6,9 +6,7 @@ import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
 import { Course, Courses } from "@/types/api";
-import Header from "./Header";
-import Features from "./Features";
-import Sponsorships from "./Sponsors";
+import NewSponsorships from "@/components/SponsorshipsSection/NewSponsorships";
 
 // Metadata to assist SEO - provies metadata for HTML head section
 export async function generateMetadata(): Promise<Metadata> {
@@ -75,9 +73,14 @@ export default async function LandingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
       />
-      <Header />
-      <Sponsorships />
-      <Features />
+      {/* SECTION 1 - HEADER */}
+      <p> Header section below</p>
+      {/* SECTION 2 - "OUR FEATURES" */}
+      <p> Features section below</p>
+      {/* SECTION 3 - "PROUDLY SPONSORED BY" */}
+      <p> Sponsors section below</p>
+      <NewSponsorships />
+      {/* BOTTOM OF PAGE */}
     </div>
   );
 }
