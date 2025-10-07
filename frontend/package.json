@@ -10,8 +10,11 @@
     "format": "prettier '**/*.ts{,x}' --write"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
+    "@mui/material": "^7.3.4",
     "@types/node": "18.15.11",
     "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",
