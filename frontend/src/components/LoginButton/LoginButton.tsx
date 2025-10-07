@@ -1,6 +1,7 @@
 "use client";
+
 import { Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 type LoginButtonProps = {
   session: Session | null;
@@ -11,8 +12,11 @@ export default function LoginButton({ session }: LoginButtonProps) {
     return (
       <div className="absolute top-3 right-3 z-10">
         <button
-          className="rounded-3xl px-4 py-2 font-extrabold text-[#182525]  border-[#2B4141] border-2"
-          onClick={() => signIn("csesoc")}
+          className="rounded-3xl px-4 py-2 font-extrabold text-[#182525] border-[#2B4141] border-2"
+          onClick={() => {
+          window.location.href = "/loading";
+        }}
+
         >
           Log In
         </button>
@@ -22,7 +26,7 @@ export default function LoginButton({ session }: LoginButtonProps) {
     return (
       <div className="flex absolute top-3 right-3 z-10">
         <button
-          className="rounded-3xl px-4 py-2 font-extrabold text-[#182525]  border-[#2B4141] border-2"
+          className="rounded-3xl px-4 py-2 font-extrabold text-[#182525] border-[#2B4141] border-2"
           onClick={() => signOut()}
         >
           Sign out

@@ -67,8 +67,8 @@ export default function Navbar({ userZid }: NavbarProps) {
       ref={ref}
       className={
         collapsed
-          ? "fixed flex flex-col items-center w-20 h-screen gap-4 p-4 duration-150 bg-gray-100 dark:bg-slate-700 z-50 xs:p-2 xs:w-15 xs:gap-2"
-          : "fixed flex flex-col w-72 h-screen gap-4 p-4 bg-gray-50 dark:bg-slate-700 z-40 duration-150"
+          ? "fixed flex flex-col items-center w-20 h-screen gap-4 p-4 duration-300 bg-gray-100 dark:bg-slate-700 z-50 xs:p-2 xs:w-15 xs:gap-2"
+          : "fixed flex flex-col w-72 h-screen gap-4 p-4 bg-gray-50 dark:bg-slate-700 z-40 duration-300"
       }
     >
       {/* Logo */}
@@ -125,7 +125,7 @@ export default function Navbar({ userZid }: NavbarProps) {
               }
               href={zid && `/user/${zid}`}
               onClick={() => {
-                if (!zid) signIn("csesoc");
+                if (!zid) window.location.href = "/loading";  // changed
               }}
             >
               <Tooltip tooltip={collapsed ? "My Reviews" : ""}>
@@ -179,7 +179,7 @@ export default function Navbar({ userZid }: NavbarProps) {
                 <a
                   href={zid && `/user/${zid}`}
                   onClick={() => {
-                    if (!zid) signIn("csesoc");
+                    if (!zid) window.location.href = "/loading";  // changed
                   }}
                 >
                   <UserCircleIcon className='w-12 h-12 p-3 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl cursor-pointer' />
@@ -190,7 +190,7 @@ export default function Navbar({ userZid }: NavbarProps) {
                 className='flex flex-row w-full items-center hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl cursor-pointer'
                 href={zid && `/user/${zid}`}
                 onClick={() => {
-                  if (!zid) signIn("csesoc");
+                  if (!zid) window.location.href = "/loading";  // changed
                 }}
               >
                 <UserCircleIcon className='w-12 h-12 p-3' />
@@ -235,7 +235,7 @@ export default function Navbar({ userZid }: NavbarProps) {
           ) : collapsed ? (
             <Tooltip tooltip={"Login"}>
               <button
-                onClick={() => signIn("csesoc")}
+                onClick={() => (window.location.href = "/loading")}
                 className='flex flex-row items-center justify-center rounded-xl gap-2 hover:bg-slate-200 dark:hover:bg-slate-800'
               >
                 <ArrowLeftOnRectangleIcon className='w-12 h-12 rotate-180 p-3' />
@@ -243,11 +243,11 @@ export default function Navbar({ userZid }: NavbarProps) {
             </Tooltip>
           ) : (
             <button
-              onClick={() => signIn("csesoc")}
-              className='flex flex-row items-center justify-center rounded-xl gap-2 hover:bg-slate-200 dark:hover:bg-slate-800'
+              onClick={() => (window.location.href = "/loading")}
+              className='flex flex-row items-center px-5 py-2 rounded-xl gap-3 hover:bg-slate-200 dark:hover:bg-slate-800'
             >
               <ArrowLeftOnRectangleIcon className='w-6 h-12 rotate-180 py-3' />
-              <span>Login</span>
+              <span className='whitespace-nowrap'>Login</span>
             </button>
           )}
 
