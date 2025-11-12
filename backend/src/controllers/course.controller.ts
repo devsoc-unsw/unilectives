@@ -3,6 +3,13 @@ import { formatError, getLogger } from "../utils/logger";
 import { IController } from "../interfaces/IController";
 import { CourseService } from "../services/course.service";
 import verifyToken from "../api/middlewares/auth";
+import validationMiddleware from "../api/middlewares/validation";
+import {
+  BookmarkCourse,
+  BookmarkCourseSchema,
+} from "../api/schemas/course.schema";
+import { HTTPError } from "../utils/errors";
+import { badRequest } from "../utils/constants";
 
 export class CourseController implements IController {
   private readonly logger = getLogger();
@@ -181,6 +188,32 @@ export class CourseController implements IController {
           } catch (err: any) {
             this.logger.warn(
               `An error occurred when trying to GET /course/filter ${formatError(
+                err,
+              )}`,
+            );
+            return next(err);
+          }
+        },
+      )
+      .post(
+        "/courses/bookmark",
+        [verifyToken, validationMiddleware(BookmarkCourseSchema, "body")],
+        async (
+          req: Request<Record<string, never>, unknown, BookmarkCourse>,
+          res: Response,
+          next: NextFunction,
+        ) => {
+          this.logger.debug(`Received request in POST /courses/bookmark`);
+          try {
+            const courseDetails = req.body;
+            if (!courseDetails) throw new HTTPError(badRequest);
+            const result =
+              await this.courseService.bookmarkCourse(courseDetails);
+            this.logger.info(`Responding to client in POST /courses/bookmark`);
+            return res.status(200).json(result);
+          } catch (err: any) {
+            this.logger.warn(
+              `An error occurred when trying to POST /courses/bookmark ${formatError(
                 err,
               )}`,
             );
