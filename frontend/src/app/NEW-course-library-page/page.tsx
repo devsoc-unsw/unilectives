@@ -16,7 +16,9 @@ export default async function CourseLibraryPage() {
     <div>
       {/* TOP OF PAGE */}
       {/* Title here */}
-      
+      <h1 className="font-bold text-unilectives-blue text-[50px] xs:ml-8 sm:ml-8 md:ml-8 ml-20 pt-12">
+        Search courses
+      </h1>
       {/* Course cards */}
       <div className="flex flex-col justify-center items-center mt-10">
         <LandingPageContent initialCourses={initialCourses} />

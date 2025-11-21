@@ -74,8 +74,16 @@ export default async function LandingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
       />
+      {/* Landing page graphic */}
+      <Image
+        src={navbar}
+        width={1000}
+        height={500}
+        alt="landing page graphic"
+        layout="responsive"
+        priority
+      />
       {/* SECTION 1 - HEADER */}
-      <p> Header section below</p>
       <Header />
       {/* SECTION 2 - "OUR FEATURES" */}
       <p> Features section below</p>
