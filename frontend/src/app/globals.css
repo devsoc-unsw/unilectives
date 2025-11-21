@@ -27,3 +27,20 @@
     }
   }
 }
+
+@keyframes gentleBounce {
+  0%,
+  85%,
+  100% {
+    transform: translateY(0);
+  }
+  90% {
+    transform: translateY(-6px);
+  }
+  95% {
+    transform: translateY(-3px);
+  }
+}
+.bounce-every-10s {
+  animation: gentleBounce 10s ease-in-out infinite;
+}
