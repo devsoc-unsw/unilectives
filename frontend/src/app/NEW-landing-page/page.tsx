@@ -8,6 +8,7 @@ import { get } from "@/utils/request";
 import { Course, Courses } from "@/types/api";
 import NewSponsorships from "@/components/SponsorshipsSection/NewSponsorships";
 import Header from "./Header";
+import Features from "./Features";
 
 // Metadata to assist SEO - provies metadata for HTML head section
 export async function generateMetadata(): Promise<Metadata> {
@@ -82,13 +83,13 @@ export default async function LandingPage() {
         alt="landing page graphic"
         layout="responsive"
         priority
+        className="block"
       />
       {/* SECTION 1 - HEADER */}
       <Header />
       {/* SECTION 2 - "OUR FEATURES" */}
-      <p> Features section below</p>
+      <Features />
       {/* SECTION 3 - "PROUDLY SPONSORED BY" */}
-      <p> Sponsors section below</p>
       <NewSponsorships />
       {/* BOTTOM OF PAGE */}
     </div>
