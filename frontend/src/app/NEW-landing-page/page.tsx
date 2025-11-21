@@ -1,12 +1,16 @@
 import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import navbar from "@/assets/navbar.svg";
-import Sponsorships from "@/components/SponsorshipsSection/Sponsorships";
+import OldSponsorships from "@/components/SponsorshipsSection/Sponsorships";
 import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";
 import { Course, Courses } from "@/types/api";
+import NewSponsorships from "@/components/SponsorshipsSection/NewSponsorships";
+import Header from "./Header";
+import Features from "./Features";
 
+// Metadata to assist SEO - provies metadata for HTML head section
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `Home | Unilectives - UNSW Course Reviews`,
@@ -14,11 +18,13 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Home() {
+export default async function LandingPage() {
+  // GET request for all courses
   const { courses: initialCourses } = (await get(
     "/courses?offset=0",
   )) as Courses;
 
+  // Generate metadata to help with SEO (inject via script in return)
   const metaLD: WithContext<ItemList> = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -63,7 +69,12 @@ export default async function Home() {
   };
 
   return (
-    <div className="mb-20 bg-white dark:bg-slate-800 transition-color duration-150">
+    <div>
+      {/* SCRIPT FOR SEO - do not touch*/}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
+      />
       {/* Landing page graphic */}
       <Image
         src={navbar}
@@ -72,56 +83,15 @@ export default async function Home() {
         alt="landing page graphic"
         layout="responsive"
         priority
+        className="block"
       />
-      <a href="/NEW-landing-page">
-        <div
-          style={{
-            border: "solid 1px blue",
-            marginBottom: "10px",
-            fontSize: "30px"
-          }}
-        >
-          FOR DEVELOPMENT: To NEW landing page
-        </div>
-      </a>
-      <a href="/NEW-course-library-page">
-        <div
-          style={{
-            border: "solid 1px green",
-            marginBottom: "10px",
-            fontSize: "30px"
-          }}
-        >
-          FOR DEVELOPMENT: To NEW course library page
-        </div>
-      </a>
-
-      {/* Hero Section */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(metaLD) }}
-      />
-      <div className="flex flex-row w-full justify-center items-center mt-10">
-        <div className="flex flex-row w-5/6 space-y-0 justify-between items-left md:space-y-4 md:flex-col md:items-center">
-          <div className="flex flex-col w-full gap-3">
-            <p className="drop-shadow-md text-base sm:text-xs">
-              DevSoc presents
-            </p>
-            <h1 className="justify-center font-bold text-unilectives-blue text-7xl sm:text-4xl">
-              unilectives
-            </h1>
-            <p className="justify-center font-semibold text-base sm:text-xs">
-              Your one-stop shop for UNSW course and elective reviews.
-            </p>
-            {/* Sponsors Section */}
-            <Sponsorships />
-          </div>
-        </div>
-      </div>
-      {/* Course Section */}
-      <div className="flex flex-col justify-center items-center mt-10">
-        <LandingPageContent initialCourses={initialCourses} />
-      </div>
+      {/* SECTION 1 - HEADER */}
+      <Header />
+      {/* SECTION 2 - "OUR FEATURES" */}
+      <Features />
+      {/* SECTION 3 - "PROUDLY SPONSORED BY" */}
+      <NewSponsorships />
+      {/* BOTTOM OF PAGE */}
     </div>
   );
 }
