@@ -27,7 +27,7 @@ export default function Header() {
             Your one-stop shop for UNSW course reviews.
           </p>
 
-          <a href="/NEW-course-library-page">
+          <a href="/course-library">
             <button
               className="bounce-every-10s inline-flex w-fit transition-all duration-500 
                               hover:-translate-y-1 items-center mt-6 
