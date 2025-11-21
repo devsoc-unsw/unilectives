@@ -130,6 +130,7 @@ import Image from "next/image";
 import LandingPageContent from "@/components/LandingPageContent/LandingPageContent";
 import navbar from "@/assets/navbar.svg";
 import OldSponsorships from "@/components/SponsorshipsSection/Sponsorships";
+import Sponsorships from "@/components/SponsorshipsSection/Sponsorships";
 import { Metadata } from "next";
 import { ItemList, WithContext } from "schema-dts";
 import { get } from "@/utils/request";

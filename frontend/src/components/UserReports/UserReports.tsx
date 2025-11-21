@@ -10,7 +10,6 @@ import {
 } from "react";
 import Dropdown from "../Dropdown/Dropdown";
 import Pagination from "../Pagination/Pagination";
-import ReviewCard from "../ReviewCard/ReviewCard";
 
 type STATUS = {
   UNSEEN: boolean;
