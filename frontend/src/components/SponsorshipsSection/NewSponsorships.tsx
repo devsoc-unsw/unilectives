@@ -55,7 +55,7 @@ export default function NewSponsorships() {
         </div>
 
         {/* Platinum Sponsors Links */}
-        <div className="flex flex-wrap justify-center items-center gap-8 mt-8 mb-8 px-3">
+        <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-8 md:gap-8 mt-8 mb-8 px-3">
           <PlatinumSponsor href="https://www.janestreet.com" ariaLabel="Jane Street" className="h-28 w-64">
             <Image
               src={JaneStreetLogo}
@@ -106,7 +106,7 @@ export default function NewSponsorships() {
         </div>
 
         {/* Gold Sponsors Links */}
-        <div className="flex flex-wrap justify-center items-center gap-40 mt-7 mb-5 px-3">
+        <div className="flex flex-wrap justify-center items-center gap-x-16 gap-y-8 md:gap-x-40 mt-7 mb-5 px-3">
           <GoldSponsor href="https://www.arista.com" ariaLabel="Arista">
             <Image
               src={AristaLogo}
