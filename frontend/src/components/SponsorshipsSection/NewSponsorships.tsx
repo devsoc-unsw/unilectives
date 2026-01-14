@@ -4,7 +4,8 @@ import TheTradeDeskLogoDark from "@/assets/the-trade-desk-dark.svg";
 import LyraBlackLogo from "@/assets/lyra_black.svg";
 import LyraWhiteLogo from "@/assets/lyra_white.svg";
 import AristaLogo from "@/assets/arista.png";
-import AirwallexLogo from "@/assets/airwallex.png";
+import AirwallexLogoWhite from "@/assets/Airwallex Logo - White.png";
+import AirwallexLogoBlack from "@/assets/Main Airwallex Logo - Black.png";
 import Image from "next/image";
 import React from "react";
 
@@ -116,12 +117,20 @@ export default function NewSponsorships() {
               className="invert dark:invert-0"
             />
           </GoldSponsor>
-          <GoldSponsor href="https://www.airwallex.com" ariaLabel="Airwallex">
+          <GoldSponsor href="https://www.airwallex.com" ariaLabel="Airwallex" className="w-40">
             <Image
-              src={AirwallexLogo}
+              src={AirwallexLogoWhite}
               alt="Airwallex Logo"
               layout="fill"
               objectFit="contain"
+              className="hidden dark:block"
+            />
+            <Image
+              src={AirwallexLogoBlack}
+              alt="Airwallex Logo"
+              layout="fill"
+              objectFit="contain"
+              className="dark:hidden"
             />
           </GoldSponsor>
         </div>
