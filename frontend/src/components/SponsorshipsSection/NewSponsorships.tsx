@@ -82,7 +82,7 @@ export default function NewSponsorships() {
               className="dark:hidden"
             />
           </PlatinumSponsor>
-          <PlatinumSponsor href="https://www.lyra.com" ariaLabel="Lyra" className="w-64">
+          <PlatinumSponsor href="https://lyratechnologies.com.au/" ariaLabel="Lyra" className="w-64">
             <Image
               src={LyraWhiteLogo}
               alt="Lyra Logo"
