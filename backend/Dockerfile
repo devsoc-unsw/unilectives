@@ -19,6 +19,8 @@ FROM node:24-alpine as runner
 
 # Set the current working directory inside the container
 WORKDIR /app
+# Install OpenSSL for Prisma
+RUN apk add --no-cache openssl
 
 COPY package.json package-lock.json ./
 RUN npm install --production
