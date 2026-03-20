@@ -88,9 +88,8 @@ export class ReportService {
       ...reportDetails,
     };
 
-    const reportResult = await this.reportRepository.updateReport(
-      updatedReport,
-    );
+    const reportResult =
+      await this.reportRepository.updateReport(updatedReport);
     this.logger.info(`Admin ${zid} updated report ${reportId} to ${status}`);
 
     return {

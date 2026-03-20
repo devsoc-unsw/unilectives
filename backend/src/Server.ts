@@ -9,7 +9,9 @@ export default class Server {
   private app: App;
 
   constructor() {
-    process.env.NODE_ENV === "production" && checkEnv(envVars);
+    if (process.env.NODE_ENV === "production") {
+      checkEnv(envVars);
+    }
     this.app = new App();
   }
 

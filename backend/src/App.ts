@@ -76,7 +76,7 @@ export default class App {
   async start(): Promise<void> {
     this.logger.info("Starting up...");
     await this.ex.start(env.API_PORT);
-    this.prisma.start;
+    await this.prisma.start();
     await this.redis.start();
     this.logger.info("Started HTTP Server and Database");
   }
@@ -84,6 +84,6 @@ export default class App {
   async stop(): Promise<void> {
     await this.ex.stop();
     await this.redis.stop();
-    this.prisma.stop;
+    await this.prisma.stop();
   }
 }
