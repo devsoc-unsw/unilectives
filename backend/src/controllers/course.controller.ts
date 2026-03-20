@@ -166,7 +166,15 @@ export class CourseController implements IController {
       )
       .get(
         "/course/filter/:terms/:faculties/:searchTerm",
-        async (req: Request, res: Response, next: NextFunction) => {
+        async (
+          req: Request<{
+            terms: string;
+            faculties: string;
+            searchTerm: string;
+          }>,
+          res: Response,
+          next: NextFunction,
+        ) => {
           this.logger.debug(`Received request in GET /course/filter`);
           try {
             const { terms, faculties, searchTerm } = req.params;
