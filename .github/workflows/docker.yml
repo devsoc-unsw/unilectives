@@ -52,7 +52,6 @@ jobs:
       IMAGE_PREFIX: ${{ github.ref == 'refs/heads/develop' && 'unilectives-staging' || 'unilectives' }}
     environment:
       name: ${{ github.ref == 'refs/heads/develop' && 'staging' || 'prod' }}
-      url: ${{ github.ref == 'refs/heads/develop' && 'https://cselectives.staging.csesoc.unsw.edu.au' || 'https://unilectives.csesoc.app' }}
     if: ${{ github.event_name != 'pull_request' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main') }}
     steps:
       - name: Dispatch deployment
