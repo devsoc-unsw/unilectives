@@ -30,7 +30,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN }}
+          password: ${{ github.token }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -39,9 +39,8 @@ jobs:
           platforms: linux/amd64
           file: ${{ matrix.component }}/Dockerfile
           tags: |
-            ghcr.io/csesoc/unilectives-${{ matrix.component }}:${{ github.sha }}
-            ghcr.io/csesoc/unilectives-${{ matrix.component }}:latest
-          labels: ${{ steps.meta.outputs.labels }}
+            ghcr.io/devsoc-unsw/unilectives-${{ matrix.component }}:${{ github.sha }}
+            ghcr.io/devsoc-unsw/unilectives-${{ matrix.component }}:latest
   deploy-staging:
     name: Deploy Staging (CD)
     runs-on: ubuntu-latest
@@ -52,29 +51,18 @@ jobs:
       url: https://cselectives.staging.csesoc.unsw.edu.au
     if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Dispatch deployment
+        uses: devsoc-unsw/deployment-dispatch-action@main
         with:
-          repository: csesoc/deployment
-          token: ${{ secrets.GH_TOKEN }}
+          deployment-dispatcher-app-id: ${{ vars.CSESOC_DEPLOYMENT_DISPATCHER_APP_ID }}
+          deployment-dispatcher-app-private-key: ${{ secrets.CSESOC_DEPLOYMENT_DISPATCHER_APP_PRIVATE_KEY }}
+          owner: csesoc
+          repository: deployment
           ref: develop
-      - name: Install yq - portable yaml processor
-        uses: mikefarah/yq@v4.34.1
-      - name: Update deployment
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          git config user.name "CSESoc CD"
-          git config user.email "technical@csesoc.org.au"
-          git checkout -b update/unilectives-staging/${{ github.sha }}
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-backend:${{ github.sha }}"' apps/projects/unilectives/staging/deploy-backend.yml
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-frontend:${{ github.sha }}"' apps/projects/unilectives/staging/deploy-frontend.yml
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-migration:${{ github.sha }}"' apps/projects/unilectives/staging/deploy-migration.yml
-          git add .
-          git commit -m "feat(cselectives/staging): update image"
-          git push -u origin update/unilectives-staging/${{ github.sha }}
-          gh pr create -B develop --title "feat(cselectives/staging): update image" --body "Updates the image for the cselectives v2 (staging) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
-          gh pr merge $(cat URL) --squash -d
+          updates: |
+            ghcr.io/devsoc-unsw/unilectives-backend=${{ github.sha }}
+            ghcr.io/devsoc-unsw/unilectives-frontend=${{ github.sha }}
+            ghcr.io/devsoc-unsw/unilectives-migration=${{ github.sha }}
   deploy-prod:
     name: Deploy Production (CD)
     runs-on: ubuntu-latest
@@ -85,26 +73,15 @@ jobs:
       url: https://unilectives.csesoc.app
     if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Dispatch deployment
+        uses: devsoc-unsw/deployment-dispatch-action@main
         with:
-          repository: csesoc/deployment
-          token: ${{ secrets.GH_TOKEN }}
+          deployment-dispatcher-app-id: ${{ vars.CSESOC_DEPLOYMENT_DISPATCHER_APP_ID }}
+          deployment-dispatcher-app-private-key: ${{ secrets.CSESOC_DEPLOYMENT_DISPATCHER_APP_PRIVATE_KEY }}
+          owner: csesoc
+          repository: deployment
           ref: develop
-      - name: Install yq - portable yaml processor
-        uses: mikefarah/yq@v4.27.2
-      - name: Update deployment
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          git config user.name "CSESoc CD"
-          git config user.email "technical@csesoc.org.au"
-          git checkout -b update/unilectives-prod/${{ github.sha }}
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-backend:${{ github.sha }}"' apps/projects/unilectives/prod/deploy-backend.yml
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-frontend:${{ github.sha }}"' apps/projects/unilectives/prod/deploy-frontend.yml
-          yq -i '.items[0].spec.template.spec.containers[0].image = "ghcr.io/csesoc/unilectives-migration:${{ github.sha }}"' apps/projects/unilectives/prod/deploy-migration.yml
-          git add .
-          git commit -m "feat(unilectives/prod): update image"
-          git push -u origin update/unilectives-prod/${{ github.sha }}
-          gh pr create -B develop --title "feat(unilectives/prod): update image" --body "Updates the image for the unilectives v2 (prod) deployment to commit csesoc/cselectives-v2@${{ github.sha }}." > URL
-          gh pr merge $(cat URL) --squash -d
+          updates: |
+            ghcr.io/devsoc-unsw/unilectives-backend=${{ github.sha }}
+            ghcr.io/devsoc-unsw/unilectives-frontend=${{ github.sha }}
+            ghcr.io/devsoc-unsw/unilectives-migration=${{ github.sha }}
