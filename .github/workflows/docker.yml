@@ -39,8 +39,8 @@ jobs:
           platforms: linux/amd64
           file: ${{ matrix.component }}/Dockerfile
           tags: |
-            ghcr.io/devsoc-unsw/unilectives-${{ matrix.component }}:${{ github.sha }}
-            ghcr.io/devsoc-unsw/unilectives-${{ matrix.component }}:latest
+            ghcr.io/devsoc-unsw/${{ github.ref == 'refs/heads/develop' && format('unilectives-staging-{0}', matrix.component) || format('unilectives-{0}', matrix.component) }}:${{ github.sha }}
+            ghcr.io/devsoc-unsw/${{ github.ref == 'refs/heads/develop' && format('unilectives-staging-{0}', matrix.component) || format('unilectives-{0}', matrix.component) }}:latest
   deploy-staging:
     name: Deploy Staging (CD)
     runs-on: ubuntu-latest
@@ -60,9 +60,9 @@ jobs:
           repository: deployment
           ref: develop
           updates: |
-            ghcr.io/devsoc-unsw/unilectives-backend=${{ github.sha }}
-            ghcr.io/devsoc-unsw/unilectives-frontend=${{ github.sha }}
-            ghcr.io/devsoc-unsw/unilectives-migration=${{ github.sha }}
+            ghcr.io/devsoc-unsw/unilectives-staging-backend=${{ github.sha }}
+            ghcr.io/devsoc-unsw/unilectives-staging-frontend=${{ github.sha }}
+            ghcr.io/devsoc-unsw/unilectives-staging-migration=${{ github.sha }}
   deploy-prod:
     name: Deploy Production (CD)
     runs-on: ubuntu-latest
