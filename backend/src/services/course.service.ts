@@ -9,6 +9,7 @@ import { CourseRepository } from "../repositories/course.repository";
 import { UserRepository } from "../repositories/user.repository";
 import RedisClient from "../modules/redis";
 import {
+  BookmarkCourse,
   Course,
   CourseBody,
   CoursesSuccessResponse,
@@ -217,5 +218,58 @@ export class CourseService {
     }
 
     await this.redis.flushAll();
+  }
+
+  async bookmarkCourse(
+    courseDetails: BookmarkCourse,
+  ): Promise<CourseBody | undefined> {
+    const course = await this.courseRepository.getCourse(
+      courseDetails.courseCode,
+    );
+
+    if (!course) {
+      this.logger.error(
+        `There is no course with courseCode ${courseDetails.courseCode}.`,
+      );
+      throw new HTTPError(badRequest);
+    }
+
+    const user = await this.userRepository.getUser(courseDetails.zid);
+
+    if (!user) {
+      this.logger.error(`There is no user with zid ${courseDetails.zid}.`);
+      throw new HTTPError(badRequest);
+    }
+
+    if (!user.bookmarkedCourses) {
+      user.bookmarkedCourses = [];
+    }
+
+    if (courseDetails.bookmark) {
+      // Only add if not already bookmarked
+      if (!user.bookmarkedCourses.includes(course.courseCode)) {
+        user.bookmarkedCourses.push(course.courseCode);
+      }
+    } else {
+      user.bookmarkedCourses = user.bookmarkedCourses.filter(
+        (courseCode) => courseCode !== courseDetails.courseCode,
+      );
+    }
+
+    await this.userRepository.updateUser({
+      zid: user.zid,
+      bookmarkedCourses: user.bookmarkedCourses,
+    });
+
+    this.logger.info(
+      `Successfully ${
+        courseDetails.bookmark ? "bookmarked" : "removed bookmarked"
+      } course with courseCode ${courseDetails.courseCode} for user with zID ${
+        courseDetails.zid
+      }.`,
+    );
+    return {
+      course: course,
+    };
   }
 }

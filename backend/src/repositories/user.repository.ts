@@ -27,14 +27,29 @@ export class UserRepository {
     return rawUser;
   }
 
-  async updateUser(user: { zid: string; bookmarkedReviews: string[] }) {
+  async updateUser(user: {
+    zid: string;
+    bookmarkedReviews?: string[];
+    bookmarkedCourses?: string[];
+  }) {
+    const updateData: {
+      bookmarkedReviews?: string[];
+      bookmarkedCourses?: string[];
+    } = {};
+
+    if (user.bookmarkedReviews !== undefined) {
+      updateData.bookmarkedReviews = user.bookmarkedReviews;
+    }
+
+    if (user.bookmarkedCourses !== undefined) {
+      updateData.bookmarkedCourses = user.bookmarkedCourses;
+    }
+
     const updatedUser = await this.prisma.users.update({
       where: {
         zid: user.zid,
       },
-      data: {
-        bookmarkedReviews: user.bookmarkedReviews,
-      },
+      data: updateData,
     });
     return updatedUser;
   }
