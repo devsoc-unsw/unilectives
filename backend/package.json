@@ -33,18 +33,18 @@
     "@types/jsonwebtoken": "9.0.10",
     "@types/node": "^24.12.0",
     "@types/swagger-ui-express": "4.1.8",
-    "@typescript-eslint/eslint-plugin": "8.57.1",
-    "@typescript-eslint/parser": "8.57.1",
-    "eslint": "10.0.3",
+    "@typescript-eslint/eslint-plugin": "8.59.2",
+    "@typescript-eslint/parser": "8.59.2",
+    "eslint": "10.3.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
-    "globals": "17.4.0",
+    "globals": "17.6.0",
     "jest": "30.3.0",
-    "prettier": "3.8.1",
+    "prettier": "3.8.3",
     "prisma": "5.22.0",
-    "ts-jest": "29.4.6",
+    "ts-jest": "29.4.9",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.57.1"
+    "typescript-eslint": "8.59.2"
   }
 }
